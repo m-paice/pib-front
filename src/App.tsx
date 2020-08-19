@@ -1,11 +1,28 @@
 import React from "react";
 
-import "./styles/GlobalStyles.css";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+
+import storeRedux from "./store";
+
+import Routes from "./routes";
+
+import "normalize.css";
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import "./styles/App.css";
 
 const App: React.FC = () => {
+    const { persistor, store } = storeRedux();
+
     return (
-        <div className="app">
-            <h1> Welcome to react </h1>
+        <div id="page">
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <Routes />
+                </PersistGate>
+            </Provider>
         </div>
     );
 };
