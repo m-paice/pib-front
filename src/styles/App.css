@@ -2650,6 +2650,7 @@ body .container {
 .form-control:disabled {
     background: #fff;
     color: #83e5ff;
+    cursor: not-allowed;
 }
 
 .bantopo {
@@ -3243,7 +3244,13 @@ article a.sm span {
     line-height: 33px;
 }
 
-.form-control {
+.form-control,
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="text"],
+input[type="url"],
+textarea {
     border: solid 2px #83e5ff;
     border-radius: 40px;
     padding: 18px;
@@ -3419,9 +3426,6 @@ article a.sm span {
 
 .form-group .erro {
     color: red;
-    position: absolute;
-    top: 15px;
-    left: 30px;
     background: #fff;
 }
 

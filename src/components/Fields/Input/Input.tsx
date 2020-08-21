@@ -6,6 +6,7 @@ interface Props {
     className?: string;
     value?: string;
     type?: string;
+    checked?: boolean;
 }
 
 const Input: React.FC<Props> = ({ ...rest }) => {
