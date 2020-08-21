@@ -23,8 +23,8 @@ interface FormValues {
     uf: string;
 
     currentPassword: string;
-    newPassword: string;
-    confirmPassword: string;
+    password: string;
+    passwordConfirm: string;
 
     receiveTips: boolean;
 }
@@ -37,6 +37,7 @@ const SignupSchema = Yup.object().shape({
     firstName: Yup.string().required("obrigatório"),
     lastName: Yup.string().required("obrigatório"),
     email: Yup.string().email("e-mail inválido").required("obrigatório"),
+    passwordConfirm: Yup.string().oneOf([Yup.ref("password")], "as senhas devem corresponder"),
 });
 
 const initialValues: FormValues = {
@@ -54,8 +55,8 @@ const initialValues: FormValues = {
     city: "",
     uf: "",
     currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
+    password: "",
+    passwordConfirm: "",
     receiveTips: true,
 };
 
@@ -352,7 +353,7 @@ const Register: React.FC = () => {
                         </div>
                         <div className="row">
                             <div className="form-group col-md-6">
-                                <Field name="newPassword">
+                                <Field name="password">
                                     {(props: FieldProps) => (
                                         <div>
                                             <Input
@@ -370,7 +371,7 @@ const Register: React.FC = () => {
                             </div>
 
                             <div className="form-group col-md-6">
-                                <Field name="confirPassword">
+                                <Field name="passwordConfirm">
                                     {(props: FieldProps) => (
                                         <div>
                                             <Input
