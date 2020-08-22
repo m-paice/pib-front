@@ -11,6 +11,7 @@ import Tips from "../pages/Tips";
 import Offers from "../pages/Offers";
 import Help from "../pages/Help";
 import Register from "../pages/Register";
+import Debits from "../pages/Debits";
 
 const Routes: React.FC = () => {
     return (
@@ -26,6 +27,7 @@ const Routes: React.FC = () => {
                 <DashboardLayout exact path="/offers" component={Offers} />
                 <DashboardLayout exact path="/help" component={Help} />
                 <DashboardLayout exact path="/register" component={Register} />
+                <DashboardLayout exact path="/debits" component={Debits} />
             </Switch>
         </Router>
     );

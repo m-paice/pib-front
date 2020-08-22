@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
+
 // components
 import Carousel from "../../components/Carousel";
 import BoxKnowMore from "../../components/BoxKnowMore";
@@ -19,7 +21,7 @@ const Panel: React.FC = () => {
                 <div className="col-xs-12 col-sm-8 titulos">
                     <h2>Parabéns,</h2>
                     <h3>não encontramos dívidas em seu nome.</h3>
-                    <a href="painel-debitos.html">Ver painel com débitos</a>
+                    <Link to="/debits">Ver painel com débitos</Link>
                 </div>
             </div>
 
