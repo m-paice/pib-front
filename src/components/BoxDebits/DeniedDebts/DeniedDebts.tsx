@@ -1,15 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+// components
+import Negociation from "../Negociation";
+import MoreInfo from "../MoreInfo";
 
 interface Props {}
 
 interface State {
     info: boolean;
+    negociation: boolean;
 }
 
 const DeniedDebts: React.FC<Props> = (props) => {
     const [state, setState] = useState<State>({
         info: false,
+        negociation: false,
     });
+
+    const { info, negociation } = state;
+
+    // reset collapse
+    useEffect(() => {
+        if (info) setState((prevState) => ({ ...prevState, negociation: false }));
+    }, [info]);
+
+    useEffect(() => {
+        if (negociation) setState((prevState) => ({ ...prevState, info: false }));
+    }, [negociation]);
 
     const handleSetState = (key: string, value: string | boolean) => {
         setState((prevState) => ({
@@ -17,8 +34,6 @@ const DeniedDebts: React.FC<Props> = (props) => {
             [key]: value,
         }));
     };
-
-    const { info } = state;
 
     return (
         <div className="cada debito">
@@ -81,60 +96,15 @@ const DeniedDebts: React.FC<Props> = (props) => {
                     </div>
                 </div>
                 <div className=" col-md-2 cb ">
-                    <a className="btneg" href="">
+                    <a onClick={() => handleSetState("negociation", !negociation)} className="btneg">
                         Quero Negociar
                     </a>
                 </div>
             </div>
 
-            {info && (
-                <div>
-                    <div className="col-xs-12 boxinfos">
-                        <div className="col-xs-12 boxinfos">
-                            <div className="col-xs-12">
-                                <b>Informações adicionais</b>
-                            </div>
-                            <div className="col-xs-12 col-sm-5">
-                                <b>Banco:</b> Banco do Brasil
-                            </div>
-                            <div className="col-xs-12 col-sm-3">
-                                <b>Agencia:</b> 123-4
-                            </div>
-                            <div className="col-xs-6 col-sm-2">
-                                <b>Conta:</b> 481559
-                            </div>
-                            <div className="col-xs-6 col-sm-2">
-                                <b>Digito:</b> 9
-                            </div>
-                            <div className="col-xs-12">
-                                <b>Motivo de devolução:</b> Descrição do motivo da devolução
-                            </div>
-                            <div className="col-xs-12 linha"></div>
-                            <div className="col-xs-12">
-                                <b>Informações do credor</b>
-                            </div>
-                            <div className="col-xs-12 col-sm-5">
-                                <b>CNPJ:</b> 78.441.581/0001-94
-                            </div>
-                            <div className="col-xs-12 col-sm-4">
-                                <b>Email:</b> email@email.com.br
-                            </div>
-                            <div className="col-xs-12 col-sm-3">
-                                <b>Telefone:</b> (14) 99856-8956
-                            </div>
-                            <div className="col-xs-12 col-sm-5">
-                                <b>Endereço:</b> Rua nome da rua nº 1234 Bairro Centro
-                            </div>
-                            <div className="col-xs-6 col-sm-4">
-                                <b>Cidade:</b> Marília
-                            </div>
-                            <div className="col-xs-6 col-sm-3">
-                                <b>UF:</b> SP
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {negociation && <Negociation />}
+
+            {info && <MoreInfo />}
         </div>
     );
 };
