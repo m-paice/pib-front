@@ -96,7 +96,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                     </div>
                 </div>
                 <div className=" col-md-2 cb ">
-                    <a onClick={() => handleSetState("negociation", !negociation)} className="btneg">
+                    <a onClick={() => handleSetState("negociation", !negociation)} className="btneg btn">
                         Quero Negociar
                     </a>
                 </div>

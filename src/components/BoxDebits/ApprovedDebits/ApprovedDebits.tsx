@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // components
 import MoreInfo from "../MoreInfo";
+import Details from "../Details";
 
 interface Props {
     status: "paidOut" | "late" | "next" | "done";
@@ -9,6 +10,7 @@ interface Props {
 
 interface State {
     info: boolean;
+    negociation: boolean;
 }
 
 interface handleCheckStatusReturn {
@@ -19,7 +21,19 @@ interface handleCheckStatusReturn {
 const ApprovedDebits: React.FC<Props> = (props) => {
     const [state, setState] = useState<State>({
         info: false,
+        negociation: false,
     });
+
+    const { info, negociation } = state;
+
+    // reset collapse
+    useEffect(() => {
+        if (info) setState((prevState) => ({ ...prevState, negociation: false }));
+    }, [info]);
+
+    useEffect(() => {
+        if (negociation) setState((prevState) => ({ ...prevState, info: false }));
+    }, [negociation]);
 
     const handleSetState = (key: string, value: string | boolean) => {
         setState((prevState) => ({
@@ -32,31 +46,27 @@ const ApprovedDebits: React.FC<Props> = (props) => {
     const handleCheckStatus = (): handleCheckStatusReturn => {
         const { status } = props;
 
-        if (status === "paidOut")
-            return {
+        const renderStatus = {
+            paidOut: {
                 title: "Pago",
                 class: "green",
-            };
-
-        if (status === "late")
-            return {
+            },
+            late: {
                 title: "Em atraso",
                 class: "red",
-            };
-
-        if (status === "next")
-            return {
+            },
+            next: {
                 title: "Próximo",
                 class: "blue",
-            };
-
-        return {
-            class: "",
-            title: "",
+            },
+            done: {
+                title: "",
+                class: "",
+            },
         };
-    };
 
-    const { info } = state;
+        return renderStatus[status];
+    };
 
     return (
         <div className="cada debito ativo">
@@ -77,13 +87,17 @@ const ApprovedDebits: React.FC<Props> = (props) => {
                     <span className="labelDebito text-center hidden-xs">Já negociada em 01/03/202020</span>
                 </div>
                 <div className="col-md-2 cb">
-                    <a className={`btneg ${handleCheckStatus().class}`} href="">
+                    <a
+                        className={`btneg ${handleCheckStatus().class}`}
+                        onClick={() => handleSetState("negociation", !negociation)}
+                    >
                         {handleCheckStatus().title}
                     </a>
                 </div>
             </div>
 
             {info && <MoreInfo />}
+            {negociation && <Details />}
         </div>
     );
 };
