@@ -2612,6 +2612,13 @@ body .container {
     padding: 0px;
 }
 
+.full-width {
+    width: 100%;
+}
+.border-right {
+    border-right: 1px solid #e6e6e6;
+}
+
 .frment .btn {
     border-radius: 50px;
     color: #63ddfe;

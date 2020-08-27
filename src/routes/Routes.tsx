@@ -12,6 +12,7 @@ import Offers from "../pages/Offers";
 import Help from "../pages/Help";
 import Register from "../pages/Register";
 import Debits from "../pages/Debits";
+import DebtorBase from "../pages/DebtorBase";
 
 const Routes: React.FC = () => {
     return (
@@ -28,6 +29,7 @@ const Routes: React.FC = () => {
                 <DashboardLayout exact path="/help" component={Help} />
                 <DashboardLayout exact path="/register" component={Register} />
                 <DashboardLayout exact path="/debits" component={Debits} />
+                <DashboardLayout exact path="/debitorBase" component={DebtorBase} />
             </Switch>
         </Router>
     );
