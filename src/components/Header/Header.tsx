@@ -18,13 +18,7 @@ import I24 from "../../assets/imagens/i24.png";
 
 const Header: React.FC = () => {
     return (
-        <header
-            id="masthead"
-            className="site-header limita"
-            role="banner"
-            data-parallax="scroll"
-            data-image-src="<?php header_image() ; ?>"
-        >
+        <header id="masthead" className="site-header limita" role="banner" data-parallax="scroll">
             <div className="site-header-wrap">
                 <div className="site-branding">
                     <div className="row container">
@@ -37,7 +31,7 @@ const Header: React.FC = () => {
                         <div className="col-xs-12 col-sm-10 bxmenu">
                             <div className="buser">
                                 Olá Fulano
-                                <Link to="/register">Seu Cadastro</Link>
+                                <Link to="/profile">Seu Cadastro</Link>
                                 <Link to="/">Sair</Link>
                             </div>
 

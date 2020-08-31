@@ -13,19 +13,13 @@ const Footer: React.FC = () => {
                             <h3>Quem somos</h3>
                             <ul>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                             </ul>
                         </div>
@@ -34,19 +28,13 @@ const Footer: React.FC = () => {
                             <h3>Como Funciona</h3>
                             <ul>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                             </ul>
                         </div>
@@ -55,19 +43,13 @@ const Footer: React.FC = () => {
                             <h3>Serviços</h3>
                             <ul>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                             </ul>
                         </div>
@@ -76,19 +58,13 @@ const Footer: React.FC = () => {
                             <h3>Parceiros</h3>
                             <ul>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                             </ul>
                         </div>
@@ -97,19 +73,13 @@ const Footer: React.FC = () => {
                             <h3>Dúvidas</h3>
                             <ul>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                                 <li>
-                                    <a href="" title="<?php the_title_attribute(); ?>">
-                                        Item
-                                    </a>
+                                    <a href="">Item</a>
                                 </li>
                             </ul>
                         </div>

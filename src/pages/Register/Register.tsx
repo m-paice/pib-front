@@ -1,32 +1,16 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback } from "react";
 
+import InputMask from "react-input-mask";
 import { Formik, Form, Field, FieldProps } from "formik";
 import * as Yup from "yup";
-import InputMask from "react-input-mask";
-
-import IconeError from "../../assets/imagens/icone-erro.png";
 
 interface FormValues {
-    firstName: string;
-    lastName: string;
+    cpf: string;
+    name: string;
     birthDate: string;
-    email: string;
     phone: string;
-
-    zipcode: string;
-    type: string;
-    address: string;
-    number: string;
-    complement: string;
-    neighborhood: string;
-    city: string;
-    uf: string;
-
-    currentPassword: string;
-    password: string;
-    passwordConfirm: string;
-
-    receiveTips: boolean;
+    email: string;
+    emailConfirm: string;
 }
 
 // components
@@ -34,49 +18,32 @@ import Input from "../../components/Fields/Input";
 
 // validations form
 const SignupSchema = Yup.object().shape({
-    firstName: Yup.string().required("obrigatório"),
-    lastName: Yup.string().required("obrigatório"),
-    email: Yup.string().email("e-mail inválido").required("obrigatório"),
-    passwordConfirm: Yup.string().oneOf([Yup.ref("password")], "as senhas devem corresponder"),
+    cpf: Yup.string()
+        .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, "CPF inválido")
+        .required("obrigatório"),
+    name: Yup.string().required("obrigatório"),
+    birthDate: Yup.string().matches(/^\d{2}\/\d{2}\/\d{4}$/, "data de nascimento inválido"),
+    phone: Yup.string().matches(/^\(\d{2}\)\ \d{5}-\d{4}$/, "celular inválido"),
+    email: Yup.string().required("obrigatório"),
+    emailConfirm: Yup.string()
+        .required("obrigatório")
+        .oneOf([Yup.ref("email")], "os emails devem corresponder"),
 });
 
 const initialValues: FormValues = {
-    firstName: "Matheus",
-    lastName: "Paice",
+    cpf: "",
+    name: "",
     birthDate: "",
-    email: "matheus.paice@gmail.com",
-    phone: "(14) 99802-2422",
-    zipcode: "",
-    type: "",
-    address: "",
-    number: "",
-    complement: "",
-    neighborhood: "",
-    city: "",
-    uf: "",
-    currentPassword: "",
-    password: "",
-    passwordConfirm: "",
-    receiveTips: true,
+    phone: "",
+    email: "",
+    emailConfirm: "",
 };
 
 const Register: React.FC = () => {
-    const [submitSuccess, setSubmitSuccess] = useState(false);
-
-    // only for animation. code temporary.
-    useEffect(() => {
-        if (submitSuccess) {
-            setTimeout(() => {
-                setSubmitSuccess(false);
-            }, 3000);
-        }
-    }, [submitSuccess]);
-
     const handleSubmit = useCallback((values: FormValues) => {
         // TODO: call action
 
         console.log(values);
-        setSubmitSuccess(true);
     }, []);
 
     return (
@@ -84,25 +51,40 @@ const Register: React.FC = () => {
             <Formik initialValues={initialValues} validationSchema={SignupSchema} onSubmit={handleSubmit}>
                 {(formikBag) => (
                     <Form>
-                        <div className="row">
-                            <div className="col-md-12 mt-3">
-                                <h2 className="h2pad titulo-mob">Seus Dados</h2>
+                        <div className="descmod cadastro">
+                            <div className="titulo-mob noneBr">
+                                Faça seu cadastro para podermos te ajudar <br />a manter suas contas em dia.
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="descmod">
-                                <div className="col-md-12 sub-titulo-mob">Confira aqui suas informações.</div>
-                            </div>
-                        </div>
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="form-group col-md-6">
-                                <Field name="firstName">
+                                <Field name="cpf">
+                                    {(props: FieldProps) => (
+                                        <div>
+                                            <InputMask mask="999.999.999-99" {...props.field}>
+                                                {() => (
+                                                    <Input
+                                                        placeholder="CPF"
+                                                        className="telefone form-control"
+                                                        {...props.field}
+                                                    />
+                                                )}
+                                            </InputMask>
+
+                                            <span className="erro">
+                                                {props.meta.touched && props.meta.error && props.meta.error}
+                                            </span>
+                                        </div>
+                                    )}
+                                </Field>
+                            </div>
+                            <div className="form-group col-md-6">
+                                <Field name="name">
                                     {(props: FieldProps) => (
                                         <div>
                                             <Input
-                                                placeholder="Nome"
+                                                placeholder="Nome completo"
                                                 className="form-control"
-                                                disabled
                                                 {...props.field}
                                             />
                                             <span className="erro">
@@ -112,21 +94,9 @@ const Register: React.FC = () => {
                                     )}
                                 </Field>
                             </div>
-                            <div className="form-group col-md-6">
-                                <Field name="lastName">
-                                    {(props: FieldProps) => (
-                                        <div>
-                                            <Input placeholder="Sobrenome" className="form-control" {...props.field} />
-                                            <span className="erro">
-                                                {props.meta.touched && props.meta.error && props.meta.error}
-                                            </span>
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="form-group col-md-6">
                                 <Field name="birthDate">
                                     {(props: FieldProps) => (
@@ -148,22 +118,6 @@ const Register: React.FC = () => {
                                     )}
                                 </Field>
                             </div>
-
-                            <div className="form-group col-md-6">
-                                <Field name="email">
-                                    {(props: FieldProps) => (
-                                        <div>
-                                            <Input placeholder="Email" className="form-control" {...props.field} />
-                                            <span className="erro">
-                                                {props.meta.touched && props.meta.error && props.meta.error}
-                                            </span>
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-                        </div>
-
-                        <div className="row">
                             <div className="form-group col-md-6">
                                 <Field name="phone">
                                     {(props: FieldProps) => (
@@ -188,43 +142,11 @@ const Register: React.FC = () => {
                         </div>
 
                         <div className="row">
-                            <div className="col-md-12 mt-3">
-                                <h2 className="h2pad titulo-mob">Endereço</h2>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="descmod">
-                                <div className="col-md-12 sub-titulo-mob">Mantenha sempre seu endereço atualizado.</div>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="form-group col-md-3 col-sm-6">
-                                <Field name="zipcode">
+                            <div className="form-group col-md-6">
+                                <Field name="email">
                                     {(props: FieldProps) => (
                                         <div>
-                                            <InputMask mask="99999-999" {...props.field}>
-                                                {() => (
-                                                    <Input
-                                                        placeholder="CEP"
-                                                        className="form-control"
-                                                        {...props.field}
-                                                    />
-                                                )}
-                                            </InputMask>
-
-                                            <span className="erro">
-                                                {props.meta.touched && props.meta.error && props.meta.error}
-                                            </span>
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-                            <div className="form-group col-md-3 col-sm-6">
-                                <Field name="type">
-                                    {(props: FieldProps) => (
-                                        <div>
-                                            <Input placeholder="Tipo" className="form-control" {...props.field} />
+                                            <Input placeholder="Email" className="form-control" {...props.field} />
                                             <span className="erro">
                                                 {props.meta.touched && props.meta.error && props.meta.error}
                                             </span>
@@ -233,38 +155,11 @@ const Register: React.FC = () => {
                                 </Field>
                             </div>
                             <div className="form-group col-md-6">
-                                <Field name="address">
-                                    {(props: FieldProps) => (
-                                        <div>
-                                            <Input placeholder="Endereço" className="form-control" {...props.field} />
-                                            <span className="erro">
-                                                {props.meta.touched && props.meta.error && props.meta.error}
-                                            </span>
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="form-group col-md-3 col-sm-6">
-                                <Field name="number">
-                                    {(props: FieldProps) => (
-                                        <div>
-                                            <Input placeholder="Número" className="form-control" {...props.field} />
-                                            <span className="erro">
-                                                {props.meta.touched && props.meta.error && props.meta.error}
-                                            </span>
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-                            <div className="form-group col-md-3 col-sm-6">
-                                <Field name="complement">
+                                <Field name="emailConfirm">
                                     {(props: FieldProps) => (
                                         <div>
                                             <Input
-                                                placeholder="Complemento"
+                                                placeholder="Confirme seu email"
                                                 className="form-control"
                                                 {...props.field}
                                             />
@@ -275,121 +170,30 @@ const Register: React.FC = () => {
                                     )}
                                 </Field>
                             </div>
-
-                            <div className="form-group col-md-6">
-                                <Field name="neighborhood">
-                                    {(props: FieldProps) => (
-                                        <div>
-                                            <Input placeholder="Bairro" className="form-control" {...props.field} />
-                                            <span className="erro">
-                                                {props.meta.touched && props.meta.error && props.meta.error}
-                                            </span>
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
                         </div>
 
                         <div className="row">
-                            <div className="form-group col-md-6">
-                                <Field name="city">
-                                    {(props: FieldProps) => (
-                                        <div>
-                                            <Input placeholder="Cidade" className="form-control" {...props.field} />
-                                            <span className="erro">
-                                                {props.meta.touched && props.meta.error && props.meta.error}
-                                            </span>
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-
-                            <div className="form-group col-md-6">
-                                <Field name="uf">
-                                    {(props: FieldProps) => (
-                                        <div>
-                                            <Input placeholder="UF" className="form-control" {...props.field} />
-                                            <span className="erro">
-                                                {props.meta.touched && props.meta.error && props.meta.error}
-                                            </span>
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col-md-12 mt-3">
-                                <h2 className="h2pad titulo-mob">Senha</h2>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="descmod">
-                                <div className="col-md-12 sub-titulo-mob">
-                                    Aqui você pode alterar sua senha de acesso.
+                            <div className="form-group col-md-6 d-flex mt-4 mb-4">
+                                <div>
+                                    <Field name="terms">
+                                        {(props: FieldProps) => (
+                                            <div>
+                                                <Input type="checkbox" {...props.field} checked={props.field.value} />
+                                                <span className="erro">
+                                                    {props.meta.touched && props.meta.error && props.meta.error}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </Field>
+                                </div>
+                                <div className="text ml-2">
+                                    Li e concordo com o <i>Termo de Uso</i> e a <i>Política de Privacidade</i>
                                 </div>
                             </div>
                         </div>
 
                         <div className="row">
-                            <div className="form-group col-md-6">
-                                <Field name="currentPassword">
-                                    {(props: FieldProps) => (
-                                        <div>
-                                            <Input
-                                                placeholder="Senha Atual"
-                                                type="password"
-                                                className="form-control"
-                                                {...props.field}
-                                            />
-                                            <span className="erro">
-                                                {props.meta.touched && props.meta.error && props.meta.error}
-                                            </span>
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                        <div className="row">
-                            <div className="form-group col-md-6">
-                                <Field name="password">
-                                    {(props: FieldProps) => (
-                                        <div>
-                                            <Input
-                                                placeholder="Senha Nova"
-                                                type="password"
-                                                className="form-control"
-                                                {...props.field}
-                                            />
-                                            <span className="erro">
-                                                {props.meta.touched && props.meta.error && props.meta.error}
-                                            </span>
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-
-                            <div className="form-group col-md-6">
-                                <Field name="passwordConfirm">
-                                    {(props: FieldProps) => (
-                                        <div>
-                                            <Input
-                                                placeholder="Repetir Senha Nova"
-                                                type="password"
-                                                className="form-control"
-                                                {...props.field}
-                                            />
-                                            <span className="erro">
-                                                {props.meta.touched && props.meta.error && props.meta.error}
-                                            </span>
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="form-group col-md-6 d-flex mt-4 mb-4">
+                            <div className="form-group col-md-6 d-flex mb-4">
                                 <div>
                                     <Field name="receiveTips">
                                         {(props: FieldProps) => (
@@ -402,7 +206,7 @@ const Register: React.FC = () => {
                                         )}
                                     </Field>
                                 </div>
-                                <div className="tex ml-2">Gostaria de receber dicas e oportunidades da Newco</div>
+                                <div className="text ml-2">Gostaria de receber dicas e oportunidades da Newco</div>
                             </div>
                         </div>
 
@@ -416,14 +220,6 @@ const Register: React.FC = () => {
                     </Form>
                 )}
             </Formik>
-
-            {submitSuccess && (
-                <div className="row">
-                    <div className="sucesso col-md-12 alert alert-success" role="alert">
-                        Alterações salvas com sucesso!
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
