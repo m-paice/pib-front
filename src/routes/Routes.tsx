@@ -14,6 +14,7 @@ import Profile from "../pages/Profile";
 import Debits from "../pages/Debits";
 import DebtorBase from "../pages/DebtorBase";
 import Register from "../pages/Register";
+import Contact from "../pages/Contact";
 
 const Routes: React.FC = () => {
     return (
@@ -33,6 +34,7 @@ const Routes: React.FC = () => {
                 <DashboardLayout exact path="/debitorBase" component={DebtorBase} />
 
                 <DashboardLayout exact path="/register" component={Register} />
+                <DashboardLayout exact path="/contact" component={Contact} />
             </Switch>
         </Router>
     );
