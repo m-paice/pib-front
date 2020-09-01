@@ -15,6 +15,7 @@ import Debits from "../pages/Debits";
 import DebtorBase from "../pages/DebtorBase";
 import Register from "../pages/Register";
 import Contact from "../pages/Contact";
+import RuleNegociation from "../pages/RuleNegociation";
 
 const Routes: React.FC = () => {
     return (
@@ -35,6 +36,7 @@ const Routes: React.FC = () => {
 
                 <DashboardLayout exact path="/register" component={Register} />
                 <DashboardLayout exact path="/contact" component={Contact} />
+                <DashboardLayout exact path="/ruleNegociation" component={RuleNegociation} />
             </Switch>
         </Router>
     );
