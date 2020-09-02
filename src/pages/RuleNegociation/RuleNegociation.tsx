@@ -49,12 +49,45 @@ const items = [
         advisory: "1,5%",
         readjustment: "56",
     },
+
+    {
+        yaerDebit: "12/03/2020",
+        interest: "1.5",
+        discount: "10%",
+        maxPortion: "10",
+        attenuator: "3,3",
+        trafficTicket: "200,00",
+        advisory: "1,5%",
+        readjustment: "56",
+    },
+
+    {
+        yaerDebit: "12/03/2020",
+        interest: "1.5",
+        discount: "10%",
+        maxPortion: "10",
+        attenuator: "3,3",
+        trafficTicket: "200,00",
+        advisory: "1,5%",
+        readjustment: "56",
+    },
+
+    {
+        yaerDebit: "12/03/2020",
+        interest: "1.5",
+        discount: "10%",
+        maxPortion: "10",
+        attenuator: "3,3",
+        trafficTicket: "200,00",
+        advisory: "1,5%",
+        readjustment: "56",
+    },
 ];
 
 const RuleNegociation: React.FC<Props> = (props) => {
     return (
         <div className="container">
-            <div className="descmod cadastro">
+            <div className="descmod cadastro d-flex justify-content-between">
                 <div className="col-xs-9">
                     <b>Fique por dentro das negociações</b>
                     <h5>Selecione para ver mais detalhes</h5>
