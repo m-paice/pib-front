@@ -5,14 +5,14 @@ import Calculator from "../../../assets/imagens/calculator.png";
 
 interface PropsItem {
     text: string;
-    noBorder?: boolean;
+    separator?: boolean;
 }
 
-const Item: React.FC<PropsItem> = ({ text, noBorder }) => {
+const Item: React.FC<PropsItem> = ({ text, separator = true }) => {
     return (
         <td className="txt-lista-regras">
             {text}
-            {!noBorder && <div className="traco-v-table align-right"></div>}
+            {separator && <div className="traco-v-table align-right"></div>}
         </td>
     );
 };

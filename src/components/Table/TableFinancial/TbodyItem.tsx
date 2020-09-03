@@ -2,14 +2,14 @@ import React from "react";
 
 interface PropsItem {
     text: string;
-    noBorder?: boolean;
+    separator?: boolean;
 }
 
-const Item: React.FC<PropsItem> = ({ text, noBorder }) => {
+const Item: React.FC<PropsItem> = ({ text, separator = true }) => {
     return (
         <td className="txt-lista-regras">
             <span> {text} </span>
-            {!noBorder && <div className="traco-v-table align-right"></div>}
+            {separator && <div className="traco-v-table align-right"></div>}
         </td>
     );
 };
@@ -29,7 +29,7 @@ const TbodyItem: React.FC<Props> = ({ date, cnpj, company, operation, value }) =
             <Item text={cnpj} />
             <Item text={company} />
             <Item text={operation} />
-            <Item text={value} noBorder />
+            <Item text={value} separator={false} />
         </tr>
     );
 };

@@ -17,6 +17,7 @@ import Register from "../pages/Register";
 import Contact from "../pages/Contact";
 import RuleNegociation from "../pages/RuleNegociation";
 import FinancialReport from "../pages/FinancialReport";
+import Balance from "../pages/Balance";
 
 const Routes: React.FC = () => {
     return (
@@ -39,6 +40,7 @@ const Routes: React.FC = () => {
                 <DashboardLayout exact path="/contact" component={Contact} />
                 <DashboardLayout exact path="/ruleNegociation" component={RuleNegociation} />
                 <DashboardLayout exact path="/FinancialReport" component={FinancialReport} />
+                <DashboardLayout exact path="/balance" component={Balance} />
             </Switch>
         </Router>
     );
