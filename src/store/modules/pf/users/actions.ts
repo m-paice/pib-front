@@ -1,19 +1,19 @@
-import { TypesUser } from "./types";
+import { types } from "./types";
 
-const { ADD_USER, REMOVE_USER, UPDATE_USER } = TypesUser;
+const { ADD_USER, REMOVE_USER, UPDATE_USER } = types;
 
 interface Result {
     type: string;
     payload?: any;
 }
 
-interface ActionsUser {
+interface Actions {
     addUser(data: any): Result;
     removeUser(id: string): Result;
     updateUser(id: string, data: any): Result;
 }
 
-export const actionsUser: ActionsUser = {
+export const actions: Actions = {
     addUser: (data) => ({
         type: ADD_USER,
         payload: data,

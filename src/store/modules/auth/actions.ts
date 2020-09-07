@@ -1,18 +1,18 @@
-import { TypesAuth } from "./types";
+import { types } from "./types";
 
-const { AUTH_LOGIN, AUTH_LOGOUT } = TypesAuth;
+const { AUTH_LOGIN, AUTH_LOGOUT } = types;
 
 interface Result {
     type: string;
     payload?: any;
 }
 
-interface ActionsAuth {
+interface Actions {
     login(data): Result;
     logout(): Result;
 }
 
-export const actionsUser: ActionsAuth = {
+export const actions: Actions = {
     login: (data) => ({
         type: AUTH_LOGIN,
         payload: data,

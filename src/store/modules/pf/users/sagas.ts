@@ -1,13 +1,11 @@
 import { put } from "redux-saga/effects";
 
-import { TypesUser } from "./types";
-
-const { ADD_USER_SUCCESS, ADD_USER_FAILURE } = TypesUser;
+import { types } from "./types";
 
 function* createUser() {
     try {
         yield put({
-            type: ADD_USER_SUCCESS,
+            type: types.ADD_USER_SUCCESS,
             payload: {
                 id: Math.random(),
                 name: "Matheus Paice",
@@ -15,7 +13,7 @@ function* createUser() {
             },
         });
     } catch (error) {
-        yield put({ type: ADD_USER_FAILURE });
+        yield put({ type: types.ADD_USER_FAILURE });
     }
 }
 

@@ -35,7 +35,11 @@ export const insertElementById = (state: StateTreeById, data: Record) => ({
 });
 
 // insert element allId
-export const insertElementAllId = (state: StateTreeAllId, data: Record) => [...state, data.id];
+export const insertElementAllId = (state: StateTreeAllId, data: Record) => {
+    if (state.includes(data.id)) return [...state];
+
+    return [...state, data.id];
+};
 
 // get element byId
 export const getElementById = (state: StateTreeById, elementId: string) => state[elementId];

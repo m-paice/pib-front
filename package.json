@@ -52,6 +52,7 @@
         "postcss-loader": "^3.0.0",
         "prettier": "^2.0.5",
         "react-refresh": "^0.8.3",
+        "redux-devtools-extension": "^2.13.8",
         "sass-loader": "^9.0.3",
         "style-loader": "^1.2.1",
         "ts-loader": "^8.0.1",

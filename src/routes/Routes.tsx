@@ -39,7 +39,7 @@ const Routes: React.FC = () => {
                 <DashboardLayout exact path="/register" component={Register} />
                 <DashboardLayout exact path="/contact" component={Contact} />
                 <DashboardLayout exact path="/ruleNegociation" component={RuleNegociation} />
-                <DashboardLayout exact path="/FinancialReport" component={FinancialReport} />
+                <DashboardLayout exact path="/financialReport" component={FinancialReport} />
                 <DashboardLayout exact path="/balance" component={Balance} />
             </Switch>
         </Router>

@@ -1,13 +1,17 @@
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+import { composeWithDevTools } from "redux-devtools-extension";
+import storage from "redux-persist/lib/storage";
+import createSagaMiddleware from "redux-saga";
 
 // root reducers and sagas
 import rootReducers from "./modules/RootReducers";
+import rootSagas from "./modules/rootSagas";
 
-// types
-import { User } from "./modules/user/types";
+// default types application
 import { Auth } from "./modules/auth/types";
+import { StatePF } from "./modules/pf";
+import { StatePJ } from "./modules/pj";
 
 const persistConfig = {
     key: "root",
@@ -16,14 +20,18 @@ const persistConfig = {
 
 export interface ApplicationState {
     auth: Auth;
-    users: User;
+    pf: StatePF;
+    pj: StatePJ;
 }
 
+const sagaMiddleware = createSagaMiddleware();
 const persistedReducer = persistReducer(persistConfig, rootReducers);
 
 export default () => {
-    const store = createStore(persistedReducer);
+    const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
     const persistor = persistStore(store);
+
+    sagaMiddleware.run(rootSagas);
 
     return { store, persistor };
 };

@@ -1,11 +1,11 @@
 import { Reducer } from "redux";
-import { StateUser, TypesUser } from "./types";
+import { StateCompany, types } from "./types";
 
-const { ADD_USER_SUCCESS } = TypesUser;
+const { ADD_COMPANY } = types;
 
-import { insertElementById, insertElementAllId } from "../common/selectors";
+import { insertElementById, insertElementAllId } from "../../common/selectors";
 
-const initialState: StateUser = {
+const initialState: StateCompany = {
     byId: {},
     allId: [],
 };
@@ -14,7 +14,7 @@ const reducerById: Reducer = (state = {}, action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case ADD_USER_SUCCESS:
+        case ADD_COMPANY:
             return insertElementById(state, payload);
         default:
             return {};
@@ -25,16 +25,14 @@ const reducerAllId: Reducer = (state = [], action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case ADD_USER_SUCCESS:
+        case ADD_COMPANY:
             return insertElementAllId(state, payload);
         default:
             return [];
     }
 };
 
-const reducersUser: Reducer<StateUser> = (state = initialState, actions) => ({
+export const reducers: Reducer<StateCompany> = (state = initialState, actions) => ({
     byId: reducerById(state.byId, actions),
     allId: reducerAllId(state.allId, actions),
 });
-
-export default reducersUser;
