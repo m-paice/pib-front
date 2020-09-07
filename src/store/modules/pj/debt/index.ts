@@ -14,6 +14,7 @@ const initialState: StateDebt = {
             maturities: new Date(),
             value: 10,
             register: new Date(),
+            companyId: "1",
             createdAt: new Date(),
             updatedAt: new Date(),
         },
@@ -24,11 +25,23 @@ const initialState: StateDebt = {
             maturities: new Date(),
             value: 30,
             register: new Date(),
+            companyId: "1",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        "3": {
+            id: "3",
+            situation: "open",
+            dateNegociation: new Date(),
+            maturities: new Date(),
+            value: 50,
+            register: new Date(),
+            companyId: "2",
             createdAt: new Date(),
             updatedAt: new Date(),
         },
     },
-    allId: ["1", "2"],
+    allId: ["1", "2", "3"],
 };
 
 const reducerById: Reducer = (state = {}, action) => {

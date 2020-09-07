@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from "react";
 
+import { Debt } from "../../../store/modules/pj/debt/types";
+
 // components
 import MoreInfo from "../MoreInfo";
 import Details from "../Details";
 
-interface Props {
-    status: "paidOut" | "late" | "next" | "done";
+// utils
+import formatDate from "../../../utils/formatDate";
+
+interface Company {
+    name: string;
+}
+
+interface Props extends Debt {
+    company: Company;
 }
 
 interface State {
@@ -44,10 +53,10 @@ const ApprovedDebits: React.FC<Props> = (props) => {
 
     // check status of debits
     const handleCheckStatus = (): handleCheckStatusReturn => {
-        const { status } = props;
+        const { situation } = props;
 
         const renderStatus = {
-            paidOut: {
+            done: {
                 title: "Pago",
                 class: "green",
             },
@@ -59,14 +68,16 @@ const ApprovedDebits: React.FC<Props> = (props) => {
                 title: "Próximo",
                 class: "blue",
             },
-            done: {
+            open: {
                 title: "",
                 class: "",
             },
         };
 
-        return renderStatus[status];
+        return renderStatus[situation];
     };
+
+    const { company, maturities } = props;
 
     return (
         <div className="cada debito ativo">
@@ -80,11 +91,11 @@ const ApprovedDebits: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-3 c colBorder">
-                    <span className="labelDebito text-left p-left">Claro Móvel Brasil</span>
+                    <span className="labelDebito text-left p-left">{company.name}</span>
                 </div>
 
                 <div className="col-md-6 c nobri">
-                    <span className="labelDebito text-center hidden-xs">Já negociada em 01/03/202020</span>
+                    <span className="labelDebito text-center hidden-xs">Já negociada em {formatDate(maturities)}</span>
                 </div>
                 <div className="col-md-2 cb">
                     <a

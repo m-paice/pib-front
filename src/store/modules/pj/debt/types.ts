@@ -17,11 +17,12 @@ export enum types {
 
 export interface Debt {
     id: string;
-    situation: "done" | "progress" | "late" | "next";
+    situation: "done" | "open" | "late" | "next";
     dateNegociation: Date | null;
-    maturities: Date | null;
+    maturities: Date;
     value: number;
     register: Date | null;
+    companyId: string;
     createdAt: Date | null;
     updatedAt: Date | null;
 }

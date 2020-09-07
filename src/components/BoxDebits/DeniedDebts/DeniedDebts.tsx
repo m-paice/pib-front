@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from "react";
 
+import { Debt } from "../../../store/modules/pj/debt/types";
+
 // components
 import Negociation from "../Negociation";
 import MoreInfo from "../MoreInfo";
 
-interface Props {}
+// utils
+import formatDate from "../../../utils/formatDate";
+import formatPrice from "../../../utils/formatPrice";
+
+interface Company {
+    name: string;
+}
+
+interface Props extends Debt {
+    company: Company;
+}
 
 interface State {
     info: boolean;
@@ -35,6 +47,8 @@ const DeniedDebts: React.FC<Props> = (props) => {
         }));
     };
 
+    const { company, maturities, value } = props;
+
     return (
         <div className="cada debito">
             <div className="row rowCenter">
@@ -47,7 +61,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-2">
-                    <span className="labelDebito text-left">Claro Móvel Brasil</span>
+                    <span className="labelDebito text-left">{company.name}</span>
                 </div>
                 <div className="col-md-7 d-flex justify-content-between">
                     <div>
@@ -67,7 +81,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                                 <span className="glyphicon glyphicon-question-sign ml-1"></span>
                             </div>
                         </div>
-                        <div className="txt-12 m-0 font-weight-bold">01/01/2020</div>
+                        <div className="txt-12 m-0 font-weight-bold">{formatDate(maturities)}</div>
                     </div>
                     <div className="div c"></div>
                     <div>
@@ -82,7 +96,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                                 <span className="glyphicon glyphicon-question-sign ml-1"></span>
                             </div>
                         </div>
-                        <div className="txt-12 m-0 font-weight-bold">R$ 1.800,00</div>
+                        <div className="txt-12 m-0 font-weight-bold">R$ {formatPrice(value)}</div>
                     </div>
                     <div className="div c"></div>
                     <div>
