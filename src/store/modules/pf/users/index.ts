@@ -17,7 +17,7 @@ const reducerById: Reducer = (state = {}, action) => {
         case ADD_USER_SUCCESS:
             return insertElementById(state, payload);
         default:
-            return {};
+            return initialState.byId;
     }
 };
 
@@ -28,7 +28,7 @@ const reducerAllId: Reducer = (state = [], action) => {
         case ADD_USER_SUCCESS:
             return insertElementAllId(state, payload);
         default:
-            return [];
+            return initialState.allId;
     }
 };
 

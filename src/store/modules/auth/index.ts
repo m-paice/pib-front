@@ -17,7 +17,7 @@ const reducerToken: Reducer = (state = "", action): string => {
         case AUTH_LOGOUT_SUCCESS:
             return "";
         default:
-            return "";
+            return initialState.token;
     }
 };
 
@@ -28,7 +28,7 @@ const reducerUser: Reducer = (state: Partial<User> = {}, action): User => {
         case AUTH_LOGIN_SUCCESS:
             return payload.user;
         case AUTH_LOGOUT_SUCCESS:
-            return initialState.user;
+            return {} as User;
         default:
             return initialState.user;
     }
