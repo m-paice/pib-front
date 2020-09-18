@@ -3785,6 +3785,19 @@ div.ativo .l2 {
     margin-top: 20px;
 }
 
+.page-item.active .page-link {
+    background-color: #38d6ff;
+    border-color: #38d6ff;
+}
+.pagination > li > a,
+.pagination > li > span {
+    color: #38d6ff;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
 .lipages {
     font-size: 18px;
 }

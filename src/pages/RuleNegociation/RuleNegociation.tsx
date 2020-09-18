@@ -5,23 +5,23 @@ import Table from "../../components/Table/TableNegociation";
 interface Props {}
 
 const header = [
-    { text: "Idade da Dívida", title: "Idade da Dívida" },
-    { text: "Juros", title: "Juros" },
-    { text: "Desconto", title: "Desconto" },
-    { text: "Máximo de \n Parcelas", title: "Máximo de Parcelas" },
-    { text: "Atenuador", title: "Atenuador" },
-    { text: "Multa", title: "Multa" },
-    { text: "Assessoria", title: "Assessoria" },
-    { text: "Reajuste", title: "Reajuste" },
-    { text: "Editar e \n Simular", title: "Editar e Simular" },
+    { text: "Idade da Dívida", title: "Idade da Dívida", reference: "yaerDebit" },
+    { text: "Juros", title: "Juros", reference: "interest" },
+    { text: "Desconto", title: "Desconto", reference: "discount" },
+    { text: "Máximo de \n Parcelas", title: "Máximo de Parcelas", reference: "maxPortion" },
+    { text: "Atenuador", title: "Atenuador", reference: "attenuator" },
+    { text: "Multa", title: "Multa", reference: "trafficTicket" },
+    { text: "Assessoria", title: "Assessoria", reference: "advisory" },
+    { text: "Reajuste", title: "Reajuste", reference: "readjustment" },
+    { text: "Editar e \n Simular", title: "Editar e Simular", reference: "" },
 ];
 
 const items = [
     {
         yaerDebit: "12/03/2020",
-        interest: "1.5",
-        discount: "10%",
-        maxPortion: "10",
+        interest: "1.3",
+        discount: 10,
+        maxPortion: 10,
         attenuator: "3,3",
         trafficTicket: "200,00",
         advisory: "1,5%",
@@ -31,8 +31,30 @@ const items = [
     {
         yaerDebit: "12/03/2020",
         interest: "1.5",
-        discount: "10%",
-        maxPortion: "10",
+        discount: 11,
+        maxPortion: 10,
+        attenuator: "3,3",
+        trafficTicket: "200,00",
+        advisory: "1,5%",
+        readjustment: "56",
+    },
+
+    {
+        yaerDebit: "12/03/2020",
+        interest: "2",
+        discount: 10,
+        maxPortion: 9,
+        attenuator: "3,3",
+        trafficTicket: "200,00",
+        advisory: "1,5%",
+        readjustment: "56",
+    },
+
+    {
+        yaerDebit: "12/03/2020",
+        interest: "1.7",
+        discount: 9,
+        maxPortion: 10,
         attenuator: "3,3",
         trafficTicket: "200,00",
         advisory: "1,5%",
@@ -42,8 +64,8 @@ const items = [
     {
         yaerDebit: "12/03/2020",
         interest: "1.5",
-        discount: "10%",
-        maxPortion: "10",
+        discount: 9,
+        maxPortion: 9,
         attenuator: "3,3",
         trafficTicket: "200,00",
         advisory: "1,5%",
@@ -53,30 +75,8 @@ const items = [
     {
         yaerDebit: "12/03/2020",
         interest: "1.5",
-        discount: "10%",
-        maxPortion: "10",
-        attenuator: "3,3",
-        trafficTicket: "200,00",
-        advisory: "1,5%",
-        readjustment: "56",
-    },
-
-    {
-        yaerDebit: "12/03/2020",
-        interest: "1.5",
-        discount: "10%",
-        maxPortion: "10",
-        attenuator: "3,3",
-        trafficTicket: "200,00",
-        advisory: "1,5%",
-        readjustment: "56",
-    },
-
-    {
-        yaerDebit: "12/03/2020",
-        interest: "1.5",
-        discount: "10%",
-        maxPortion: "10",
+        discount: 11,
+        maxPortion: 5,
         attenuator: "3,3",
         trafficTicket: "200,00",
         advisory: "1,5%",

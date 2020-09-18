@@ -4,7 +4,7 @@ import Pencil from "../../../assets/imagens/pencil.png";
 import Calculator from "../../../assets/imagens/calculator.png";
 
 interface PropsItem {
-    text: string;
+    text: string | number;
     separator?: boolean;
 }
 
@@ -37,8 +37,8 @@ const Actions: React.FC = () => {
 interface Props {
     yaerDebit: string;
     interest: string;
-    discount: string;
-    maxPortion: string;
+    discount: number;
+    maxPortion: number;
     attenuator: string;
     trafficTicket: string;
     advisory: string;
@@ -59,7 +59,7 @@ const TbodyItem: React.FC<Props> = ({
         <tr className="itemListaRegras">
             <Item text={yaerDebit} />
             <Item text={interest} />
-            <Item text={discount} />
+            <Item text={`${discount}%`} />
             <Item text={maxPortion} />
             <Item text={attenuator} />
             <Item text={trafficTicket} />
