@@ -41,16 +41,16 @@ const Pagination: React.FC<Props> = ({ data, perPage, handleSetData }) => {
     }, [pagination.page]);
 
     const calculateMaxVisible = () => {
-        let maxLeft = pagination.page - Math.floor(10 / 2);
-        let maxRight = pagination.page + Math.floor(10 / 2);
+        let maxLeft = pagination.page - Math.floor(5 / 2);
+        let maxRight = pagination.page + Math.floor(5 / 2);
 
         if (maxLeft < 1) {
             maxLeft = 1;
-            maxRight = 10;
+            maxRight = 5;
         }
 
         if (maxRight > pagination.totalPage) {
-            maxLeft = pagination.totalPage - (10 - 1);
+            maxLeft = pagination.totalPage - (5 - 1);
             maxRight = pagination.totalPage;
 
             if (maxLeft < 1) maxLeft = 1;
