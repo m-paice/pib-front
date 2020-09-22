@@ -12,6 +12,7 @@ interface Thead {
 }
 
 interface Tbody {
+    id: number;
     yaerDebit: string;
     interest: string;
     discount: number;
@@ -19,7 +20,7 @@ interface Tbody {
     attenuator: string;
     trafficTicket: string;
     advisory: string;
-    readjustment: string;
+    readjustment: number;
 }
 
 interface Props {
@@ -45,6 +46,10 @@ const TableNegociation: React.FC<Props> = ({ thead, tbody }) => {
         }
     };
 
+    const handleSetData = (data: Tbody[]) => {
+        setData(data);
+    };
+
     return (
         <div className="table-regua barraRolagem">
             <table className="tableListaRegras">
@@ -63,12 +68,12 @@ const TableNegociation: React.FC<Props> = ({ thead, tbody }) => {
                 </thead>
                 <tbody className="listaCompletaRegras">
                     {data.map((item, index) => (
-                        <TbodyItem key={index} {...item} />
+                        <TbodyItem key={item.id} {...item} />
                     ))}
                 </tbody>
             </table>
 
-            <Pagination />
+            <Pagination data={tbody} perPage={5} handleSetData={handleSetData} />
         </div>
     );
 };

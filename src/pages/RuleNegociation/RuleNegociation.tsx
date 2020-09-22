@@ -16,74 +16,6 @@ const header = [
     { text: "Editar e \n Simular", title: "Editar e Simular", reference: "" },
 ];
 
-const items = [
-    {
-        yaerDebit: "12/03/2020",
-        interest: "1.3",
-        discount: 10,
-        maxPortion: 10,
-        attenuator: "3,3",
-        trafficTicket: "200,00",
-        advisory: "1,5%",
-        readjustment: "56",
-    },
-
-    {
-        yaerDebit: "12/03/2020",
-        interest: "1.5",
-        discount: 11,
-        maxPortion: 10,
-        attenuator: "3,3",
-        trafficTicket: "200,00",
-        advisory: "1,5%",
-        readjustment: "56",
-    },
-
-    {
-        yaerDebit: "12/03/2020",
-        interest: "2",
-        discount: 10,
-        maxPortion: 9,
-        attenuator: "3,3",
-        trafficTicket: "200,00",
-        advisory: "1,5%",
-        readjustment: "56",
-    },
-
-    {
-        yaerDebit: "12/03/2020",
-        interest: "1.7",
-        discount: 9,
-        maxPortion: 10,
-        attenuator: "3,3",
-        trafficTicket: "200,00",
-        advisory: "1,5%",
-        readjustment: "56",
-    },
-
-    {
-        yaerDebit: "12/03/2020",
-        interest: "1.5",
-        discount: 9,
-        maxPortion: 9,
-        attenuator: "3,3",
-        trafficTicket: "200,00",
-        advisory: "1,5%",
-        readjustment: "56",
-    },
-
-    {
-        yaerDebit: "12/03/2020",
-        interest: "1.5",
-        discount: 11,
-        maxPortion: 5,
-        attenuator: "3,3",
-        trafficTicket: "200,00",
-        advisory: "1,5%",
-        readjustment: "56",
-    },
-];
-
 const RuleNegociation: React.FC<Props> = (props) => {
     return (
         <div className="container">
@@ -97,7 +29,20 @@ const RuleNegociation: React.FC<Props> = (props) => {
                 </div>
             </div>
 
-            <Table thead={header} tbody={items} />
+            <Table
+                thead={header}
+                tbody={Array.from({ length: 100 }).map((_, index) => ({
+                    id: index,
+                    yaerDebit: "12/03/2020",
+                    interest: (Math.random() * 8).toFixed(1),
+                    discount: Math.floor(Math.random() * 12),
+                    maxPortion: Math.floor(Math.random() * 12),
+                    attenuator: "3,3",
+                    trafficTicket: "200,00",
+                    advisory: (Math.random() * 8).toFixed(1),
+                    readjustment: Math.floor(Math.random() * 100),
+                }))}
+            />
         </div>
     );
 };

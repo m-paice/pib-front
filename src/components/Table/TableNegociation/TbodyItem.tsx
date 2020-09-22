@@ -35,6 +35,7 @@ const Actions: React.FC = () => {
 };
 
 interface Props {
+    id: number;
     yaerDebit: string;
     interest: string;
     discount: number;
@@ -42,10 +43,11 @@ interface Props {
     attenuator: string;
     trafficTicket: string;
     advisory: string;
-    readjustment: string;
+    readjustment: number;
 }
 
 const TbodyItem: React.FC<Props> = ({
+    id,
     yaerDebit,
     interest,
     discount,
@@ -57,7 +59,7 @@ const TbodyItem: React.FC<Props> = ({
 }) => {
     return (
         <tr className="itemListaRegras">
-            <Item text={yaerDebit} />
+            <Item text={`${id} - ${yaerDebit}`} />
             <Item text={interest} />
             <Item text={`${discount}%`} />
             <Item text={maxPortion} />
