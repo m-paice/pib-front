@@ -45,7 +45,6 @@ template {
 
 a {
     background-color: transparent;
-    text-decoration: none;
 }
 
 a:active,
@@ -1161,6 +1160,7 @@ a:hover {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    float: left;
 }
 
 .block4_widget_content::after,
@@ -2612,13 +2612,6 @@ body .container {
     padding: 0px;
 }
 
-.full-width {
-    width: 100%;
-}
-.border-right {
-    border-right: 1px solid #e6e6e6;
-}
-
 .frment .btn {
     border-radius: 50px;
     color: #63ddfe;
@@ -2657,7 +2650,6 @@ body .container {
 .form-control:disabled {
     background: #fff;
     color: #83e5ff;
-    cursor: not-allowed;
 }
 
 .bantopo {
@@ -3251,13 +3243,7 @@ article a.sm span {
     line-height: 33px;
 }
 
-.form-control,
-input[type="email"],
-input[type="password"],
-input[type="search"],
-input[type="text"],
-input[type="url"],
-textarea {
+.form-control {
     border: solid 2px #83e5ff;
     border-radius: 40px;
     padding: 18px;
@@ -3433,6 +3419,7 @@ textarea {
 
 .form-group .erro {
     color: red;
+
     background: #fff;
 }
 
@@ -3560,13 +3547,13 @@ textarea {
 }
 
 .boxpai {
-    background: #83e5ff url("../assets/imagens/bxbox.png") top right no-repeat;
+    background: #83e5ff url(../assets/imagens/bxbox.png) top right no-repeat;
     background-size: cover;
     padding: 25px 35px;
 }
 
 .boxbg2 {
-    background: #83e5ff url("../assets/imagens/bgbox2.png") top right no-repeat;
+    background: #83e5ff url(../assets/imagens/bgbox2.png) top right no-repeat;
     background-size: cover;
 }
 
@@ -3783,19 +3770,6 @@ div.ativo .help .glyphicon {
 
 div.ativo .l2 {
     margin-top: 20px;
-}
-
-.page-item.active .page-link {
-    background-color: #38d6ff;
-    border-color: #38d6ff;
-}
-.pagination > li > a,
-.pagination > li > span {
-    color: #38d6ff;
-}
-
-.pointer {
-    cursor: pointer;
 }
 
 .lipages {
@@ -4947,7 +4921,7 @@ body .cada .table > tbody > tr > td {
         font-size: 9px;
     }
     .site-header .site-branding {
-        background: #14ccfd url("../assets/imagens/bgtopo.png") center;
+        background: #14ccfd url(../assets/imagens/bgtopo.png) center;
         background-size: 400%;
     }
     a.btneg {
@@ -4988,10 +4962,9 @@ body .cada .table > tbody > tr > td {
 }
 
 /*PAGE CONTACT*/
-.text-header h3,
 .text-header {
     width: 100%;
-    text-align: center !important;
+    text-align: center;
 }
 .text-header button {
     margin: 0px 25%;
@@ -5002,8 +4975,6 @@ body .cada .table > tbody > tr > td {
 
 /*QUEM SOMOS*/
 
-/*QUEM SOMOS*/
-
 .entrar {
     border: 1px solid #3ed9ff;
     border-radius: 10px;
@@ -5011,17 +4982,16 @@ body .cada .table > tbody > tr > td {
     background: #ffff;
 }
 
-.page h3 {
+.site-page h3 {
     text-align: center;
-    color: #4f4f4f;
-    font-size: 35px;
-    font-weight: 600;
+    color: black;
+    font-size: 30px;
 }
-.page p {
+.site-page p {
     text-align: center;
 }
 
-.about h4 {
+.site-page h4 {
     height: 100px;
     background: #11cdfd;
     width: 100%;
@@ -5043,15 +5013,14 @@ body .cada .table > tbody > tr > td {
     top: -10px;
 }
 
-.calendario,
-.header-image {
+.calendario {
     background: #573d2e;
-    height: 180px;
+    height: 130px;
     position: relative;
     top: -20px;
 }
 
-.border-booton {
+.border-bootom {
     height: 3px;
     width: 100%;
     background: #c4c4c4;
@@ -5080,12 +5049,6 @@ body .cada .table > tbody > tr > td {
     margin-bottom: 0px;
     clear: both;
     padding: 0px 10%;
-}
-#page h3,
-#page p {
-    float: left;
-    width: 100%;
-    text-align: left;
 }
 
 .traco-horiz {
@@ -5141,11 +5104,12 @@ body .cada .table > tbody > tr > td {
 }
 
 .titulo-lista-regras {
-    font-size: 11px !important;
+    font-size: 13px !important;
     vertical-align: bottom !important;
     line-height: 1.3 !important;
     text-align: center !important;
     color: #000 !important;
+    font-weight: bold;
 }
 .txt-lista-regras {
     color: #000;
@@ -5196,13 +5160,13 @@ body .cada .table > tbody > tr > td {
 .selectModal {
     border: #e0e0e0 !important;
     border: solid 3px #e0e0e0 !important;
-    border-radius: 3px !important;
+    border-radius: 7px !important;
     background-color: #14657b !important;
     margin-block-end: 10px !important;
     -webkit-appearance: none; /* Remove estilo padrão do Chrome */
     -moz-appearance: none; /* Remove estilo padrão do FireFox */
     appearance: none; /* Remove estilo padrão do FireFox*/
-    background: url("../assets/imagens/seta.png") center right 10px no-repeat;
+    background: url(../assets/imagens/seta.png) center right 10px no-repeat;
     background-size: 8px 8px;
     margin-bottom: 10px;
 }
@@ -5247,12 +5211,13 @@ body .cada .table > tbody > tr > td {
     margin-right: 10px;
 }
 
-.contact input[type="email"],
-.contact input[type="password"],
-.contact input[type="search"],
-.contact input[type="text"],
-.contact input[type="url"],
-.contact textarea {
+.page-regua input[type="email"],
+.page-regua input[type="password"],
+.page-regua input[type="search"],
+.page-regua input[type="text"],
+.page-regua input[type="url"],
+.page-regua textarea {
+    border: 3px solid #fff !important;
     border-radius: 7px !important;
 }
 
@@ -5349,7 +5314,7 @@ div.vertical-line {
     cursor: pointer;
     text-shadow: none;
     width: 40%;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-weight: 600;
     margin-bottom: 40px;
 }
@@ -5381,7 +5346,7 @@ select::-ms-expand {
     -webkit-appearance: none; /* Remove estilo padrão do Chrome */
     -moz-appearance: none; /* Remove estilo padrão do FireFox */
     appearance: none; /* Remove estilo padrão do FireFox*/
-    background: url("../assets/imagens/setaAzul.png") center right 10px no-repeat;
+    background: url(../assets/imagens/setaAzul.png) center right 10px no-repeat;
     background-size: 8px 8px;
     padding: 7px !important;
     box-sizing: border-box !important;
@@ -5424,6 +5389,14 @@ select::-ms-expand {
         padding-left: 1px !important;
         padding-right: 1px !important;
     }
+
+    .img-pencil {
+        margin-left: 10px;
+    }
+
+    .img-calc {
+        margin-right: 70px;
+    }
 }
 
 @media (min-width: 320px) and (max-width: 768px) {
@@ -5436,6 +5409,24 @@ select::-ms-expand {
     .debito.ativo .btneg.green {
         border: none;
         color: #53bd15;
+    }
+
+    .img-pencil {
+        margin-left: 9px;
+    }
+
+    .img-calc {
+        margin-right: 80px;
+    }
+}
+
+@media (min-width: 991px) and (max-width: 4000px) {
+    .img-pencil {
+        margin-left: 20px;
+    }
+
+    .img-calc {
+        margin-right: 80px;
     }
 }
 
@@ -5514,4 +5505,164 @@ select::-ms-expand {
 
 .disabled-bc input[disabled] {
     background: white;
+}
+
+.lth {
+    margin-top: 10px;
+}
+
+.img-icon {
+    cursor: pointer;
+}
+
+.btn-close-modal {
+    opacity: 1 !important;
+    color: #fff;
+    text-shadow: none;
+}
+
+.btn-close-modal:hover {
+    color: #fff;
+    text-shadow: 0 0.8px 0 #fff;
+}
+
+.selectModal,
+.page-regua select {
+    padding: 1px !important;
+    /* color: #fff; */
+}
+
+.tableListaRegras,
+table.dataTable {
+    margin-top: 120px;
+    margin: 10px;
+    border-spacing: 0 9px !important;
+}
+
+.tableListaRegras,
+table.dataTable thead .sorting {
+    background-image: none !important;
+    border-bottom: none !important;
+}
+
+.tableListaRegras,
+table.dataTable thead .sorting_asc {
+    background-image: none !important;
+    border-bottom: none !important;
+}
+
+.tableListaRegras,
+table.dataTable thead th {
+    background-image: none !important;
+    border-bottom: none !important;
+}
+
+.txt-lista-regras,
+table.dataTable tbody td {
+    padding: 0px 0px !important;
+}
+
+.colum-icon,
+table.dataTable td {
+    /* background-color: red; */
+    box-sizing: border-box;
+}
+
+.icon-menu-number {
+    display: flex;
+    float: left;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #bebebe;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-right: 5px;
+}
+
+.text-menu-number {
+    color: #bebebe !important;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.icon-menu-number-c {
+    display: flex;
+    float: left;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #83e5fe;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    margin-right: 5px;
+}
+
+.text-menu-number-c a {
+    color: black;
+    display: flex;
+    align-items: center;
+    font-size: 13px !important;
+    cursor: pointer;
+}
+
+.selectAzul-2 {
+    height: 38px;
+    color: #b1b1b1;
+    border: solid 2px #83e5ff !important;
+    border-radius: 40px !important;
+    -webkit-appearance: none; /* Remove estilo padrão do Chrome */
+    -moz-appearance: none; /* Remove estilo padrão do FireFox */
+    appearance: none; /* Remove estilo padrão do FireFox*/
+    background: url(../assets/imagens/setaAzul.png) center right 10px no-repeat;
+    background-size: 8px 8px;
+    padding: 7px !important;
+    box-sizing: border-box !important;
+    padding-right: 0px !important;
+}
+
+.selectAzul-2:focus {
+    border: solid 2px #66afe9 !important;
+}
+
+.menu-pj ul {
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+    float: left;
+    width: 100%;
+}
+
+.menu-pj ul li {
+    display: inline;
+}
+
+.menu-pj ul li a {
+    padding: 2px 10px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-bc {
+    margin-top: 5px;
+    margin-right: 5px;
+    border: 0px;
+    border-radius: 25px;
+    width: unset;
+    float: left;
+    background: white;
+    color: #08ccfd;
+    padding: 5px 35px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.pointer {
+    cursor: pointer;
 }
