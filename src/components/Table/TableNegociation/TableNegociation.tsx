@@ -19,7 +19,6 @@ interface Tbody {
     maxPortion: number;
     attenuator: string;
     trafficTicket: string;
-    advisory: string;
     readjustment: number;
 }
 
@@ -73,7 +72,7 @@ const TableNegociation: React.FC<Props> = ({ thead, tbody }) => {
                 </tbody>
             </table>
 
-            <Pagination data={tbody} perPage={5} handleSetData={handleSetData} />
+            <Pagination data={tbody} perPage={12} handleSetData={handleSetData} />
         </div>
     );
 };
