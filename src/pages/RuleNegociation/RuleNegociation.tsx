@@ -1,8 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+import { useDispatch } from "react-redux";
+
+import { ruleNegociationContainer } from "./RuleNegociationContainer";
+
+import { Negociation } from "../../store/modules/pj/negociation/types";
+
+// actions
+import { actions as actionsNegociation } from "../../store/modules/pj/negociation/actions";
 
 import Table from "../../components/Table/TableNegociation";
 
-interface Props {}
+interface Props {
+    payload: {
+        data: Negociation[];
+    };
+}
 
 const header = [
     { text: "Idade da Dívida", title: "Idade da Dívida", reference: "yaerDebit" },
@@ -15,34 +28,37 @@ const header = [
     { text: "Editar e \n Simular", title: "Editar e Simular", reference: "" },
 ];
 
-const RuleNegociation: React.FC<Props> = (props) => {
-    const [tbody, setTbody] = useState(
-        Array.from({ length: 60 }).map((_, index) => ({
-            id: index,
-            yaerDebit: "01/2020",
-            interest: (Math.random() * 8).toFixed(1),
-            discount: Math.floor(Math.random() * 12),
-            maxPortion: Math.floor(Math.random() * 12),
-            attenuator: "3,3",
-            trafficTicket: "200,00",
-            readjustment: Math.floor(Math.random() * 100),
-        })),
-    );
+const RuleNegociation: React.FC<Props> = ({ payload }) => {
+    const { data } = payload;
+
+    const dispatch = useDispatch();
+
+    const [tbody, setTbody] = useState<Negociation[]>(data);
+
+    useEffect(() => {
+        dispatch(actionsNegociation.loadNegociation());
+    }, []);
+
+    useEffect(() => {
+        setTbody(payload.data);
+    }, [payload.data]);
 
     const handleSetItemTbody = (key: number, value: string | number) => {};
 
     return (
-        <div className="container">
-            <div className="descmod cadastro d-flex justify-content-between">
-                <div className="col-xs-12">
-                    <b>Fique por dentro das negociações</b>
-                    <h5>Selecione para ver mais detalhes</h5>
+        <div className="page">
+            <div className="container">
+                <div className="descmod cadastro d-flex justify-content-between">
+                    <div className="col-xs-12">
+                        <b>Fique por dentro das negociações</b>
+                        <h5>Selecione para ver mais detalhes</h5>
+                    </div>
                 </div>
-            </div>
 
-            <Table thead={header} tbody={tbody} />
+                <Table thead={header} tbody={tbody} />
+            </div>
         </div>
     );
 };
 
-export default RuleNegociation;
+export default ruleNegociationContainer(RuleNegociation);

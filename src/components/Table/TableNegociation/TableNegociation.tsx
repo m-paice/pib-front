@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { Negociation } from "../../../store/modules/pj/negociation/types";
+
 import TheadItem from "./TheadItem";
 import TbodyItem from "./TbodyItem";
 
@@ -11,16 +13,7 @@ interface Thead {
     reference: string;
 }
 
-interface Tbody {
-    id: number;
-    yaerDebit: string;
-    interest: string;
-    discount: number;
-    maxPortion: number;
-    attenuator: string;
-    trafficTicket: string;
-    readjustment: number;
-}
+type Tbody = Negociation;
 
 interface Props {
     thead: Thead[];
@@ -69,10 +62,22 @@ const TableNegociation: React.FC<Props> = ({ thead, tbody }) => {
                     {data.map((item, index) => (
                         <TbodyItem key={item.id} {...item} />
                     ))}
+
+                    {!data.length && (
+                        <tr>
+                            <td
+                                className="text-center pt-3 pb-3"
+                                style={{ borderBottom: 0, borderRadius: 0 }}
+                                colSpan={thead.length}
+                            >
+                                Nenhuma negociação encontrada.
+                            </td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
 
-            <Pagination data={tbody} perPage={12} handleSetData={handleSetData} />
+            {tbody.length !== 0 && <Pagination data={tbody} perPage={12} handleSetData={handleSetData} />}
         </div>
     );
 };

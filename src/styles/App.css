@@ -3247,7 +3247,7 @@ article a.sm span {
     border: solid 2px #83e5ff;
     border-radius: 40px;
     padding: 18px;
-    margin: 6px 0px;
+    /* margin: 6px 0px; */
 }
 
 .btpadrao {
@@ -5159,8 +5159,8 @@ body .cada .table > tbody > tr > td {
 
 .selectModal {
     border: #e0e0e0 !important;
-    border: solid 3px #e0e0e0 !important;
-    border-radius: 7px !important;
+    border: solid 1px #e0e0e0 !important;
+    border-radius: 3px !important;
     background-color: #14657b !important;
     margin-block-end: 10px !important;
     -webkit-appearance: none; /* Remove estilo padrão do Chrome */
@@ -5169,6 +5169,8 @@ body .cada .table > tbody > tr > td {
     background: url(../assets/imagens/seta.png) center right 10px no-repeat;
     background-size: 8px 8px;
     margin-bottom: 10px;
+    color: #fff;
+    padding: 1px 12px 1px;
 }
 
 .comp-modal {
@@ -5528,8 +5530,19 @@ select::-ms-expand {
 
 .selectModal,
 .page-regua select {
-    padding: 1px !important;
+    /* padding: 1px !important; */
     /* color: #fff; */
+}
+
+select:hover,
+select:focus,
+select:active,
+select:checked {
+    color: #fff;
+}
+
+select option {
+    color: #fff;
 }
 
 .tableListaRegras,
