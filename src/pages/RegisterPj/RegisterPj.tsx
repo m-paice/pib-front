@@ -22,11 +22,23 @@ export interface FormValues {
     neighborhood: string;
     city: string;
     uf: string;
+
+    accountType: string;
+    bank: string;
+    agency: string;
+    account: string;
+    digit: string;
+    holder: string;
+    cpfHolder: string;
+
+    termsOfUse: boolean;
+    receiveTips: boolean;
 }
 
 // steps
 import Step1 from "./Steps/Step1";
-import Stpe2 from "./Steps/Step2";
+import Step2 from "./Steps/Step2";
+import Step3 from "./Steps/Step3";
 
 import NavSteps from "./NavSteps";
 
@@ -48,8 +60,9 @@ const Step2Schema = Yup.object().shape({
     cellPhone: Yup.string()
         .required("obrigatório")
         .matches(/^\(\d{2}\)\ \d{5}-\d{4}$/, "celular inválido"),
-    email: Yup.string().required("obrigatório"),
+    email: Yup.string().email("e-mail inválido").required("obrigatório"),
     emailConfirm: Yup.string()
+        .email("e-mail inválido")
         .required("obrigatório")
         .oneOf([Yup.ref("email")], "os emails devem corresponder"),
     zipcode: Yup.string().matches(/^\d{5}-\d{3}$/, "CEP inválido"),
@@ -60,14 +73,28 @@ const Step2Schema = Yup.object().shape({
     uf: Yup.string().required("obrigatório"),
 });
 
-const schemaArray = [Step1Schema, Step2Schema];
+// validation form step 3
+const Step3Schema = Yup.object().shape({
+    accountType: Yup.string().required("obrigatório"),
+    bank: Yup.string().required("obrigatório"),
+    agency: Yup.string().required("obrigatório"),
+    account: Yup.string().required("obrigatório"),
+    digit: Yup.string().required("obrigatório"),
+    holder: Yup.string().required("obrigatório"),
+    cpfHolder: Yup.string()
+        .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, "CPF inválido")
+        .required("obrigatório"),
+    termsOfUse: Yup.bool().oneOf([true], "você precisa aceitar os termos para seguir em frente"),
+});
+
+const schemaArray = [Step1Schema, Step2Schema, Step3Schema];
 
 const initialValues: FormValues = {
-    cnpj: "",
-    socialReason: "",
-    fantasyName: "",
-    foundationDate: "",
-    namePartnerMain: "",
+    cnpj: "12.321.312/0001-21",
+    socialReason: "Matheus Paice SA",
+    fantasyName: "Matheus Paice",
+    foundationDate: "10/10/2020",
+    namePartnerMain: "Marina Paice",
     namePartnerSecondary: "",
 
     cellPhone: "",
@@ -81,10 +108,21 @@ const initialValues: FormValues = {
     neighborhood: "",
     city: "",
     uf: "",
+
+    accountType: "",
+    bank: "",
+    agency: "",
+    account: "",
+    digit: "",
+    holder: "",
+    cpfHolder: "",
+
+    termsOfUse: false,
+    receiveTips: false,
 };
 
 const RegisterPj: React.FC = (props) => {
-    const [currentStep, setCurrentStep] = useState(0);
+    const [currentStep, setCurrentStep] = useState(2);
     const [test, setTest] = useState(0);
 
     const handleSubmit = useCallback((values: FormValues) => {
@@ -138,10 +176,10 @@ const RegisterPj: React.FC = (props) => {
                     enableReinitialize
                 >
                     {(formikBag) => (
-                        <Form className="p-4">
+                        <Form>
                             <div className="col-xs-12">
                                 <nav className="menu-pj">
-                                    <ul>
+                                    <ul style={{ marginBottom: 30 }}>
                                         <NavSteps
                                             currentStep={currentStep}
                                             handleGoToStep={handleGoToStep}
@@ -171,12 +209,13 @@ const RegisterPj: React.FC = (props) => {
                             </div>
                             {currentStep === 0 && <Step1 handleNextSteps={handleNextSteps} formikProps={formikBag} />}
                             {currentStep === 1 && (
-                                <Stpe2
+                                <Step2
                                     handleNextSteps={handleNextSteps}
                                     handlePrevSteps={handlePrevSteps}
                                     formikProps={formikBag}
                                 />
                             )}
+                            {currentStep === 2 && <Step3 handlePrevSteps={handlePrevSteps} />}
                         </Form>
                     )}
                 </Formik>

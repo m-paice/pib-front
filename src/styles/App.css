@@ -3444,7 +3444,7 @@ article a.sm span {
 .boxcheck {
     float: left;
     width: 100%;
-    padding: 15px;
+    padding: 15px 0 15px;
 }
 
 .boxcheck .tex {
@@ -5678,4 +5678,8 @@ table.dataTable td {
 
 .pointer {
     cursor: pointer;
+}
+
+.css-1hb7zxy-IndicatorsContainer {
+    display: none !important;
 }

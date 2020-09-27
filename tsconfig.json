@@ -13,7 +13,8 @@
         "noImplicitThis": true,
         "noImplicitAny": false,
         "strictNullChecks": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "resolveJsonModule": true
     },
     "include": ["./src/index.d.ts"],
     "exclude": ["dist", "build", "node_modules"],
