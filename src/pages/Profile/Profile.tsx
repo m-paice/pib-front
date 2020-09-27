@@ -84,17 +84,17 @@ const Profile: React.FC = () => {
             <Formik initialValues={initialValues} validationSchema={SignupSchema} onSubmit={handleSubmit}>
                 {(formikBag) => (
                     <Form>
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="col-md-12 mt-3">
                                 <h2 className="h2pad titulo-mob">Seus Dados</h2>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="descmod">
                                 <div className="col-md-12 sub-titulo-mob">Confira aqui suas informações.</div>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="form-group col-md-6">
                                 <Field name="firstName">
                                     {(props: FieldProps) => (
@@ -126,7 +126,7 @@ const Profile: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="form-group col-md-6">
                                 <Field name="birthDate">
                                     {(props: FieldProps) => (
@@ -163,7 +163,7 @@ const Profile: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="form-group col-md-6">
                                 <Field name="phone">
                                     {(props: FieldProps) => (
@@ -187,18 +187,18 @@ const Profile: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="col-md-12 mt-3">
                                 <h2 className="h2pad titulo-mob">Endereço</h2>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="descmod">
                                 <div className="col-md-12 sub-titulo-mob">Mantenha sempre seu endereço atualizado.</div>
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="form-group col-md-3 col-sm-6">
                                 <Field name="zipcode">
                                     {(props: FieldProps) => (
@@ -246,7 +246,7 @@ const Profile: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="form-group col-md-3 col-sm-6">
                                 <Field name="number">
                                     {(props: FieldProps) => (
@@ -290,7 +290,7 @@ const Profile: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="form-group col-md-6">
                                 <Field name="city">
                                     {(props: FieldProps) => (
@@ -318,12 +318,12 @@ const Profile: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="col-md-12 mt-3">
                                 <h2 className="h2pad titulo-mob">Senha</h2>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="descmod">
                                 <div className="col-md-12 sub-titulo-mob">
                                     Aqui você pode alterar sua senha de acesso.
@@ -331,7 +331,7 @@ const Profile: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="form-group col-md-6">
                                 <Field name="currentPassword">
                                     {(props: FieldProps) => (
@@ -351,7 +351,7 @@ const Profile: React.FC = () => {
                             </div>
                             <div className="clearfix"></div>
                         </div>
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="form-group col-md-6">
                                 <Field name="password">
                                     {(props: FieldProps) => (
@@ -388,7 +388,7 @@ const Profile: React.FC = () => {
                                 </Field>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="form-group col-md-6 d-flex mt-4 mb-4">
                                 <div>
                                     <Field name="receiveTips">
@@ -406,7 +406,7 @@ const Profile: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="bbuttons col-md-6">
                                 <button className="btpadrao" type="submit">
                                     Salvar Alterações
@@ -418,7 +418,7 @@ const Profile: React.FC = () => {
             </Formik>
 
             {submitSuccess && (
-                <div className="row">
+                <div className="row mb-4">
                     <div className="sucesso col-md-12 alert alert-success" role="alert">
                         Alterações salvas com sucesso!
                     </div>
