@@ -1,94 +1,126 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+import SweetAlert from "react-bootstrap-sweetalert";
+import { useDispatch } from "react-redux";
+
+import { financialReportContainer } from "./FinancialReportContainer";
+
+import { Wallet } from "../../store/modules/pj/wallet/types";
+
+import { actions as actionsWallet } from "../../store/modules/pj/wallet/actions";
 
 import Table from "../../components/Table/TableFinancial";
 
-interface Props {}
-
 const header = [
-    { text: "Data", title: "Data" },
-    { text: "CNPJ", title: "CNPJ" },
-    { text: "Nome da Empresa", title: "Nome da Empresa" },
-    { text: "Operação", title: "Operação" },
-    { text: "Valor", title: "Valor" },
+    { text: "Data", title: "Data", reference: "date" },
+    { text: "CPF / CNPJ", title: "CPF / CNPJ", reference: "document" },
+    { text: "Nome", title: "Nome", reference: "name" },
+    { text: "Operação", title: "Operação", reference: "operation" },
+    { text: "Valor", title: "Valor", reference: "value" },
 ];
 
-const items = [
-    {
-        date: "20/01/2020",
-        cnpj: "00.000.000/0000-00",
-        company: "Carmelita",
-        operation: "Saque",
-        value: "R$ 1.000,00",
-    },
+interface Props {
+    payload: {
+        data: Wallet[];
+        totalValueTransactions: number;
+    };
+}
 
-    {
-        date: "20/01/2020",
-        cnpj: "00.000.000/0000-00",
-        company: "Carmelita",
-        operation: "Saque",
-        value: "R$ 1.000,00",
-    },
+const FinancialReport: React.FC<Props> = ({ payload }) => {
+    const { data, totalValueTransactions } = payload;
 
-    {
-        date: "20/01/2020",
-        cnpj: "00.000.000/0000-00",
-        company: "Carmelita",
-        operation: "Saque",
-        value: "R$ 1.000,00",
-    },
+    const dispatch = useDispatch();
 
-    {
-        date: "20/01/2020",
-        cnpj: "00.000.000/0000-00",
-        company: "Carmelita",
-        operation: "Saque",
-        value: "R$ 1.000,00",
-    },
+    const [tbody, setTbody] = useState<Wallet[]>(data);
 
-    {
-        date: "20/01/2020",
-        cnpj: "00.000.000/0000-00",
-        company: "Carmelita",
-        operation: "Saque",
-        value: "R$ 1.000,00",
-    },
+    const [transfer, setTransfer] = useState(false);
 
-    {
-        date: "20/01/2020",
-        cnpj: "00.000.000/0000-00",
-        company: "Carmelita",
-        operation: "Saque",
-        value: "R$ 1.000,00",
-    },
-];
+    useEffect(() => {
+        dispatch(actionsWallet.loadWallet());
+    }, []);
 
-const FinancialReport: React.FC<Props> = (props) => {
+    useEffect(() => {
+        setTbody(payload.data);
+    }, [payload.data]);
+
+    const handleSetTransfer = () => {
+        setTransfer(!transfer);
+    };
+
+    const isValidValue = totalValueTransactions > 25;
+
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-xs-6 col-sm-6" style={{ fontSize: 35 }}>
-                    <b>Seu Saldo: &nbsp;</b>R$ 8.000,00
+        <div className="page">
+            <div className="container">
+                <div className="row">
+                    <div className="col-xs-6 col-sm-6" style={{ fontSize: 35 }}>
+                        <b>Seu Saldo: &nbsp;</b>
+                        <span style={{ color: isValidValue ? "green" : "red" }}>
+                            {totalValueTransactions.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
+                        </span>
+                    </div>
+
+                    <div className="col-sm-3">
+                        <select className="form-control selectAzul">
+                            <option>Maio - 2020</option>
+                            <option>Junho - 2020</option>
+                            <option>Julho - 2020</option>
+                        </select>
+                    </div>
+                    <div className="col-sm-3">
+                        <input placeholder="Pesquisar:" className="form-control inputAzul" />
+                    </div>
+
+                    <div className="col-xs-12 col-sm-4 align-self-start">
+                        <button className="btn-azul align-left" onClick={handleSetTransfer}>
+                            TRANSFERIR
+                        </button>
+                    </div>
+                    {transfer && (
+                        <div>
+                            {isValidValue ? (
+                                <SweetAlert
+                                    title={
+                                        <div className="txt-sweet-alert">
+                                            Tem certeza que deseja <br /> sacar este valor agora?
+                                        </div>
+                                    }
+                                    style={{
+                                        background: "#14647b",
+                                        color: "#fff !important",
+                                    }}
+                                    showCancel
+                                    confirmBtnCssClass="btn-sweet-alert"
+                                    cancelBtnCssClass="btn-sweet-alert"
+                                    confirmBtnText="Quero sacar"
+                                    cancelBtnText="Cancelar"
+                                    onConfirm={handleSetTransfer}
+                                    onCancel={handleSetTransfer}
+                                />
+                            ) : (
+                                <SweetAlert
+                                    title={
+                                        <div className="txt-sweet-alert">
+                                            Opa! Valor não disponível <br /> para saque.
+                                        </div>
+                                    }
+                                    style={{
+                                        background: "#14647b",
+                                        color: "#fff !important",
+                                    }}
+                                    confirmBtnCssClass="btn-sweet-alert"
+                                    confirmBtnText="Voltar"
+                                    onConfirm={handleSetTransfer}
+                                />
+                            )}
+                        </div>
+                    )}
                 </div>
 
-                <div className="col-sm-3">
-                    <select className="form-control selectAzul">
-                        <option>Maio - 2020</option>
-                        <option>Junho - 2020</option>
-                        <option>Julho - 2020</option>
-                    </select>
-                </div>
-                <div className="col-sm-3">
-                    <input placeholder="Pesquisar:" className="form-control inputAzul" />
-                </div>
-
-                <div className="col-xs-12 col-sm-4 align-self-start">
-                    <button className="btn-azul align-left">TRANSFERIR</button>
-                </div>
+                <Table thead={header} tbody={tbody} />
             </div>
-
-            <Table thead={header} tbody={items} />
         </div>
     );
 };
 
-export default FinancialReport;
+export default financialReportContainer(FinancialReport);

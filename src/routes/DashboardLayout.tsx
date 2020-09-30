@@ -7,7 +7,7 @@ import Layout from "../pages/Layout";
 interface PropsLayout {
     exact: boolean;
     path: string;
-    component: React.ReactType;
+    component: React.ElementType;
 }
 
 const DashboardLayout: React.FC<PropsLayout> = ({ component: Component, ...rest }) => {

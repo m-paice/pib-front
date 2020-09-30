@@ -6,6 +6,7 @@ import { types as typesAuth } from "./auth/types";
 import { types as typesPjCompany } from "./pj/company/types";
 import { types as typesPjDebt } from "./pj/debt/types";
 import { types as typesPjNegociation } from "./pj/negociation/types";
+import { types as typesPjWallet } from "./pj/wallet/types";
 
 // sagas
 import authSagas from "./auth/sagas";
@@ -13,6 +14,7 @@ import authSagas from "./auth/sagas";
 import companyPjSagas from "./pj/company/sagas";
 import debtPjSagas from "./pj/debt/sagas";
 import negociationPjSagas from "./pj/negociation/sagas";
+import walletPjSagas from "./pj/wallet/sagas";
 
 export default function* () {
     return yield all([
@@ -26,5 +28,8 @@ export default function* () {
         takeLatest(typesPjDebt.ADD_DEBT, debtPjSagas.createDebt),
         // negociation
         takeLatest(typesPjNegociation.LOAD_NEGOCIATION, negociationPjSagas.loadNegociation),
+        // wallet
+        takeLatest(typesPjWallet.LOAD_WALLET, walletPjSagas.loadNegociation),
+        takeLatest(typesPjWallet.ADD_WALLET, walletPjSagas.addItemWallet),
     ]);
 }

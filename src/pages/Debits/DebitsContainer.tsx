@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 // selectors
 import { selectDebts, selectDebtsPending, valueTotalDebts, amountDebts } from "../../store/modules/pj/debt/selectors";
 
-export const debtsContainer = (Component: React.ReactType) => {
+export const debtsContainer = (Component: React.ElementType) => {
     const Container: React.FC = () => {
         const debts = useSelector(selectDebts);
         const debtsPending = useSelector(selectDebtsPending);
