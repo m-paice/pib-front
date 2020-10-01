@@ -1,514 +1,514 @@
 [
     {
         "value": "001",
-        "label": "Banco do Brasil"
+        "label": "001 - Banco do Brasil"
     },
     {
         "value": "003",
-        "label": "Banco da Amazônia"
+        "label": "003 - Banco da Amazônia"
     },
     {
         "value": "004",
-        "label": "Banco do Nordeste"
+        "label": "004 - Banco do Nordeste"
     },
     {
         "value": "021",
-        "label": "Banestes"
+        "label": "021 - Banestes"
     },
     {
         "value": "025",
-        "label": "Banco Alfa"
+        "label": "025 - Banco Alfa"
     },
     {
         "value": "027",
-        "label": "Besc"
+        "label": "027 - Besc"
     },
     {
         "value": "029",
-        "label": "Banerj"
+        "label": "029 - Banerj"
     },
     {
         "value": "031",
-        "label": "Banco Beg"
+        "label": "031 - Banco Beg"
     },
     {
         "value": "033",
-        "label": "Banco Santander Banespa"
+        "label": "033 - Banco Santander Banespa"
     },
     {
         "value": "036",
-        "label": "Banco Bem"
+        "label": "036 - Banco Bem"
     },
     {
         "value": "037",
-        "label": "Banpará"
+        "label": "037 - Banpará"
     },
     {
         "value": "038",
-        "label": "Banestado"
+        "label": "038 - Banestado"
     },
     {
         "value": "039",
-        "label": "BEP"
+        "label": "039 - BEP"
     },
     {
         "value": "040",
-        "label": "Banco Cargill"
+        "label": "040 - Banco Cargill"
     },
     {
         "value": "041",
-        "label": "Banrisul"
+        "label": "041 - Banrisul"
     },
     {
         "value": "044",
-        "label": "BVA"
+        "label": "044 - BVA"
     },
     {
         "value": "045",
-        "label": "Banco Opportunity"
+        "label": "045 - Banco Opportunity"
     },
     {
         "value": "047",
-        "label": "Banese"
+        "label": "047 - Banese"
     },
     {
         "value": "062",
-        "label": "Hipercard"
+        "label": "062 - Hipercard"
     },
     {
         "value": "063",
-        "label": "Ibibank"
+        "label": "063 - Ibibank"
     },
     {
         "value": "065",
-        "label": "Lemon Bank"
+        "label": "065 - Lemon Bank"
     },
     {
         "value": "066",
-        "label": "Banco Morgan Stanley Dean Witter"
+        "label": "066 - Banco Morgan Stanley Dean Witter"
     },
     {
         "value": "069",
-        "label": "BPN Brasil"
+        "label": "069 - BPN Brasil"
     },
     {
         "value": "070",
-        "label": "Banco de Brasília – BRB"
+        "label": "070 - Banco de Brasília – BRB"
     },
     {
         "value": "072",
-        "label": "Banco Rural"
+        "label": "072 - Banco Rural"
     },
     {
         "value": "073",
-        "label": "Banco Popular"
+        "label": "073 - Banco Popular"
     },
     {
         "value": "074",
-        "label": "Banco J. Safra"
+        "label": "074 - Banco J. Safra"
     },
     {
         "value": "075",
-        "label": "Banco CR2"
+        "label": "075 - Banco CR2"
     },
     {
         "value": "076",
-        "label": "Banco KDB"
+        "label": "076 - Banco KDB"
     },
     {
         "value": "096",
-        "label": "Banco BMF"
+        "label": "096 - Banco BMF"
     },
     {
         "value": "104",
-        "label": "Caixa Econômica Federal"
+        "label": "104 - Caixa Econômica Federal"
     },
     {
         "value": "107",
-        "label": "Banco BBM"
+        "label": "107 - Banco BBM"
     },
     {
         "value": "116",
-        "label": "Banco Único"
+        "label": "116 - Banco Único"
     },
     {
         "value": "151",
-        "label": "Nossa Caixa"
+        "label": "151 - Nossa Caixa"
     },
     {
         "value": "175",
-        "label": "Banco Finasa"
+        "label": "175 - Banco Finasa"
     },
     {
         "value": "184",
-        "label": "Banco Itaú BBA"
+        "label": "184 - Banco Itaú BBA"
     },
     {
         "value": "204",
-        "label": "American Express Bank"
+        "label": "204 - American Express Bank"
     },
     {
         "value": "208",
-        "label": "Banco Pactual"
+        "label": "208 - Banco Pactual"
     },
     {
         "value": "212",
-        "label": "Banco Matone"
+        "label": "212 - Banco Matone"
     },
     {
         "value": "213",
-        "label": "Banco Arbi"
+        "label": "213 - Banco Arbi"
     },
     {
         "value": "214",
-        "label": "Banco Dibens"
+        "label": "214 - Banco Dibens"
     },
     {
         "value": "217",
-        "label": "Banco Joh Deere"
+        "label": "217 - Banco Joh Deere"
     },
     {
         "value": "218",
-        "label": "Banco Bonsucesso"
+        "label": "218 - Banco Bonsucesso"
     },
     {
         "value": "222",
-        "label": "Banco Calyon Brasil"
+        "label": "222 - Banco Calyon Brasil"
     },
     {
         "value": "224",
-        "label": "Banco Fibra"
+        "label": "224 - Banco Fibra"
     },
     {
         "value": "225",
-        "label": "Banco Brascan"
+        "label": "225 - Banco Brascan"
     },
     {
         "value": "229",
-        "label": "Banco Cruzeiro"
+        "label": "229 - Banco Cruzeiro"
     },
     {
         "value": "230",
-        "label": "Unicard"
+        "label": "230 - Unicard"
     },
     {
         "value": "233",
-        "label": "Banco GE Capital"
+        "label": "233 - Banco GE Capital"
     },
     {
         "value": "237",
-        "label": "Bradesco"
+        "label": "237 - Bradesco"
     },
     {
         "value": "241",
-        "label": "Banco Clássico"
+        "label": "241 - Banco Clássico"
     },
     {
         "value": "243",
-        "label": "Banco Stock Máxima"
+        "label": "243 - Banco Stock Máxima"
     },
     {
         "value": "246",
-        "label": "Banco ABC Brasil"
+        "label": "246 - Banco ABC Brasil"
     },
     {
         "value": "248",
-        "label": "Banco Boavista Interatlântico"
+        "label": "248 - Banco Boavista Interatlântico"
     },
     {
         "value": "249",
-        "label": "Investcred Unibanco"
+        "label": "249 - Investcred Unibanco"
     },
     {
         "value": "250",
-        "label": "Banco Schahin"
+        "label": "250 - Banco Schahin"
     },
     {
         "value": "252",
-        "label": "Fininvest"
+        "label": "252 - Fininvest"
     },
     {
         "value": "254",
-        "label": "Paraná Banco"
+        "label": "254 - Paraná Banco"
     },
     {
         "value": "263",
-        "label": "Banco Cacique"
+        "label": "263 - Banco Cacique"
     },
     {
         "value": "265",
-        "label": "Banco Fator"
+        "label": "265 - Banco Fator"
     },
     {
         "value": "266",
-        "label": "Banco Cédula"
+        "label": "266 - Banco Cédula"
     },
     {
         "value": "300",
-        "label": "Banco de la Nación Argentina"
+        "label": "300 - Banco de la Nación Argentina"
     },
     {
         "value": "318",
-        "label": "Banco BMG"
+        "label": "318 - Banco BMG"
     },
     {
         "value": "320",
-        "label": "Banco Industrial e Comercial"
+        "label": "320 - Banco Industrial e Comercial"
     },
     {
         "value": "356",
-        "label": "ABN Amro Real"
+        "label": "356 - ABN Amro Real"
     },
     {
         "value": "341",
-        "label": "Itau"
+        "label": "341 - Itau"
     },
     {
         "value": "347",
-        "label": "Sudameris"
+        "label": "347 - Sudameris"
     },
     {
         "value": "351",
-        "label": "Banco Santander"
+        "label": "351 - Banco Santander"
     },
     {
         "value": "353",
-        "label": "Banco Santander Brasil"
+        "label": "353 - Banco Santander Brasil"
     },
     {
         "value": "366",
-        "label": "Banco Societe Generale Brasil"
+        "label": "366 - Banco Societe Generale Brasil"
     },
     {
         "value": "370",
-        "label": "Banco WestLB"
+        "label": "370 - Banco WestLB"
     },
     {
         "value": "376",
-        "label": "JP Morgan"
+        "label": "376 - JP Morgan"
     },
     {
         "value": "389",
-        "label": "Banco Mercantil do Brasil"
+        "label": "389 - Banco Mercantil do Brasil"
     },
     {
         "value": "394",
-        "label": "Banco Mercantil de Crédito"
+        "label": "394 - Banco Mercantil de Crédito"
     },
     {
         "value": "399",
-        "label": "HSBC"
+        "label": "399 - HSBC"
     },
     {
         "value": "409",
-        "label": "Unibanco"
+        "label": "409 - Unibanco"
     },
     {
         "value": "412",
-        "label": "Banco Capital"
+        "label": "412 - Banco Capital"
     },
     {
         "value": "422",
-        "label": "Banco Safra"
+        "label": "422 - Banco Safra"
     },
     {
         "value": "453",
-        "label": "Banco Rural"
+        "label": "453 - Banco Rural"
     },
     {
         "value": "456",
-        "label": "Banco Tokyo Mitsubishi UFJ"
+        "label": "456 - Banco Tokyo Mitsubishi UFJ"
     },
     {
         "value": "464",
-        "label": "Banco Sumitomo Mitsui Brasileiro"
+        "label": "464 - Banco Sumitomo Mitsui Brasileiro"
     },
     {
         "value": "477",
-        "label": "Citibank"
+        "label": "477 - Citibank"
     },
     {
         "value": "479",
-        "label": "Itaubank (antigo Bank Boston)"
+        "label": "479 - Itaubank (antigo Bank Boston)"
     },
     {
         "value": "487",
-        "label": "Deutsche Bank"
+        "label": "487 - Deutsche Bank"
     },
     {
         "value": "488",
-        "label": "Banco Morgan Guaranty"
+        "label": "488 - Banco Morgan Guaranty"
     },
     {
         "value": "492",
-        "label": "Banco NMB Postbank"
+        "label": "492 - Banco NMB Postbank"
     },
     {
         "value": "494",
-        "label": "Banco la República Oriental del Uruguay"
+        "label": "494 - Banco la República Oriental del Uruguay"
     },
     {
         "value": "495",
-        "label": "Banco La Provincia de Buenos Aires"
+        "label": "495 - Banco La Provincia de Buenos Aires"
     },
     {
         "value": "505",
-        "label": "Banco Credit Suisse"
+        "label": "505 - Banco Credit Suisse"
     },
     {
         "value": "600",
-        "label": "Banco Luso Brasileiro"
+        "label": "600 - Banco Luso Brasileiro"
     },
     {
         "value": "604",
-        "label": "Banco Industrial"
+        "label": "604 - Banco Industrial"
     },
     {
         "value": "610",
-        "label": "Banco VR"
+        "label": "610 - Banco VR"
     },
     {
         "value": "611",
-        "label": "Banco Paulista"
+        "label": "611 - Banco Paulista"
     },
     {
         "value": "612",
-        "label": "Banco Guanabara"
+        "label": "612 - Banco Guanabara"
     },
     {
         "value": "613",
-        "label": "Banco Pecunia"
+        "label": "613 - Banco Pecunia"
     },
     {
         "value": "623",
-        "label": "Banco labelricano"
+        "label": "623 - Banco labelricano"
     },
     {
         "value": "626",
-        "label": "Banco Ficsa"
+        "label": "626 - Banco Ficsa"
     },
     {
         "value": "630",
-        "label": "Banco Intercap"
+        "label": "630 - Banco Intercap"
     },
     {
         "value": "633",
-        "label": "Banco Rendimento"
+        "label": "633 - Banco Rendimento"
     },
     {
         "value": "634",
-        "label": "Banco Triângulo"
+        "label": "634 - Banco Triângulo"
     },
     {
         "value": "637",
-        "label": "Banco Sofisa"
+        "label": "637 - Banco Sofisa"
     },
     {
         "value": "638",
-        "label": "Banco Prosper"
+        "label": "638 - Banco Prosper"
     },
     {
         "value": "643",
-        "label": "Banco Pine"
+        "label": "643 - Banco Pine"
     },
     {
         "value": "652",
-        "label": "Itaú Holding Financeira"
+        "label": "652 - Itaú Holding Financeira"
     },
     {
         "value": "653",
-        "label": "Banco Indusval"
+        "label": "653 - Banco Indusval"
     },
     {
         "value": "654",
-        "label": "Banco A.J. Renner"
+        "label": "654 - Banco A.J. Renner"
     },
     {
         "value": "655",
-        "label": "Banco Votorantim"
+        "label": "655 - Banco Votorantim"
     },
     {
         "value": "707",
-        "label": "Banco Daycoval"
+        "label": "707 - Banco Daycoval"
     },
     {
         "value": "719",
-        "label": "Banif"
+        "label": "719 - Banif"
     },
     {
         "value": "721",
-        "label": "Banco Credibel"
+        "label": "721 - Banco Credibel"
     },
     {
         "value": "734",
-        "label": "Banco Gerdau"
+        "label": "734 - Banco Gerdau"
     },
     {
         "value": "735",
-        "label": "Banco Pottencial"
+        "label": "735 - Banco Pottencial"
     },
     {
         "value": "738",
-        "label": "Banco Morada"
+        "label": "738 - Banco Morada"
     },
     {
         "value": "739",
-        "label": "Banco Galvão de Negócios"
+        "label": "739 - Banco Galvão de Negócios"
     },
     {
         "value": "740",
-        "label": "Banco Barclays"
+        "label": "740 - Banco Barclays"
     },
     {
         "value": "741",
-        "label": "BRP"
+        "label": "741 - BRP"
     },
     {
         "value": "743",
-        "label": "Banco Semear"
+        "label": "743 - Banco Semear"
     },
     {
         "value": "745",
-        "label": "Banco Citibank"
+        "label": "745 - Banco Citibank"
     },
     {
         "value": "746",
-        "label": "Banco Modal"
+        "label": "746 - Banco Modal"
     },
     {
         "value": "747",
-        "label": "Banco Rabobank International"
+        "label": "747 - Banco Rabobank International"
     },
     {
         "value": "748",
-        "label": "Banco Cooperativo Sicredi"
+        "label": "748 - Banco Cooperativo Sicredi"
     },
     {
         "value": "749",
-        "label": "Banco Simples"
+        "label": "749 - Banco Simples"
     },
     {
         "value": "751",
-        "label": "Dresdner Bank"
+        "label": "751 - Dresdner Bank"
     },
     {
         "value": "752",
-        "label": "BNP Paribas"
+        "label": "752 - BNP Paribas"
     },
     {
         "value": "753",
-        "label": "Banco Comercial Uruguai"
+        "label": "753 - Banco Comercial Uruguai"
     },
     {
         "value": "755",
-        "label": "Banco Merrill Lynch"
+        "label": "755 - Banco Merrill Lynch"
     },
     {
         "value": "756",
-        "label": "Banco Cooperativo do Brasil"
+        "label": "756 - Banco Cooperativo do Brasil"
     },
     {
         "value": "757",
-        "label": "KEB"
+        "label": "757 - KEB"
     }
 ]
