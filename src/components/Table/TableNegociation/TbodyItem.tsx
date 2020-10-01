@@ -158,6 +158,7 @@ const TbodyItem: React.FC<Props> = (props) => {
     /** toggle edit and reset values */
     const handleToggleEdit = () => {
         setEdit(!edit);
+        setErrors(false);
         setValues({ id, yaerDebit, interest, discount, maxPortion, attenuator, trafficTicket, readjustment });
     };
 
@@ -183,7 +184,6 @@ const TbodyItem: React.FC<Props> = (props) => {
         }
 
         dispatch(actionsNegociation.updateNegociation(values));
-        setErrors(false);
         return true;
     };
 
