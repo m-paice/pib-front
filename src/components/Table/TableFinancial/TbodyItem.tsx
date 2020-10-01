@@ -13,18 +13,12 @@ const styles: React.CSSProperties = {
     marginTop: "7px",
 };
 
-const stylesAnyLessIcon: React.CSSProperties = {
-    fontSize: 20,
-    color: "red",
-    fontWeight: "bold",
-    marginLeft: 5,
+const stylesPositive: React.CSSProperties = {
+    color: "green",
 };
 
-const stylesPlusIcon: React.CSSProperties = {
-    fontSize: 20,
-    color: "green",
-    fontWeight: "bold",
-    marginLeft: 5,
+const stylesNegative: React.CSSProperties = {
+    color: "red",
 };
 
 interface PropsItem {
@@ -59,8 +53,8 @@ interface Props extends Wallet {
 
 const TbodyItem: React.FC<Props> = ({ index, date, cnpj, nameCompany, operation, value }) => {
     const handleViewType = () => {
-        if (operation === 1) return "Saque";
-        if (operation === 2) return "Recebimento";
+        if (operation === 1) return "Recebimento";
+        if (operation === 2) return "Saque";
         if (operation === 3) return "Comissão";
         if (operation === 4) return "Taxa de transferência";
 
@@ -70,19 +64,11 @@ const TbodyItem: React.FC<Props> = ({ index, date, cnpj, nameCompany, operation,
     const handleViewValue = () => {
         const text = value.toLocaleString("pt-br", { style: "currency", currency: "BRL" });
 
-        if (operation !== 2) {
-            return (
-                <>
-                    {text} <span style={stylesAnyLessIcon}>-</span>{" "}
-                </>
-            );
+        if (operation === 1) {
+            return <span style={stylesPositive}>{text}</span>;
         }
 
-        return (
-            <span>
-                {text} <span style={stylesPlusIcon}>+</span>
-            </span>
-        );
+        return <span style={stylesNegative}>-{text}</span>;
     };
 
     return (

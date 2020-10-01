@@ -12,12 +12,12 @@ export const dataWallet = createSelector(stateWallet, (walletItems) => walletIte
 
 // total values received
 export const totalValueReceived = createSelector(stateWallet, (walletItems) =>
-    walletItems.filter((item) => item.operation === 2).reduce((acc, cur) => acc + cur.value, 0),
+    walletItems.filter((item) => item.operation === 1).reduce((acc, cur) => acc + cur.value, 0),
 );
 
 // total values rescued
 export const totalValueRescued = createSelector(stateWallet, (walletItems) =>
-    walletItems.filter((item) => item.operation !== 2).reduce((acc, cur) => acc + cur.value, 0),
+    walletItems.filter((item) => item.operation !== 1).reduce((acc, cur) => acc + cur.value, 0),
 );
 
 export const totalValue = createSelector(

@@ -73,7 +73,7 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
 
                     <div className="col-xs-12 col-sm-4 align-self-start">
                         <button className="btn-azul align-left" onClick={handleSetTransfer}>
-                            TRANSFERIR
+                            SAQUE
                         </button>
                     </div>
                     {transfer && (
