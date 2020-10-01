@@ -5584,7 +5584,7 @@ table.tableListaRegras tbody td.tdErrors {
 }
 
 table.tableListaRegras tbody td.tdbgcolor {
-    background-color: #e6e6e6 !important;
+    background-color: rgba(38, 211, 255, 0.2) !important;
 }
 
 .colum-icon,
