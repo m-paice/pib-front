@@ -155,8 +155,10 @@ const TbodyItem: React.FC<Props> = (props) => {
         readjustment,
     });
 
+    /** toggle edit and reset values */
     const handleToggleEdit = () => {
         setEdit(!edit);
+        setValues({ id, yaerDebit, interest, discount, maxPortion, attenuator, trafficTicket, readjustment });
     };
 
     const handleToggleSimulator = () => {
@@ -165,6 +167,7 @@ const TbodyItem: React.FC<Props> = (props) => {
 
     const handleFormatYaerDebit = (text: string): string => (text === "1" ? `${text} mês` : `${text} meses`);
 
+    /** set value */
     const handleSetValues = (key: string, value: string | number) => {
         setValues((prevState) => ({
             ...prevState,
@@ -172,6 +175,7 @@ const TbodyItem: React.FC<Props> = (props) => {
         }));
     };
 
+    /** check validations and edit */
     const handleSave = () => {
         if (Number(values.trafficTicket) > 2) {
             setErrors(true);
@@ -179,63 +183,74 @@ const TbodyItem: React.FC<Props> = (props) => {
         }
 
         dispatch(actionsNegociation.updateNegociation(values));
+        setErrors(false);
         return true;
     };
 
     if (edit) {
         return (
-            <tr className="itemListaRegras">
-                <Item text={handleFormatYaerDebit(yaerDebit)} errors={errors} />
-                <InputEdit
-                    name="interest"
-                    initialValue={values.interest}
-                    handleSetValues={handleSetValues}
-                    errors={errors}
-                />
-                <InputEdit
-                    name="discount"
-                    initialValue={values.discount}
-                    handleSetValues={handleSetValues}
-                    errors={errors}
-                />
-                <InputEdit
-                    name="maxPortion"
-                    initialValue={values.maxPortion}
-                    handleSetValues={handleSetValues}
-                    errors={errors}
-                />
-                <InputEdit
-                    name="attenuator"
-                    initialValue={values.attenuator}
-                    handleSetValues={handleSetValues}
-                    errors={errors}
-                />
-                <InputEdit
-                    name="trafficTicket"
-                    initialValue={values.trafficTicket}
-                    handleSetValues={handleSetValues}
-                    errors={errors}
-                />
-                <InputEdit
-                    name="readjustment"
-                    initialValue={values.readjustment}
-                    handleSetValues={handleSetValues}
-                    errors={errors}
-                />
-                <ActionsEdit handleToggleEdit={handleToggleEdit} handleSave={handleSave} errors={errors} />
-            </tr>
+            <>
+                <tr className="itemListaRegras">
+                    <Item text={handleFormatYaerDebit(yaerDebit)} errors={errors} />
+                    <InputEdit
+                        name="interest"
+                        initialValue={values.interest}
+                        handleSetValues={handleSetValues}
+                        errors={errors}
+                    />
+                    <InputEdit
+                        name="discount"
+                        initialValue={values.discount}
+                        handleSetValues={handleSetValues}
+                        errors={errors}
+                    />
+                    <InputEdit
+                        name="maxPortion"
+                        initialValue={values.maxPortion}
+                        handleSetValues={handleSetValues}
+                        errors={errors}
+                    />
+                    <InputEdit
+                        name="attenuator"
+                        initialValue={values.attenuator}
+                        handleSetValues={handleSetValues}
+                        errors={errors}
+                    />
+                    <InputEdit
+                        name="trafficTicket"
+                        initialValue={values.trafficTicket}
+                        handleSetValues={handleSetValues}
+                        errors={errors}
+                    />
+                    <InputEdit
+                        name="readjustment"
+                        initialValue={values.readjustment}
+                        handleSetValues={handleSetValues}
+                        errors={errors}
+                    />
+                    <ActionsEdit handleToggleEdit={handleToggleEdit} handleSave={handleSave} errors={errors} />
+                </tr>
+
+                {errors && (
+                    <tr>
+                        <td style={{ border: "none", textAlign: "center", color: "red" }} colSpan={8}>
+                            Opa, valor de multa deve ser no máximo 2%
+                        </td>
+                    </tr>
+                )}
+            </>
         );
     }
 
     return (
         <tr className="itemListaRegras">
             <Item text={handleFormatYaerDebit(yaerDebit)} />
-            <Item text={`${interest}%`} />
-            <Item text={`${discount}%`} />
+            <Item text={`${Number(interest).toFixed(1)}%`} />
+            <Item text={`${Number(discount).toFixed(1)}%`} />
             <Item text={maxPortion} />
-            <Item text={`${attenuator}%`} />
-            <Item text={`${trafficTicket}%`} />
-            <Item text={`${readjustment}%`} />
+            <Item text={`${Number(attenuator).toFixed(1)}%`} />
+            <Item text={`${Number(trafficTicket).toFixed(1)}%`} />
+            <Item text={`${Number(readjustment).toFixed(1)}%`} />
             <Actions handleToggleEdit={handleToggleEdit} handleToggleSimulator={handleToggleSimulator} />
 
             {simulator && (
