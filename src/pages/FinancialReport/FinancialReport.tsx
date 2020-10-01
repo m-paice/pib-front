@@ -13,7 +13,7 @@ import Table from "../../components/Table/TableFinancial";
 
 const header = [
     { text: "Data", title: "Data", reference: "date" },
-    { text: "CPF / CNPJ", title: "CPF / CNPJ", reference: "document" },
+    { text: "CPF / CNPJ", title: "Documento", reference: "document" },
     { text: "Nome", title: "Nome", reference: "name" },
     { text: "Operação", title: "Operação", reference: "operation" },
     { text: "Valor", title: "Valor", reference: "value" },
