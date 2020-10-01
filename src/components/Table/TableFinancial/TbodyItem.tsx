@@ -4,22 +4,51 @@ import formatDate from "../../../utils/formatDate";
 
 import { Wallet } from "../../../store/modules/pj/wallet/types";
 
+const styles: React.CSSProperties = {
+    position: "absolute",
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "7px",
+};
+
+const stylesAnyLessIcon: React.CSSProperties = {
+    fontSize: 20,
+    color: "red",
+    fontWeight: "bold",
+    marginLeft: 5,
+};
+
+const stylesPlusIcon: React.CSSProperties = {
+    fontSize: 20,
+    color: "green",
+    fontWeight: "bold",
+    marginLeft: 5,
+};
+
 interface PropsItem {
     index: number;
-    text: string | Date | number | JSX.Element;
     operation: number;
     separator?: boolean;
 }
 
-const Item: React.FC<PropsItem> = ({ index, text, operation, separator = true }) => {
+const Item: React.FC<PropsItem> = ({ children, index, operation, separator = true }) => {
     const changeColor = operation === 3; // accredite rate
 
     const isPar = index % 2 === 0;
 
     return (
-        <td className={`txt-lista-regras ${changeColor ? "tdAccredite" : ""} ${isPar ? "tdbgcolor" : ""}`}>
-            <span> {text} </span>
-            {separator && <div className="traco-v-table align-right"></div>}
+        <td
+            className={`txt-lista-regras ${changeColor ? "tdAccredite" : ""} ${isPar ? "tdbgcolor" : ""}`}
+            style={{ position: "relative" }}
+        >
+            {children}
+            {separator ? (
+                <div className="traco-v-table align-right"></div>
+            ) : (
+                <div className="traco-v-table align-right" style={{ border: "none" }}></div>
+            )}
         </td>
     );
 };
@@ -43,26 +72,36 @@ const TbodyItem: React.FC<Props> = ({ index, date, cnpj, nameCompany, operation,
 
         if (operation !== 2) {
             return (
-                <span>
-                    {text} <span style={{ fontSize: 20, color: "red" }}>&#8595;</span>
-                </span>
+                <>
+                    {text} <span style={stylesAnyLessIcon}>-</span>{" "}
+                </>
             );
         }
 
         return (
             <span>
-                {text} <span style={{ fontSize: 20, color: "green" }}>&#8593;</span>
+                {text} <span style={stylesPlusIcon}>+</span>
             </span>
         );
     };
 
     return (
         <tr className="itemListaRegras">
-            <Item index={index} operation={operation} text={formatDate(date)} />
-            <Item index={index} operation={operation} text={cnpj} />
-            <Item index={index} operation={operation} text={nameCompany} />
-            <Item index={index} operation={operation} text={handleViewType()} />
-            <Item index={index} operation={operation} text={handleViewValue()} separator={false} />
+            <Item index={index} operation={operation}>
+                <span style={styles}>{formatDate(date)}</span>
+            </Item>
+            <Item index={index} operation={operation}>
+                <span style={styles}>{cnpj}</span>
+            </Item>
+            <Item index={index} operation={operation}>
+                <span style={styles}>{nameCompany}</span>
+            </Item>
+            <Item index={index} operation={operation}>
+                <span style={styles}>{handleViewType()}</span>
+            </Item>
+            <Item index={index} operation={operation} separator={false}>
+                <span style={{ ...styles, margin: 0 }}>{handleViewValue()}</span>
+            </Item>
         </tr>
     );
 };
