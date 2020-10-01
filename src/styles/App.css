@@ -3449,7 +3449,7 @@ article a.sm span {
 
 .boxcheck .tex {
     float: left;
-    width: 80%;
+    /* width: 80%; */
 }
 
 .boxcheck input {
@@ -4911,7 +4911,7 @@ body .cada .table > tbody > tr > td {
         margin-top: 2px;
     }
     .boxcheck .tex {
-        width: 88%;
+        /* width: 88%; */
         font-size: 12px;
     }
     .faixamsg {
