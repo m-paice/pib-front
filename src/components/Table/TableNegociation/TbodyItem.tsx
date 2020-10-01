@@ -130,10 +130,12 @@ const TbodyItem: React.FC<Props> = (props) => {
         setSimulator(!simulator);
     };
 
+    const handleFormatYaerDebit = (text: string): string => (text === "1" ? `${text} mês` : `${text} meses`);
+
     if (edit) {
         return (
             <tr className="itemListaRegras">
-                <Item text={yaerDebit === "1" ? `${yaerDebit} mês` : `${yaerDebit} meses`} />
+                <Item text={handleFormatYaerDebit(yaerDebit)} />
                 <InputEdit value={interest} />
                 <InputEdit value={discount} />
                 <InputEdit value={maxPortion} />
@@ -147,7 +149,7 @@ const TbodyItem: React.FC<Props> = (props) => {
 
     return (
         <tr className="itemListaRegras">
-            <Item text={yaerDebit === "1" ? `${yaerDebit} mês` : `${yaerDebit} meses`} />
+            <Item text={handleFormatYaerDebit(yaerDebit)} />
             <Item text={`${interest}%`} />
             <Item text={`${discount}%`} />
             <Item text={maxPortion} />
@@ -156,7 +158,14 @@ const TbodyItem: React.FC<Props> = (props) => {
             <Item text={`${readjustment}%`} />
             <Actions handleToggleEdit={handleToggleEdit} handleToggleSimulator={handleToggleSimulator} />
 
-            {simulator && <Simulator isOpen={simulator} onClose={handleToggleSimulator} {...props} />}
+            {simulator && (
+                <Simulator
+                    {...props}
+                    isOpen={simulator}
+                    onClose={handleToggleSimulator}
+                    yaerDebit={handleFormatYaerDebit(yaerDebit)}
+                />
+            )}
         </tr>
     );
 };

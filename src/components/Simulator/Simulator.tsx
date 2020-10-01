@@ -9,15 +9,14 @@ interface Props extends Negociation {
     onClose(): void;
 }
 
-const styles = {
-    primary: {
-        backgroundColor: "#14657b",
-        color: "#fff",
-    },
-    secondary: {
-        backgroundColor: "#fff",
-        color: "#14657b",
-    },
+const stylesPrimary: React.CSSProperties = {
+    backgroundColor: "#14657b",
+    color: "#fff",
+};
+
+const stylesSecondary: React.CSSProperties = {
+    backgroundColor: "#fff",
+    color: "#14657b",
 };
 
 const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxPortion }) => {
@@ -54,7 +53,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxP
                                 type="text"
                                 className="form-control inputModal money"
                                 title="Valor total da dívida"
-                                style={styles.primary}
+                                style={stylesPrimary}
                                 value={debitPrice.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
                                 disabled
                             />
@@ -65,7 +64,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxP
                                 type="text"
                                 className="form-control inputModal"
                                 title="Tempo de vida da dívida"
-                                style={styles.primary}
+                                style={stylesPrimary}
                                 value={yaerDebit}
                             />
                         </div>
@@ -90,7 +89,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxP
                                 type="text"
                                 className="form-control inputModal"
                                 title="Desconto concedido"
-                                style={styles.primary}
+                                style={stylesPrimary}
                                 value={`${discount}%`}
                             />
                         </div>
@@ -100,7 +99,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxP
                                 type="text"
                                 className="form-control inputModal money"
                                 title="Valor a ser pago"
-                                style={styles.secondary}
+                                style={stylesSecondary}
                                 value={totalPrice.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
                                 disabled
                             />
