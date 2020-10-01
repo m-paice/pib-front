@@ -33,17 +33,9 @@ const RuleNegociation: React.FC<Props> = ({ payload }) => {
 
     const dispatch = useDispatch();
 
-    const [tbody, setTbody] = useState<Negociation[]>(data);
-
     useEffect(() => {
         dispatch(actionsNegociation.loadNegociation());
     }, []);
-
-    useEffect(() => {
-        setTbody(payload.data);
-    }, [payload.data]);
-
-    const handleSetItemTbody = (key: number, value: string | number) => {};
 
     return (
         <div className="page">
@@ -55,7 +47,7 @@ const RuleNegociation: React.FC<Props> = ({ payload }) => {
                     </div>
                 </div>
 
-                <Table thead={header} tbody={tbody} />
+                <Table thead={header} tbody={data} />
             </div>
         </div>
     );

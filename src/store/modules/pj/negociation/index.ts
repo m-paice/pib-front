@@ -1,9 +1,9 @@
 import { Reducer } from "redux";
 import { StateNegociation, types } from "./types";
 
-const { LOAD_NEGOCIATION_SUCCESS } = types;
+const { LOAD_NEGOCIATION_SUCCESS, UPDATE_NEGOCIATION_SUCCESS } = types;
 
-import { createTreeById, createTreeAllId } from "../../common/selectors";
+import { createTreeById, createTreeAllId, insertElementById, insertElementAllId } from "../../common/selectors";
 
 const initialState: StateNegociation = {
     byId: {},
@@ -16,8 +16,10 @@ const reducerById: Reducer = (state = {}, action) => {
     switch (type) {
         case LOAD_NEGOCIATION_SUCCESS:
             return createTreeById(payload);
+        case UPDATE_NEGOCIATION_SUCCESS:
+            return insertElementById(state, payload);
         default:
-            return initialState.byId;
+            return state;
     }
 };
 
@@ -27,8 +29,10 @@ const reducerAllId: Reducer = (state = [], action) => {
     switch (type) {
         case LOAD_NEGOCIATION_SUCCESS:
             return createTreeAllId(payload);
+        case UPDATE_NEGOCIATION_SUCCESS:
+            return insertElementAllId(state, payload);
         default:
-            return initialState.allId;
+            return state;
     }
 };
 

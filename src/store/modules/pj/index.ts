@@ -23,9 +23,9 @@ export interface StatePJ {
 }
 
 export const reducers: Reducer = (state = {}, actions) => ({
-    users: reducersUsers(state, actions),
-    companies: reducersCompanies(state, actions),
-    debts: reducersDebts(state, actions),
-    negociations: reducersNegociations(state, actions),
-    wallet: reducersWallet(state, actions),
+    users: reducersUsers(state.users, actions),
+    companies: reducersCompanies(state.companies, actions),
+    debts: reducersDebts(state.debts, actions),
+    negociations: reducersNegociations(state.negociations, actions),
+    wallet: reducersWallet(state.wallet, actions),
 });

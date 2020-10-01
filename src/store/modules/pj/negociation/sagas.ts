@@ -1,5 +1,7 @@
 import { put } from "redux-saga/effects";
 
+import { Result } from "./actions";
+
 import { types } from "./types";
 
 function* loadNegociation() {
@@ -30,6 +32,17 @@ function* loadNegociation() {
     }
 }
 
+function* updateNegociation(action: Result) {
+    const { type, payload } = action;
+
+    try {
+        yield put({ type: types.UPDATE_NEGOCIATION_SUCCESS, payload });
+    } catch (error) {
+        yield put({ type: types.UPDATE_NEGOCIATION_FAILURE });
+    }
+}
+
 export default {
     loadNegociation,
+    updateNegociation,
 };

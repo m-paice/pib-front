@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Negociation } from "../../../store/modules/pj/negociation/types";
 
@@ -23,6 +23,10 @@ interface Props {
 const TableNegociation: React.FC<Props> = ({ thead, tbody }) => {
     const [data, setData] = useState<Tbody[]>(tbody);
     const [lastOrdem, setLastOrder] = useState("");
+
+    useEffect(() => {
+        setData(tbody);
+    }, [tbody]);
 
     const handleOrderForColumn = (column: string) => {
         if (lastOrdem === column) {

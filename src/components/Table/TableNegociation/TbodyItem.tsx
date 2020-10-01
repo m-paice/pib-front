@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 
 import { Tooltip } from "reactstrap";
+import { useDispatch } from "react-redux";
 
 import { Negociation } from "../../../store/modules/pj/negociation/types";
+
+// actions
+import { actions as actionsNegociation } from "../../../store/modules/pj/negociation/actions";
 
 // components
 import Simulator from "../../Simulator";
@@ -16,11 +20,12 @@ import CancelIcon from "../../../assets/imagens/cancel.svg";
 interface PropsItem {
     text: string | number;
     separator?: boolean;
+    errors?: boolean;
 }
 
-const Item: React.FC<PropsItem> = ({ text, separator = true }) => {
+const Item: React.FC<PropsItem> = ({ text, separator = true, errors }) => {
     return (
-        <td className="txt-lista-regras">
+        <td className={`txt-lista-regras ${errors ? "tdErrors" : ""}`}>
             {text}
             {separator && <div className="traco-v-table align-right"></div>}
         </td>
@@ -29,16 +34,22 @@ const Item: React.FC<PropsItem> = ({ text, separator = true }) => {
 
 interface PropsInputEdit {
     separator?: boolean;
-    value: string | number;
-    onChange?(): void;
+    name: string;
+    initialValue: string | number;
+    handleSetValues(key: string, value: string): void;
+    errors: boolean;
 }
 
 const InputEdit: React.FC<PropsInputEdit> = (props) => {
-    const { separator = true } = props;
+    const { separator = true, name, initialValue, handleSetValues, errors } = props;
+
+    const handleChangeValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+        handleSetValues(name, event.target.value);
+    };
 
     return (
-        <td className="txt-lista-regras">
-            <input {...props} style={{ maxWidth: 100, textAlign: "center" }} />
+        <td className={`txt-lista-regras ${errors ? "tdErrors" : ""}`}>
+            <input value={initialValue} onChange={handleChangeValue} style={{ maxWidth: 100, textAlign: "center" }} />
             {separator && <div className="traco-v-table align-right"></div>}
         </td>
     );
@@ -68,6 +79,8 @@ const Actions: React.FC<PropsActions> = ({ handleToggleEdit, handleToggleSimulat
 
 interface PropsActionsEdit {
     handleToggleEdit(): void;
+    handleSave(): boolean;
+    errors?: boolean;
 }
 
 interface State {
@@ -75,7 +88,7 @@ interface State {
     cancel: boolean;
 }
 
-const ActionsEdit: React.FC<PropsActionsEdit> = ({ handleToggleEdit }) => {
+const ActionsEdit: React.FC<PropsActionsEdit> = ({ handleToggleEdit, handleSave, errors }) => {
     const [state, setState] = useState<State>({
         save: false,
         cancel: false,
@@ -88,8 +101,14 @@ const ActionsEdit: React.FC<PropsActionsEdit> = ({ handleToggleEdit }) => {
         }));
     };
 
+    const handleSaveClick = () => {
+        const response = handleSave();
+
+        if (response) handleToggleEdit();
+    };
+
     return (
-        <td className="txt-lista-regras action">
+        <td className={`txt-lista-regras action ${errors ? "tdErrors" : ""}`}>
             <div className="d-flex justify-content-around">
                 <img id="cancel" className="pointer" onClick={handleToggleEdit} src={CancelIcon} alt="cancel" />
                 <Tooltip
@@ -100,7 +119,7 @@ const ActionsEdit: React.FC<PropsActionsEdit> = ({ handleToggleEdit }) => {
                 >
                     cancelar operação
                 </Tooltip>
-                <img id="save" className="pointer" onClick={handleToggleEdit} src={CheckIcon} alt="check" />
+                <img id="save" className="pointer" onClick={handleSaveClick} src={CheckIcon} alt="check" />
                 <Tooltip
                     placement="top"
                     isOpen={state.save}
@@ -119,8 +138,22 @@ type Props = Negociation;
 const TbodyItem: React.FC<Props> = (props) => {
     const { id, yaerDebit, interest, discount, maxPortion, attenuator, trafficTicket, readjustment } = props;
 
+    const dispatch = useDispatch();
+
     const [edit, setEdit] = useState(false);
     const [simulator, setSimulator] = useState(false);
+    const [errors, setErrors] = useState(false);
+
+    const [values, setValues] = useState<Negociation>({
+        id,
+        yaerDebit,
+        interest,
+        discount,
+        maxPortion,
+        attenuator,
+        trafficTicket,
+        readjustment,
+    });
 
     const handleToggleEdit = () => {
         setEdit(!edit);
@@ -132,17 +165,64 @@ const TbodyItem: React.FC<Props> = (props) => {
 
     const handleFormatYaerDebit = (text: string): string => (text === "1" ? `${text} mês` : `${text} meses`);
 
+    const handleSetValues = (key: string, value: string | number) => {
+        setValues((prevState) => ({
+            ...prevState,
+            [key]: value,
+        }));
+    };
+
+    const handleSave = () => {
+        if (Number(values.trafficTicket) > 2) {
+            setErrors(true);
+            return false;
+        }
+
+        dispatch(actionsNegociation.updateNegociation(values));
+        return true;
+    };
+
     if (edit) {
         return (
             <tr className="itemListaRegras">
-                <Item text={handleFormatYaerDebit(yaerDebit)} />
-                <InputEdit value={interest} />
-                <InputEdit value={discount} />
-                <InputEdit value={maxPortion} />
-                <InputEdit value={attenuator} />
-                <InputEdit value={trafficTicket} />
-                <InputEdit value={readjustment} />
-                <ActionsEdit handleToggleEdit={handleToggleEdit} />
+                <Item text={handleFormatYaerDebit(yaerDebit)} errors={errors} />
+                <InputEdit
+                    name="interest"
+                    initialValue={values.interest}
+                    handleSetValues={handleSetValues}
+                    errors={errors}
+                />
+                <InputEdit
+                    name="discount"
+                    initialValue={values.discount}
+                    handleSetValues={handleSetValues}
+                    errors={errors}
+                />
+                <InputEdit
+                    name="maxPortion"
+                    initialValue={values.maxPortion}
+                    handleSetValues={handleSetValues}
+                    errors={errors}
+                />
+                <InputEdit
+                    name="attenuator"
+                    initialValue={values.attenuator}
+                    handleSetValues={handleSetValues}
+                    errors={errors}
+                />
+                <InputEdit
+                    name="trafficTicket"
+                    initialValue={values.trafficTicket}
+                    handleSetValues={handleSetValues}
+                    errors={errors}
+                />
+                <InputEdit
+                    name="readjustment"
+                    initialValue={values.readjustment}
+                    handleSetValues={handleSetValues}
+                    errors={errors}
+                />
+                <ActionsEdit handleToggleEdit={handleToggleEdit} handleSave={handleSave} errors={errors} />
             </tr>
         );
     }

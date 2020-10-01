@@ -5579,6 +5579,10 @@ table.tableListaRegras tbody td.tdAccredite {
     border-color: #26d3ff !important;
 }
 
+table.tableListaRegras tbody td.tdErrors {
+    border-color: #ff0000 !important;
+}
+
 table.tableListaRegras tbody td.tdbgcolor {
     background-color: #e6e6e6 !important;
 }

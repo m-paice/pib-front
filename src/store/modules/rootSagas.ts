@@ -28,6 +28,7 @@ export default function* () {
         takeLatest(typesPjDebt.ADD_DEBT, debtPjSagas.createDebt),
         // negociation
         takeLatest(typesPjNegociation.LOAD_NEGOCIATION, negociationPjSagas.loadNegociation),
+        takeLatest(typesPjNegociation.UPDATE_NEGOCIATION, negociationPjSagas.updateNegociation),
         // wallet
         takeLatest(typesPjWallet.LOAD_WALLET, walletPjSagas.loadNegociation),
         takeLatest(typesPjWallet.ADD_WALLET, walletPjSagas.addItemWallet),
