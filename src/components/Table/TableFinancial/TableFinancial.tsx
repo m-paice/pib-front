@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Wallet } from "../../../store/modules/pj/wallet/types";
 
-import Pagination from "../../Pagination";
-
 import TheadItem from "./TheadItem";
 import TbodyItem from "./TbodyItem";
+
+import Pagination from "../../Pagination";
+
+const perPage = 15;
+
+interface PaginationSate {
+    page: number;
+    totalPage: number;
+}
 
 interface Thead {
     text: string;
@@ -24,6 +31,46 @@ const TableFinancial: React.FC<Props> = ({ thead, tbody }) => {
     const [data, setData] = useState<Tbody[]>(tbody);
     const [lastOrdem, setLastOrder] = useState("");
 
+    const [pagination, setPagination] = useState<PaginationSate>({
+        page: 1,
+        totalPage: 0,
+    });
+
+    useEffect(() => {
+        const page = pagination.page - 1;
+        const start = page * perPage;
+        const end = start + perPage;
+
+        const part = tbody.slice(start, end);
+
+        setData(part);
+        setPagination((prevState) => ({
+            ...prevState,
+            totalPage: Math.ceil(tbody.length / perPage),
+        }));
+    }, [tbody, pagination.page]);
+
+    const nextPage = () => {
+        setPagination((prevState) => ({
+            ...prevState,
+            page: prevState.page + 1,
+        }));
+    };
+
+    const prevPage = () => {
+        setPagination((prevState) => ({
+            ...prevState,
+            page: prevState.page - 1,
+        }));
+    };
+
+    const goToPage = (page: number) => {
+        setPagination((prevState) => ({
+            ...prevState,
+            page,
+        }));
+    };
+
     const handleOrderForColumn = (column: string) => {
         if (lastOrdem === column) {
             const response = data.map((item) => item).sort((a: Tbody, b: Tbody) => (a[column] < b[column] ? 1 : -1));
@@ -36,10 +83,6 @@ const TableFinancial: React.FC<Props> = ({ thead, tbody }) => {
             setData(response);
             setLastOrder(column);
         }
-    };
-
-    const handleSetData = (data: Tbody[]) => {
-        setData(data);
     };
 
     return (
@@ -77,7 +120,16 @@ const TableFinancial: React.FC<Props> = ({ thead, tbody }) => {
                 </tbody>
             </table>
 
-            {tbody.length !== 0 && <Pagination data={tbody} perPage={15} handleSetData={handleSetData} />}
+            {tbody.length !== 0 && (
+                <Pagination
+                    page={pagination.page}
+                    totalPage={pagination.totalPage}
+                    perPage={12}
+                    nextPage={nextPage}
+                    prevPage={prevPage}
+                    goToPage={goToPage}
+                />
+            )}
         </div>
     );
 };

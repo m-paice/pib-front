@@ -1,33 +1,16 @@
 import React, { useState, useEffect } from "react";
 
 interface Props {
-    data: any[];
-    perPage: number;
-    handleSetData(data: any[]): void;
-}
-
-interface PaginationSate {
     page: number;
     totalPage: number;
+    perPage: number;
+    nextPage(): void;
+    prevPage(): void;
+    goToPage(page: number): void;
 }
 
-const Pagination: React.FC<Props> = ({ data, perPage, handleSetData }) => {
-    const [pagination, setPagination] = useState<PaginationSate>({
-        page: 1,
-        totalPage: Math.ceil(data.length / perPage),
-    });
-
+const Pagination: React.FC<Props> = ({ page, totalPage, nextPage, prevPage, goToPage }) => {
     const [buttons, setButtons] = useState<number[]>([]);
-
-    useEffect(() => {
-        const page = pagination.page - 1;
-        const start = page * perPage;
-        const end = start + perPage;
-
-        const part = data.slice(start, end);
-
-        handleSetData(part);
-    }, [pagination.page]);
 
     useEffect(() => {
         const { maxLeft, maxRight } = calculateMaxVisible();
@@ -38,46 +21,25 @@ const Pagination: React.FC<Props> = ({ data, perPage, handleSetData }) => {
         }
 
         setButtons(buttonsNumbers);
-    }, [pagination.page]);
+    }, [page, totalPage]);
 
     const calculateMaxVisible = () => {
-        let maxLeft = pagination.page - Math.floor(5 / 2);
-        let maxRight = pagination.page + Math.floor(5 / 2);
+        let maxLeft = page - Math.floor(5 / 2);
+        let maxRight = page + Math.floor(5 / 2);
 
         if (maxLeft < 1) {
             maxLeft = 1;
             maxRight = 5;
         }
 
-        if (maxRight > pagination.totalPage) {
-            maxLeft = pagination.totalPage - (5 - 1);
-            maxRight = pagination.totalPage;
+        if (maxRight > totalPage) {
+            maxLeft = totalPage - (5 - 1);
+            maxRight = totalPage;
 
             if (maxLeft < 1) maxLeft = 1;
         }
 
         return { maxLeft, maxRight };
-    };
-
-    const nextPage = () => {
-        setPagination((prevState) => ({
-            ...prevState,
-            page: prevState.page + 1,
-        }));
-    };
-
-    const prevPage = () => {
-        setPagination((prevState) => ({
-            ...prevState,
-            page: prevState.page - 1,
-        }));
-    };
-
-    const goToPage = (page: number) => {
-        setPagination((prevState) => ({
-            ...prevState,
-            page,
-        }));
     };
 
     return (
@@ -90,7 +52,7 @@ const Pagination: React.FC<Props> = ({ data, perPage, handleSetData }) => {
                 {buttons.map((item) => (
                     <li
                         key={item}
-                        className={`page-item pointer ${pagination.page === item ? "active" : ""}`}
+                        className={`page-item pointer ${page === item ? "active" : ""}`}
                         onClick={() => goToPage(item)}
                     >
                         <a className="page-link">{item}</a>
