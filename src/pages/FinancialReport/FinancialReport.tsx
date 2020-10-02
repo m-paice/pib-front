@@ -9,7 +9,12 @@ import { Wallet } from "../../store/modules/pj/wallet/types";
 
 import { actions as actionsWallet } from "../../store/modules/pj/wallet/actions";
 
+// components
 import Table from "../../components/Table/TableFinancial";
+import Select from "../../components/unconnected/Fields/Select";
+
+// utils
+import monthNames from "../../utils/monthNames";
 
 const header = [
     { text: "Data", title: "Data", reference: "date" },
@@ -19,32 +24,58 @@ const header = [
     { text: "Valor", title: "Valor", reference: "value" },
 ];
 
+const options = [
+    { value: 4, label: "maio - 2020" },
+    { value: 5, label: "junho - 2020" },
+    { value: 6, label: "junlho - 2020" },
+    { value: 7, label: "agosto - 2020" },
+    { value: 8, label: "setembro - 2020" },
+    { value: 9, label: "outubro - 2020" },
+    { value: 10, label: "novembro - 2020" },
+];
+
 interface Props {
     payload: {
         data: Wallet[];
         totalValueTransactions: number;
+        handleFilterCurrentMonth(month: number): Wallet[];
     };
 }
 
 const FinancialReport: React.FC<Props> = ({ payload }) => {
-    const { data, totalValueTransactions } = payload;
+    const { data, totalValueTransactions, handleFilterCurrentMonth } = payload;
 
     const dispatch = useDispatch();
 
     const [tbody, setTbody] = useState<Wallet[]>(data);
 
     const [transfer, setTransfer] = useState(false);
+    const [monthSelected, setMonthSelected] = useState({
+        value: new Date().getMonth(),
+        label: `${monthNames[new Date().getMonth()]} - ${new Date().getFullYear()}`,
+    });
 
     useEffect(() => {
         dispatch(actionsWallet.loadWallet());
     }, []);
 
     useEffect(() => {
-        setTbody(payload.data);
+        const transactions = handleFilterCurrentMonth(monthSelected.value);
+
+        setTbody(transactions);
     }, [payload.data]);
+
+    useEffect(() => {
+        const transactions = handleFilterCurrentMonth(monthSelected.value);
+        setTbody(transactions);
+    }, [monthSelected]);
 
     const handleSetTransfer = () => {
         setTransfer(!transfer);
+    };
+
+    const handleSetvalue = (month: any) => {
+        setMonthSelected(month);
     };
 
     const isValidValue = totalValueTransactions > 25;
@@ -55,17 +86,11 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
                 <div className="row">
                     <div className="col-xs-6 col-sm-6" style={{ fontSize: 35 }}>
                         <b>Seu Saldo: &nbsp;</b>
-                        <span style={{ color: isValidValue ? "green" : "red" }}>
-                            {totalValueTransactions.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
-                        </span>
+                        <span style={{ color: isValidValue ? "green" : "red" }}>{totalValueTransactions}</span>
                     </div>
 
                     <div className="col-sm-3">
-                        <select className="form-control selectAzul">
-                            <option>Maio - 2020</option>
-                            <option>Junho - 2020</option>
-                            <option>Julho - 2020</option>
-                        </select>
+                        <Select options={options} value={monthSelected} onChange={handleSetvalue} />
                     </div>
                     <div className="col-sm-3">
                         <input placeholder="Pesquisar:" className="form-control inputAzul" />

@@ -9,11 +9,19 @@ export const financialReportContainer = (Component: React.ElementType) => {
         const transactions = useSelector(dataWallet);
         const totalValueTransactions = useSelector(totalValue);
 
+        const handleFilterCurrentMonth = (month: number) => {
+            return transactions.filter((transaction) => new Date(transaction.date).getMonth() === month);
+        };
+
         return (
             <Component
                 payload={{
                     data: transactions,
-                    totalValueTransactions,
+                    totalValueTransactions: totalValueTransactions.toLocaleString("pt-br", {
+                        style: "currency",
+                        currency: "BRL",
+                    }),
+                    handleFilterCurrentMonth,
                 }}
             />
         );
