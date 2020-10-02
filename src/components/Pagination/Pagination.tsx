@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 interface Props {
     page: number;
     totalPage: number;
-    perPage: number;
     nextPage(): void;
     prevPage(): void;
     goToPage(page: number): void;

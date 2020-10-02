@@ -7,7 +7,7 @@ import TbodyItem from "./TbodyItem";
 
 import Pagination from "../../Pagination";
 
-const perPage = 15;
+const perPage = 12;
 
 interface PaginationSate {
     page: number;
@@ -51,6 +51,8 @@ const TableNegociation: React.FC<Props> = ({ thead, tbody }) => {
     }, [tbody, pagination.page]);
 
     const nextPage = () => {
+        if (pagination.page >= pagination.totalPage) return;
+
         setPagination((prevState) => ({
             ...prevState,
             page: prevState.page + 1,
@@ -58,6 +60,8 @@ const TableNegociation: React.FC<Props> = ({ thead, tbody }) => {
     };
 
     const prevPage = () => {
+        if (pagination.page <= 1) return;
+
         setPagination((prevState) => ({
             ...prevState,
             page: prevState.page - 1,
@@ -124,7 +128,6 @@ const TableNegociation: React.FC<Props> = ({ thead, tbody }) => {
                 <Pagination
                     page={pagination.page}
                     totalPage={pagination.totalPage}
-                    perPage={12}
                     nextPage={nextPage}
                     prevPage={prevPage}
                     goToPage={goToPage}
