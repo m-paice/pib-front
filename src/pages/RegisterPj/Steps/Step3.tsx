@@ -104,7 +104,7 @@ const Step1: React.FC<Props> = ({ handlePrevSteps }) => {
                                         <InputMask mask="99.999.999/9999-99" {...props.field}>
                                             {() => (
                                                 <Input
-                                                    placeholder="CPF/CNPJ do titular:"
+                                                    placeholder="CPF ou CNPJ do titular:"
                                                     className="form-control"
                                                     {...props.field}
                                                 />
@@ -114,7 +114,7 @@ const Step1: React.FC<Props> = ({ handlePrevSteps }) => {
                                         <InputMask mask="999.999.999-99*" {...props.field}>
                                             {() => (
                                                 <Input
-                                                    placeholder="CPF/CNPJ do titular:"
+                                                    placeholder="CPF ou CNPJ do titular:"
                                                     className="form-control"
                                                     {...props.field}
                                                 />

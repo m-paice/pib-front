@@ -84,7 +84,7 @@ const Step3Schema = Yup.object().shape({
     documentHolder: Yup.string()
         .matches(
             /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/,
-            "CPF/CNPJ inválido",
+            "CPF ou CNPJ inválido",
         )
         .required("obrigatório"),
     termsOfUse: Yup.bool().oneOf([true], "você precisa aceitar os termos para seguir em frente"),
