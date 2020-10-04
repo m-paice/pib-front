@@ -86,7 +86,7 @@ const TbodyItem: React.FC<Props> = ({ index, date, cnpj, nameCompany, operation,
                 <span style={styles}>{handleViewType()}</span>
             </Item>
             <Item index={index} operation={operation} separator={false}>
-                <span style={{ ...styles, margin: 0 }}>{handleViewValue()}</span>
+                <span style={{ ...styles, marginTop: 7 }}>{handleViewValue()}</span>
             </Item>
         </tr>
     );

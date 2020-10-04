@@ -97,19 +97,30 @@ const Step1: React.FC<Props> = ({ handlePrevSteps }) => {
                     </div>
 
                     <div className="form-group col-xs-12 col-md-6">
-                        <Field name="cpfHolder">
+                        <Field name="documentHolder">
                             {(props: FieldProps) => (
                                 <div>
-                                    <InputMask mask="999.999.999-99" {...props.field}>
-                                        {() => (
-                                            <Input
-                                                placeholder="CPF do titular:"
-                                                className="form-control"
-                                                {...props.field}
-                                            />
-                                        )}
-                                    </InputMask>
-
+                                    {props.field.value.replace(/\D/g, "").length > 11 ? (
+                                        <InputMask mask="99.999.999/9999-99" {...props.field}>
+                                            {() => (
+                                                <Input
+                                                    placeholder="CPF/CNPJ do titular:"
+                                                    className="form-control"
+                                                    {...props.field}
+                                                />
+                                            )}
+                                        </InputMask>
+                                    ) : (
+                                        <InputMask mask="999.999.999-99*" {...props.field}>
+                                            {() => (
+                                                <Input
+                                                    placeholder="CPF/CNPJ do titular:"
+                                                    className="form-control"
+                                                    {...props.field}
+                                                />
+                                            )}
+                                        </InputMask>
+                                    )}
                                     <span className="erro">
                                         {props.meta.touched && props.meta.error && props.meta.error}
                                     </span>

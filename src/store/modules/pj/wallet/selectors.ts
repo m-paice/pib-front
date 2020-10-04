@@ -8,7 +8,9 @@ import { ApplicationState } from "./../../../index";
 
 export const stateWallet = (state: ApplicationState) => getElements<Wallet>(state.pj.wallet);
 
-export const dataWallet = createSelector(stateWallet, (walletItems) => walletItems.map((walletItem) => walletItem));
+export const dataWallet = createSelector(stateWallet, (walletItems) =>
+    walletItems.sort((a, b) => (a.date > b.date ? 1 : -1)).map((walletItem) => walletItem),
+);
 
 // total values received
 export const totalValueReceived = createSelector(stateWallet, (walletItems) =>

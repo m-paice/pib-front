@@ -48,6 +48,7 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
     const dispatch = useDispatch();
 
     const [tbody, setTbody] = useState<Wallet[]>(data);
+    const [searchData, setSearchData] = useState<Wallet[]>([]);
 
     const [transfer, setTransfer] = useState(false);
     const [monthSelected, setMonthSelected] = useState({
@@ -78,6 +79,16 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
         setMonthSelected(month);
     };
 
+    const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+
+        if (!value.length) return setSearchData([]);
+
+        const valueFound = tbody.filter((item) => String(item.value).includes(value));
+
+        return setSearchData(valueFound);
+    };
+
     const isValidValue = totalValueTransactions > 25;
 
     return (
@@ -93,7 +104,11 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
                         <Select options={options} value={monthSelected} onChange={handleSetvalue} />
                     </div>
                     <div className="col-sm-3">
-                        <input placeholder="Pesquisar:" className="form-control inputAzul" />
+                        <input
+                            placeholder="Pesquisar:"
+                            onChange={handleSearchValue}
+                            className="form-control inputAzul"
+                        />
                     </div>
 
                     <div className="col-xs-12 col-sm-4 align-self-start">
@@ -126,7 +141,7 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
                                 <SweetAlert
                                     title={
                                         <div className="txt-sweet-alert">
-                                            Opa! Valor não disponível <br /> para saque.
+                                            Opa! Você não possui valor mínimo <br /> para saque que é de R$25,00
                                         </div>
                                     }
                                     style={{
@@ -142,7 +157,7 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
                     )}
                 </div>
 
-                <Table thead={header} tbody={tbody} />
+                <Table thead={header} tbody={searchData.length !== 0 ? searchData : tbody} />
             </div>
         </div>
     );

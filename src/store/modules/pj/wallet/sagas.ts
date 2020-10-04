@@ -10,21 +10,27 @@ const valueForOperation = {
     4: () => Math.ceil(Math.random() * 15),
 };
 
+const operation = () => Math.ceil(Math.random() * 4);
+
+const dateRandom = () => {
+    const dataIni = new Date(2020, 0, 1);
+    const dataAtual = new Date(2020, 11, 30);
+    return new Date(dataIni.getTime() + Math.random() * (dataAtual.getTime() - dataIni.getTime()));
+};
+
 function* loadNegociation() {
     try {
         const response = yield new Promise((resolve) => {
             setTimeout(() => {
                 resolve(
-                    Array.from({ length: 5 }).map((_, index) => {
-                        const operation = Math.ceil(Math.random() * 4);
-
+                    Array.from({ length: 50 }).map((_, index) => {
                         return {
                             id: index.toString(),
-                            date: new Date(),
+                            date: dateRandom(),
                             cnpj: "123.456.789/0001-00",
                             nameCompany: "Matheus Paice SA",
-                            operation,
-                            value: valueForOperation[operation](),
+                            operation: operation(),
+                            value: valueForOperation[operation()](),
                         };
                     }),
                 );

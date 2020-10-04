@@ -29,7 +29,7 @@ export interface FormValues {
     account: string;
     digit: string;
     holder: string;
-    cpfHolder: string;
+    documentHolder: string;
 
     termsOfUse: boolean;
     receiveTips: boolean;
@@ -81,8 +81,11 @@ const Step3Schema = Yup.object().shape({
     account: Yup.string().required("obrigatório"),
     digit: Yup.string().required("obrigatório"),
     holder: Yup.string().required("obrigatório"),
-    cpfHolder: Yup.string()
-        .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, "CPF inválido")
+    documentHolder: Yup.string()
+        .matches(
+            /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/,
+            "CPF/CNPJ inválido",
+        )
         .required("obrigatório"),
     termsOfUse: Yup.bool().oneOf([true], "você precisa aceitar os termos para seguir em frente"),
 });
@@ -115,7 +118,7 @@ const initialValues: FormValues = {
     account: "",
     digit: "",
     holder: "",
-    cpfHolder: "",
+    documentHolder: "",
 
     termsOfUse: false,
     receiveTips: false,

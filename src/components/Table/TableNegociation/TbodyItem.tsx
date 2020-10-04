@@ -89,17 +89,11 @@ interface State {
 }
 
 const ActionsEdit: React.FC<PropsActionsEdit> = ({ handleToggleEdit, handleSave, errors }) => {
-    const [state, setState] = useState<State>({
-        save: false,
-        cancel: false,
-    });
+    const [save, setSave] = useState(false);
+    const [cancel, setCancel] = useState(false);
 
-    const handleSetState = (key: string, value: boolean) => {
-        setState((prevState) => ({
-            ...prevState,
-            [key]: value,
-        }));
-    };
+    const handleSetSave = () => setSave(!save);
+    const handleSetCancel = () => setCancel(!cancel);
 
     const handleSaveClick = () => {
         const response = handleSave();
@@ -111,21 +105,11 @@ const ActionsEdit: React.FC<PropsActionsEdit> = ({ handleToggleEdit, handleSave,
         <td className={`txt-lista-regras action ${errors ? "tdErrors" : ""}`}>
             <div className="d-flex justify-content-around">
                 <img id="cancel" className="pointer" onClick={handleToggleEdit} src={CancelIcon} alt="cancel" />
-                <Tooltip
-                    placement="top"
-                    isOpen={state.cancel}
-                    target="cancel"
-                    toggle={() => handleSetState("cancel", !state.cancel)}
-                >
+                <Tooltip placement="top" isOpen={cancel} target="cancel" toggle={handleSetCancel}>
                     cancelar operação
                 </Tooltip>
                 <img id="save" className="pointer" onClick={handleSaveClick} src={CheckIcon} alt="check" />
-                <Tooltip
-                    placement="top"
-                    isOpen={state.save}
-                    target="save"
-                    toggle={() => handleSetState("save", !state.save)}
-                >
+                <Tooltip placement="top" isOpen={save} target="save" toggle={handleSetSave}>
                     salvar operação
                 </Tooltip>
             </div>
@@ -234,7 +218,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                 {errors && (
                     <tr>
                         <td style={{ border: "none", textAlign: "center", color: "red" }} colSpan={8}>
-                            Opa, valor de multa deve ser no máximo 2%
+                            O percentual máximo para cobrança de multa é de 2,0%
                         </td>
                     </tr>
                 )}

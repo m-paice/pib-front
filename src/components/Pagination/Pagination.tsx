@@ -54,7 +54,9 @@ const Pagination: React.FC<Props> = ({ page, totalPage, nextPage, prevPage, goTo
                         className={`page-item pointer ${page === item ? "active" : ""}`}
                         onClick={() => goToPage(item)}
                     >
-                        <a className="page-link">{item}</a>
+                        <a className="page-link" style={{ zIndex: 0 }}>
+                            {item}
+                        </a>
                     </li>
                 ))}
 
