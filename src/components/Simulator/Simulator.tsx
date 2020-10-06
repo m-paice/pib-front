@@ -23,11 +23,28 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxP
     const options = Array.from({ length: maxPortion }).map((_, index) => index + 1);
 
     const [totalPrice, setTotalPrice] = useState(754);
-    const [debitPrice, setDebitPrice] = useState(0);
+    const [debitPrice, setDebitPrice] = useState<string | number>(0);
+    const [discountValue, setDiscountValue] = useState<string | number>(0);
 
     const handleCalculateValue = () => {
         setTotalPrice(Math.floor(Math.random() * 999));
-        setDebitPrice(Math.floor(Math.random() * 999));
+    };
+
+    const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDebitPrice(event.target.value);
+    };
+
+    const handleBlurInput = (event: React.FocusEvent<HTMLInputElement>) => {
+        const value = Number(event.target.value);
+        setDebitPrice(value.toLocaleString("pt-br", { style: "currency", currency: "BRL" }));
+    };
+
+    const handleChangeInputDiscount = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDiscountValue(event.target.value);
+    };
+
+    const handleBlurInputDiscount = (event: React.FocusEvent<HTMLInputElement>) => {
+        setDiscountValue(`${event.target.value}%`);
     };
 
     return (
@@ -54,8 +71,9 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxP
                                 className="form-control inputModal money"
                                 title="Valor total da dívida"
                                 style={stylesPrimary}
-                                value={debitPrice.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
-                                disabled
+                                value={debitPrice}
+                                onChange={handleChangeInput}
+                                onBlur={handleBlurInput}
                             />
                         </div>
                         <div className="col-sm-4 comp-modal">
@@ -71,7 +89,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxP
                         <div className="col-sm-4 comp-modal">
                             <label className="lblModal">Número de parcelas</label>
                             <select
-                                style={{ paddingLeft: "12px !important" }}
+                                style={{ paddingLeft: "12px !important", color: "#fff" }}
                                 className="form-control inputModal selectModal"
                                 onChange={handleCalculateValue}
                             >
@@ -90,7 +108,9 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxP
                                 className="form-control inputModal"
                                 title="Desconto concedido"
                                 style={stylesPrimary}
-                                value={`${discount}%`}
+                                value={discountValue}
+                                onChange={handleChangeInputDiscount}
+                                onBlur={handleBlurInputDiscount}
                             />
                         </div>
                         <div className="col-sm-4 comp-modal">

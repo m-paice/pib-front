@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { Tooltip } from "reactstrap";
 import { useDispatch } from "react-redux";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 import { Negociation } from "../../../store/modules/pj/negociation/types";
 
@@ -32,20 +33,44 @@ const Item: React.FC<PropsItem> = ({ text, separator = true, errors }) => {
     );
 };
 
+interface Options {
+    name: string;
+    value: string | number;
+}
+
 interface PropsInputEdit {
     separator?: boolean;
     name: string;
     initialValue: string | number;
     handleSetValues(key: string, value: string): void;
+    options?: Options[];
     errors: boolean;
 }
 
 const InputEdit: React.FC<PropsInputEdit> = (props) => {
-    const { separator = true, name, initialValue, handleSetValues, errors } = props;
+    const { separator = true, name, initialValue, handleSetValues, options, errors } = props;
 
-    const handleChangeValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeValue = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         handleSetValues(name, event.target.value);
     };
+
+    if (options && options.length)
+        return (
+            <td className={`txt-lista-regras ${errors ? "tdErrors" : ""}`}>
+                <select
+                    name={name}
+                    onChange={handleChangeValue}
+                    style={{ minWidth: 85, textAlign: "center", color: "#000" }}
+                >
+                    {options.map((item, index) => (
+                        <option key={index} value={item.value} style={{ color: "#000" }}>
+                            {item.name}
+                        </option>
+                    ))}
+                </select>
+                {separator && <div className="traco-v-table align-right"></div>}
+            </td>
+        );
 
     return (
         <td className={`txt-lista-regras ${errors ? "tdErrors" : ""}`}>
@@ -119,6 +144,13 @@ const ActionsEdit: React.FC<PropsActionsEdit> = ({ handleToggleEdit, handleSave,
 
 type Props = Negociation;
 
+interface ErrorsState {
+    [key: string]: {
+        value: string;
+        error: boolean;
+    };
+}
+
 const TbodyItem: React.FC<Props> = (props) => {
     const { id, yaerDebit, interest, discount, maxPortion, attenuator, trafficTicket, readjustment } = props;
 
@@ -126,7 +158,8 @@ const TbodyItem: React.FC<Props> = (props) => {
 
     const [edit, setEdit] = useState(false);
     const [simulator, setSimulator] = useState(false);
-    const [errors, setErrors] = useState(false);
+    const [confirmEdit, setConfirmEdit] = useState(false);
+    const [errors, setErrors] = useState<ErrorsState>({} as ErrorsState);
 
     const [values, setValues] = useState<Negociation>({
         id,
@@ -142,7 +175,7 @@ const TbodyItem: React.FC<Props> = (props) => {
     /** toggle edit and reset values */
     const handleToggleEdit = () => {
         setEdit(!edit);
-        setErrors(false);
+        setErrors({});
         setValues({ id, yaerDebit, interest, discount, maxPortion, attenuator, trafficTicket, readjustment });
     };
 
@@ -152,7 +185,7 @@ const TbodyItem: React.FC<Props> = (props) => {
 
     const handleFormatYaerDebit = (text: string): string => (text === "1" ? `${text} mês` : `${text} meses`);
 
-    /** set value */
+    /** set values */
     const handleSetValues = (key: string, value: string | number) => {
         setValues((prevState) => ({
             ...prevState,
@@ -160,10 +193,39 @@ const TbodyItem: React.FC<Props> = (props) => {
         }));
     };
 
+    /** set errors */
+    const handleSetErrors = (key: string, message: string) => {
+        setErrors((prevState) => ({
+            ...prevState,
+            [key]: {
+                value: message,
+                error: true,
+            },
+        }));
+    };
+
     /** check validations and edit */
     const handleSave = () => {
+        /** always whole numbersery  */
+        if (Number(values.discount) % 1 !== 0) {
+            values.discount = String(Math.floor(Number(values.discount)));
+        }
+
+        /** trafficTicket max 2% */
         if (Number(values.trafficTicket) > 2) {
-            setErrors(true);
+            handleSetErrors(values.trafficTicket, "O percentual máximo para cobrança de multa é de 2,0%");
+            return false;
+        }
+
+        /** discount max 99% */
+        if (Number(values.discount) > 99) {
+            handleSetErrors(values.discount, "O percentual máximo para desconto é de 99%");
+            return false;
+        }
+
+        /** confirmEdit */
+        if (values.maxPortion > 12) {
+            setConfirmEdit(true);
             return false;
         }
 
@@ -171,56 +233,86 @@ const TbodyItem: React.FC<Props> = (props) => {
         return true;
     };
 
+    /** check errors */
+    const handleCheckError = () => {
+        const isErrors = Object.values(errors).filter((item) => item.error);
+
+        if (isErrors.length) return true;
+
+        return false;
+    };
+
+    const handleConfirm = () => {
+        dispatch(actionsNegociation.updateNegociation(values));
+        setConfirmEdit(false);
+        handleToggleEdit();
+    };
+    const handleCancel = () => {
+        setConfirmEdit(false);
+    };
+
     if (edit) {
         return (
             <>
                 <tr className="itemListaRegras">
-                    <Item text={handleFormatYaerDebit(yaerDebit)} errors={errors} />
-                    <InputEdit
-                        name="interest"
-                        initialValue={values.interest}
-                        handleSetValues={handleSetValues}
-                        errors={errors}
-                    />
+                    <Item text={handleFormatYaerDebit(yaerDebit)} errors={handleCheckError()} />
+                    <Item text={interest} errors={handleCheckError()} />
                     <InputEdit
                         name="discount"
                         initialValue={values.discount}
                         handleSetValues={handleSetValues}
-                        errors={errors}
+                        errors={handleCheckError()}
                     />
                     <InputEdit
                         name="maxPortion"
                         initialValue={values.maxPortion}
                         handleSetValues={handleSetValues}
-                        errors={errors}
+                        options={Array.from({ length: 24 }).map((_, index) => ({
+                            name: String(index + 1),
+                            value: String(index + 1),
+                        }))}
+                        errors={handleCheckError()}
                     />
-                    <InputEdit
-                        name="attenuator"
-                        initialValue={values.attenuator}
-                        handleSetValues={handleSetValues}
-                        errors={errors}
+                    <Item text={attenuator} errors={handleCheckError()} />
+                    <Item text={trafficTicket} errors={handleCheckError()} />
+                    <Item text={readjustment} errors={handleCheckError()} />
+                    <ActionsEdit
+                        handleToggleEdit={handleToggleEdit}
+                        handleSave={handleSave}
+                        errors={handleCheckError()}
                     />
-                    <InputEdit
-                        name="trafficTicket"
-                        initialValue={values.trafficTicket}
-                        handleSetValues={handleSetValues}
-                        errors={errors}
-                    />
-                    <InputEdit
-                        name="readjustment"
-                        initialValue={values.readjustment}
-                        handleSetValues={handleSetValues}
-                        errors={errors}
-                    />
-                    <ActionsEdit handleToggleEdit={handleToggleEdit} handleSave={handleSave} errors={errors} />
                 </tr>
 
                 {errors && (
                     <tr>
                         <td style={{ border: "none", textAlign: "center", color: "red" }} colSpan={8}>
-                            O percentual máximo para cobrança de multa é de 2,0%
+                            {Object.values(errors)
+                                .filter((item) => item.error)
+                                .map((error) => error.value)
+                                .join("; ")}
                         </td>
                     </tr>
+                )}
+
+                {confirmEdit && (
+                    <SweetAlert
+                        title={
+                            <div className="txt-sweet-alert">
+                                Tem certeza que deseja <br /> parcelar em {values.maxPortion}x ?
+                            </div>
+                        }
+                        style={{
+                            background: "#14647b",
+                            color: "#fff !important",
+                        }}
+                        showCancel
+                        confirmBtnCssClass="btn-sweet-alert"
+                        cancelBtnCssClass="btn-sweet-alert"
+                        confirmBtnText="Confirmar"
+                        cancelBtnText="Cancelar"
+                        onConfirm={handleConfirm}
+                        onCancel={handleCancel}
+                    />
                 )}
             </>
         );
