@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Debtor } from "../../../store/modules/pj/debtor/types";
 
+// utils
+import formatDate from "../../../utils/formatDate";
+
+// components
+import Simulator from "../../Simulator/Debtor";
+
 // assets
 import Lock from "../../../assets/imagens/lock.png";
+import Unlock from "../../../assets/imagens/unlock.png";
 import Calculator from "../../../assets/imagens/calculator.png";
 
 const styles: React.CSSProperties = {
@@ -24,16 +31,38 @@ const Item: React.FC<PropsItem> = ({ children, separator = true }) => {
 };
 
 interface PropsActions {
-    handleToggleEdit?(): void;
     handleToggleSimulator?(): void;
+    show: boolean;
 }
 
-const Actions: React.FC<PropsActions> = ({ handleToggleEdit, handleToggleSimulator }) => {
+const Actions: React.FC<PropsActions> = ({ handleToggleSimulator, show }) => {
+    const [image, setImage] = useState(false);
+
+    const handleToggleImage = () => {
+        setImage(!image);
+    };
+
+    if (!show)
+        return (
+            <td className="txt-lista-regras action">
+                <div className="d-flex justify-content-around">
+                    <div className="pointer">
+                        <img src={Lock} className="img-icon" style={{ filter: "contrast(1%)" }} />
+                    </div>
+                    <div>
+                        <a>
+                            <img src={Calculator} className="img-icon" style={{ filter: "contrast(1%)" }} />
+                        </a>
+                    </div>
+                </div>
+            </td>
+        );
+
     return (
         <td className="txt-lista-regras action">
             <div className="d-flex justify-content-around">
-                <div className="pointer" onClick={handleToggleEdit}>
-                    <img src={Lock} className="img-icon" />
+                <div className="pointer">
+                    <img src={image ? Unlock : Lock} className="img-icon" onClick={handleToggleImage} />
                 </div>
                 <div onClick={handleToggleSimulator}>
                     <a>
@@ -48,15 +77,19 @@ const Actions: React.FC<PropsActions> = ({ handleToggleEdit, handleToggleSimulat
 type Props = Debtor;
 
 const TbodyItem: React.FC<Props> = (props) => {
-    const { id, document, name, debit, negociation, receipt, late, situation } = props;
+    const { id, dateRegister, document, name, debit, negociation, receipt, late, situation } = props;
 
-    const handleToggleEdit = () => {};
-    const handleToggleSimulator = () => {};
+    const [simulator, setSimulator] = useState(false);
+
+    const handleToggleSimulator = () => {
+        setSimulator(!simulator);
+    };
 
     const handleViewSituation = (situation: number) => {
         if (situation === 1) return <a className="btneg red none-border-radius pointer">EM ATRASO</a>;
-        if (situation === 2) return <a className="btneg blue none-border-radius blue-p pointer">DISPONÍVEL</a>;
-        if (situation === 3) return <a className="btneg green2 none-border-radius pointer">QUITADA</a>;
+        if (situation === 2) return <a className="btneg green2 none-border-radius pointer">EM DIA</a>;
+        if (situation === 3) return <a className="btneg blue none-border-radius blue-p pointer">NÃO NEGOCIADA</a>;
+        if (situation === 4) return <a className="btneg green none-border-radius pointer">QUITADA</a>;
 
         return "";
     };
@@ -69,6 +102,9 @@ const TbodyItem: React.FC<Props> = (props) => {
 
     return (
         <tr className="itemListaRegras">
+            <Item>
+                <span style={styles}>{formatDate(dateRegister)}</span>
+            </Item>
             <Item>
                 <span style={styles}>{document}</span>
             </Item>
@@ -90,7 +126,9 @@ const TbodyItem: React.FC<Props> = (props) => {
             <Item separator={false}>
                 <span style={styles}>{handleViewSituation(situation)}</span>
             </Item>
-            <Actions handleToggleEdit={handleToggleEdit} handleToggleSimulator={handleToggleSimulator} />
+            <Actions handleToggleSimulator={handleToggleSimulator} show={situation === 3} />
+
+            {simulator && <Simulator isOpen={simulator} onClose={handleToggleSimulator} {...props} />}
         </tr>
     );
 };

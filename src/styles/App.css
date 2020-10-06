@@ -3650,6 +3650,7 @@ a.green {
 a.green:hover {
     color: #008000;
     background: #fff;
+    border-color: #008000;
 }
 
 a.red {
@@ -5694,4 +5695,8 @@ table.dataTable td {
 
 .css-1hb7zxy-IndicatorsContainer {
     display: none !important;
+}
+
+html {
+    scroll-behavior: smooth;
 }

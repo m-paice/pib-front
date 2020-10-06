@@ -45,7 +45,9 @@ const Pagination: React.FC<Props> = ({ page, totalPage, nextPage, prevPage, goTo
         <nav aria-label="...">
             <ul className="pagination justify-content-center">
                 <li className="page-item pointer" onClick={prevPage}>
-                    <span className="page-link">Anterior</span>
+                    <a href="#top" className="page-link">
+                        Anterior
+                    </a>
                 </li>
 
                 {buttons.map((item) => (
@@ -54,14 +56,16 @@ const Pagination: React.FC<Props> = ({ page, totalPage, nextPage, prevPage, goTo
                         className={`page-item pointer ${page === item ? "active" : ""}`}
                         onClick={() => goToPage(item)}
                     >
-                        <a className="page-link" style={{ zIndex: 0 }}>
+                        <a href="#top" className="page-link" style={{ zIndex: 0 }}>
                             {item}
                         </a>
                     </li>
                 ))}
 
                 <li className="page-item pointer" onClick={nextPage}>
-                    <a className="page-link">Próximo</a>
+                    <a href="#top" className="page-link">
+                        Próximo
+                    </a>
                 </li>
             </ul>
         </nav>

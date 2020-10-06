@@ -10,7 +10,7 @@ import { Negociation } from "../../../store/modules/pj/negociation/types";
 import { actions as actionsNegociation } from "../../../store/modules/pj/negociation/actions";
 
 // components
-import Simulator from "../../Simulator";
+import Simulator from "../../Simulator/Negociation";
 
 // assets
 import Pencil from "../../../assets/imagens/pencil.png";
@@ -298,7 +298,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                     <SweetAlert
                         title={
                             <div className="txt-sweet-alert">
-                                Tem certeza que deseja <br /> parcelar em {values.maxPortion}x ?
+                                Tem certeza que deseja <br /> permitir o parcelamento em {values.maxPortion}X ?
                             </div>
                         }
                         style={{

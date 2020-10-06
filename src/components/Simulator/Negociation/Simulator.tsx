@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Modal, ModalBody } from "reactstrap";
 
-import { Negociation } from "../../store/modules/pj/negociation/types";
+import { Negociation } from "../../../store/modules/pj/negociation/types";
 
 interface Props extends Negociation {
     isOpen: boolean;

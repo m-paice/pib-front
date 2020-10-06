@@ -22,6 +22,7 @@ export enum types {
 
 export interface Debtor {
     id: string;
+    dateRegister: Date;
     document: string;
     name: string;
     debit: number;

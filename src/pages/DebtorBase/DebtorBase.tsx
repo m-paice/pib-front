@@ -14,6 +14,7 @@ import Table from "../../components/Table/TableDebtor";
 import Select from "../../components/unconnected/Fields/Select";
 
 const header = [
+    { text: "Data de \n Registro", title: "Data de Registro", reference: "register" },
     { text: "CPF", title: "CPF", reference: "document" },
     { text: "Nome", title: "Nome", reference: "name" },
     { text: "Dívida", title: "Dívida", reference: "debt" },
@@ -27,8 +28,9 @@ const header = [
 const options = [
     { value: 0, label: "Todos" },
     { value: 1, label: "Em atraso" },
-    { value: 2, label: "Disponível" },
-    { value: 3, label: "Quitada" },
+    { value: 2, label: "Em dia" },
+    { value: 3, label: "Não negociada" },
+    { value: 4, label: "Quitada" },
 ];
 
 interface Props {

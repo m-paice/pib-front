@@ -98,6 +98,7 @@ const TableNegociation: React.FC<Props> = ({ thead, tbody }) => {
 
     return (
         <div className="table-regua barraRolagem">
+            <span id="top"></span>
             <table className="tableListaRegras">
                 <thead>
                     <tr className="bs-example">
