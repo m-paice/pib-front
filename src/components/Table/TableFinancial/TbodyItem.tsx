@@ -53,6 +53,7 @@ interface Props extends Wallet {
 
 const TbodyItem: React.FC<Props> = ({ index, date, cnpj, nameCompany, operation, value }) => {
     const handleViewType = () => {
+        if (operation === 0) return "Saldo mês anterior";
         if (operation === 1) return "Recebimento";
         if (operation === 2) return "Saque";
         if (operation === 3) return "Comissão";

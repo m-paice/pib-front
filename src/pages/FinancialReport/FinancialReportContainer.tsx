@@ -13,6 +13,25 @@ export const financialReportContainer = (Component: React.ElementType) => {
             return transactions.filter((transaction) => new Date(transaction.date).getMonth() === month);
         };
 
+        const handleReduceValueOfMonth = () => {
+            return transactions.reduce((acc, cur) => {
+                const month = new Date(cur.date).getMonth();
+
+                const handleCalculateValue = (operation: number, value: number) => {
+                    const valueReceived = operation === 1;
+
+                    if (valueReceived) return (acc[month] || 0) + value;
+
+                    return (acc[month] || 0) - value;
+                };
+
+                return {
+                    ...acc,
+                    [month]: handleCalculateValue(cur.operation, cur.value),
+                };
+            }, {});
+        };
+
         return (
             <Component
                 payload={{
@@ -21,7 +40,9 @@ export const financialReportContainer = (Component: React.ElementType) => {
                         style: "currency",
                         currency: "BRL",
                     }),
+                    isValidValue: totalValueTransactions > 25,
                     handleFilterCurrentMonth,
+                    handleReduceValueOfMonth,
                 }}
             />
         );

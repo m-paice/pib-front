@@ -5,17 +5,48 @@ import { Result } from "./actions";
 
 const valueForOperation = {
     1: () => Math.ceil(Math.random() * 1000),
-    2: () => Math.ceil(Math.random() * 1000),
-    3: () => Math.ceil(Math.random() * 50),
+    2: () => Math.ceil(Math.random() * 300),
+    3: () => Math.ceil(Math.random() * 20),
     4: () => Math.ceil(Math.random() * 15),
 };
 
-const operation = () => Math.ceil(Math.random() * 4);
+let i = 0;
+const operation = () => {
+    if (i < 4) {
+        i = i + 1;
+        return 1;
+    }
+
+    if (i >= 4) {
+        i = 0;
+        return Math.ceil(Math.random() * 4);
+    }
+
+    return 0;
+};
 
 const dateRandom = () => {
     const dataIni = new Date(2020, 0, 1);
     const dataAtual = new Date(2020, 11, 30);
     return new Date(dataIni.getTime() + Math.random() * (dataAtual.getTime() - dataIni.getTime()));
+};
+
+interface Names {
+    [key: number]: string;
+}
+
+const namesRandom = () => {
+    const numberRandom = Math.ceil(Math.random() * 5);
+
+    const names: Names = {
+        1: "Matheus Paice SA",
+        2: "Lucas Zinner SA",
+        3: "Felipe Soares SA",
+        4: "Marina Paice SA",
+        5: "Vanessa Vasconcelos SA",
+    };
+
+    return names[numberRandom];
 };
 
 function* loadNegociation() {
@@ -28,7 +59,7 @@ function* loadNegociation() {
                             id: index.toString(),
                             date: dateRandom(),
                             cnpj: "123.456.789/0001-00",
-                            nameCompany: "Matheus Paice SA",
+                            nameCompany: namesRandom(),
                             operation: operation(),
                             value: valueForOperation[operation()](),
                         };

@@ -18,7 +18,7 @@ import monthNames from "../../utils/monthNames";
 
 const header = [
     { text: "Data", title: "Data", reference: "date" },
-    { text: "CPF / CNPJ", title: "Documento", reference: "document" },
+    { text: "CPF ou CNPJ", title: "Documento", reference: "document" },
     { text: "Nome", title: "Nome", reference: "name" },
     { text: "Operação", title: "Operação", reference: "operation" },
     { text: "Valor", title: "Valor", reference: "value" },
@@ -38,12 +38,14 @@ interface Props {
     payload: {
         data: Wallet[];
         totalValueTransactions: number;
+        isValidValue: boolean;
         handleFilterCurrentMonth(month: number): Wallet[];
+        handleReduceValueOfMonth(): { [key: number]: number };
     };
 }
 
 const FinancialReport: React.FC<Props> = ({ payload }) => {
-    const { data, totalValueTransactions, handleFilterCurrentMonth } = payload;
+    const { data, totalValueTransactions, isValidValue, handleFilterCurrentMonth, handleReduceValueOfMonth } = payload;
 
     const dispatch = useDispatch();
 
@@ -63,11 +65,48 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
     useEffect(() => {
         const transactions = handleFilterCurrentMonth(monthSelected.value);
 
-        setTbody(transactions);
+        if (transactions.length) {
+            const valueOfMonth = handleReduceValueOfMonth();
+
+            const response: Wallet[] = [
+                {
+                    id: Math.random().toString(),
+                    date: new Date(`${monthSelected.value + 1}/01/2020`),
+                    cnpj: "---",
+                    nameCompany: "---",
+                    operation: 0,
+                    value: valueOfMonth[monthSelected.value - 1],
+                },
+                ...transactions,
+            ];
+
+            return setTbody(response);
+        }
+
+        setTbody(payload.data);
     }, [payload.data]);
 
     useEffect(() => {
         const transactions = handleFilterCurrentMonth(monthSelected.value);
+
+        if (transactions.length) {
+            const valueOfMonth = handleReduceValueOfMonth();
+
+            const response: Wallet[] = [
+                {
+                    id: Math.random().toString(),
+                    date: new Date(`${monthSelected.value + 1}/01/2020`),
+                    cnpj: "---",
+                    nameCompany: "---",
+                    operation: 0,
+                    value: valueOfMonth[monthSelected.value - 1],
+                },
+                ...transactions,
+            ];
+
+            return setTbody(response);
+        }
+
         setTbody(transactions);
     }, [monthSelected]);
 
@@ -86,10 +125,16 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
 
         const valueFound = tbody.filter((item) => String(item.value).includes(value));
 
-        return setSearchData(valueFound);
-    };
+        const documentFound = tbody.filter((item) => item.cnpj.includes(value));
 
-    const isValidValue = totalValueTransactions > 25;
+        const namesFound = tbody.filter((item) => item.nameCompany.toLowerCase().includes(value.toLowerCase()));
+
+        if (valueFound.length) return setSearchData(valueFound);
+        else if (documentFound.length) return setSearchData(documentFound);
+        else if (namesFound.length) return setSearchData(namesFound);
+
+        return setSearchData([]);
+    };
 
     return (
         <div className="page">
