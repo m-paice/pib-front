@@ -13,7 +13,7 @@ function* loadNegociation() {
                         id: index.toString(),
                         yaerDebit: (index + 1).toString(),
                         interest: (Math.random() * 8).toFixed(1),
-                        discount: Math.ceil(Math.random() * 12).toFixed(1),
+                        discount: Math.ceil(Math.random() * 12),
                         maxPortion: Math.floor(Math.random() * 12),
                         attenuator: (Math.random() * 12).toFixed(1),
                         trafficTicket: (Math.random() * 2).toFixed(1),

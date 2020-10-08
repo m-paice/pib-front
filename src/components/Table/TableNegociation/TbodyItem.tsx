@@ -60,7 +60,8 @@ const InputEdit: React.FC<PropsInputEdit> = (props) => {
     const { separator = true, name, initialValue, handleSetValues, options, errors } = props;
 
     const handleChangeValue = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        handleSetValues(name, event.target.value);
+        const value = event.target.value.replace(/(\.|\,)/g, "");
+        handleSetValues(name, value);
     };
 
     if (options && options.length)
@@ -69,7 +70,7 @@ const InputEdit: React.FC<PropsInputEdit> = (props) => {
                 <select
                     name={name}
                     onChange={handleChangeValue}
-                    style={{ minWidth: 85, textAlign: "center", color: "#000" }}
+                    style={{ minWidth: 85, height: 26, textAlign: "center", color: "#000" }}
                 >
                     {options.map((item, index) => (
                         <option key={index} value={item.value} style={{ color: "#000" }}>
@@ -83,7 +84,12 @@ const InputEdit: React.FC<PropsInputEdit> = (props) => {
 
     return (
         <td className={`txt-lista-regras ${errors ? "tdErrors" : ""}`}>
-            <input value={initialValue} onChange={handleChangeValue} style={{ maxWidth: 100, textAlign: "center" }} />
+            <input
+                type="number"
+                value={initialValue}
+                onChange={handleChangeValue}
+                style={{ maxWidth: 100, height: 26, textAlign: "center" }}
+            />
             {separator && <div className="traco-v-table align-right"></div>}
         </td>
     );
@@ -331,7 +337,7 @@ const TbodyItem: React.FC<Props> = (props) => {
         <tr className="itemListaRegras">
             <Item text={handleFormatYaerDebit(yaerDebit)} />
             <Item text={`${Number(interest).toFixed(1)}%`} />
-            <Item text={`${Number(discount).toFixed(1)}%`} />
+            <Item text={`${discount}%`} />
             <Item text={maxPortion} />
             <Item text={`${Number(attenuator).toFixed(1)}%`} />
             <Item text={`${Number(trafficTicket).toFixed(1)}%`} />
