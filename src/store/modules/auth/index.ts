@@ -4,8 +4,15 @@ import { StateAuth, types, User } from "./types";
 const { AUTH_LOGIN_SUCCESS, AUTH_LOGOUT_SUCCESS } = types;
 
 const initialState: StateAuth = {
-    token: "",
-    user: {} as User,
+    token: "123H12JK3KLJH.34MGMGG34JTI43J.234234.2342342FFSD",
+    user: {
+        id: "1",
+        name: "Arthur Baroni Santos",
+        email: "arthur@email",
+        document: "845.889.442-22",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
 };
 
 const reducerToken: Reducer = (state = "", action): string => {

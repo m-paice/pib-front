@@ -10,12 +10,14 @@ export enum types {
 
 export interface Auth {
     token: string;
+    user: User;
 }
 
 export interface User {
     id: string;
     name: string;
     email: string;
+    document: string;
     createdAt: Date | null;
     updatedAt: Date | null;
 }

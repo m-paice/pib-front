@@ -3,11 +3,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { dataWallet, totalValue } from "../../store/modules/pj/wallet/selectors";
+import { userAuthenticated } from "../../store/modules/auth/selectors";
 
 export const financialReportContainer = (Component: React.ElementType) => {
     const Container: React.FC = () => {
         const transactions = useSelector(dataWallet);
         const totalValueTransactions = useSelector(totalValue);
+        const userAuthenticate = useSelector(userAuthenticated);
 
         const handleFilterCurrentMonth = (month: number) => {
             return transactions.filter((transaction) => new Date(transaction.date).getMonth() === month);
@@ -41,6 +43,7 @@ export const financialReportContainer = (Component: React.ElementType) => {
                         currency: "BRL",
                     }),
                     isValidValue: totalValueTransactions > 25,
+                    userAuthenticate,
                     handleFilterCurrentMonth,
                     handleReduceValueOfMonth,
                 }}

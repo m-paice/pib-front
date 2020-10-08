@@ -4,6 +4,8 @@ import formatDate from "../../../utils/formatDate";
 
 import { Wallet } from "../../../store/modules/pj/wallet/types";
 
+import monthNames from "../../../utils/monthNames";
+
 const styles: React.CSSProperties = {
     position: "absolute",
     width: "100%",
@@ -53,8 +55,10 @@ interface Props extends Wallet {
 }
 
 const TbodyItem: React.FC<Props> = ({ index, date, cnpj, nameCompany, operation, value }) => {
+    const lateMonth = new Date(date).getMonth();
+
     const handleViewType = () => {
-        if (operation === 0) return "Saldo mês anterior";
+        if (operation === 0) return `Saldo ${monthNames[lateMonth]}`;
         if (operation === 1) return "Recebimento";
         if (operation === 2) return "Saque";
         if (operation === 3) return "Comissão";

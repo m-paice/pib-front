@@ -2,9 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 
 import SweetAlert from "react-bootstrap-sweetalert";
 import { useDispatch } from "react-redux";
+import { subDays } from "date-fns";
 
 // interfaces
 import { Wallet } from "../../store/modules/pj/wallet/types";
+import { User } from "../../store/modules/auth/types";
 
 // actions
 import { actions as actionsWallet } from "../../store/modules/pj/wallet/actions";
@@ -48,13 +50,21 @@ interface Props {
         data: Wallet[];
         totalValueTransactions: number;
         isValidValue: boolean;
+        userAuthenticate: User;
         handleFilterCurrentMonth(month: number): Wallet[];
         handleReduceValueOfMonth(): { [key: number]: number };
     };
 }
 
 const FinancialReport: React.FC<Props> = ({ payload }) => {
-    const { data, totalValueTransactions, isValidValue, handleFilterCurrentMonth, handleReduceValueOfMonth } = payload;
+    const {
+        data,
+        totalValueTransactions,
+        isValidValue,
+        userAuthenticate,
+        handleFilterCurrentMonth,
+        handleReduceValueOfMonth,
+    } = payload;
 
     const dispatch = useDispatch();
 
@@ -82,9 +92,9 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
             const response: Wallet[] = [
                 {
                     id: Math.random().toString(),
-                    date: new Date(`${monthSelected.value + 1}/01/2020`),
-                    cnpj: "---",
-                    nameCompany: "---",
+                    date: subDays(new Date(`${monthSelected.value + 1}/01/2020`), 1),
+                    cnpj: userAuthenticate.document,
+                    nameCompany: userAuthenticate.name,
                     operation: 0,
                     value: valueOfMonth[monthSelected.value - 1],
                 },
@@ -110,9 +120,9 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
             const response: Wallet[] = [
                 {
                     id: Math.random().toString(),
-                    date: new Date(`${monthSelected.value + 1}/01/2020`),
-                    cnpj: "---",
-                    nameCompany: "---",
+                    date: subDays(new Date(`${monthSelected.value + 1}/01/2020`), 1),
+                    cnpj: userAuthenticate.document,
+                    nameCompany: userAuthenticate.name,
                     operation: 0,
                     value: valueOfMonth[monthSelected.value - 1],
                 },
