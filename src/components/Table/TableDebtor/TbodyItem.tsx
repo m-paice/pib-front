@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Debtor } from "../../../store/modules/pj/debtor/types";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 // utils
 import formatDate from "../../../utils/formatDate";
@@ -37,15 +38,15 @@ const Item: React.FC<PropsItem> = ({ children, separator = true, width }) => {
 };
 
 interface PropsActions {
-    handleToggleSimulator?(): void;
     show: boolean;
+    closed: boolean;
+    handleToggleSimulator?(): void;
+    handleToggleConfirm(): void;
 }
 
-const Actions: React.FC<PropsActions> = ({ handleToggleSimulator, show }) => {
-    const [image, setImage] = useState(false);
-
+const Actions: React.FC<PropsActions> = ({ show, closed, handleToggleSimulator, handleToggleConfirm }) => {
     const handleToggleImage = () => {
-        setImage(!image);
+        handleToggleConfirm();
     };
 
     if (!show)
@@ -68,7 +69,7 @@ const Actions: React.FC<PropsActions> = ({ handleToggleSimulator, show }) => {
         <td className="txt-lista-regras action" style={{ width: 100 }}>
             <div className="d-flex justify-content-around">
                 <div className="pointer">
-                    <img src={image ? Unlock : Lock} className="img-icon" onClick={handleToggleImage} />
+                    <img src={closed ? Unlock : Lock} className="img-icon" onClick={handleToggleImage} />
                 </div>
                 <div onClick={handleToggleSimulator}>
                     <a>
@@ -86,6 +87,8 @@ const TbodyItem: React.FC<Props> = (props) => {
     const { id, dateRegister, document, name, debit, negociation, receipt, late, situation } = props;
 
     const [simulator, setSimulator] = useState(false);
+    const [confirm, setConfirm] = useState(false);
+    const [closed, setClosed] = useState(false);
 
     const handleToggleSimulator = () => {
         setSimulator(!simulator);
@@ -106,36 +109,75 @@ const TbodyItem: React.FC<Props> = (props) => {
             currency: "BRL",
         });
 
-    return (
-        <tr className="itemListaRegras">
-            <Item>
-                <span style={styles}>{formatDate(dateRegister)}</span>
-            </Item>
-            <Item width={120}>
-                <span style={styles}>{document}</span>
-            </Item>
-            <Item width={150}>
-                <span style={styles}>{name}</span>
-            </Item>
-            <Item width={80}>
-                <span style={styles}>{formatNumber(debit)}</span>
-            </Item>
-            <Item>
-                <span style={styles}>{formatNumber(negociation)}</span>
-            </Item>
-            <Item>
-                <span style={styles}>{formatNumber(receipt)}</span>
-            </Item>
-            <Item separator={false}>
-                <span>{formatNumber(late)}</span>
-            </Item>
-            <Item separator={false} width={152}>
-                <span>{handleViewSituation(situation)}</span>
-            </Item>
-            <Actions handleToggleSimulator={handleToggleSimulator} show={situation === 3} />
+    const handleToggleConfirm = () => {
+        setConfirm(!confirm);
+    };
 
-            {simulator && <Simulator isOpen={simulator} onClose={handleToggleSimulator} {...props} />}
-        </tr>
+    const handleConfirm = () => {
+        setConfirm(false);
+        setClosed(!closed);
+    };
+    const handleCancel = () => {
+        setConfirm(false);
+    };
+
+    return (
+        <>
+            <tr className="itemListaRegras">
+                <Item>
+                    <span style={styles}>{formatDate(dateRegister)}</span>
+                </Item>
+                <Item width={120}>
+                    <span style={styles}>{document}</span>
+                </Item>
+                <Item width={150}>
+                    <span style={styles}>{name}</span>
+                </Item>
+                <Item width={80}>
+                    <span style={styles}>{formatNumber(debit)}</span>
+                </Item>
+                <Item>
+                    <span style={styles}>{formatNumber(negociation)}</span>
+                </Item>
+                <Item>
+                    <span style={styles}>{formatNumber(receipt)}</span>
+                </Item>
+                <Item separator={false}>
+                    <span>{formatNumber(late)}</span>
+                </Item>
+                <Item separator={false} width={152}>
+                    <span>{handleViewSituation(situation)}</span>
+                </Item>
+                <Actions
+                    show={situation === 3}
+                    closed={closed}
+                    handleToggleSimulator={handleToggleSimulator}
+                    handleToggleConfirm={handleToggleConfirm}
+                />
+
+                {simulator && <Simulator isOpen={simulator} onClose={handleToggleSimulator} {...props} />}
+            </tr>
+            {confirm && (
+                <SweetAlert
+                    title={
+                        <div className="txt-sweet-alert">
+                            Tem certeza que deseja <br /> {closed ? "bloquear" : "desbloquear"} negociação ?
+                        </div>
+                    }
+                    style={{
+                        background: "#14647b",
+                        color: "#fff !important",
+                    }}
+                    showCancel
+                    confirmBtnCssClass="btn-sweet-alert"
+                    cancelBtnCssClass="btn-sweet-alert"
+                    confirmBtnText="Confirmar"
+                    cancelBtnText="Cancelar"
+                    onConfirm={handleConfirm}
+                    onCancel={handleCancel}
+                />
+            )}
+        </>
     );
 };
 
