@@ -24,10 +24,19 @@ interface PropsItem {
     errors?: boolean;
 }
 
+const styles: React.CSSProperties = {
+    position: "absolute",
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 5,
+};
+
 const Item: React.FC<PropsItem> = ({ text, separator = true, errors }) => {
     return (
-        <td className={`txt-lista-regras ${errors ? "tdErrors" : ""}`}>
-            {text}
+        <td className={`txt-lista-regras ${errors ? "tdErrors" : ""}`} style={{ position: "relative" }}>
+            <span style={styles}>{text}</span>
             {separator && <div className="traco-v-table align-right"></div>}
         </td>
     );

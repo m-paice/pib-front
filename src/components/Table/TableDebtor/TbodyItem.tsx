@@ -14,16 +14,22 @@ import Unlock from "../../../assets/imagens/unlock.png";
 import Calculator from "../../../assets/imagens/calculator.png";
 
 const styles: React.CSSProperties = {
-    marginTop: "7px",
+    position: "absolute",
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 5,
 };
 
 interface PropsItem {
     separator?: boolean;
+    width?: number | string;
 }
 
-const Item: React.FC<PropsItem> = ({ children, separator = true }) => {
+const Item: React.FC<PropsItem> = ({ children, separator = true, width }) => {
     return (
-        <td className="txt-lista-regras" style={{ position: "relative" }}>
+        <td className="txt-lista-regras" style={{ position: "relative", width }}>
             {children}
             {separator && <div className="traco-v-table align-right"></div>}
         </td>
@@ -44,7 +50,7 @@ const Actions: React.FC<PropsActions> = ({ handleToggleSimulator, show }) => {
 
     if (!show)
         return (
-            <td className="txt-lista-regras action">
+            <td className="txt-lista-regras action" style={{ width: 100 }}>
                 <div className="d-flex justify-content-around">
                     <div className="pointer">
                         <img src={Lock} className="img-icon" style={{ filter: "contrast(1%)" }} />
@@ -59,7 +65,7 @@ const Actions: React.FC<PropsActions> = ({ handleToggleSimulator, show }) => {
         );
 
     return (
-        <td className="txt-lista-regras action">
+        <td className="txt-lista-regras action" style={{ width: 100 }}>
             <div className="d-flex justify-content-around">
                 <div className="pointer">
                     <img src={image ? Unlock : Lock} className="img-icon" onClick={handleToggleImage} />
@@ -105,10 +111,10 @@ const TbodyItem: React.FC<Props> = (props) => {
             <Item>
                 <span style={styles}>{formatDate(dateRegister)}</span>
             </Item>
-            <Item>
+            <Item width={150}>
                 <span style={styles}>{document}</span>
             </Item>
-            <Item>
+            <Item width={150}>
                 <span style={styles}>{name}</span>
             </Item>
             <Item>
@@ -121,10 +127,10 @@ const TbodyItem: React.FC<Props> = (props) => {
                 <span style={styles}>{formatNumber(receipt)}</span>
             </Item>
             <Item separator={false}>
-                <span style={styles}>{formatNumber(late)}</span>
+                <span>{formatNumber(late)}</span>
             </Item>
-            <Item separator={false}>
-                <span style={styles}>{handleViewSituation(situation)}</span>
+            <Item separator={false} width={152}>
+                <span>{handleViewSituation(situation)}</span>
             </Item>
             <Actions handleToggleSimulator={handleToggleSimulator} show={situation === 3} />
 

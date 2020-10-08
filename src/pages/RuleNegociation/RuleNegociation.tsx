@@ -18,7 +18,7 @@ interface Props {
 }
 
 const header = [
-    { text: "Idade da Dívida", title: "Idade da Dívida", reference: "yaerDebit" },
+    { text: "Idade da \n Dívida", title: "Idade da Dívida", reference: "yaerDebit" },
     { text: "Juros", title: "Juros", reference: "interest" },
     { text: "Desconto", title: "Desconto", reference: "discount" },
     { text: "Máximo de \n Parcelas", title: "Máximo de Parcelas", reference: "maxPortion" },
