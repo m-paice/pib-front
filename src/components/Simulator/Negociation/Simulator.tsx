@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Modal, ModalBody } from "reactstrap";
 
@@ -22,9 +22,22 @@ const stylesSecondary: React.CSSProperties = {
 const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxPortion }) => {
     const options = Array.from({ length: maxPortion }).map((_, index) => index + 1);
 
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [totalPrice, setTotalPrice] = useState(754);
     const [debitPrice, setDebitPrice] = useState<string | number>(0);
     const [discountValue, setDiscountValue] = useState<string | number>(0);
+
+    useEffect(() => {
+        if (Number(String(discountValue).replace(/\D/g, "")) > 99) {
+            setErrors((prevState) => ({
+                ...prevState,
+                discount: "O percentual máximo para desconto é de 99%",
+            }));
+            return;
+        } else {
+            setErrors({});
+        }
+    }, [discountValue]);
 
     const handleCalculateValue = () => {
         setTotalPrice(Math.floor(Math.random() * 999));
@@ -40,7 +53,8 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxP
     };
 
     const handleChangeInputDiscount = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDiscountValue(event.target.value);
+        const value = event.target.value;
+        setDiscountValue(value.replace("%", ""));
     };
 
     const handleBlurInputDiscount = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -112,6 +126,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxP
                                 onChange={handleChangeInputDiscount}
                                 onBlur={handleBlurInputDiscount}
                             />
+                            {errors["discount"] && <span className="text-white"> {errors["discount"]} </span>}
                         </div>
                         <div className="col-sm-4 comp-modal">
                             <label className="lblModal">Valor a ser pago</label>
