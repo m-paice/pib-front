@@ -111,13 +111,13 @@ const TbodyItem: React.FC<Props> = (props) => {
             <Item>
                 <span style={styles}>{formatDate(dateRegister)}</span>
             </Item>
-            <Item width={150}>
+            <Item width={120}>
                 <span style={styles}>{document}</span>
             </Item>
             <Item width={150}>
                 <span style={styles}>{name}</span>
             </Item>
-            <Item>
+            <Item width={80}>
                 <span style={styles}>{formatNumber(debit)}</span>
             </Item>
             <Item>

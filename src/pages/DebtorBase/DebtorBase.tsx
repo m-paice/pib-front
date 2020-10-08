@@ -46,6 +46,7 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
     const dispatch = useDispatch();
 
     const [tbody, setTbody] = useState<Debtor[]>(data);
+    const [searchData, setSearchData] = useState<Debtor[]>([]);
     const [filteredSituation, setFilteredSituation] = useState({ value: 0, label: "Todos" });
 
     useEffect(() => {
@@ -67,6 +68,22 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
         setFilteredSituation(situation);
     };
 
+    const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+
+        if (!value.length) return setSearchData([]);
+
+        const debitFound = tbody.filter((item) => String(item.debit).includes(value));
+        const negociationFound = tbody.filter((item) => String(item.negociation).includes(value));
+        const documentFound = tbody.filter((item) => item.document.toLowerCase().includes(value.toLowerCase()));
+
+        if (debitFound.length) return setSearchData(debitFound);
+        else if (negociationFound.length) return setSearchData(negociationFound);
+        else if (documentFound.length) return setSearchData(documentFound);
+
+        return setSearchData([]);
+    };
+
     return (
         <div className="page">
             <div className="container">
@@ -81,12 +98,16 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
                                 <Select options={options} value={filteredSituation} onChange={handleSetSituation} />
                             </div>
                             <div className="col-md-3">
-                                <input placeholder="Pesquisar:" className="form-control inputAzul" />
+                                <input
+                                    placeholder="Pesquisar:"
+                                    className="form-control inputAzul"
+                                    onChange={handleSearchValue}
+                                />
                             </div>
                         </div>
                     </div>
 
-                    <Table thead={header} tbody={tbody} />
+                    <Table thead={header} tbody={searchData.length !== 0 ? searchData : tbody} />
                 </div>
             </div>
         </div>
