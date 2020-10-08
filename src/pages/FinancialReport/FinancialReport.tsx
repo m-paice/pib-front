@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import SweetAlert from "react-bootstrap-sweetalert";
 import { useDispatch } from "react-redux";
 
-import { financialReportContainer } from "./FinancialReportContainer";
-
+// interfaces
 import { Wallet } from "../../store/modules/pj/wallet/types";
 
+// actions
 import { actions as actionsWallet } from "../../store/modules/pj/wallet/actions";
 
 // components
+import { financialReportContainer } from "./FinancialReportContainer";
 import Table from "../../components/Table/TableFinancial";
 import Select from "../../components/unconnected/Fields/Select";
 
@@ -34,6 +35,14 @@ const options = [
     { value: 10, label: "novembro - 2020" },
 ];
 
+const operations = [
+    { value: 0, name: "Saldo mês anterior" },
+    { value: 1, name: "Recebimento" },
+    { value: 2, name: "Saque" },
+    { value: 3, name: "Comissão" },
+    { value: 4, name: "Taxa de transferência" },
+];
+
 interface Props {
     payload: {
         data: Wallet[];
@@ -48,6 +57,8 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
     const { data, totalValueTransactions, isValidValue, handleFilterCurrentMonth, handleReduceValueOfMonth } = payload;
 
     const dispatch = useDispatch();
+
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const [tbody, setTbody] = useState<Wallet[]>(data);
     const [searchData, setSearchData] = useState<Wallet[]>([]);
@@ -87,6 +98,10 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
     }, [payload.data]);
 
     useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.value = "";
+            setSearchData([]);
+        }
         const transactions = handleFilterCurrentMonth(monthSelected.value);
 
         if (transactions.length) {
@@ -124,14 +139,17 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
         if (!value.length) return setSearchData([]);
 
         const valueFound = tbody.filter((item) => String(item.value).includes(value));
-
         const documentFound = tbody.filter((item) => item.cnpj.includes(value));
-
         const namesFound = tbody.filter((item) => item.nameCompany.toLowerCase().includes(value.toLowerCase()));
+        const [operationFound] = operations
+            .filter((item) => item.name.toLowerCase().includes(value.toLowerCase()))
+            .map((item) => item.value);
+        const operationsFound = tbody.filter((item) => item.operation === operationFound);
 
         if (valueFound.length) return setSearchData(valueFound);
         else if (documentFound.length) return setSearchData(documentFound);
         else if (namesFound.length) return setSearchData(namesFound);
+        else if (operationsFound.length) return setSearchData(operationsFound);
 
         return setSearchData([]);
     };
@@ -153,6 +171,7 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
                             placeholder="Pesquisar:"
                             onChange={handleSearchValue}
                             className="form-control inputAzul"
+                            ref={inputRef}
                         />
                     </div>
 

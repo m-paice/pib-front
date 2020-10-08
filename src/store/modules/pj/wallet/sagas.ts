@@ -10,19 +10,8 @@ const valueForOperation = {
     4: () => Math.ceil(Math.random() * 15),
 };
 
-let i = 0;
 const operation = () => {
-    if (i < 4) {
-        i = i + 1;
-        return 1;
-    }
-
-    if (i >= 4) {
-        i = 0;
-        return Math.ceil(Math.random() * 4);
-    }
-
-    return 0;
+    return Math.ceil(Math.random() * 4);
 };
 
 const dateRandom = () => {

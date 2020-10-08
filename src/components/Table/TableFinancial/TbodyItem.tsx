@@ -25,9 +25,10 @@ interface PropsItem {
     index: number;
     operation: number;
     separator?: boolean;
+    width?: string | number;
 }
 
-const Item: React.FC<PropsItem> = ({ children, index, operation, separator = true }) => {
+const Item: React.FC<PropsItem> = ({ children, index, operation, separator = true, width }) => {
     const changeColor = operation === 3; // accredite rate
 
     const isPar = index % 2 === 0;
@@ -35,7 +36,7 @@ const Item: React.FC<PropsItem> = ({ children, index, operation, separator = tru
     return (
         <td
             className={`txt-lista-regras ${changeColor ? "tdAccredite" : ""} ${isPar ? "tdbgcolor" : ""}`}
-            style={{ position: "relative" }}
+            style={{ position: "relative", width }}
         >
             {children}
             {separator ? (
@@ -77,13 +78,13 @@ const TbodyItem: React.FC<Props> = ({ index, date, cnpj, nameCompany, operation,
             <Item index={index} operation={operation}>
                 <span style={styles}>{formatDate(date)}</span>
             </Item>
-            <Item index={index} operation={operation}>
+            <Item index={index} operation={operation} width={150}>
                 <span style={styles}>{cnpj}</span>
             </Item>
             <Item index={index} operation={operation}>
                 <span style={styles}>{nameCompany}</span>
             </Item>
-            <Item index={index} operation={operation}>
+            <Item index={index} operation={operation} width={150}>
                 <span style={styles}>{handleViewType()}</span>
             </Item>
             <Item index={index} operation={operation} separator={false}>
