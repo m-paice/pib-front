@@ -30,6 +30,8 @@ export interface Debtor {
     receipt: number;
     late: number;
     situation: number;
+    maxPartion: number;
+    vencimento: Date;
 }
 
 export interface ById {

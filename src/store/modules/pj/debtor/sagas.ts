@@ -27,6 +27,8 @@ function* loadDebtors() {
                         receipt: randomValue(),
                         late: randomValue(),
                         situation: randomSituation(),
+                        maxPartion: Math.ceil(Math.random() * 24),
+                        vencimento: dateRandom(),
                     })),
                 );
             }, 2000);

@@ -23,6 +23,127 @@ const styles: React.CSSProperties = {
     marginTop: 5,
 };
 
+interface DetailsItem {
+    sitiacao: number;
+    pagamento: number;
+    parcelamento: number;
+    vencimento: Date;
+    valorParcela: number;
+    valor: number;
+    desconto: number;
+    total: number;
+}
+
+const DetailsItem: React.FC<DetailsItem> = (props) => {
+    const { sitiacao, pagamento, parcelamento, valorParcela, vencimento, valor, desconto, total } = props;
+
+    const handleViewPayment = (payment: number) => {
+        if (payment === 1) return "Cartão de crédito";
+        if (payment === 2) return "Cartão de débito";
+        if (payment === 3) return "Boleto";
+
+        return "";
+    };
+
+    const handleViewSituation = (situation: number) => {
+        if (situation === 1) return "EM ATRASO";
+        if (situation === 2) return "EM DIA";
+        if (situation === 3) return "NÃO NEGOCIADA";
+        if (situation === 4) return "QUITADA";
+
+        return "";
+    };
+
+    return (
+        <div className="row pagt align-center">
+            <div className="row pagt align-center">
+                <div className="col-md text-nowrap">
+                    Forma de Pagamento
+                    <br />
+                    <div className="lab lab2">
+                        <strong>{handleViewPayment(pagamento || 0)}</strong>
+                    </div>
+                </div>
+                <div className="col-md text-nowrap">
+                    Parcelamento
+                    <div className="lab lab2">
+                        <strong>
+                            {parcelamento} de {valorParcela.toFixed(2)}
+                        </strong>
+                    </div>
+                </div>
+                <div className="col-md text-nowrap">
+                    Data de Vencimento
+                    <div className="lab lab2">
+                        <strong>{formatDate(vencimento)}</strong>
+                    </div>
+                </div>
+                <div className="col-md text-nowrap">
+                    Valor da Dívida
+                    <div className="lab lab2">
+                        <strong>{valor}</strong>
+                    </div>
+                </div>
+                <div className="col-md-2">
+                    <div className="row justify-content-between">
+                        <div className=" text-nowrap">
+                            Desconto
+                            <div className="lab lab2">
+                                <strong>{desconto}</strong>
+                            </div>
+                        </div>
+                        <div className=" text-nowrap">
+                            Total
+                            <div className="lab lab2">
+                                <strong>{total}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="full-width hidden-xs ">
+                <div className="row nopadding ltab">
+                    <div className="col-md text-nowrap lth">
+                        <strong>Parcela </strong>
+                        <div className="col-md mt-2">1</div>
+                    </div>
+                    <div className="col-md text-nowrap lth">
+                        <strong>Vencimento </strong>
+                        <div className="col-md mt-2">{formatDate(vencimento)}</div>
+                    </div>
+                    <div className="col-md text-nowrap lth">
+                        <strong>Valor da Parcela</strong>
+                        <div className="col-md mt-2">{valorParcela.toFixed(2)}</div>
+                    </div>
+                    <div className="col-md text-nowrap lth">
+                        <strong>Data de Pagamento</strong>
+                        <div className="col-md mt-2">29/05/2020</div>
+                    </div>
+                    <div className="col-md text-nowrap lth sit">
+                        <strong>Situação</strong>
+                        <div className=" col-md mt-2">
+                            <span className="paga ">{handleViewSituation(sitiacao)}</span>
+                        </div>
+                    </div>
+                    <div className="col-md lth">
+                        <div className="col-md "></div>
+                        <div className="col-md "></div>
+                        <div className="col-md "></div>
+                        <div className="col-md ">
+                            {pagamento === 3 ? (
+                                <a className="proxima haha text-nowrap">Gerar Boleto</a>
+                            ) : (
+                                <a className="proxima haha text-nowrap"> Cartão </a>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 interface PropsItem {
     separator?: boolean;
     width?: number | string;
@@ -84,11 +205,24 @@ const Actions: React.FC<PropsActions> = ({ show, closed, handleToggleSimulator, 
 type Props = Debtor;
 
 const TbodyItem: React.FC<Props> = (props) => {
-    const { id, dateRegister, document, name, debit, negociation, receipt, late, situation } = props;
+    const {
+        id,
+        dateRegister,
+        document,
+        name,
+        debit,
+        negociation,
+        receipt,
+        late,
+        situation,
+        maxPartion,
+        vencimento,
+    } = props;
 
     const [simulator, setSimulator] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [closed, setClosed] = useState(false);
+    const [detailsItem, setDetailsItem] = useState(false);
 
     const handleToggleSimulator = () => {
         setSimulator(!simulator);
@@ -108,6 +242,10 @@ const TbodyItem: React.FC<Props> = (props) => {
             style: "currency",
             currency: "BRL",
         });
+
+    const handleToggleDetailsItem = () => {
+        setDetailsItem(!detailsItem);
+    };
 
     const handleToggleConfirm = () => {
         setConfirm(!confirm);
@@ -146,7 +284,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                     <span>{formatNumber(late)}</span>
                 </Item>
                 <Item separator={false} width={152}>
-                    <span>{handleViewSituation(situation)}</span>
+                    <span onClick={handleToggleDetailsItem}>{handleViewSituation(situation)}</span>
                 </Item>
                 <Actions
                     show={situation === 3}
@@ -154,9 +292,24 @@ const TbodyItem: React.FC<Props> = (props) => {
                     handleToggleSimulator={handleToggleSimulator}
                     handleToggleConfirm={handleToggleConfirm}
                 />
-
-                {simulator && <Simulator isOpen={simulator} onClose={handleToggleSimulator} {...props} />}
             </tr>
+            {detailsItem && (
+                <tr>
+                    <td colSpan={9}>
+                        <DetailsItem
+                            sitiacao={situation}
+                            pagamento={Math.ceil(Math.random() * 3)}
+                            parcelamento={maxPartion}
+                            valorParcela={negociation / maxPartion}
+                            vencimento={vencimento}
+                            valor={debit}
+                            desconto={10}
+                            total={debit - 10}
+                        />
+                    </td>
+                </tr>
+            )}
+            {simulator && <Simulator isOpen={simulator} onClose={handleToggleSimulator} {...props} />}
             {confirm && (
                 <SweetAlert
                     title={
