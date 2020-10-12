@@ -48,6 +48,7 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
     const [tbody, setTbody] = useState<Debtor[]>(data);
     const [searchData, setSearchData] = useState<Debtor[]>([]);
     const [filteredSituation, setFilteredSituation] = useState({ value: 0, label: "Todos" });
+    const [lastColumn, setLastColum] = useState("");
 
     useEffect(() => {
         dispatch(actionsDebtors.loadNegociation());
@@ -84,6 +85,21 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
         return setSearchData([]);
     };
 
+    const handleOrderByColumn = (column: string) => {
+        if (lastColumn === column) {
+            const response = tbody.map((item) => item).sort((a, b) => (a[column] < b[column] ? 1 : -1));
+
+            setLastColum("");
+            setTbody(response);
+            return;
+        }
+
+        const response = tbody.map((item) => item).sort((a, b) => (a[column] > b[column] ? 1 : -1));
+
+        setLastColum(column);
+        setTbody(response);
+    };
+
     return (
         <div className="page">
             <div className="container">
@@ -107,7 +123,11 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
                         </div>
                     </div>
 
-                    <Table thead={header} tbody={searchData.length !== 0 ? searchData : tbody} />
+                    <Table
+                        thead={header}
+                        tbody={searchData.length !== 0 ? searchData : tbody}
+                        handleOrderByColumn={handleOrderByColumn}
+                    />
                 </div>
             </div>
         </div>

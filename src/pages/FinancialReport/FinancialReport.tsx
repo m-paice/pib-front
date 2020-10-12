@@ -72,6 +72,7 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
 
     const [tbody, setTbody] = useState<Wallet[]>(data);
     const [searchData, setSearchData] = useState<Wallet[]>([]);
+    const [lastColumn, setLastColum] = useState("");
 
     const [transfer, setTransfer] = useState(false);
     const [monthSelected, setMonthSelected] = useState({
@@ -164,6 +165,21 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
         return setSearchData([]);
     };
 
+    const handleOrderByColumn = (column: string) => {
+        if (lastColumn === column) {
+            const response = tbody.map((item) => item).sort((a, b) => (a[column] < b[column] ? 1 : -1));
+
+            setLastColum("");
+            setTbody(response);
+            return;
+        }
+
+        const response = tbody.map((item) => item).sort((a, b) => (a[column] > b[column] ? 1 : -1));
+
+        setLastColum(column);
+        setTbody(response);
+    };
+
     return (
         <div className="page">
             <div className="container">
@@ -231,7 +247,11 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
                     )}
                 </div>
 
-                <Table thead={header} tbody={searchData.length !== 0 ? searchData : tbody} />
+                <Table
+                    thead={header}
+                    tbody={searchData.length !== 0 ? searchData : tbody}
+                    handleOrderByColumn={handleOrderByColumn}
+                />
             </div>
         </div>
     );

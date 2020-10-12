@@ -25,11 +25,11 @@ type Tbody = Wallet;
 interface Props {
     thead: Thead[];
     tbody: Tbody[];
+    handleOrderByColumn(column: string): void;
 }
 
-const TableFinancial: React.FC<Props> = ({ thead, tbody }) => {
+const TableFinancial: React.FC<Props> = ({ thead, tbody, handleOrderByColumn }) => {
     const [data, setData] = useState<Tbody[]>(tbody);
-    const [lastOrdem, setLastOrder] = useState("");
 
     const [pagination, setPagination] = useState<PaginationSate>({
         page: 1,
@@ -75,20 +75,6 @@ const TableFinancial: React.FC<Props> = ({ thead, tbody }) => {
         }));
     };
 
-    const handleOrderForColumn = (column: string) => {
-        if (lastOrdem === column) {
-            const response = data.map((item) => item).sort((a: Tbody, b: Tbody) => (a[column] < b[column] ? 1 : -1));
-
-            setData(response);
-            setLastOrder("");
-        } else {
-            const response = data.map((item) => item).sort((a: Tbody, b: Tbody) => (a[column] > b[column] ? 1 : -1));
-
-            setData(response);
-            setLastOrder(column);
-        }
-    };
-
     return (
         <div className="table-regua barraRolagem">
             <span id="top"></span>
@@ -101,7 +87,7 @@ const TableFinancial: React.FC<Props> = ({ thead, tbody }) => {
                                 text={item.text}
                                 title={item.title}
                                 reference={item.reference}
-                                handleOrderForColumn={handleOrderForColumn}
+                                handleOrderForColumn={handleOrderByColumn}
                             />
                         ))}
                     </tr>

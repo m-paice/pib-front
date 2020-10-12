@@ -33,9 +33,31 @@ const RuleNegociation: React.FC<Props> = ({ payload }) => {
 
     const dispatch = useDispatch();
 
+    const [tbody, setTbody] = useState<Negociation[]>(data);
+    const [lastColumn, setLastColum] = useState("");
+
     useEffect(() => {
         dispatch(actionsNegociation.loadNegociation());
     }, []);
+
+    useEffect(() => {
+        setTbody(payload.data);
+    }, [payload.data]);
+
+    const handleOrderByColumn = (column: string) => {
+        if (lastColumn === column) {
+            const response = tbody.map((item) => item).sort((a, b) => (a[column] < b[column] ? 1 : -1));
+
+            setLastColum("");
+            setTbody(response);
+            return;
+        }
+
+        const response = tbody.map((item) => item).sort((a, b) => (a[column] > b[column] ? 1 : -1));
+
+        setLastColum(column);
+        setTbody(response);
+    };
 
     return (
         <div className="page">
@@ -47,7 +69,7 @@ const RuleNegociation: React.FC<Props> = ({ payload }) => {
                     </div>
                 </div>
 
-                <Table thead={header} tbody={data} />
+                <Table thead={header} tbody={tbody} handleOrderByColumn={handleOrderByColumn} />
             </div>
         </div>
     );
