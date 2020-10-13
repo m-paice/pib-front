@@ -14,7 +14,7 @@ function* loadNegociation() {
                         yaerDebit: index + 1,
                         interest: (Math.random() * 8).toFixed(1),
                         discount: Math.ceil(Math.random() * 12),
-                        maxPortion: Math.floor(Math.random() * 12),
+                        maxPortion: Math.ceil(Math.random() * 12),
                         attenuator: (Math.random() * 12).toFixed(1),
                         trafficTicket: (Math.random() * 2).toFixed(1),
                         readjustment: (Math.random() * 100).toFixed(1),

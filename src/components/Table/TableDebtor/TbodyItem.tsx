@@ -8,6 +8,7 @@ import formatDate from "../../../utils/formatDate";
 
 // components
 import Simulator from "../../Simulator/Debtor";
+import DetailsItem from "./DetailsItem";
 
 // assets
 import Lock from "../../../assets/imagens/lock.png";
@@ -21,127 +22,6 @@ const styles: React.CSSProperties = {
     alignItems: "center",
     justifyContent: "center",
     marginTop: 5,
-};
-
-interface DetailsItem {
-    sitiacao: number;
-    pagamento: number;
-    parcelamento: number;
-    vencimento: Date;
-    valorParcela: number;
-    valor: number;
-    desconto: number;
-    total: number;
-}
-
-const DetailsItem: React.FC<DetailsItem> = (props) => {
-    const { sitiacao, pagamento, parcelamento, valorParcela, vencimento, valor, desconto, total } = props;
-
-    const handleViewPayment = (payment: number) => {
-        if (payment === 1) return "Cartão de crédito";
-        if (payment === 2) return "Cartão de débito";
-        if (payment === 3) return "Boleto";
-
-        return "";
-    };
-
-    const handleViewSituation = (situation: number) => {
-        if (situation === 1) return "EM ATRASO";
-        if (situation === 2) return "EM DIA";
-        if (situation === 3) return "NÃO NEGOCIADA";
-        if (situation === 4) return "QUITADA";
-
-        return "";
-    };
-
-    return (
-        <div className="row pagt align-center">
-            <div className="row pagt align-center">
-                <div className="col-md text-nowrap">
-                    Forma de Pagamento
-                    <br />
-                    <div className="lab lab2">
-                        <strong>{handleViewPayment(pagamento || 0)}</strong>
-                    </div>
-                </div>
-                <div className="col-md text-nowrap">
-                    Parcelamento
-                    <div className="lab lab2">
-                        <strong>
-                            {parcelamento} de {valorParcela.toFixed(2)}
-                        </strong>
-                    </div>
-                </div>
-                <div className="col-md text-nowrap">
-                    Data de Vencimento
-                    <div className="lab lab2">
-                        <strong>{formatDate(vencimento)}</strong>
-                    </div>
-                </div>
-                <div className="col-md text-nowrap">
-                    Valor da Dívida
-                    <div className="lab lab2">
-                        <strong>{valor}</strong>
-                    </div>
-                </div>
-                <div className="col-md-2">
-                    <div className="row justify-content-between">
-                        <div className=" text-nowrap">
-                            Desconto
-                            <div className="lab lab2">
-                                <strong>{desconto}</strong>
-                            </div>
-                        </div>
-                        <div className=" text-nowrap">
-                            Total
-                            <div className="lab lab2">
-                                <strong>{total}</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="full-width hidden-xs ">
-                <div className="row nopadding ltab">
-                    <div className="col-md text-nowrap lth">
-                        <strong>Parcela </strong>
-                        <div className="col-md mt-2">1</div>
-                    </div>
-                    <div className="col-md text-nowrap lth">
-                        <strong>Vencimento </strong>
-                        <div className="col-md mt-2">{formatDate(vencimento)}</div>
-                    </div>
-                    <div className="col-md text-nowrap lth">
-                        <strong>Valor da Parcela</strong>
-                        <div className="col-md mt-2">{valorParcela.toFixed(2)}</div>
-                    </div>
-                    <div className="col-md text-nowrap lth">
-                        <strong>Data de Pagamento</strong>
-                        <div className="col-md mt-2">29/05/2020</div>
-                    </div>
-                    <div className="col-md text-nowrap lth sit">
-                        <strong>Situação</strong>
-                        <div className=" col-md mt-2">
-                            <span className="paga ">{handleViewSituation(sitiacao)}</span>
-                        </div>
-                    </div>
-                    <div className="col-md lth">
-                        <div className="col-md "></div>
-                        <div className="col-md "></div>
-                        <div className="col-md "></div>
-                        <div className="col-md ">
-                            {pagamento === 3 ? (
-                                <a className="proxima haha text-nowrap">Gerar Boleto</a>
-                            ) : (
-                                <a className="proxima haha text-nowrap"> Cartão </a>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
 };
 
 interface PropsItem {
@@ -218,8 +98,8 @@ const TbodyItem: React.FC<Props> = (props) => {
         receipt,
         late,
         situation,
-        maxPartion,
-        vencimento,
+        portion,
+        discount,
         handleSetId,
         idItemSelected,
     } = props;
@@ -272,7 +152,7 @@ const TbodyItem: React.FC<Props> = (props) => {
     return (
         <>
             <tr className="itemListaRegras">
-                <Item>
+                <Item width={100}>
                     <span style={styles}>{formatDate(dateRegister)}</span>
                 </Item>
                 <Item width={120}>
@@ -284,17 +164,38 @@ const TbodyItem: React.FC<Props> = (props) => {
                 <Item width={80}>
                     <span style={styles}>{formatNumber(debit)}</span>
                 </Item>
-                <Item>
-                    <span style={styles}>{formatNumber(negociation)}</span>
-                </Item>
-                <Item>
-                    <span style={styles}>{formatNumber(receipt)}</span>
-                </Item>
-                <Item separator={false}>
-                    <span>{formatNumber(late)}</span>
-                </Item>
+                {situation !== 3 ? (
+                    <>
+                        {" "}
+                        <Item>
+                            <span style={styles}>{formatNumber(negociation)}</span>
+                        </Item>
+                        <Item>
+                            <span style={styles}>{formatNumber(receipt)}</span>
+                        </Item>
+                        <Item separator={false}>
+                            <span>{situation !== 1 ? formatNumber(0) : formatNumber(late)}</span>
+                        </Item>
+                    </>
+                ) : (
+                    <>
+                        <Item>
+                            <span style={styles}>{formatNumber(0)}</span>
+                        </Item>
+                        <Item>
+                            <span style={styles}>{formatNumber(0)}</span>
+                        </Item>
+                        <Item separator={false}>
+                            <span>{formatNumber(0)}</span>
+                        </Item>{" "}
+                    </>
+                )}
                 <Item separator={false} width={152}>
-                    <span onClick={() => handleSetId(id)}>{handleViewSituation(situation)}</span>
+                    {situation !== 3 ? (
+                        <span onClick={() => handleSetId(id)}>{handleViewSituation(situation)}</span>
+                    ) : (
+                        <span>{handleViewSituation(situation)}</span>
+                    )}
                 </Item>
                 <Actions
                     show={situation === 3}
@@ -305,18 +206,16 @@ const TbodyItem: React.FC<Props> = (props) => {
             </tr>
             {idItemSelected === id && (
                 <tr className="itemListaRegras">
-                    <td className="txt-lista-regras" colSpan={9}>
+                    <td></td>
+                    <td className="txt-lista-regras" colSpan={7}>
                         <DetailsItem
-                            sitiacao={situation}
-                            pagamento={Math.ceil(Math.random() * 3)}
-                            parcelamento={maxPartion}
-                            valorParcela={negociation / maxPartion}
-                            vencimento={vencimento}
-                            valor={debit}
-                            desconto={10}
-                            total={debit - 10}
+                            {...props}
+                            total={debit - discount}
+                            value={debit}
+                            valuePortion={(debit - discount) / portion}
                         />
                     </td>
+                    <td></td>
                 </tr>
             )}
             {simulator && (

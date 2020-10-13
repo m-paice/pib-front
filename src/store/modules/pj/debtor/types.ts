@@ -20,6 +20,14 @@ export enum types {
     UPDATE_DEBTOR_FAILURE = "@pj/DEBTOR/UPDATE_DEBTOR_FAILURE",
 }
 
+interface Details {
+    portion: number;
+    dueDate: Date;
+    valuePortion: number;
+    datePayment: Date;
+    situation: number; // [1] ok [2] proxima
+}
+
 export interface Debtor {
     id: string;
     dateRegister: Date;
@@ -30,8 +38,10 @@ export interface Debtor {
     receipt: number;
     late: number;
     situation: number;
-    maxPartion: number;
-    vencimento: Date;
+    payment: number; // [1] cartão de crédit0 [2] boleto
+    portion: number;
+    discount: number;
+    detailsPortion: Details[];
 }
 
 export interface ById {
