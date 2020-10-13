@@ -226,7 +226,7 @@ const TbodyItem: React.FC<Props> = (props) => {
 
     const [simulator, setSimulator] = useState(false);
     const [confirm, setConfirm] = useState(false);
-    const [closed, setClosed] = useState(false);
+    const [closed, setClosed] = useState(true);
     const [amountMonth, setAmountMonth] = useState(0);
 
     useEffect(() => {
