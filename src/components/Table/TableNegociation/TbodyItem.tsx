@@ -198,7 +198,8 @@ const TbodyItem: React.FC<Props> = (props) => {
         setSimulator(!simulator);
     };
 
-    const handleFormatYaerDebit = (text: string): string => (text === "1" ? `${text} mês` : `${text} meses`);
+    const handleFormatYaerDebit = (amountMonth: number | string): string =>
+        amountMonth === 1 ? `${amountMonth} mês` : `${amountMonth} meses`;
 
     /** set values */
     const handleSetValues = (key: string, value: string | number) => {

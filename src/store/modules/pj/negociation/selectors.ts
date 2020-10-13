@@ -11,3 +11,9 @@ export const stateNegociation = (state: ApplicationState) => getElements<Negocia
 export const dataNegociation = createSelector(stateNegociation, (negociations) =>
     negociations.map((negociation) => negociation),
 );
+
+export const negociationByMonth = createSelector(
+    stateNegociation,
+    (_, month: number) => month,
+    (negociations, month) => negociations.find((negociation) => negociation.yaerDebit === month),
+);

@@ -22,7 +22,7 @@ export enum types {
 
 export interface Negociation {
     id: string;
-    yaerDebit: string;
+    yaerDebit: number | string;
     interest: string;
     discount: string;
     maxPortion: number;

@@ -29,12 +29,15 @@ export default function* () {
         // debit
         takeLatest(typesPjDebt.ADD_DEBT, debtPjSagas.createDebt),
         // negociation
-        takeLatest(typesPjNegociation.LOAD_NEGOCIATION, negociationPjSagas.loadNegociation),
+        // takeLatest(typesPjNegociation.LOAD_NEGOCIATION, negociationPjSagas.loadNegociation),
         takeLatest(typesPjNegociation.UPDATE_NEGOCIATION, negociationPjSagas.updateNegociation),
         // wallet
         takeLatest(typesPjWallet.LOAD_WALLET, walletPjSagas.loadNegociation),
         takeLatest(typesPjWallet.ADD_WALLET, walletPjSagas.addItemWallet),
         // debtor
-        takeLatest(typesPjDebtors.LOAD_DEBTOR, debtorPjSagas.loadDebtors),
+        // takeLatest(typesPjDebtors.LOAD_DEBTOR, debtorPjSagas.loadDebtors),
+        // init services
+        takeLatest("persist/REHYDRATE", negociationPjSagas.loadNegociation),
+        takeLatest("persist/REHYDRATE", debtorPjSagas.loadDebtors),
     ]);
 }

@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
+import { useSelector } from "react-redux";
 import { Modal, ModalBody } from "reactstrap";
 
+import { ApplicationState } from "../../../store";
+
+// types
 import { Debtor } from "../../../store/modules/pj/debtor/types";
+
+// selector
+import { negociationByMonth } from "../../../store/modules/pj/negociation/selectors";
 
 interface Props extends Debtor {
     isOpen: boolean;
     onClose(): void;
+    monthForRule: number;
 }
 
 const stylesPrimary: React.CSSProperties = {
@@ -19,7 +27,24 @@ const stylesSecondary: React.CSSProperties = {
     color: "#14657b",
 };
 
-const Simulator: React.FC<Props> = ({ isOpen, onClose }) => {
+const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, debit }) => {
+    const [options, setOptions] = useState<number[]>([]);
+    const [totalPrice, setTotalPrice] = useState<number>(0);
+
+    const negociation = useSelector((state: ApplicationState) => negociationByMonth(state, monthForRule));
+
+    useEffect(() => {
+        if (negociation) setOptions(Array.from({ length: negociation.maxPortion }).map((_, index) => index + 1));
+    }, [negociation]);
+
+    const handleCalculateValue = () => {
+        setTotalPrice(Math.ceil(Math.random() * 999));
+    };
+
+    const handleFormatPrice = (value: number) => value.toLocaleString("pt-br", { style: "currency", currency: "BRL" });
+
+    if (!negociation) return <p> Carregando dados da regua... </p>;
+
     return (
         <Modal isOpen={isOpen} toggle={onClose} size="lg">
             <ModalBody style={{ backgroundColor: "#14657b" }}>
@@ -35,6 +60,65 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose }) => {
                             <a className="close text-right regua-close btn-close-modal pointer" onClick={onClose}>
                                 Fechar
                             </a>
+                        </div>
+
+                        <div className="col-sm-4 comp-modal">
+                            <label className="lblModal">Valor da Dívida</label>
+                            <input
+                                type="text"
+                                className="form-control inputModal money"
+                                title="Valor total da dívida"
+                                style={stylesPrimary}
+                                value={handleFormatPrice(debit)}
+                                disabled
+                            />
+                        </div>
+                        <div className="col-sm-4 comp-modal">
+                            <label className="lblModal">Idade da Dívida</label>
+                            <input
+                                type="text"
+                                className="form-control inputModal"
+                                title="Tempo de vida da dívida"
+                                style={stylesPrimary}
+                                value={`${negociation.yaerDebit} meses`}
+                                disabled
+                            />
+                        </div>
+                        <div className="col-sm-4 comp-modal">
+                            <label className="lblModal">Número de parcelas</label>
+                            <select
+                                style={{ paddingLeft: "12px !important", color: "#fff" }}
+                                className="form-control inputModal selectModal"
+                                onChange={handleCalculateValue}
+                            >
+                                {options.map((value) => (
+                                    <option key={value} value={value}>
+                                        {value}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="col-sm-4 comp-modal">
+                            <label className="lblModal">Desconto concedido</label>
+                            <input
+                                type="text"
+                                className="form-control inputModal"
+                                title="Desconto concedido"
+                                style={stylesPrimary}
+                                value={`${negociation.discount}%`}
+                                disabled
+                            />
+                        </div>
+                        <div className="col-sm-4 comp-modal">
+                            <label className="lblModal">Valor a ser pago</label>
+                            <input
+                                type="text"
+                                className="form-control inputModal money"
+                                title="Valor a ser pago"
+                                style={stylesSecondary}
+                                value={handleFormatPrice(totalPrice)}
+                                disabled
+                            />
                         </div>
                     </div>
                 </div>

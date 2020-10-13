@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Debtor } from "../../../store/modules/pj/debtor/types";
 import SweetAlert from "react-bootstrap-sweetalert";
@@ -223,6 +223,16 @@ const TbodyItem: React.FC<Props> = (props) => {
     const [confirm, setConfirm] = useState(false);
     const [closed, setClosed] = useState(false);
     const [detailsItem, setDetailsItem] = useState(false);
+    const [amountMonth, setAmountMonth] = useState(0);
+
+    useEffect(() => {
+        const currentMonth = new Date().getMonth();
+        const registerMonth = new Date(dateRegister).getMonth();
+
+        const amountMonth = currentMonth - registerMonth;
+
+        setAmountMonth(amountMonth);
+    }, []);
 
     const handleToggleSimulator = () => {
         setSimulator(!simulator);
@@ -309,7 +319,9 @@ const TbodyItem: React.FC<Props> = (props) => {
                     </td>
                 </tr>
             )}
-            {simulator && <Simulator isOpen={simulator} onClose={handleToggleSimulator} {...props} />}
+            {simulator && (
+                <Simulator isOpen={simulator} onClose={handleToggleSimulator} monthForRule={amountMonth} {...props} />
+            )}
             {confirm && (
                 <SweetAlert
                     title={

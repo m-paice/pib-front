@@ -11,7 +11,7 @@ function* loadNegociation() {
                 resolve(
                     Array.from({ length: 60 }).map((_, index) => ({
                         id: index.toString(),
-                        yaerDebit: (index + 1).toString(),
+                        yaerDebit: index + 1,
                         interest: (Math.random() * 8).toFixed(1),
                         discount: Math.ceil(Math.random() * 12),
                         maxPortion: Math.floor(Math.random() * 12),
