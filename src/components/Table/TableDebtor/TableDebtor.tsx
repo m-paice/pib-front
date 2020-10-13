@@ -30,6 +30,7 @@ interface Props {
 
 const TableNegociation: React.FC<Props> = ({ thead, tbody, handleOrderByColumn }) => {
     const [data, setData] = useState<Tbody[]>(tbody);
+    const [idSelected, setIdSelected] = useState("");
 
     const [pagination, setPagination] = useState<PaginationSate>({
         page: 1,
@@ -82,6 +83,12 @@ const TableNegociation: React.FC<Props> = ({ thead, tbody, handleOrderByColumn }
         }));
     };
 
+    const handleSetId = (idItem: string) => {
+        if (idItem === idSelected) return setIdSelected("");
+
+        return setIdSelected(idItem);
+    };
+
     return (
         <div className="table-regua barraRolagem">
             <span id="top"></span>
@@ -101,7 +108,7 @@ const TableNegociation: React.FC<Props> = ({ thead, tbody, handleOrderByColumn }
                 </thead>
                 <tbody className="listaCompletaRegras">
                     {data.map((item, index) => (
-                        <TbodyItem key={item.id} {...item} />
+                        <TbodyItem key={item.id} handleSetId={handleSetId} idItemSelected={idSelected} {...item} />
                     ))}
 
                     {!data.length && (

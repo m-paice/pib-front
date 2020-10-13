@@ -202,7 +202,10 @@ const Actions: React.FC<PropsActions> = ({ show, closed, handleToggleSimulator, 
     );
 };
 
-type Props = Debtor;
+interface Props extends Debtor {
+    handleSetId(id: string): void;
+    idItemSelected: string;
+}
 
 const TbodyItem: React.FC<Props> = (props) => {
     const {
@@ -217,12 +220,13 @@ const TbodyItem: React.FC<Props> = (props) => {
         situation,
         maxPartion,
         vencimento,
+        handleSetId,
+        idItemSelected,
     } = props;
 
     const [simulator, setSimulator] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [closed, setClosed] = useState(false);
-    const [detailsItem, setDetailsItem] = useState(false);
     const [amountMonth, setAmountMonth] = useState(0);
 
     useEffect(() => {
@@ -252,10 +256,6 @@ const TbodyItem: React.FC<Props> = (props) => {
             style: "currency",
             currency: "BRL",
         });
-
-    const handleToggleDetailsItem = () => {
-        setDetailsItem(!detailsItem);
-    };
 
     const handleToggleConfirm = () => {
         setConfirm(!confirm);
@@ -294,7 +294,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                     <span>{formatNumber(late)}</span>
                 </Item>
                 <Item separator={false} width={152}>
-                    <span onClick={handleToggleDetailsItem}>{handleViewSituation(situation)}</span>
+                    <span onClick={() => handleSetId(id)}>{handleViewSituation(situation)}</span>
                 </Item>
                 <Actions
                     show={situation === 3}
@@ -303,9 +303,9 @@ const TbodyItem: React.FC<Props> = (props) => {
                     handleToggleConfirm={handleToggleConfirm}
                 />
             </tr>
-            {detailsItem && (
-                <tr>
-                    <td colSpan={9}>
+            {idItemSelected === id && (
+                <tr className="itemListaRegras">
+                    <td className="txt-lista-regras" colSpan={9}>
                         <DetailsItem
                             sitiacao={situation}
                             pagamento={Math.ceil(Math.random() * 3)}
