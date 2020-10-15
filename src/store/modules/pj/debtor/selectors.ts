@@ -42,7 +42,7 @@ export const receiveDebtorsValueNextDays = createSelector(stateDebtor, (debtorsI
 
 // delay value
 export const delayDebtorsValue = createSelector(stateDebtor, (debtorsItems) =>
-    debtorsItems.filter((item) => item.situation === 1).reduce((acc, cur) => acc + cur.debit, 0),
+    debtorsItems.filter((item) => item.situation === 1).reduce((acc, cur) => acc + cur.late, 0),
 );
 
 // names situations

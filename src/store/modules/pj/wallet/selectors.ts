@@ -22,8 +22,6 @@ export const totalValueRescued = createSelector(stateWallet, (walletItems) =>
     walletItems.filter((item) => item.operation !== 1).reduce((acc, cur) => acc + cur.value, 0),
 );
 
-export const totalValue = createSelector(
-    totalValueReceived,
-    totalValueRescued,
-    (valueReceived, valeuRescued) => valueReceived - valeuRescued,
+export const totalValue = createSelector(totalValueReceived, totalValueRescued, (valueReceived, valeuRescued) =>
+    Math.abs(valueReceived - valeuRescued),
 );

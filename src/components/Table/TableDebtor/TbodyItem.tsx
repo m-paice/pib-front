@@ -122,7 +122,7 @@ const TbodyItem: React.FC<Props> = (props) => {
         const amountMonthNumber = differenceInCalendarMonths(currentMonth, registerMonth);
 
         if (handleDayNumber(registerMonth) > handleDayNumber(currentMonth)) {
-            setAmountMonth(amountMonthNumber + 1);
+            setAmountMonth(amountMonthNumber - 1);
         } else setAmountMonth(amountMonthNumber);
     }, []);
 

@@ -19,18 +19,19 @@ interface Props {
         delayValue: number;
         situationNames: number[];
         amountSituation: { [key: number]: number };
+        isValidValue: boolean;
     };
 }
 
 const Balance: React.FC<Props> = ({ payload }) => {
-    const { availableValue, receiveValue, delayValue, situationNames, amountSituation } = payload;
+    const { availableValue, receiveValue, delayValue, situationNames, amountSituation, isValidValue } = payload;
 
     return (
         <div className="page">
             <div className="container">
                 <div className="descmod cadastro">
                     <div className="row">
-                        <Available availableValue={availableValue} />
+                        <Available availableValue={availableValue} isValidValue={isValidValue} />
                         <SeparatorVertical />
                         <Received receiveValue={receiveValue} />
                         <SeparatorVertical />

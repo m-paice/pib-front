@@ -32,6 +32,7 @@ export const balanceContainer = (Component: React.ElementType) => {
                     delayValue: handleFormatValue(delayValue),
                     situationNames,
                     amountSituation,
+                    isValidValue: availableValue > 25,
                 }}
             />
         );

@@ -25,7 +25,7 @@ const DetailsItem: React.FC<Props> = (props) => {
         if (situation === 0) return "PRÓXIMA";
         if (situation === 1) return "EM ATRASO";
 
-        return "PAGO";
+        return "PAGA";
     };
 
     const handleFormatPrice = (value: number) =>
