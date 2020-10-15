@@ -107,6 +107,7 @@ const TbodyItem: React.FC<Props> = (props) => {
     const [simulator, setSimulator] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [closed, setClosed] = useState(true);
+    const [messageNegociation, setMessageNebociation] = useState(false);
     const [amountMonth, setAmountMonth] = useState(0);
 
     useEffect(() => {
@@ -147,6 +148,10 @@ const TbodyItem: React.FC<Props> = (props) => {
     };
     const handleCancel = () => {
         setConfirm(false);
+    };
+
+    const handleToggleMessageNegociation = () => {
+        setMessageNebociation(!messageNegociation);
     };
 
     return (
@@ -194,7 +199,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                     {situation !== 3 ? (
                         <span onClick={() => handleSetId(id)}>{handleViewSituation(situation)}</span>
                     ) : (
-                        <span>{handleViewSituation(situation)}</span>
+                        <span onClick={handleToggleMessageNegociation}>{handleViewSituation(situation)}</span>
                     )}
                 </Item>
                 <Actions
@@ -214,6 +219,15 @@ const TbodyItem: React.FC<Props> = (props) => {
                             value={debit}
                             valuePortion={(debit - discount) / portion}
                         />
+                    </td>
+                    <td></td>
+                </tr>
+            )}
+            {messageNegociation && (
+                <tr className="itemListaRegras">
+                    <td></td>
+                    <td className="txt-lista-regras" colSpan={7}>
+                        <p> Não há informações detalhadas porque esta dívida ainda não foi negociada </p>
                     </td>
                     <td></td>
                 </tr>
