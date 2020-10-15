@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import { Debtor } from "../../../store/modules/pj/debtor/types";
+import { differenceInCalendarMonths } from "date-fns";
 import SweetAlert from "react-bootstrap-sweetalert";
+
+// types
+import { Debtor } from "../../../store/modules/pj/debtor/types";
 
 // utils
 import formatDate from "../../../utils/formatDate";
@@ -110,13 +113,17 @@ const TbodyItem: React.FC<Props> = (props) => {
     const [messageNegociation, setMessageNebociation] = useState(false);
     const [amountMonth, setAmountMonth] = useState(0);
 
+    const handleDayNumber = (date: Date) => Number(String(formatDate(date)).split("/")[0]);
+
     useEffect(() => {
-        const currentMonth = new Date().getMonth();
-        const registerMonth = new Date(dateRegister).getMonth();
+        const currentMonth = new Date();
+        const registerMonth = new Date(dateRegister);
 
-        const amountMonth = currentMonth - registerMonth;
+        const amountMonthNumber = differenceInCalendarMonths(currentMonth, registerMonth);
 
-        setAmountMonth(amountMonth);
+        if (handleDayNumber(registerMonth) > handleDayNumber(currentMonth)) {
+            setAmountMonth(amountMonthNumber + 1);
+        } else setAmountMonth(amountMonthNumber);
     }, []);
 
     const handleToggleSimulator = () => {
@@ -227,7 +234,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                 <tr className="itemListaRegras">
                     <td></td>
                     <td className="txt-lista-regras" colSpan={7}>
-                        <p> Não há informações detalhadas porque esta dívida ainda não foi negociada </p>
+                        <span> Não há informações detalhadas porque esta dívida ainda não foi negociada </span>
                     </td>
                     <td></td>
                 </tr>

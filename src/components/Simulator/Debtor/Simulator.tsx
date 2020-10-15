@@ -43,7 +43,16 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, debit }) =>
 
     const handleFormatPrice = (value: number) => value.toLocaleString("pt-br", { style: "currency", currency: "BRL" });
 
-    if (!negociation) return <p> Carregando dados da regua... </p>;
+    if (!negociation)
+        return (
+            <tr className="itemListaRegras">
+                <td></td>
+                <td className="txt-lista-regras text-center" colSpan={7}>
+                    Não foi encontrado negociação para essa data.
+                </td>
+                <td></td>
+            </tr>
+        );
 
     return (
         <Modal isOpen={isOpen} toggle={onClose} size="lg">

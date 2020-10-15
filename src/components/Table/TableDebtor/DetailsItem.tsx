@@ -24,11 +24,8 @@ const DetailsItem: React.FC<Props> = (props) => {
     const handleViewSituation = (situation: number) => {
         if (situation === 0) return "PRÓXIMA";
         if (situation === 1) return "EM ATRASO";
-        if (situation === 2) return "EM DIA";
-        if (situation === 3) return "NÃO NEGOCIADA";
-        if (situation === 4) return "QUITADA";
 
-        return "";
+        return "PAGO";
     };
 
     const handleFormatPrice = (value: number) =>
@@ -115,7 +112,14 @@ const DetailsItem: React.FC<Props> = (props) => {
                                     {handleViewSituation(value.situation)}
                                 </td>
                                 <td className="txt-lista-regras" style={{ border: "none", width: 150 }}>
-                                    N/D
+                                    {payment === 2 && value.situation === 1 && index === 0 && (
+                                        <span> Gerar boleto </span>
+                                    )}
+                                    {payment === 2 &&
+                                        value.situation === 0 &&
+                                        new Date(value.dueDate).getMonth() + 1 === new Date().getMonth() + 2 && (
+                                            <span> Gerar boleto </span>
+                                        )}
                                 </td>
                             </tr>
                         );

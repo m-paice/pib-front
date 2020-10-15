@@ -44,7 +44,7 @@ function* loadDebtors() {
                                 .map((_, index) => {
                                     const dueDateValue = randomDate();
 
-                                    if (new Date(dueDateValue).getMonth() >= new Date().getMonth()) {
+                                    if (new Date(dueDateValue).getMonth() > new Date().getMonth()) {
                                         return {
                                             portion: index + 1,
                                             dueDate: dueDateValue,
