@@ -28,7 +28,7 @@ export const receiveDebtorsValueNextDays = createSelector(stateDebtor, (debtorsI
                 cur.detailsPortion
                     .filter(
                         (item) =>
-                            item.situation === 0 && new Date(item.dueDate).getMonth() + 1 === new Date().getMonth() + 1,
+                            item.situation === 0 && new Date(item.dueDate).getMonth() + 1 === new Date().getMonth() + 2,
                     )
                     .reduce((acc, cur) => {
                         return acc + cur.valuePortion;
