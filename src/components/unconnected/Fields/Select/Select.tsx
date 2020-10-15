@@ -35,7 +35,7 @@ const customStyles = {
 
 const SelectComponent: React.FC<Props> = (props) => {
     return (
-        <div>
+        <div style={{ width: "100%" }}>
             <Select styles={customStyles} className="form-control selectAzul-2" {...props} />
         </div>
     );

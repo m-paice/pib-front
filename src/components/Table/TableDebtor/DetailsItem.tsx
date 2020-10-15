@@ -97,31 +97,6 @@ const DetailsItem: React.FC<Props> = (props) => {
                 </thead>
                 <tbody>
                     {detailsPortion.map((value, index) => {
-                        if (value.situation !== 4 && new Date(value.dueDate).getMonth() >= new Date().getMonth()) {
-                            return (
-                                <tr key={index}>
-                                    <td className="txt-lista-regras" style={{ border: "none" }}>
-                                        {value.portion}
-                                    </td>
-                                    <td className="txt-lista-regras" style={{ border: "none" }}>
-                                        {formatDate(value.dueDate)}
-                                    </td>
-                                    <td className="txt-lista-regras" style={{ border: "none" }}>
-                                        {handleFormatPrice(value.valuePortion)}
-                                    </td>
-                                    <td className="txt-lista-regras" style={{ border: "none" }}>
-                                        {formatDate(value.datePayment)}
-                                    </td>
-                                    <td className="txt-lista-regras" style={{ border: "none" }}>
-                                        {handleViewSituation(0)}
-                                    </td>
-                                    <td className="txt-lista-regras" style={{ border: "none", width: 150 }}>
-                                        {payment !== 1 ? "Gerar boleto" : "N/D"}
-                                    </td>
-                                </tr>
-                            );
-                        }
-
                         return (
                             <tr key={index}>
                                 <td className="txt-lista-regras" style={{ border: "none" }}>

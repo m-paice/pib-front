@@ -23,6 +23,9 @@ export default function* () {
         // auth
         takeLatest(typesAuth.AUTH_LOGIN, authSagas.login),
         takeLatest(typesAuth.AUTH_LOGOUT, authSagas.logout),
+
+        /** PF */
+
         /* PJ **/
         // company
         takeLatest(typesPjCompany.ADD_COMPANY, companyPjSagas.createCompany),
@@ -32,12 +35,14 @@ export default function* () {
         // takeLatest(typesPjNegociation.LOAD_NEGOCIATION, negociationPjSagas.loadNegociation),
         takeLatest(typesPjNegociation.UPDATE_NEGOCIATION, negociationPjSagas.updateNegociation),
         // wallet
-        takeLatest(typesPjWallet.LOAD_WALLET, walletPjSagas.loadNegociation),
+        // takeLatest(typesPjWallet.LOAD_WALLET, walletPjSagas.loadNegociation),
         takeLatest(typesPjWallet.ADD_WALLET, walletPjSagas.addItemWallet),
         // debtor
         // takeLatest(typesPjDebtors.LOAD_DEBTOR, debtorPjSagas.loadDebtors),
+
         // init services
         takeLatest("persist/REHYDRATE", negociationPjSagas.loadNegociation),
         takeLatest("persist/REHYDRATE", debtorPjSagas.loadDebtors),
+        takeLatest("persist/REHYDRATE", walletPjSagas.loadNegociation), // TODO: verificar nome do metodo
     ]);
 }

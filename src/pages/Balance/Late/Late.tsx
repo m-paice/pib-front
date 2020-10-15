@@ -1,14 +1,16 @@
 import React from "react";
 
-interface Props {}
+interface Props {
+    delayValue: number;
+}
 
-const Late: React.FC<Props> = (props) => {
+const Late: React.FC<Props> = ({ delayValue }) => {
     return (
         <div className="col-md-3 text-center">
             <div className="font-25">
                 <b>Valores em atraso</b>
             </div>
-            <div className="txt-red">R$ 300,00</div>
+            <div className="txt-red">{delayValue}</div>
         </div>
     );
 };

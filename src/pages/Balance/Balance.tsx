@@ -1,5 +1,7 @@
 import React from "react";
 
+import { balanceContainer } from "./BalanceContainer";
+
 // components
 import { SeparatorHorizontal, SeparatorVertical } from "../../components/Separator";
 
@@ -10,36 +12,50 @@ import FlowReceivement from "./ FlowReceivement";
 import ValuesReceived from "./ValuesReceived";
 import Wallet from "./Wallet";
 
-interface Props {}
+interface Props {
+    payload: {
+        availableValue: number;
+        receiveValue: number;
+        delayValue: number;
+        situationNames: number[];
+        amountSituation: { [key: number]: number };
+    };
+}
 
-const Balance: React.FC<Props> = (props) => {
+const Balance: React.FC<Props> = ({ payload }) => {
+    const { availableValue, receiveValue, delayValue, situationNames, amountSituation } = payload;
+
     return (
         <div className="page">
             <div className="container">
                 <div className="descmod cadastro">
                     <div className="row">
-                        <Available />
+                        <Available availableValue={availableValue} />
                         <SeparatorVertical />
-                        <Received />
+                        <Received receiveValue={receiveValue} />
                         <SeparatorVertical />
-                        <Late />
+                        <Late delayValue={delayValue} />
                     </div>
 
                     <SeparatorHorizontal />
                 </div>
 
-                <FlowReceivement />
+                <div className="row">
+                    <FlowReceivement situationNames={situationNames} amountSituation={amountSituation} />
 
-                <SeparatorHorizontal />
+                    <SeparatorHorizontal />
 
-                <ValuesReceived />
+                    <ValuesReceived />
+                </div>
 
-                <SeparatorHorizontal />
+                <div className="row">
+                    <SeparatorHorizontal />
 
-                <Wallet />
+                    <Wallet />
+                </div>
             </div>
         </div>
     );
 };
 
-export default Balance;
+export default balanceContainer(Balance);

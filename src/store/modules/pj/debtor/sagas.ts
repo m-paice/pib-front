@@ -44,6 +44,16 @@ function* loadDebtors() {
                                 .map((_, index) => {
                                     const dueDateValue = randomDate();
 
+                                    if (new Date(dueDateValue).getMonth() >= new Date().getMonth()) {
+                                        return {
+                                            portion: index + 1,
+                                            dueDate: dueDateValue,
+                                            valuePortion: (debtValue - discountValue) / portionValue,
+                                            datePayment: addDays(dueDateValue, 30),
+                                            situation: 0,
+                                        };
+                                    }
+
                                     return {
                                         portion: index + 1,
                                         dueDate: dueDateValue,

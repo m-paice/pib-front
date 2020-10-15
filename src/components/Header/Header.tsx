@@ -52,27 +52,27 @@ const Header: React.FC = () => {
                                     <li className="div menucel"></li>
 
                                     <li>
-                                        <Link to="/panel">
+                                        <Link to="/ruleNegociation">
                                             <img className="i1" src={I1} />
                                             <img className="i2" src={I21} /> Seu Painel
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/offers">
+                                        <Link to="/debitorBase">
                                             <img className="i1" src={I2} />
                                             <img className="i2" src={I22} />
                                             Nossas Ofertas
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/tips">
+                                        <Link to="/financialReport">
                                             <img className="i1" src={I3} />
                                             <img className="i2" src={I23} />
                                             Nossas Dicas
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/help">
+                                        <Link to="/balance">
                                             <img className="i1" src={I4} />
                                             <img className="i2" src={I24} />
                                             Suas Dúvidas
