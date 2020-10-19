@@ -1,5 +1,5 @@
 import { put } from "redux-saga/effects";
-import { addDays } from "date-fns";
+import { addDays, addMonths, subDays } from "date-fns";
 
 import { types } from "./types";
 
@@ -11,8 +11,14 @@ const randomDiscount = () => Math.ceil(Math.random() * 50);
 const randomValue = () => Math.ceil(Math.random() * 999);
 
 const randomDate = () => {
-    const dataIni = new Date(2020, 0, 1);
+    const dataIni = new Date(2018, 0, 1);
     const dataAtual = new Date(2020, 11, 30);
+    return new Date(dataIni.getTime() + Math.random() * (dataAtual.getTime() - dataIni.getTime()));
+};
+
+const randomCurrentDate = () => {
+    const dataIni = new Date(2020, 0, 1);
+    const dataAtual = new Date(2020, 8, 30);
     return new Date(dataIni.getTime() + Math.random() * (dataAtual.getTime() - dataIni.getTime()));
 };
 
@@ -26,6 +32,7 @@ function* loadDebtors() {
                         const debtValue = randomValue();
                         const discountValue = randomDiscount();
                         const situationValue = randomSituation();
+                        const dueDateValue = randomCurrentDate();
 
                         return {
                             id: index.toString(),
@@ -42,23 +49,38 @@ function* loadDebtors() {
                             discount: discountValue,
                             detailsPortion: Array.from({ length: portionValue })
                                 .map((_, index) => {
-                                    const dueDateValue = randomDate();
+                                    const date = addMonths(dueDateValue, index + 1);
 
-                                    if (new Date(dueDateValue).getMonth() > new Date().getMonth()) {
+                                    /** parcelas quitadas */
+                                    if (situationValue == 4 || (situationValue === 2 && new Date(date) < new Date())) {
                                         return {
+                                            id: String(index + 1),
                                             portion: index + 1,
-                                            dueDate: dueDateValue,
+                                            dueDate: date,
                                             valuePortion: (debtValue - discountValue) / portionValue,
-                                            datePayment: addDays(dueDateValue, 30),
+                                            datePayment: subDays(date, Math.ceil(Math.random() * 15)),
+                                            situation: 3,
+                                        };
+                                    }
+
+                                    /** proximas parcelas */
+                                    if (new Date(date) > new Date()) {
+                                        return {
+                                            id: String(index + 1),
+                                            portion: index + 1,
+                                            dueDate: date,
+                                            valuePortion: (debtValue - discountValue) / portionValue,
+                                            datePayment: null,
                                             situation: 0,
                                         };
                                     }
 
                                     return {
+                                        id: String(index + 1),
                                         portion: index + 1,
-                                        dueDate: dueDateValue,
+                                        dueDate: date,
                                         valuePortion: (debtValue - discountValue) / portionValue,
-                                        datePayment: addDays(dueDateValue, 30),
+                                        datePayment: subDays(date, Math.ceil(Math.random() * 15)),
                                         situation: situationValue,
                                     };
                                 })

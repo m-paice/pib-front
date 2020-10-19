@@ -21,6 +21,7 @@ export enum types {
 }
 
 interface Details {
+    id: string;
     portion: number;
     dueDate: Date;
     valuePortion: number;
