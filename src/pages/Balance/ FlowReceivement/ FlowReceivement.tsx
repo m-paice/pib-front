@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // components
 import Select from "../../../components/unconnected/Fields/Select";
@@ -19,20 +19,32 @@ const optionsYears = [
     { value: 24, label: "24 meses" },
 ];
 
-const situations = {
-    1: "Em atraso",
-    2: "Em dia",
-    3: "Não negociada",
-    4: "Quitada",
+const paymentTypes = {
+    1: "Cartão de crédito",
+    2: "Boleto",
 };
 
 interface Props {
-    situationNames: number[];
-    amountSituation: { [key: number]: number };
+    paymentForm: number[];
+    amountPayment(): { [key: number]: number };
+    filterPaymentForSituaction(situation: number): { [key: number]: number };
 }
 
-const FlowReceivement: React.FC<Props> = ({ situationNames, amountSituation }) => {
+const FlowReceivement: React.FC<Props> = ({ paymentForm, amountPayment, filterPaymentForSituaction }) => {
+    const [data, setData] = useState<{ [key: number]: number }>([]);
+
+    useEffect(() => {
+        const response = amountPayment();
+
+        setData(response);
+    }, [amountPayment]);
+
     const [situationSelected, setSituationSelected] = useState({
+        value: 0,
+        label: "Todos",
+    });
+
+    const [paymentSituationSelected, setPaymentSituationSelected] = useState({
         value: 0,
         label: "Todos",
     });
@@ -42,8 +54,17 @@ const FlowReceivement: React.FC<Props> = ({ situationNames, amountSituation }) =
         label: "12 meses",
     });
 
+    useEffect(() => {
+        const response = filterPaymentForSituaction(paymentSituationSelected.value);
+
+        setData(response);
+    }, [paymentSituationSelected.value]);
+
     const handleSetSituation = (situation: any) => {
         setSituationSelected(situation);
+    };
+    const handleSetPaymentoSituation = (situation: any) => {
+        setPaymentSituationSelected(situation);
     };
     const handleSetAmountMonth = (amountMonth: any) => {
         setAmountMonth(amountMonth);
@@ -53,11 +74,22 @@ const FlowReceivement: React.FC<Props> = ({ situationNames, amountSituation }) =
         <>
             <div className="col-sm-4 text-center">
                 <div>
-                    <b>Meios de pagamento</b>
+                    <div className="row">
+                        <div className="col-md-4 text-left">
+                            <b>Meios de pagamento</b>
+                        </div>
+                        <div className="col-md-8">
+                            <Select
+                                options={optionsSituation}
+                                value={paymentSituationSelected}
+                                onChange={handleSetPaymentoSituation}
+                            />
+                        </div>
+                    </div>
                     <br />
                     <Pie
-                        labels={situationNames.map((situation) => situations[situation])}
-                        data={situationNames.map((situation) => amountSituation[situation])}
+                        labels={paymentForm.map((payment) => paymentTypes[payment])}
+                        data={paymentForm.map((situation) => data[situation])}
                         colors={["#26d3ff", "#14657b", "#4E4C67", "#A6B1E1"]}
                     />
                 </div>

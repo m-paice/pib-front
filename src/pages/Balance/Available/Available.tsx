@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import SweetAlert from "react-bootstrap-sweetalert";
+import AletrWithdraw from "../../../components/AlertWithdraw";
 
 interface Props {
     availableValue: number;
@@ -27,45 +27,15 @@ const Available: React.FC<Props> = ({ availableValue, isValidValue }) => {
                 SACAR
             </button>
 
-            {transfer && (
-                <div>
-                    {isValidValue ? (
-                        <SweetAlert
-                            title={
-                                <div className="txt-sweet-alert">
-                                    Tem certeza que deseja <br /> sacar este valor agora?
-                                </div>
-                            }
-                            style={{
-                                background: "#14647b",
-                                color: "#fff !important",
-                            }}
-                            showCancel
-                            confirmBtnCssClass="btn-sweet-alert"
-                            cancelBtnCssClass="btn-sweet-alert"
-                            confirmBtnText="Quero sacar"
-                            cancelBtnText="Cancelar"
-                            onConfirm={handleSetTransfer}
-                            onCancel={handleSetTransfer}
-                        />
-                    ) : (
-                        <SweetAlert
-                            title={
-                                <div className="txt-sweet-alert">
-                                    Opa! Você não possui valor mínimo <br /> para saque que é de R$25,00
-                                </div>
-                            }
-                            style={{
-                                background: "#14647b",
-                                color: "#fff !important",
-                            }}
-                            confirmBtnCssClass="btn-sweet-alert"
-                            confirmBtnText="Voltar"
-                            onConfirm={handleSetTransfer}
-                        />
-                    )}
-                </div>
-            )}
+            <div className="container">
+                {transfer && (
+                    <AletrWithdraw
+                        isValidValue={isValidValue}
+                        handleConfirm={handleSetTransfer}
+                        handleCancel={handleSetTransfer}
+                    />
+                )}
+            </div>
         </div>
     );
 };

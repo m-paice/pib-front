@@ -17,14 +17,29 @@ interface Props {
         availableValue: number;
         receiveValue: number;
         delayValue: number;
-        situationNames: number[];
-        amountSituation: { [key: number]: number };
+        paymentForm: number[];
+        amountPayment(): { [key: number]: number };
+        filterPaymentForSituaction(situation: number): { [key: number]: number };
         isValidValue: boolean;
+        amountPf: number;
+        amountDebtsPf: number;
+        amountWallet: number;
     };
 }
 
 const Balance: React.FC<Props> = ({ payload }) => {
-    const { availableValue, receiveValue, delayValue, situationNames, amountSituation, isValidValue } = payload;
+    const {
+        availableValue,
+        receiveValue,
+        delayValue,
+        paymentForm,
+        amountPayment,
+        filterPaymentForSituaction,
+        isValidValue,
+        amountPf,
+        amountDebtsPf,
+        amountWallet,
+    } = payload;
 
     return (
         <div className="page">
@@ -42,17 +57,21 @@ const Balance: React.FC<Props> = ({ payload }) => {
                 </div>
 
                 <div className="row">
-                    <FlowReceivement situationNames={situationNames} amountSituation={amountSituation} />
+                    <FlowReceivement
+                        paymentForm={paymentForm}
+                        amountPayment={amountPayment}
+                        filterPaymentForSituaction={filterPaymentForSituaction}
+                    />
 
                     <SeparatorHorizontal />
 
                     <ValuesReceived />
                 </div>
 
-                <div className="row">
+                <div>
                     <SeparatorHorizontal />
 
-                    <Wallet />
+                    <Wallet amountPf={amountPf} amountDebtsPf={amountDebtsPf} amountWallet={amountWallet} />
                 </div>
             </div>
         </div>

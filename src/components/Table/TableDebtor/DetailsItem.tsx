@@ -14,7 +14,7 @@ interface Props extends Debtor {
 const DetailsItem: React.FC<Props> = (props) => {
     const { situation, payment, portion, valuePortion, value, detailsPortion, discount, total } = props;
 
-    const [nextPaymentId, setNextPaymenId] = useState("");
+    const [nextPaymentId, setNextPaymenId] = useState(-1);
 
     const handleViewPayment = (payment: number) => {
         if (payment === 1) return "Cartão de crédito";
@@ -37,10 +37,7 @@ const DetailsItem: React.FC<Props> = (props) => {
             currency: "BRL",
         });
 
-    const handleSetState = (id: string) => {
-        console.log(nextPaymentId);
-        if (nextPaymentId.length) return;
-
+    const handleSetState = (id: number) => {
         setNextPaymenId(id);
     };
 
@@ -122,14 +119,14 @@ const DetailsItem: React.FC<Props> = (props) => {
                                     {handleViewSituation(value.situation)}
                                 </td>
                                 <td className="txt-lista-regras" style={{ border: "none", width: 150 }}>
-                                    {value.situation === 0 && handleSetState(value.id)}
-
                                     {situation === 1 && payment === 2 && index === 0 && <span> Gerar boleto </span>}
 
                                     {situation !== 1 &&
                                         payment === 2 &&
                                         value.situation === 0 &&
-                                        value.id === nextPaymentId && <span> Gerar boleto </span>}
+                                        new Date(value.dueDate).getMonth() === new Date().getMonth() && (
+                                            <span> Gerar boleto </span>
+                                        )}
                                 </td>
                             </tr>
                         );

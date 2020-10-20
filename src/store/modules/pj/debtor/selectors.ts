@@ -42,23 +42,72 @@ export const receiveDebtorsValueNextDays = createSelector(stateDebtor, (debtorsI
 
 // delay value
 export const delayDebtorsValue = createSelector(stateDebtor, (debtorsItems) =>
-    debtorsItems.filter((item) => item.situation === 1).reduce((acc, cur) => acc + cur.late, 0),
+    debtorsItems
+        .filter((item) => item.situation === 1)
+        .reduce((acc, cur) => {
+            return acc + cur.detailsPortion.reduce((acc, cur) => acc + cur.valuePortion, 0);
+        }, 0),
 );
 
-// names situations
-export const namesDebtorsSituation = createSelector(stateDebtor, (debtorsItems) =>
+// names form payment
+export const namesDebtorsPayments = createSelector(stateDebtor, (debtorsItems) =>
     debtorsItems.reduce((acc: number[], cur) => {
-        if (acc.length !== 0 && acc.includes(cur.situation)) return acc;
-        return [...acc, cur.situation];
+        if (acc.length !== 0 && acc.includes(cur.payment)) return acc;
+        return [...acc, cur.payment];
     }, []),
 );
 
-// amount items for situations
-export const amountDebtorsSituation = createSelector(stateDebtor, (debtorsItems) =>
-    debtorsItems.reduce((acc, cur) => {
+// flow receivement (situation portion [0,1])
+export const receivedDebtorsPortion = createSelector(stateDebtor, (debtorsItems) => {
+    const currentDate = new Date();
+
+    return debtorsItems.reduce((acc, cur, index) => {
         return {
             ...acc,
-            [cur.situation]: (acc[cur.situation] || 0) + 1,
+            [cur.id]: cur.detailsPortion
+                .filter(
+                    (item) =>
+                        item.situation !== 3 && new Date(item.dueDate).getMonth() === new Date().getMonth() + index + 1,
+                )
+                .reduce((acc, cur) => acc + cur.valuePortion, 0),
         };
-    }, {}),
-);
+    }, {});
+});
+
+// amount debtors pf
+export const amountDebtorsPf = createSelector(stateDebtor, (debtorsItems) => {
+    const mapDocument = debtorsItems.reduce((acc, cur) => {
+        if (acc[cur.document]) return acc;
+
+        return {
+            ...acc,
+            [cur.document]: (acc[cur.document] || 0) + 1,
+        };
+    }, {});
+
+    return Object.values(mapDocument).reduce((acc: number, cur: number) => acc + cur, 0);
+});
+
+// amount debt for pf
+export const amountDetorsDebtsPf = createSelector(stateDebtor, (debtorsItems) => {
+    const mapDocument = debtorsItems.reduce((acc, cur) => {
+        return {
+            ...acc,
+            [cur.document]: (acc[cur.document] || 0) + 1,
+        };
+    }, {});
+
+    return Object.values(mapDocument).reduce((acc: number, cur: number) => acc + cur, 0);
+});
+
+// amount debts
+export const amountDetorsWallet = createSelector(stateDebtor, (debtorsItems) => {
+    const mapDocument = debtorsItems.reduce((acc, cur) => {
+        return {
+            ...acc,
+            [cur.document]: (acc[cur.document] || 0) + cur.debit,
+        };
+    }, {});
+
+    return Object.values(mapDocument).reduce((acc: number, cur: number) => acc + cur, 0);
+});

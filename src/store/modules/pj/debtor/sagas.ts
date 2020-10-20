@@ -75,6 +75,17 @@ function* loadDebtors() {
                                         };
                                     }
 
+                                    if (situationValue === 1) {
+                                        return {
+                                            id: String(index + 1),
+                                            portion: index + 1,
+                                            dueDate: date,
+                                            valuePortion: (debtValue - discountValue) / portionValue,
+                                            datePayment: null,
+                                            situation: 1,
+                                        };
+                                    }
+
                                     return {
                                         id: String(index + 1),
                                         portion: index + 1,

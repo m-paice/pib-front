@@ -15,6 +15,7 @@ import { actions as actionsWallet } from "../../store/modules/pj/wallet/actions"
 import { financialReportContainer } from "./FinancialReportContainer";
 import Table from "../../components/Table/TableFinancial";
 import Select from "../../components/unconnected/Fields/Select";
+import AlertWithdraw from "../../components/AlertWithdraw";
 
 // utils
 import monthNames from "../../utils/monthNames";
@@ -206,45 +207,6 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
                             SAQUE
                         </button>
                     </div>
-                    {transfer && (
-                        <div>
-                            {isValidValue ? (
-                                <SweetAlert
-                                    title={
-                                        <div className="txt-sweet-alert">
-                                            Tem certeza que deseja <br /> sacar este valor agora?
-                                        </div>
-                                    }
-                                    style={{
-                                        background: "#14647b",
-                                        color: "#fff !important",
-                                    }}
-                                    showCancel
-                                    confirmBtnCssClass="btn-sweet-alert"
-                                    cancelBtnCssClass="btn-sweet-alert"
-                                    confirmBtnText="Quero sacar"
-                                    cancelBtnText="Cancelar"
-                                    onConfirm={handleSetTransfer}
-                                    onCancel={handleSetTransfer}
-                                />
-                            ) : (
-                                <SweetAlert
-                                    title={
-                                        <div className="txt-sweet-alert">
-                                            Opa! Você não possui valor mínimo <br /> para saque que é de R$25,00
-                                        </div>
-                                    }
-                                    style={{
-                                        background: "#14647b",
-                                        color: "#fff !important",
-                                    }}
-                                    confirmBtnCssClass="btn-sweet-alert"
-                                    confirmBtnText="Voltar"
-                                    onConfirm={handleSetTransfer}
-                                />
-                            )}
-                        </div>
-                    )}
                 </div>
 
                 <Table
@@ -252,6 +214,14 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
                     tbody={searchData.length !== 0 ? searchData : tbody}
                     handleOrderByColumn={handleOrderByColumn}
                 />
+
+                {transfer && (
+                    <AlertWithdraw
+                        isValidValue={isValidValue}
+                        handleConfirm={handleSetTransfer}
+                        handleCancel={handleSetTransfer}
+                    />
+                )}
             </div>
         </div>
     );
