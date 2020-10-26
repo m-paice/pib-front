@@ -96,7 +96,7 @@ const TbodyItem: React.FC<Props> = (props) => {
         dateRegister,
         document,
         name,
-        debit,
+        debt,
         negociation,
         receipt,
         late,
@@ -131,10 +131,10 @@ const TbodyItem: React.FC<Props> = (props) => {
     };
 
     const handleViewSituation = (situation: number) => {
+        if (situation === 0) return <a className="btneg blue none-border-radius blue-p pointer">NÃO NEGOCIADA</a>;
         if (situation === 1) return <a className="btneg red none-border-radius pointer">EM ATRASO</a>;
         if (situation === 2) return <a className="btneg green2 none-border-radius pointer">EM DIA</a>;
-        if (situation === 3) return <a className="btneg blue none-border-radius blue-p pointer">NÃO NEGOCIADA</a>;
-        if (situation === 4) return <a className="btneg green none-border-radius pointer">QUITADA</a>;
+        if (situation === 3) return <a className="btneg green none-border-radius pointer">QUITADA</a>;
 
         return "";
     };
@@ -174,7 +174,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                     <span style={styles}>{name}</span>
                 </Item>
                 <Item width={80}>
-                    <span style={styles}>{formatNumber(debit)}</span>
+                    <span style={styles}>{formatNumber(debt)}</span>
                 </Item>
                 {situation !== 3 ? (
                     <>
@@ -203,10 +203,10 @@ const TbodyItem: React.FC<Props> = (props) => {
                     </>
                 )}
                 <Item separator={false} width={152}>
-                    {situation !== 3 ? (
-                        <span onClick={() => handleSetId(id)}>{handleViewSituation(situation)}</span>
-                    ) : (
+                    {situation === 0 ? (
                         <span onClick={handleToggleMessageNegociation}>{handleViewSituation(situation)}</span>
+                    ) : (
+                        <span onClick={() => handleSetId(id)}>{handleViewSituation(situation)}</span>
                     )}
                 </Item>
                 <Actions
@@ -222,9 +222,9 @@ const TbodyItem: React.FC<Props> = (props) => {
                     <td className="txt-lista-regras" colSpan={7}>
                         <DetailsItem
                             {...props}
-                            total={debit - discount}
-                            value={debit}
-                            valuePortion={(debit - discount) / portion}
+                            total={debt - discount}
+                            value={debt}
+                            valuePortion={(debt - discount) / portion}
                         />
                     </td>
                     <td></td>

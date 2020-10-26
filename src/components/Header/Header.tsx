@@ -43,9 +43,7 @@ const Header: React.FC = () => {
                                 <ul>
                                     <li className="menucel">Olá Fulano</li>
                                     <li className="menucel">
-                                        <a className="mod1" href="index.html">
-                                            Sair
-                                        </a>
+                                        <Link to="/"> Sair </Link>
                                         <Link to="/register">Seu Cadastro</Link>
                                     </li>
 

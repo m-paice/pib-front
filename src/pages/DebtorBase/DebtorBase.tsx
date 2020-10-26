@@ -74,7 +74,7 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
 
         if (!value.length) return setSearchData([]);
 
-        const debitFound = tbody.filter((item) => String(item.debit).includes(value));
+        const debitFound = tbody.filter((item) => String(item.debt).includes(value));
         const negociationFound = tbody.filter((item) => String(item.negociation).includes(value));
         const documentFound = tbody.filter((item) => item.document.toLowerCase().includes(value.toLowerCase()));
 

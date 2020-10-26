@@ -289,7 +289,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                         }))}
                         errors={handleCheckError()}
                     />
-                    <Item text={attenuator} errors={handleCheckError()} />
+                    {/* <Item text={attenuator} errors={handleCheckError()} /> */}
                     <Item text={trafficTicket} errors={handleCheckError()} />
                     <Item text={readjustment} errors={handleCheckError()} />
                     <ActionsEdit
@@ -340,7 +340,7 @@ const TbodyItem: React.FC<Props> = (props) => {
             <Item text={`${Number(interest).toFixed(1)}%`} />
             <Item text={`${discount}%`} />
             <Item text={maxPortion} />
-            <Item text={`${Number(attenuator).toFixed(1)}%`} />
+            {/* <Item text={`${Number(attenuator).toFixed(1)}%`} /> */}
             <Item text={`${Number(trafficTicket).toFixed(1)}%`} />
             <Item text={`${Number(readjustment).toFixed(1)}%`} />
             <Actions handleToggleEdit={handleToggleEdit} handleToggleSimulator={handleToggleSimulator} />

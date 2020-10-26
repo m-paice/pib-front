@@ -20,9 +20,14 @@ interface Props {
         paymentForm: number[];
         amountPayment(): { [key: number]: number };
         filterPaymentForSituaction(situation: number): { [key: number]: number };
+        receivedPortion: { [key: string]: any };
+        amountInCashOrPortion(): { [key: number]: number };
+        filterInCashOrPortion(situation: number): { [key: number]: number };
         isValidValue: boolean;
         amountPf: number;
+        filterAmountDebtorsForSituation(situation: number): number;
         amountDebtsPf: number;
+        filterAmountDebtsForSituation(situation: number): number;
         amountWallet: number;
     };
 }
@@ -35,9 +40,14 @@ const Balance: React.FC<Props> = ({ payload }) => {
         paymentForm,
         amountPayment,
         filterPaymentForSituaction,
+        receivedPortion,
+        amountInCashOrPortion,
+        filterInCashOrPortion,
         isValidValue,
         amountPf,
+        filterAmountDebtorsForSituation,
         amountDebtsPf,
+        filterAmountDebtsForSituation,
         amountWallet,
     } = payload;
 
@@ -61,17 +71,27 @@ const Balance: React.FC<Props> = ({ payload }) => {
                         paymentForm={paymentForm}
                         amountPayment={amountPayment}
                         filterPaymentForSituaction={filterPaymentForSituaction}
+                        receivedPortion={receivedPortion}
                     />
 
                     <SeparatorHorizontal />
 
-                    <ValuesReceived />
+                    <ValuesReceived
+                        amountInCashOrPortion={amountInCashOrPortion}
+                        filterInCashOrPortion={filterInCashOrPortion}
+                    />
                 </div>
 
                 <div>
                     <SeparatorHorizontal />
 
-                    <Wallet amountPf={amountPf} amountDebtsPf={amountDebtsPf} amountWallet={amountWallet} />
+                    <Wallet
+                        amountPf={amountPf}
+                        amountDebtsPf={amountDebtsPf}
+                        amountWallet={amountWallet}
+                        filterAmountDebtorsForSituation={filterAmountDebtorsForSituation}
+                        filterAmountDebtsForSituation={filterAmountDebtsForSituation}
+                    />
                 </div>
             </div>
         </div>

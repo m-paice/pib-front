@@ -21,16 +21,18 @@ import Balance from "../pages/Balance";
 import Register from "../pages/Register";
 import RegisterPj from "../pages/RegisterPj";
 
+import Login from "../pages/Login";
+
 const Routes: React.FC = () => {
     return (
         <Router>
             <Switch>
                 <Route exact path="/">
-                    <Redirect to="/panel" />
+                    <Redirect to="/login" />
                 </Route>
-                <Route path="/login" component={() => <h1> Login </h1>} />
+                <Route path="/login" component={Login} />
                 {/* dashboard */}
-                <DashboardLayout exact path="/panel" component={Panel} />
+                <DashboardLayout exact path="/homepf" component={Panel} />
                 <DashboardLayout exact path="/tips" component={Tips} />
                 <DashboardLayout exact path="/offers" component={Offers} />
                 <DashboardLayout exact path="/help" component={Help} />

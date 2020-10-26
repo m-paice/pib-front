@@ -27,7 +27,7 @@ const stylesSecondary: React.CSSProperties = {
     color: "#14657b",
 };
 
-const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, debit }) => {
+const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, debt }) => {
     const [options, setOptions] = useState<number[]>([]);
     const [totalPrice, setTotalPrice] = useState<number>(0);
 
@@ -78,7 +78,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, debit }) =>
                                 className="form-control inputModal money"
                                 title="Valor total da dívida"
                                 style={stylesPrimary}
-                                value={handleFormatPrice(debit)}
+                                value={handleFormatPrice(debt)}
                                 disabled
                             />
                         </div>

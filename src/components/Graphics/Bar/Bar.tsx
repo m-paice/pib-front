@@ -3,7 +3,7 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 
 interface Props {
-    title: string;
+    title?: string;
     labels: string[];
     data: number[];
     color: string | string[];
@@ -23,6 +23,9 @@ const BarChart: React.FC<Props> = ({ title, labels, data, color }) => {
                 ],
             }}
             options={{
+                legend: {
+                    display: false,
+                },
                 scales: {
                     xAxes: [
                         {

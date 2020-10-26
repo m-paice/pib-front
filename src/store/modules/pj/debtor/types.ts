@@ -21,12 +21,14 @@ export enum types {
 }
 
 interface Details {
-    id: string;
+    id: number;
+    idRegister: number;
     portion: number;
     dueDate: Date;
     valuePortion: number;
     datePayment: Date;
     situation: number; // [1] ok [2] proxima
+    next: number;
 }
 
 export interface Debtor {
@@ -34,7 +36,7 @@ export interface Debtor {
     dateRegister: Date;
     document: string;
     name: string;
-    debit: number;
+    debt: number;
     negociation: number;
     receipt: number;
     late: number;

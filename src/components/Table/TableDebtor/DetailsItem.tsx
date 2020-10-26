@@ -26,7 +26,7 @@ const DetailsItem: React.FC<Props> = (props) => {
     const handleViewSituation = (situation: number) => {
         if (situation === 0) return "PRÓXIMA";
         if (situation === 1) return "EM ATRASO";
-        if (situation === 3) return "PAGA";
+        if (situation === 2) return "PAGA";
 
         return "";
     };
@@ -74,9 +74,7 @@ const DetailsItem: React.FC<Props> = (props) => {
                     <div className="row justify-content-between">
                         <div className=" text-nowrap txt-lista-regras">
                             Desconto
-                            <div className="lab lab2">
-                                <strong>{handleFormatPrice(discount)}</strong>
-                            </div>
+                            <div className="lab lab2">{/* <strong>{handleFormatPrice(discount)}</strong> */}</div>
                         </div>
                         <div className=" text-nowrap txt-lista-regras">
                             Total
@@ -121,12 +119,9 @@ const DetailsItem: React.FC<Props> = (props) => {
                                 <td className="txt-lista-regras" style={{ border: "none", width: 150 }}>
                                     {situation === 1 && payment === 2 && index === 0 && <span> Gerar boleto </span>}
 
-                                    {situation !== 1 &&
-                                        payment === 2 &&
-                                        value.situation === 0 &&
-                                        new Date(value.dueDate).getMonth() === new Date().getMonth() && (
-                                            <span> Gerar boleto </span>
-                                        )}
+                                    {situation !== 1 && payment === 2 && value.next === 1 && (
+                                        <span> Gerar boleto </span>
+                                    )}
                                 </td>
                             </tr>
                         );

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 
 // components
 import Select from "../../../components/unconnected/Fields/Select";
@@ -12,11 +12,18 @@ const optionsYears = [
 ];
 
 const optionsSituation = [
-    { value: 0, label: "Todos" },
+    { value: -1, label: "Todos" },
     { value: 1, label: "Em atraso" },
     { value: 2, label: "Em dia" },
-    { value: 3, label: "Não negociada" },
-    { value: 4, label: "Quitada" },
+    { value: 0, label: "Não negociada" },
+    { value: 3, label: "Quitada" },
+];
+
+const optionsSituationPie = [
+    { value: -1, label: "Todos" },
+    { value: 1, label: "Em atraso" },
+    { value: 2, label: "Em dia" },
+    { value: 3, label: "Quitada" },
 ];
 
 const paymentTypes = {
@@ -24,9 +31,26 @@ const paymentTypes = {
     2: "Parcelado",
 };
 
-interface Props {}
+interface Props {
+    amountInCashOrPortion(): { [key: number]: number };
+    filterInCashOrPortion(situation: number): { [key: number]: number };
+}
 
-const ValuesReceived: React.FC<Props> = (props) => {
+const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOrPortion }) => {
+    const [data, setData] = useState<{ [key: number]: number }>({});
+
+    useEffect(() => {
+        const response = amountInCashOrPortion();
+
+        const inCash = Object.values(response).filter((item) => item === 1).length;
+        const portion = Object.values(response).filter((item) => item > 1).length;
+
+        setData({
+            1: inCash,
+            2: portion,
+        });
+    }, [amountInCashOrPortion]);
+
     const [amountMonth, setAmountMonth] = useState({
         value: 12,
         label: "12 meses",
@@ -36,6 +60,17 @@ const ValuesReceived: React.FC<Props> = (props) => {
         value: 0,
         label: "Todos",
     });
+
+    useEffect(() => {
+        const response = filterInCashOrPortion(paymentSituationSelected.value);
+        const inCash = Object.values(response).filter((item) => item === 1).length;
+        const portion = Object.values(response).filter((item) => item > 1).length;
+
+        setData({
+            1: inCash,
+            2: portion,
+        });
+    }, [paymentSituationSelected.value]);
 
     const handleSetAmountMonth = useCallback(
         (amountMonth: any) => {
@@ -56,30 +91,26 @@ const ValuesReceived: React.FC<Props> = (props) => {
             <div className="col-sm-4 text-center">
                 <div>
                     <div className="row">
-                        <div className="col-md-4 text-left">
+                        <div className="col-md-6 text-left font-25">
                             <b>Planos</b>
                         </div>
-                        <div className="col-md-8">
+                        <div className="col-md-6">
                             <div style={{ width: 196 }}>
                                 <Select
-                                    options={optionsSituation}
+                                    options={optionsSituationPie}
                                     value={paymentSituationSelected}
                                     onChange={handleSetPaymentoSituation}
                                 />
                             </div>
                         </div>
                     </div>
-                    {/* <div>
-                        <div className="txt-blue">À vista: R$ 300,00</div>
-                        <div className="txt-darkblue">Parcelado: R$ 600,00</div>
-                    </div> */}
                 </div>
 
                 <br />
                 <Pie
                     labels={Array.from({ length: 2 }).map((_, index) => paymentTypes[index + 1])}
-                    data={Array.from({ length: 2 }).map((_, index) => Math.ceil(Math.random() * 999))}
-                    colors={["#4E4C67", "#A6B1E1", "#4E4C67", "#A6B1E1"]}
+                    data={Object.values(data)}
+                    colors={["#4E4C67", "#A6B1E1"]}
                 />
             </div>
             <div className="col-sm-1 colum-width-2">
@@ -88,7 +119,7 @@ const ValuesReceived: React.FC<Props> = (props) => {
             <div className="col-sm-7">
                 <div className="barraRolagem">
                     <div className="d-flex justify-content-between">
-                        <b>
+                        <b className="font-25">
                             Valores
                             <br />
                             Recebidos
@@ -98,7 +129,6 @@ const ValuesReceived: React.FC<Props> = (props) => {
                         </div>
                     </div>
                     <Bar
-                        title="Valores Recebidos"
                         labels={Array.from({ length: amountMonth.value }).map((_, index) => {
                             const currentMonth = new Date().getMonth();
                             const currentYear = new Date().getFullYear();

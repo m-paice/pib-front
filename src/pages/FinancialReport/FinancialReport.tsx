@@ -82,7 +82,7 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
     });
 
     useEffect(() => {
-        dispatch(actionsWallet.loadWallet());
+        // dispatch(actionsWallet.loadWallet());s
     }, []);
 
     useEffect(() => {

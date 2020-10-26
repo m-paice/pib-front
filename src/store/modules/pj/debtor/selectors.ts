@@ -6,6 +6,8 @@ import { getElements } from "../../common/selectors";
 // application interface
 import { ApplicationState } from "./../../../index";
 
+import formatDate from "../../../../utils/formatDate";
+
 export const stateDebtor = (state: ApplicationState) => getElements<Debtor>(state.pj.debtors);
 
 export const dataDebtor = createSelector(stateDebtor, (debtorsItems) =>
@@ -17,7 +19,7 @@ export const receiveDebtorsValueNextDays = createSelector(stateDebtor, (debtorsI
     /**
      * REGRAS APLICADAS:
      * filtrar todos os que a parcela for PROXIMO (situation === 0)
-     * Pegar somento os debitos do mês seguinte
+     * Pegar somento os debtos do mês seguinte
      * Somar as parcelas
      * Somar o total das parcelas
      */
@@ -45,7 +47,12 @@ export const delayDebtorsValue = createSelector(stateDebtor, (debtorsItems) =>
     debtorsItems
         .filter((item) => item.situation === 1)
         .reduce((acc, cur) => {
-            return acc + cur.detailsPortion.reduce((acc, cur) => acc + cur.valuePortion, 0);
+            return (
+                acc +
+                cur.detailsPortion
+                    .filter((item) => item.situation === 1)
+                    .reduce((acc, cur) => acc + cur.valuePortion, 0)
+            );
         }, 0),
 );
 
@@ -59,19 +66,18 @@ export const namesDebtorsPayments = createSelector(stateDebtor, (debtorsItems) =
 
 // flow receivement (situation portion [0,1])
 export const receivedDebtorsPortion = createSelector(stateDebtor, (debtorsItems) => {
-    const currentDate = new Date();
+    return debtorsItems.map((item) => {
+        if (item.detailsPortion.length === 0) return null;
 
-    return debtorsItems.reduce((acc, cur, index) => {
-        return {
-            ...acc,
-            [cur.id]: cur.detailsPortion
-                .filter(
-                    (item) =>
-                        item.situation !== 3 && new Date(item.dueDate).getMonth() === new Date().getMonth() + index + 1,
-                )
-                .reduce((acc, cur) => acc + cur.valuePortion, 0),
-        };
-    }, {});
+        return item.detailsPortion.filter((item) => item.situation !== 2).length !== 0
+            ? item.detailsPortion.reduce((acc, cur) => {
+                  return {
+                      ...acc,
+                      [formatDate(cur.dueDate)]: cur.valuePortion,
+                  };
+              }, {})
+            : null;
+    });
 });
 
 // amount debtors pf
@@ -102,12 +108,7 @@ export const amountDetorsDebtsPf = createSelector(stateDebtor, (debtorsItems) =>
 
 // amount debts
 export const amountDetorsWallet = createSelector(stateDebtor, (debtorsItems) => {
-    const mapDocument = debtorsItems.reduce((acc, cur) => {
-        return {
-            ...acc,
-            [cur.document]: (acc[cur.document] || 0) + cur.debit,
-        };
-    }, {});
-
-    return Object.values(mapDocument).reduce((acc: number, cur: number) => acc + cur, 0);
+    return debtorsItems.reduce((acc, cur) => {
+        return acc + cur.debt;
+    }, 0);
 });

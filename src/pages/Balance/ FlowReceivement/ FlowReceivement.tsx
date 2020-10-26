@@ -7,11 +7,18 @@ import Bar from "../../../components/Graphics/Bar";
 import Pie from "../../../components/Graphics/Pie";
 
 const optionsSituation = [
-    { value: 0, label: "Todos" },
+    { value: -1, label: "Todos" },
     { value: 1, label: "Em atraso" },
     { value: 2, label: "Em dia" },
-    { value: 3, label: "Não negociada" },
-    { value: 4, label: "Quitada" },
+    { value: 0, label: "Não negociada" },
+    { value: 3, label: "Quitada" },
+];
+
+const optionsSituationPie = [
+    { value: -1, label: "Todos" },
+    { value: 1, label: "Em atraso" },
+    { value: 2, label: "Em dia" },
+    { value: 3, label: "Quitada" },
 ];
 
 const optionsYears = [
@@ -28,9 +35,15 @@ interface Props {
     paymentForm: number[];
     amountPayment(): { [key: number]: number };
     filterPaymentForSituaction(situation: number): { [key: number]: number };
+    receivedPortion: { [key: string]: any };
 }
 
-const FlowReceivement: React.FC<Props> = ({ paymentForm, amountPayment, filterPaymentForSituaction }) => {
+const FlowReceivement: React.FC<Props> = ({
+    paymentForm,
+    amountPayment,
+    filterPaymentForSituaction,
+    receivedPortion,
+}) => {
     const [data, setData] = useState<{ [key: number]: number }>([]);
 
     useEffect(() => {
@@ -75,15 +88,17 @@ const FlowReceivement: React.FC<Props> = ({ paymentForm, amountPayment, filterPa
             <div className="col-sm-4 text-center">
                 <div>
                     <div className="row">
-                        <div className="col-md-4 text-left">
+                        <div className="col-md-6 text-left font-25">
                             <b>Meios de pagamento</b>
                         </div>
-                        <div className="col-md-8">
-                            <Select
-                                options={optionsSituation}
-                                value={paymentSituationSelected}
-                                onChange={handleSetPaymentoSituation}
-                            />
+                        <div className="col-md-6">
+                            <div style={{ width: 196 }}>
+                                <Select
+                                    options={optionsSituationPie}
+                                    value={paymentSituationSelected}
+                                    onChange={handleSetPaymentoSituation}
+                                />
+                            </div>
                         </div>
                     </div>
                     <br />
@@ -101,7 +116,7 @@ const FlowReceivement: React.FC<Props> = ({ paymentForm, amountPayment, filterPa
                 <div className="barraRolagem">
                     <div>
                         <div className="d-flex justify-content-between">
-                            <b>
+                            <b className="font-25">
                                 Fluxo de <br /> Recebimento
                             </b>
                             <div className="d-flex" style={{ width: 300 }}>
@@ -115,7 +130,6 @@ const FlowReceivement: React.FC<Props> = ({ paymentForm, amountPayment, filterPa
                         </div>
 
                         <Bar
-                            title="Fluxo de Recebimento"
                             labels={Array.from({ length: amountMonth.value }).map((_, index) => {
                                 const currentMonth = new Date().getMonth();
                                 const currentYear = new Date().getFullYear();

@@ -22,7 +22,7 @@ const header = [
     { text: "Juros", title: "Juros", reference: "interest" },
     { text: "Desconto", title: "Desconto", reference: "discount" },
     { text: "Máximo de \n Parcelas", title: "Máximo de Parcelas", reference: "maxPortion" },
-    { text: "Atenuador", title: "Atenuador", reference: "attenuator" },
+    // { text: "Atenuador", title: "Atenuador", reference: "attenuator" },
     { text: "Multa", title: "Multa", reference: "trafficTicket" },
     { text: "Reajuste", title: "Reajuste", reference: "readjustment" },
     { text: "Editar e \n Simular", title: "Editar e Simular", reference: "" },
