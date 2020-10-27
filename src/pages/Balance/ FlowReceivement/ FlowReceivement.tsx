@@ -36,6 +36,8 @@ interface Props {
     amountPayment(): { [key: number]: number };
     filterPaymentForSituaction(situation: number): { [key: number]: number };
     receivedPortion: { [key: string]: any };
+
+    handleFlowReceived(amountMonth: number): number[];
 }
 
 const FlowReceivement: React.FC<Props> = ({
@@ -43,14 +45,10 @@ const FlowReceivement: React.FC<Props> = ({
     amountPayment,
     filterPaymentForSituaction,
     receivedPortion,
+    handleFlowReceived,
 }) => {
     const [data, setData] = useState<{ [key: number]: number }>([]);
-
-    useEffect(() => {
-        const response = amountPayment();
-
-        setData(response);
-    }, [amountPayment]);
+    const [barData, setBarData] = useState<number[]>([]);
 
     const [situationSelected, setSituationSelected] = useState({
         value: 0,
@@ -66,6 +64,20 @@ const FlowReceivement: React.FC<Props> = ({
         value: 12,
         label: "12 meses",
     });
+
+    useEffect(() => {
+        const response = amountPayment();
+        const barDataResponse = handleFlowReceived(amountMonth.value);
+
+        setData(response);
+        setBarData(barDataResponse);
+    }, [amountPayment]);
+
+    useEffect(() => {
+        const barDataResponse = handleFlowReceived(amountMonth.value);
+
+        setBarData(barDataResponse);
+    }, [amountMonth.value]);
 
     useEffect(() => {
         const response = filterPaymentForSituaction(paymentSituationSelected.value);
@@ -144,9 +156,7 @@ const FlowReceivement: React.FC<Props> = ({
 
                                 return `${currentMonth + (index + 2)}/${currentYear}`;
                             })}
-                            data={Array.from({ length: amountMonth.value }).map((_, index) =>
-                                Math.ceil(Math.random() * 99),
-                            )}
+                            data={barData}
                             color="#26d3ff"
                         />
                     </div>

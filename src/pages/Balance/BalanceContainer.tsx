@@ -1,6 +1,9 @@
 import React from "react";
 
 import { useSelector } from "react-redux";
+import { addMonths, getMonth, differenceInDays, differenceInMonths } from "date-fns";
+
+import formatDate from "../../utils/formatDate";
 
 import { totalValue } from "../../store/modules/pj/wallet/selectors";
 import {
@@ -151,6 +154,35 @@ export const balanceContainer = (Component: React.ElementType) => {
             return Object.values(mapDocument).reduce((acc: number, cur: number) => acc + cur, 0);
         };
 
+        // fluxo de recevimento (PARCELAS em atraso [1] e proxima[0])
+        const handleFlowReceived = (amountMonth = 12) => {
+            const response: number[] = [];
+
+            let count = 1;
+            for (let i = new Date(); i <= addMonths(new Date(), amountMonth); i = addMonths(new Date(), count)) {
+                const valueOfMonth = debtors.reduce((acc, cur) => {
+                    return (
+                        acc +
+                        cur.detailsPortion
+                            .filter((item) => item.situation !== 2)
+                            .reduce((acc, cur) => {
+                                if (differenceInMonths(i, cur.dueDate) === 1) {
+                                    return acc + cur.valuePortion;
+                                }
+
+                                return acc;
+                            }, 0)
+                    );
+                }, 0);
+
+                response.push(valueOfMonth);
+
+                count = count + 1;
+            }
+
+            return response;
+        };
+
         return (
             <Component
                 payload={{
@@ -169,6 +201,8 @@ export const balanceContainer = (Component: React.ElementType) => {
                     amountDebtsPf,
                     filterAmountDebtsForSituation,
                     amountWallet,
+
+                    handleFlowReceived,
                 }}
             />
         );

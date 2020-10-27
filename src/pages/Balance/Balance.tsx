@@ -29,6 +29,8 @@ interface Props {
         amountDebtsPf: number;
         filterAmountDebtsForSituation(situation: number): number;
         amountWallet: number;
+
+        handleFlowReceived(amountMonth: number): number[];
     };
 }
 
@@ -49,6 +51,8 @@ const Balance: React.FC<Props> = ({ payload }) => {
         amountDebtsPf,
         filterAmountDebtsForSituation,
         amountWallet,
+
+        handleFlowReceived,
     } = payload;
 
     return (
@@ -72,6 +76,7 @@ const Balance: React.FC<Props> = ({ payload }) => {
                         amountPayment={amountPayment}
                         filterPaymentForSituaction={filterPaymentForSituaction}
                         receivedPortion={receivedPortion}
+                        handleFlowReceived={handleFlowReceived}
                     />
 
                     <SeparatorHorizontal />
