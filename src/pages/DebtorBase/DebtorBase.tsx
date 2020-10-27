@@ -26,11 +26,11 @@ const header = [
 ];
 
 const options = [
-    { value: 0, label: "Todos" },
+    { value: -1, label: "Todos" },
     { value: 1, label: "Em atraso" },
     { value: 2, label: "Em dia" },
-    { value: 3, label: "Não negociada" },
-    { value: 4, label: "Quitada" },
+    { value: 0, label: "Não negociada" },
+    { value: 3, label: "Quitada" },
 ];
 
 interface Props {
@@ -47,7 +47,7 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
 
     const [tbody, setTbody] = useState<Debtor[]>(data);
     const [searchData, setSearchData] = useState<Debtor[]>([]);
-    const [filteredSituation, setFilteredSituation] = useState({ value: 0, label: "Todos" });
+    const [filteredSituation, setFilteredSituation] = useState({ value: -1, label: "Todos" });
     const [lastColumn, setLastColum] = useState("");
 
     useEffect(() => {

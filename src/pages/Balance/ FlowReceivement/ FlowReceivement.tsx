@@ -51,12 +51,12 @@ const FlowReceivement: React.FC<Props> = ({
     const [barData, setBarData] = useState<number[]>([]);
 
     const [situationSelected, setSituationSelected] = useState({
-        value: 0,
+        value: -1,
         label: "Todos",
     });
 
     const [paymentSituationSelected, setPaymentSituationSelected] = useState({
-        value: 0,
+        value: -1,
         label: "Todos",
     });
 

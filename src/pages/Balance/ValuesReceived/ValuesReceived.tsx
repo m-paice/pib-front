@@ -34,13 +34,26 @@ const paymentTypes = {
 interface Props {
     amountInCashOrPortion(): { [key: number]: number };
     filterInCashOrPortion(situation: number): { [key: number]: number };
+    handleFlowValueReceived(amountMonth: number): number[];
 }
 
-const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOrPortion }) => {
+const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOrPortion, handleFlowValueReceived }) => {
     const [data, setData] = useState<{ [key: number]: number }>({});
+    const [barData, setBarData] = useState<number[]>([]);
+
+    const [amountMonth, setAmountMonth] = useState({
+        value: 12,
+        label: "12 meses",
+    });
+
+    const [paymentSituationSelected, setPaymentSituationSelected] = useState({
+        value: -1,
+        label: "Todos",
+    });
 
     useEffect(() => {
         const response = amountInCashOrPortion();
+        const barDataResponse = handleFlowValueReceived(amountMonth.value);
 
         const inCash = Object.values(response).filter((item) => item === 1).length;
         const portion = Object.values(response).filter((item) => item > 1).length;
@@ -49,17 +62,14 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
             1: inCash,
             2: portion,
         });
+        setBarData(barDataResponse);
     }, [amountInCashOrPortion]);
 
-    const [amountMonth, setAmountMonth] = useState({
-        value: 12,
-        label: "12 meses",
-    });
+    useEffect(() => {
+        const barDataResponse = handleFlowValueReceived(amountMonth.value);
 
-    const [paymentSituationSelected, setPaymentSituationSelected] = useState({
-        value: 0,
-        label: "Todos",
-    });
+        setBarData(barDataResponse);
+    }, [amountMonth.value]);
 
     useEffect(() => {
         const response = filterInCashOrPortion(paymentSituationSelected.value);
@@ -143,9 +153,7 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
 
                             return `${currentMonth + (index + 2)}/${currentYear}`;
                         })}
-                        data={Array.from({ length: amountMonth.value }).map((_, index) =>
-                            Math.ceil(Math.random() * 99),
-                        )}
+                        data={barData}
                         color="#4E4C67"
                     />
                 </div>

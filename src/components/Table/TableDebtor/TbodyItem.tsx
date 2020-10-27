@@ -210,7 +210,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                     )}
                 </Item>
                 <Actions
-                    show={situation === 3}
+                    show={situation === 0}
                     closed={closed}
                     handleToggleSimulator={handleToggleSimulator}
                     handleToggleConfirm={handleToggleConfirm}

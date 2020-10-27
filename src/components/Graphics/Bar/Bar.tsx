@@ -42,6 +42,7 @@ const BarChart: React.FC<Props> = ({ title, labels, data, color }) => {
                         },
                     ],
                 },
+                plugins: { datalabels: { display: false } },
             }}
         />
     );

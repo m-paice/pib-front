@@ -1,9 +1,7 @@
 import React from "react";
 
 import { useSelector } from "react-redux";
-import { addMonths, getMonth, differenceInDays, differenceInMonths } from "date-fns";
-
-import formatDate from "../../utils/formatDate";
+import { addMonths, differenceInMonths } from "date-fns";
 
 import { totalValue } from "../../store/modules/pj/wallet/selectors";
 import {
@@ -158,13 +156,21 @@ export const balanceContainer = (Component: React.ElementType) => {
         const handleFlowReceived = (amountMonth = 12) => {
             const response: number[] = [];
 
+            const initialDate = `${new Date().getMonth() + 2}/01/${new Date().getFullYear()}`;
+
             let count = 1;
-            for (let i = new Date(); i <= addMonths(new Date(), amountMonth); i = addMonths(new Date(), count)) {
+            for (
+                let i = new Date(initialDate);
+                i <= addMonths(new Date(initialDate), amountMonth);
+                i = addMonths(new Date(initialDate), count)
+            ) {
+                // console.log(formatDate(i));
+
                 const valueOfMonth = debtors.reduce((acc, cur) => {
                     return (
                         acc +
                         cur.detailsPortion
-                            .filter((item) => item.situation !== 2)
+                            .filter((item) => item.situation !== 2 && item.dueDate > new Date(initialDate))
                             .reduce((acc, cur) => {
                                 if (differenceInMonths(i, cur.dueDate) === 1) {
                                     return acc + cur.valuePortion;
@@ -181,6 +187,54 @@ export const balanceContainer = (Component: React.ElementType) => {
             }
 
             return response;
+        };
+
+        // valores recebidos (PARCELAS [2])
+        const handleFlowValueReceived = (amountMonth = 12) => {
+            const response: number[] = [];
+
+            const initialDate = `${new Date().getMonth() + 2}/01/${new Date().getFullYear()}`;
+
+            let count = 1;
+            for (
+                let i = new Date(initialDate);
+                i <= addMonths(new Date(initialDate), amountMonth);
+                i = addMonths(new Date(initialDate), count)
+            ) {
+                const valueOfMonth = debtors.reduce((acc, cur) => {
+                    return (
+                        acc +
+                        cur.detailsPortion
+                            .filter((item) => item.situation === 2)
+                            .reduce((acc, cur) => {
+                                if (differenceInMonths(i, cur.datePayment) === 1) {
+                                    return acc + cur.valuePortion;
+                                }
+
+                                return acc;
+                            }, 0)
+                    );
+                }, 0);
+
+                response.push(valueOfMonth);
+
+                count = count + 1;
+            }
+
+            return response;
+        };
+
+        const filterAmountWalletForSituation = (situation: number) => {
+            if (situation !== -1)
+                return debtors
+                    .filter((item) => item.situation === situation)
+                    .reduce((acc, cur) => {
+                        return acc + cur.debt;
+                    }, 0);
+
+            return debtors.reduce((acc, cur) => {
+                return acc + cur.debt;
+            }, 0);
         };
 
         return (
@@ -201,8 +255,10 @@ export const balanceContainer = (Component: React.ElementType) => {
                     amountDebtsPf,
                     filterAmountDebtsForSituation,
                     amountWallet,
+                    filterAmountWalletForSituation,
 
                     handleFlowReceived,
+                    handleFlowValueReceived,
                 }}
             />
         );

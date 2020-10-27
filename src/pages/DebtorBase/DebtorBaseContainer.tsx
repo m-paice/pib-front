@@ -9,7 +9,7 @@ export const debtorBaseContainer = (Component: React.ElementType) => {
         const debtors = useSelector(dataDebtor);
 
         const handleFilterSituation = (situation: number) => {
-            if (situation === 0) return debtors;
+            if (situation === -1) return debtors;
 
             return debtors.filter((debtor) => debtor.situation === situation);
         };

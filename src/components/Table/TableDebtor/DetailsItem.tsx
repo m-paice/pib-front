@@ -12,9 +12,7 @@ interface Props extends Debtor {
 }
 
 const DetailsItem: React.FC<Props> = (props) => {
-    const { situation, payment, portion, valuePortion, value, detailsPortion, discount, total } = props;
-
-    const [nextPaymentId, setNextPaymenId] = useState(-1);
+    const { situation, payment, value, negociation, detailsPortion } = props;
 
     const handleViewPayment = (payment: number) => {
         if (payment === 1) return "Cartão de crédito";
@@ -37,9 +35,8 @@ const DetailsItem: React.FC<Props> = (props) => {
             currency: "BRL",
         });
 
-    const handleSetState = (id: number) => {
-        setNextPaymenId(id);
-    };
+    const discount = value - negociation;
+    const total = value - discount;
 
     return (
         <div className="row pagt align-center">
@@ -54,7 +51,7 @@ const DetailsItem: React.FC<Props> = (props) => {
                     Parcelamento
                     <div className="lab lab2">
                         <strong>
-                            {portion} de {handleFormatPrice(valuePortion)}
+                            {DetailsItem.length} de {handleFormatPrice(total / detailsPortion.length)}
                         </strong>
                     </div>
                 </div>
@@ -74,7 +71,9 @@ const DetailsItem: React.FC<Props> = (props) => {
                     <div className="row justify-content-between">
                         <div className=" text-nowrap txt-lista-regras">
                             Desconto
-                            <div className="lab lab2">{/* <strong>{handleFormatPrice(discount)}</strong> */}</div>
+                            <div className="lab lab2">
+                                <strong>{handleFormatPrice(discount)}</strong>
+                            </div>
                         </div>
                         <div className=" text-nowrap txt-lista-regras">
                             Total
@@ -102,7 +101,7 @@ const DetailsItem: React.FC<Props> = (props) => {
                         return (
                             <tr key={index}>
                                 <td className="txt-lista-regras" style={{ border: "none" }}>
-                                    {value.portion}
+                                    {index + 1}
                                 </td>
                                 <td className="txt-lista-regras" style={{ border: "none" }}>
                                     {formatDate(value.dueDate)}

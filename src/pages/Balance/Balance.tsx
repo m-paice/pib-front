@@ -29,8 +29,10 @@ interface Props {
         amountDebtsPf: number;
         filterAmountDebtsForSituation(situation: number): number;
         amountWallet: number;
+        filterAmountWalletForSituation(situation: number): number;
 
         handleFlowReceived(amountMonth: number): number[];
+        handleFlowValueReceived(amountMonth: number): number[];
     };
 }
 
@@ -51,8 +53,10 @@ const Balance: React.FC<Props> = ({ payload }) => {
         amountDebtsPf,
         filterAmountDebtsForSituation,
         amountWallet,
+        filterAmountWalletForSituation,
 
         handleFlowReceived,
+        handleFlowValueReceived,
     } = payload;
 
     return (
@@ -84,6 +88,7 @@ const Balance: React.FC<Props> = ({ payload }) => {
                     <ValuesReceived
                         amountInCashOrPortion={amountInCashOrPortion}
                         filterInCashOrPortion={filterInCashOrPortion}
+                        handleFlowValueReceived={handleFlowValueReceived}
                     />
                 </div>
 
@@ -96,6 +101,7 @@ const Balance: React.FC<Props> = ({ payload }) => {
                         amountWallet={amountWallet}
                         filterAmountDebtorsForSituation={filterAmountDebtorsForSituation}
                         filterAmountDebtsForSituation={filterAmountDebtsForSituation}
+                        filterAmountWalletForSituation={filterAmountWalletForSituation}
                     />
                 </div>
             </div>

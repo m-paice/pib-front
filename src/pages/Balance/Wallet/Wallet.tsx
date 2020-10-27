@@ -17,6 +17,7 @@ interface Props {
     amountDebtsPf: number;
     filterAmountDebtsForSituation(situation: number): number;
     amountWallet: number;
+    filterAmountWalletForSituation(situation: number): number;
 }
 
 const Wallet: React.FC<Props> = ({
@@ -25,24 +26,28 @@ const Wallet: React.FC<Props> = ({
     amountDebtsPf,
     filterAmountDebtsForSituation,
     amountWallet,
+    filterAmountWalletForSituation,
 }) => {
     const [state, setState] = useState({
         amountPf: amountPf,
         amountDebtsPf: amountDebtsPf,
+        amountWallet,
     });
 
     const [situationSelected, setSituationSelected] = useState({
-        value: 0,
+        value: -1,
         label: "Todos",
     });
 
     useEffect(() => {
         const amountPfCount = filterAmountDebtorsForSituation(situationSelected.value);
         const amountDebtsPfCount = filterAmountDebtsForSituation(situationSelected.value);
+        const amountWalletCount = filterAmountWalletForSituation(situationSelected.value);
 
         setState({
             amountPf: amountPfCount,
             amountDebtsPf: amountDebtsPfCount,
+            amountWallet: amountWalletCount,
         });
     }, [situationSelected.value]);
 
@@ -81,7 +86,7 @@ const Wallet: React.FC<Props> = ({
                     <div className="font-25">
                         <b>Total da Carteira</b>
                     </div>
-                    <div className="txt-saque">{handleFormatPrice(amountWallet)}</div>
+                    <div className="txt-saque">{handleFormatPrice(state.amountWallet)}</div>
                 </div>
             </div>
         </>
