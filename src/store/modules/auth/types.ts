@@ -25,4 +25,5 @@ export interface User {
 export interface StateAuth {
     token: string;
     user: User;
+    type: string;
 }

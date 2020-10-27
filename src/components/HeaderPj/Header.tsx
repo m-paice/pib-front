@@ -10,11 +10,11 @@ import I21 from "../../assets/imagens/i21.png";
 import I2 from "../../assets/imagens/i2.png";
 import I22 from "../../assets/imagens/i22.png";
 
-import I3 from "../../assets/imagens/i3.png";
-import I23 from "../../assets/imagens/i23.png";
+import RulerAndPencil from "../../assets/imagens/iRulerAndPencil.png";
+import RulerAndPencilBlue from "../../assets/imagens/iRulerAndPencilBlue.png";
 
-import I4 from "../../assets/imagens/i4.png";
-import I24 from "../../assets/imagens/i24.png";
+import User from "../../assets/imagens/iUser.png";
+import UserBlue from "../../assets/imagens/iUser2.png";
 
 const Header: React.FC = () => {
     return (
@@ -50,30 +50,31 @@ const Header: React.FC = () => {
                                     <li className="div menucel"></li>
 
                                     <li>
-                                        <Link to="/ruleNegociation">
-                                            <img className="i1" src={I1} />
-                                            <img className="i2" src={I21} /> Seu Painel
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/debitorBase">
-                                            <img className="i1" src={I2} />
-                                            <img className="i2" src={I22} />
-                                            Nossas Ofertas
+                                        <Link to="/balance">
+                                            {/* <img className="i1" src={I1} /> */}
+                                            {/* <img className="i2" src={I21} /> */}
+                                            Gráficos
                                         </Link>
                                     </li>
                                     <li>
                                         <Link to="/financialReport">
-                                            <img className="i1" src={I3} />
-                                            <img className="i2" src={I23} />
-                                            Nossas Dicas
+                                            <img className="i1" src={I2} />
+                                            <img className="i2" src={I22} />
+                                            Extrato
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/balance">
-                                            <img className="i1" src={I4} />
-                                            <img className="i2" src={I24} />
-                                            Suas Dúvidas
+                                        <Link to="/ruleNegociation">
+                                            <img className="i1" src={RulerAndPencil} />
+                                            <img className="i2" src={RulerAndPencilBlue} />
+                                            Reguá de Dívidas
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/debitorBase">
+                                            <img className="i1" src={User} />
+                                            <img className="i2" src={UserBlue} />
+                                            Controle PF
                                         </Link>
                                     </li>
 

@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+// actions
+import { actions as actionsAuth } from "../../store/modules/auth/actions";
 
 interface Props {}
 
 const Login: React.FC<Props> = (props) => {
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const [state, setState] = useState("pf");
 
@@ -14,8 +19,7 @@ const Login: React.FC<Props> = (props) => {
     };
 
     const handleClick = () => {
-        if (state === "pf") return history.push("/homepf");
-        if (state === "pj") return history.push("/homepj");
+        dispatch(actionsAuth.login({ type: state }));
     };
 
     return (
@@ -40,12 +44,10 @@ const Login: React.FC<Props> = (props) => {
             >
                 <select style={{ color: "#000", marginBottom: 20 }} onChange={handleChangeSelect} id="">
                     <option style={{ color: "#000" }} value="pf">
-                        {" "}
-                        Pessoa Física{" "}
+                        Pessoa Física
                     </option>
                     <option style={{ color: "#000" }} value="pj">
-                        {" "}
-                        Pessoa Jurídica{" "}
+                        Pessoa Jurídica
                     </option>
                 </select>
 

@@ -13,6 +13,7 @@ const initialState: StateAuth = {
         createdAt: new Date(),
         updatedAt: new Date(),
     },
+    type: "",
 };
 
 const reducerToken: Reducer = (state = "", action): string => {
@@ -41,7 +42,21 @@ const reducerUser: Reducer = (state: Partial<User> = {}, action): User => {
     }
 };
 
+const reducerType: Reducer = (state = "", action): string => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case AUTH_LOGIN_SUCCESS:
+            return payload.type;
+        case AUTH_LOGOUT_SUCCESS:
+            return "";
+        default:
+            return initialState.type;
+    }
+};
+
 export const reducers: Reducer<StateAuth> = (state = initialState, actions) => ({
     token: reducerToken(state.token, actions),
     user: reducerUser(state.user, actions),
+    type: reducerType(state.type, actions),
 });

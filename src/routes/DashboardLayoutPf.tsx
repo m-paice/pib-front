@@ -2,7 +2,7 @@ import React from "react";
 
 import { Route } from "react-router-dom";
 
-import Layout from "../pages/Layout";
+import { LayoutPf } from "../pages/Layout";
 
 interface PropsLayout {
     exact: boolean;
@@ -15,9 +15,9 @@ const DashboardLayout: React.FC<PropsLayout> = ({ component: Component, ...rest 
         <Route
             {...rest}
             render={(matchProps) => (
-                <Layout>
+                <LayoutPf>
                     <Component {...matchProps} />
-                </Layout>
+                </LayoutPf>
             )}
         />
     );
