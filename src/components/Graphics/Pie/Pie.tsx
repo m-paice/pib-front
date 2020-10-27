@@ -22,7 +22,6 @@ const PieChart: React.FC<Props> = ({ labels, data, colors }) => {
                 ],
             }}
             options={{
-                legend: false,
                 plugins: {
                     datalabels: {
                         formatter: (value, ctx) => {
@@ -31,7 +30,7 @@ const PieChart: React.FC<Props> = ({ labels, data, colors }) => {
                             dataArr.map((data) => {
                                 sum += data;
                             });
-                            const percentage = ((value * 100) / sum).toFixed(2) + "%";
+                            const percentage = ((value * 100) / sum).toFixed(2).replace(".", ",") + "%";
                             return percentage;
                         },
                         color: "#fff",

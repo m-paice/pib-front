@@ -140,7 +140,7 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
                     </div>
                     <Bar
                         labels={Array.from({ length: amountMonth.value }).map((_, index) => {
-                            const currentMonth = new Date().getMonth();
+                            const currentMonth = new Date().getMonth() - 1;
                             const currentYear = new Date().getFullYear();
 
                             if (currentMonth + (index + 2) > 24) {
@@ -153,7 +153,7 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
 
                             return `${currentMonth + (index + 2)}/${currentYear}`;
                         })}
-                        data={barData}
+                        data={barData.filter((item, index) => index !== 0)}
                         color="#4E4C67"
                     />
                 </div>

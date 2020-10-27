@@ -23,10 +23,10 @@ export default [
         id: 3,
         idRegister: 1,
         portion: 3,
-        dueDate: new Date("11/20/2020"),
+        dueDate: new Date("11/30/2020"),
         valuePortion: 200,
-        datePayment: null,
-        situation: 0,
+        datePayment: new Date("10/27/2020"),
+        situation: 2,
         next: 0,
     },
     {
@@ -189,4 +189,14 @@ export default [
         situation: 0,
         next: 1,
     },
+    // {
+    //     id: 20,
+    //     idRegister: 23,
+    //     portion: 4,
+    //     dueDate: new Date("05/28/2021"),
+    //     valuePortion: 100,
+    //     datePayment: null,
+    //     situation: 1,
+    //     next: 0,
+    // },
 ];

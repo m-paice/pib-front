@@ -9,9 +9,7 @@ import Pie from "../../../components/Graphics/Pie";
 const optionsSituation = [
     { value: -1, label: "Todos" },
     { value: 1, label: "Em atraso" },
-    { value: 2, label: "Em dia" },
-    { value: 0, label: "Não negociada" },
-    { value: 3, label: "Quitada" },
+    { value: 0, label: "Próxima" },
 ];
 
 const optionsSituationPie = [
@@ -156,7 +154,7 @@ const FlowReceivement: React.FC<Props> = ({
 
                                 return `${currentMonth + (index + 2)}/${currentYear}`;
                             })}
-                            data={barData}
+                            data={barData.filter((item, index) => index !== 0)}
                             color="#26d3ff"
                         />
                     </div>

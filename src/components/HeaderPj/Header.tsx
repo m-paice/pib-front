@@ -53,7 +53,7 @@ const Header: React.FC = () => {
                                         <Link to="/balance">
                                             {/* <img className="i1" src={I1} /> */}
                                             {/* <img className="i2" src={I21} /> */}
-                                            Gráficos
+                                            Resumo
                                         </Link>
                                     </li>
                                     <li>

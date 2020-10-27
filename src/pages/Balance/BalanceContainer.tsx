@@ -205,9 +205,9 @@ export const balanceContainer = (Component: React.ElementType) => {
                     return (
                         acc +
                         cur.detailsPortion
-                            .filter((item) => item.situation === 2)
+                            .filter((item) => item.situation === 2 && item.dueDate > new Date(initialDate))
                             .reduce((acc, cur) => {
-                                if (differenceInMonths(i, cur.datePayment) === 1) {
+                                if (differenceInMonths(i, cur.dueDate) === 1) {
                                     return acc + cur.valuePortion;
                                 }
 
