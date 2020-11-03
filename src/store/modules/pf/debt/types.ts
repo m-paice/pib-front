@@ -1,4 +1,9 @@
 export enum types {
+    LOAD_DEBT = "@pj/debt/LOAD_DEBT",
+    LOAD_DEBT_INIT = "@pj/debt/LOAD_DEBT_INIT",
+    LOAD_DEBT_SUCCESS = "@pj/debt/LOAD_DEBT_SUCCESS",
+    LOAD_DEBT_FAILURE = "@pj/debt/LOAD_DEBT_FAILURE",
+
     ADD_DEBT = "@pj/debt/ADD_DEBT",
     ADD_DEBT_INIT = "@pj/debt/ADD_DEBT_INIT",
     ADD_DEBT_SUCCESS = "@pj/debt/ADD_DEBT_SUCCESS",
@@ -17,12 +22,17 @@ export enum types {
 
 export interface Debt {
     id: string;
-    situation: "done" | "open" | "late" | "next";
+    situation: number;
+    dateRegister: Date | null;
     dateNegociation: Date | null;
     maturities: Date;
-    value: number;
-    register: Date | null;
+    debt: number;
+    negociation: number;
+    receipt: number;
+    late: number;
+    payment: number;
     companyId: string;
+    userId: string;
     createdAt: Date | null;
     updatedAt: Date | null;
 }

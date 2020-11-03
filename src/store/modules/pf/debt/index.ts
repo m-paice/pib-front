@@ -1,11 +1,11 @@
 import { Reducer } from "redux";
-import { StateUser, types } from "./types";
+import { StateDebt, types } from "./types";
 
-const { ADD_USER_SUCCESS } = types;
+const { ADD_DEBT_SUCCESS, LOAD_DEBT_SUCCESS } = types;
 
-import { insertElementById, insertElementAllId } from "../../common/selectors";
+import { insertElementById, insertElementAllId, createTreeAllId, createTreeById } from "../../common/selectors";
 
-const initialState: StateUser = {
+const initialState: StateDebt = {
     byId: {},
     allId: [],
 };
@@ -14,7 +14,9 @@ const reducerById: Reducer = (state = {}, action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case ADD_USER_SUCCESS:
+        case LOAD_DEBT_SUCCESS:
+            return createTreeById(payload);
+        case ADD_DEBT_SUCCESS:
             return insertElementById(state, payload);
         default:
             return initialState.byId;
@@ -25,14 +27,16 @@ const reducerAllId: Reducer = (state = [], action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case ADD_USER_SUCCESS:
+        case LOAD_DEBT_SUCCESS:
+            return createTreeAllId(payload);
+        case ADD_DEBT_SUCCESS:
             return insertElementAllId(state, payload);
         default:
             return initialState.allId;
     }
 };
 
-export const reducers: Reducer<StateUser> = (state = initialState, actions) => ({
+export const reducers: Reducer<StateDebt> = (state = initialState, actions) => ({
     byId: reducerById(state.byId, actions),
     allId: reducerAllId(state.allId, actions),
 });

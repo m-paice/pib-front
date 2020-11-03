@@ -1,6 +1,6 @@
 import { types, Debt } from "./types";
 
-const { ADD_DEBT, REMOVE_DEBT, UPDATE_DEBT } = types;
+const { LOAD_DEBT, ADD_DEBT, REMOVE_DEBT, UPDATE_DEBT } = types;
 
 export interface ResultAction {
     type: string;
@@ -8,12 +8,16 @@ export interface ResultAction {
 }
 
 interface Actions {
+    loadDebt(): ResultAction;
     addDebt(data: Partial<Debt>): ResultAction;
     removeDebt(id: string): ResultAction;
     updateDebt(id: string, data: any): ResultAction;
 }
 
 export const actions: Actions = {
+    loadDebt: () => ({
+        type: LOAD_DEBT,
+    }),
     addDebt: (data) => ({
         type: ADD_DEBT,
         payload: data,

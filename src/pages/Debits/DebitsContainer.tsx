@@ -1,24 +1,34 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+// actions
+import { actions as actionsDebts } from "../../store/modules/pf/debt/actions";
 
 // selectors
-import { selectDebts, selectDebtsPending, valueTotalDebts, amountDebts } from "../../store/modules/pj/debt/selectors";
+import { selectDebts, selectDebtsPending, valueTotalDebts, amountDebts } from "../../store/modules/pf/debt/selectors";
 
 export const debtsContainer = (Component: React.ElementType) => {
     const Container: React.FC = () => {
+        const dispatch = useDispatch();
+
         const debts = useSelector(selectDebts);
-        const debtsPending = useSelector(selectDebtsPending);
 
         const value = useSelector(valueTotalDebts);
         const amount = useSelector(amountDebts);
+
+        const handleLoadDebts = () => {
+            dispatch(actionsDebts.loadDebt());
+        };
 
         return (
             <Component
                 payload={{
                     data: {
                         debts,
-                        debtsPending,
+                    },
+                    actions: {
+                        handleLoadDebts,
                     },
                     amount,
                     value,

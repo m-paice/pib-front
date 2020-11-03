@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Debt } from "../../../store/modules/pj/debt/types";
+import { Debt } from "../../../store/modules/pf/debt/types";
 
 // components
 import Negociation from "../Negociation";
@@ -47,7 +47,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
         }));
     };
 
-    const { company, maturities, value } = props;
+    const { company, maturities, debt } = props;
 
     return (
         <div className="cada debito">
@@ -96,7 +96,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                                 <span className="glyphicon glyphicon-question-sign ml-1"></span>
                             </div>
                         </div>
-                        <div className="txt-12 m-0 font-weight-bold">R$ {formatPrice(value)}</div>
+                        <div className="txt-12 m-0 font-weight-bold">R$ {formatPrice(debt)}</div>
                     </div>
                     <div className="div c"></div>
                     <div>

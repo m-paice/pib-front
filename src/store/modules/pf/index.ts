@@ -1,14 +1,15 @@
 import { Reducer } from "redux";
 
 // pf reducers
-import { reducers as reducersUsers } from "./users";
 
-import { StateUser } from "./users/types";
+import { reducers as reducersDebts } from "./debt";
+
+import { StateDebt } from "./debt/types";
 
 export interface StatePF {
-    users: StateUser;
+    debts: StateDebt;
 }
 
 export const reducers: Reducer = (state = {}, actions) => ({
-    users: reducersUsers(state, actions),
+    debts: reducersDebts(state.debts, actions),
 });

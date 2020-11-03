@@ -18,6 +18,7 @@ export interface User {
     name: string;
     email: string;
     document: string;
+    type: string;
     createdAt: Date | null;
     updatedAt: Date | null;
 }
@@ -25,5 +26,4 @@ export interface User {
 export interface StateAuth {
     token: string;
     user: User;
-    type: string;
 }

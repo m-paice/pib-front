@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Debt } from "../../../store/modules/pj/debt/types";
+import { Debt } from "../../../store/modules/pf/debt/types";
 
 // components
 import MoreInfo from "../MoreInfo";

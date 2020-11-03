@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // container
 import { debtsContainer } from "./DebitsContainer";
 
-import { Debt } from "../../store/modules/pj/debt/types";
+import { Debt } from "../../store/modules/pf/debt/types";
 import { Company } from "../../store/modules/pj/company/types";
 
 // components
@@ -24,7 +24,9 @@ interface Props {
     payload: {
         data: {
             debts: IDebt[];
-            debtsPending: IDebt[];
+        };
+        actions: {
+            handleLoadDebts(): void;
         };
         amount: number;
         value: number;
@@ -32,8 +34,13 @@ interface Props {
 }
 
 const Debits: React.FC<Props> = ({ payload }) => {
-    const { data, amount, value } = payload;
-    const { debts, debtsPending } = data;
+    const { data, actions, amount, value } = payload;
+    const { debts } = data;
+    const { handleLoadDebts } = actions;
+
+    useEffect(() => {
+        handleLoadDebts();
+    }, []);
 
     return (
         <div className="page">
@@ -55,10 +62,6 @@ const Debits: React.FC<Props> = ({ payload }) => {
 
                 {debts.map((debt) => (
                     <ApprovedDebits key={debt.id} {...debt} />
-                ))}
-
-                {debtsPending.map((debt) => (
-                    <DeniedDebts key={debt.id} {...debt} />
                 ))}
             </div>
         </div>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 // actions
@@ -9,17 +8,18 @@ import { actions as actionsAuth } from "../../store/modules/auth/actions";
 interface Props {}
 
 const Login: React.FC<Props> = (props) => {
-    const history = useHistory();
     const dispatch = useDispatch();
 
-    const [state, setState] = useState("pf");
+    const [document, setDocument] = useState("460.328.018-10");
 
-    const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setState(event.target.value);
+    const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDocument(event.target.value);
     };
 
     const handleClick = () => {
-        dispatch(actionsAuth.login({ type: state }));
+        if (!document.length || !document) return;
+
+        dispatch(actionsAuth.login({ document }));
     };
 
     return (
@@ -42,14 +42,12 @@ const Login: React.FC<Props> = (props) => {
                     justifyContent: "center",
                 }}
             >
-                <select style={{ color: "#000", marginBottom: 20 }} onChange={handleChangeSelect} id="">
-                    <option style={{ color: "#000" }} value="pf">
-                        Pessoa Física
-                    </option>
-                    <option style={{ color: "#000" }} value="pj">
-                        Pessoa Jurídica
-                    </option>
-                </select>
+                <input
+                    value={document}
+                    onChange={handleChangeInput}
+                    placeholder="type a document..."
+                    style={{ marginBottom: 20 }}
+                />
 
                 <button onClick={handleClick}> Entrar </button>
             </div>

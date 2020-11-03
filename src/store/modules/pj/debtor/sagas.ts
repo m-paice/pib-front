@@ -2,8 +2,8 @@ import { put } from "redux-saga/effects";
 
 import { types } from "./types";
 
-import data from "./data/data";
-import portionData from "./data/portion";
+import data from "../../../../data/debts";
+import portionData from "../../../../data/portion";
 
 function* loadDebtors() {
     try {
