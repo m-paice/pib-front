@@ -3,6 +3,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addMonths, differenceInMonths, subMonths, subYears } from "date-fns";
 
+import formatDate from "../../utils/formatDate";
+
 // selectors
 import { totalValue } from "../../store/modules/pj/wallet/selectors";
 import {
@@ -247,14 +249,15 @@ export const balanceContainer = (Component: React.ElementType) => {
             const initialDate = subYears(new Date(), 1);
 
             let count = 1;
-            for (let i = new Date(initialDate); i <= new Date(); i = addMonths(new Date(initialDate), count)) {
+            for (let i = new Date(initialDate); i < new Date(); i = addMonths(new Date(initialDate), count)) {
+                console.log(formatDate(i));
                 const valueOfMonth = debtors.reduce((acc, cur) => {
                     return (
                         acc +
                         cur.detailsPortion
-                            .filter((item) => item.situation === 2 && item.dueDate > new Date(initialDate))
+                            .filter((item) => item.situation === 2)
                             .reduce((acc, cur) => {
-                                if (differenceInMonths(i, cur.dueDate) === 1) {
+                                if (cur.datePayment && differenceInMonths(i, cur.datePayment) === 0) {
                                     return acc + cur.valuePortion;
                                 }
 

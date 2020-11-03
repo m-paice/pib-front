@@ -11,15 +11,7 @@ const optionsYears = [
     { value: 24, label: "24 meses" },
 ];
 
-const optionsSituation = [
-    { value: -1, label: "Todos" },
-    { value: 1, label: "Em atraso" },
-    { value: 2, label: "Em dia" },
-    { value: 0, label: "Não negociada" },
-    { value: 3, label: "Quitada" },
-];
-
-const optionsSituationPie = [
+const optionSituationPie = [
     { value: -1, label: "Todos" },
     { value: 1, label: "Em atraso" },
     { value: 2, label: "Em dia" },
@@ -107,7 +99,7 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
                         <div className="col-md-6">
                             <div style={{ width: 196 }}>
                                 <Select
-                                    options={optionsSituationPie}
+                                    options={optionSituationPie}
                                     value={paymentSituationSelected}
                                     onChange={handleSetPaymentoSituation}
                                 />
