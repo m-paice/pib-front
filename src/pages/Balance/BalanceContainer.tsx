@@ -72,6 +72,47 @@ export const balanceContainer = (Component: React.ElementType) => {
             }, {});
         };
 
+        // flow received for situatio
+        const handleFilterFlowReceivedForSituation = (situation: number, amountMonth: number) => {
+            const response: number[] = [];
+
+            const initialDate = `${new Date().getMonth() + 2}/01/${new Date().getFullYear()}`;
+
+            let count = 1;
+            for (
+                let i = new Date(initialDate);
+                i <= addMonths(new Date(initialDate), amountMonth);
+                i = addMonths(new Date(initialDate), count)
+            ) {
+                // console.log(formatDate(i));
+
+                const valueOfMonth = debtors.reduce((acc, cur) => {
+                    return (
+                        acc +
+                        cur.detailsPortion
+                            .filter((item) =>
+                                situation === -1
+                                    ? item.situation !== 2 && item.dueDate > new Date(initialDate)
+                                    : item.situation === situation && item.dueDate > new Date(initialDate),
+                            )
+                            .reduce((acc, cur) => {
+                                if (differenceInMonths(i, cur.dueDate) === 1) {
+                                    return acc + cur.valuePortion;
+                                }
+
+                                return acc;
+                            }, 0)
+                    );
+                }, 0);
+
+                response.push(valueOfMonth);
+
+                count = count + 1;
+            }
+
+            return response;
+        };
+
         // amount payment in cash or portion
         const amountInCashOrPortion = () =>
             debtors.reduce((acc, cur) => {
@@ -264,6 +305,7 @@ export const balanceContainer = (Component: React.ElementType) => {
                     filterAmountWalletForSituation,
 
                     handleFlowReceived,
+                    handleFilterFlowReceivedForSituation,
                     handleFlowValueReceived,
 
                     actions: {

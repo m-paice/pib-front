@@ -36,6 +36,7 @@ interface Props {
     receivedPortion: { [key: string]: any };
 
     handleFlowReceived(amountMonth: number): number[];
+    handleFilterFlowReceivedForSituation(situation: number, amountMonth: number);
 }
 
 const FlowReceivement: React.FC<Props> = ({
@@ -44,6 +45,7 @@ const FlowReceivement: React.FC<Props> = ({
     filterPaymentForSituaction,
     receivedPortion,
     handleFlowReceived,
+    handleFilterFlowReceivedForSituation,
 }) => {
     const [data, setData] = useState<{ [key: number]: number }>([]);
     const [barData, setBarData] = useState<number[]>([]);
@@ -82,6 +84,12 @@ const FlowReceivement: React.FC<Props> = ({
 
         setData(response);
     }, [paymentSituationSelected.value]);
+
+    useEffect(() => {
+        const response = handleFilterFlowReceivedForSituation(situationSelected.value, amountMonth.value);
+
+        setBarData(response);
+    }, [situationSelected.value]);
 
     const handleSetSituation = (situation: any) => {
         setSituationSelected(situation);

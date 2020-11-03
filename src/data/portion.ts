@@ -146,7 +146,7 @@ export default [
         dueDate: new Date("12/20/2020"),
         valuePortion: 75,
         datePayment: null,
-        situation: 0,
+        situation: 1,
         next: 0,
     },
     {
