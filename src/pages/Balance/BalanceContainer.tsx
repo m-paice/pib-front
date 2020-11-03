@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useSelector } from "react-redux";
-import { addMonths, differenceInMonths } from "date-fns";
+import { addMonths, differenceInMonths, subMonths, subYears } from "date-fns";
 
 import { totalValue } from "../../store/modules/pj/wallet/selectors";
 import {
@@ -193,14 +193,10 @@ export const balanceContainer = (Component: React.ElementType) => {
         const handleFlowValueReceived = (amountMonth = 12) => {
             const response: number[] = [];
 
-            const initialDate = `${new Date().getMonth() + 2}/01/${new Date().getFullYear()}`;
+            const initialDate = subYears(new Date(), 1);
 
             let count = 1;
-            for (
-                let i = new Date(initialDate);
-                i <= addMonths(new Date(initialDate), amountMonth);
-                i = addMonths(new Date(initialDate), count)
-            ) {
+            for (let i = new Date(initialDate); i <= new Date(); i = addMonths(new Date(initialDate), count)) {
                 const valueOfMonth = debtors.reduce((acc, cur) => {
                     return (
                         acc +

@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { useDispatch } from "react-redux";
-
 import { debtorBaseContainer } from "./DebtorBaseContainer";
 
 import { Debtor } from "../../store/modules/pj/debtor/types";
-
-// actions
-import { actions as actionsDebtors } from "../../store/modules/pj/debtor/actions";
 
 // components
 import Table from "../../components/Table/TableDebtor";
@@ -36,14 +31,16 @@ const options = [
 interface Props {
     payload: {
         data: Debtor[];
+        actions: {
+            handleLoadDebtors(): void;
+        };
         handleFilterSituation(situation: number): Debtor[];
     };
 }
 
 const DebtorBase: React.FC<Props> = ({ payload }) => {
-    const { data, handleFilterSituation } = payload;
-
-    const dispatch = useDispatch();
+    const { data, actions, handleFilterSituation } = payload;
+    const { handleLoadDebtors } = actions;
 
     const [tbody, setTbody] = useState<Debtor[]>(data);
     const [searchData, setSearchData] = useState<Debtor[]>([]);
@@ -51,7 +48,7 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
     const [lastColumn, setLastColum] = useState("");
 
     useEffect(() => {
-        dispatch(actionsDebtors.loadNegociation());
+        handleLoadDebtors();
     }, []);
 
     useEffect(() => {
