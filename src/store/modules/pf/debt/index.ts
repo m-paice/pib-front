@@ -19,7 +19,7 @@ const reducerById: Reducer = (state = {}, action) => {
         case ADD_DEBT_SUCCESS:
             return insertElementById(state, payload);
         default:
-            return initialState.byId;
+            return state;
     }
 };
 
@@ -32,7 +32,7 @@ const reducerAllId: Reducer = (state = [], action) => {
         case ADD_DEBT_SUCCESS:
             return insertElementAllId(state, payload);
         default:
-            return initialState.allId;
+            return state;
     }
 };
 
