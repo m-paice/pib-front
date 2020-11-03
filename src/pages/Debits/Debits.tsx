@@ -16,9 +16,7 @@ import Caratriste from "../../assets/imagens/caratriste.png";
 // utils
 import formatPrice from "../../utils/formatPrice";
 
-interface IDebt extends Debt {
-    company: Company;
-}
+type IDebt = Debt;
 
 interface Props {
     payload: {
@@ -41,6 +39,10 @@ const Debits: React.FC<Props> = ({ payload }) => {
     useEffect(() => {
         handleLoadDebts();
     }, []);
+
+    if (!debts.length) {
+        return <p> Carregando... </p>;
+    }
 
     return (
         <div className="page">

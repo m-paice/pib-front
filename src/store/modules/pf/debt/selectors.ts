@@ -7,24 +7,13 @@ import { getElements } from "../../common/selectors";
 import { ApplicationState } from "./../../../index";
 
 export const stateDebts = (state: ApplicationState) => getElements<Debt>(state.pf.debts);
-export const stateCompaniesById = (state: ApplicationState) => state.pj.companies.byId;
 
-export const selectDebts = createSelector(stateDebts, stateCompaniesById, (debts, companies) => {
-    return debts
-        .filter((debt) => debt.situation !== 0)
-        .map((debt) => ({
-            ...debt,
-            company: companies[debt.companyId],
-        }));
+export const selectDebts = createSelector(stateDebts, (debts) => {
+    return debts.filter((debt) => debt.situation !== 0);
 });
 
-export const selectDebtsPending = createSelector(stateDebts, stateCompaniesById, (debts, companies) => {
-    return debts
-        .filter((debt) => debt.situation === 0)
-        .map((debt) => ({
-            ...debt,
-            company: companies[debt.companyId],
-        }));
+export const selectDebtsPending = createSelector(stateDebts, (debts) => {
+    return debts.filter((debt) => debt.situation === 0);
 });
 
 export const valueTotalDebts = createSelector(stateDebts, (debts) =>

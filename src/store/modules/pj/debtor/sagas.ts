@@ -4,13 +4,15 @@ import { types } from "./types";
 
 import data from "../../../../data/debts";
 import portionData from "../../../../data/portion";
+import companiesData from "../../../../data/companies";
 
 function* loadDebtors() {
     try {
         const response = data.reduce((acc, cur) => {
             const portionFiltered = portionData.filter((item) => item.idRegister === cur.id);
+            const companyFiltered = companiesData.filter((item) => item.id === cur.companyId);
 
-            return [...acc, { ...cur, detailsPortion: portionFiltered }];
+            return [...acc, { ...cur, detailsPortion: portionFiltered, company: companyFiltered }];
         }, []);
 
         yield put({

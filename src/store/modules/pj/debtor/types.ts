@@ -33,6 +33,7 @@ interface Details {
 
 export interface Debtor {
     id: string;
+    companyId: number;
     dateRegister: Date;
     document: string;
     name: string;

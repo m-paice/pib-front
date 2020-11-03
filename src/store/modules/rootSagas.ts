@@ -32,6 +32,7 @@ export default function* () {
 
         /* PJ **/
         // company
+        takeLatest(typesPjCompany.LOAD_COMPANY, companyPjSagas.loadCompanies),
         takeLatest(typesPjCompany.ADD_COMPANY, companyPjSagas.createCompany),
         // negociation
         takeLatest(typesPjNegociation.LOAD_NEGOCIATION, negociationPjSagas.loadNegociation),
@@ -46,5 +47,8 @@ export default function* () {
         // takeLatest("persist/REHYDRATE", negociationPjSagas.loadNegociation),
         // takeLatest("persist/REHYDRATE", debtorPjSagas.loadDebtors),
         // takeLatest("persist/REHYDRATE", walletPjSagas.loadNegociation),
+
+        // init services for authenticated
+        takeLatest(typesAuth.AUTH_LOGIN_SUCCESS, companyPjSagas.loadCompanies),
     ]);
 }

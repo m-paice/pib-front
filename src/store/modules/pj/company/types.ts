@@ -1,4 +1,9 @@
 export enum types {
+    LOAD_COMPANY = "@pj/company/LOAD_COMPANY",
+    LOAD_COMPANY_INIT = "@pj/company/LOAD_COMPANY_INIT",
+    LOAD_COMPANY_SUCCESS = "@pj/company/LOAD_COMPANY_SUCCESS",
+    LOAD_COMPANY_FAILURE = "@pj/company/LOAD_COMPANY_FAILURE",
+
     ADD_COMPANY = "@pj/company/ADD_COMPANY",
     ADD_COMPANY_INIT = "@pj/company/ADD_COMPANY_INIT",
     ADD_COMPANY_SUCCESS = "@pj/company/ADD_COMPANY_SUCCESS",

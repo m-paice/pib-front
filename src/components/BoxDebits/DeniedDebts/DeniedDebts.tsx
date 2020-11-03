@@ -10,13 +10,7 @@ import MoreInfo from "../MoreInfo";
 import formatDate from "../../../utils/formatDate";
 import formatPrice from "../../../utils/formatPrice";
 
-interface Company {
-    name: string;
-}
-
-interface Props extends Debt {
-    company: Company;
-}
+type Props = Debt;
 
 interface State {
     info: boolean;
@@ -49,6 +43,8 @@ const DeniedDebts: React.FC<Props> = (props) => {
 
     const { company, maturities, debt } = props;
 
+    const [companyFirst] = company;
+
     return (
         <div className="cada debito">
             <div className="row rowCenter">
@@ -61,7 +57,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-2">
-                    <span className="labelDebito text-left">{company.name}</span>
+                    <span className="labelDebito text-left">{companyFirst.name}</span>
                 </div>
                 <div className="col-md-7 d-flex justify-content-between">
                     <div>

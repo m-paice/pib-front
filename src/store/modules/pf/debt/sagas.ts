@@ -4,6 +4,8 @@ import { types } from "./types";
 import { ResultAction } from "./actions";
 
 import data from "../../../../data/debts";
+import portionData from "../../../../data/portion";
+import companiesData from "../../../../data/companies";
 
 import { User } from "../../auth/types";
 
@@ -13,7 +15,14 @@ function* loadDebt() {
     const user: User = yield select(userAuthenticated);
 
     try {
-        const response = yield data.filter((item) => item.document === user.document);
+        const response = data
+            .filter((item) => item.document === user.document)
+            .reduce((acc, cur) => {
+                const portionFiltered = portionData.filter((item) => item.idRegister === cur.id);
+                const companyFiltered = companiesData.filter((item) => item.id === cur.companyId);
+
+                return [...acc, { ...cur, detailsPortion: portionFiltered, company: companyFiltered }];
+            }, []);
 
         yield put({
             type: types.LOAD_DEBT_SUCCESS,

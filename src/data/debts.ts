@@ -1,6 +1,7 @@
 export default [
     {
         id: 1,
+        companyId: 1,
         dateRegister: new Date("01/18/2018"),
         document: "460.328.018-10",
         name: "matheus ferreira",
@@ -13,6 +14,7 @@ export default [
     },
     {
         id: 2,
+        companyId: 2,
         dateRegister: new Date("01/20/2018"),
         document: "460.328.018-10",
         name: "matheus ferreira",
@@ -25,6 +27,7 @@ export default [
     },
     {
         id: 3,
+        companyId: 2,
         dateRegister: new Date("02/05/2018"),
         document: "845.996.998-85",
         name: "maria clara  da silva",
@@ -37,6 +40,7 @@ export default [
     },
     {
         id: 4,
+        companyId: 2,
         dateRegister: new Date("02/08/2018"),
         document: "845.332.015-98",
         name: "lucas pereira",
@@ -49,6 +53,7 @@ export default [
     },
     {
         id: 5,
+        companyId: 1,
         dateRegister: new Date("02/11/2018"),
         document: "012.223.845-98",
         name: "rafael da silva",
@@ -61,6 +66,7 @@ export default [
     },
     {
         id: 6,
+        companyId: 2,
         dateRegister: new Date("02/21/2018"),
         document: "460.328.018-10",
         name: "matheus ferreira",
@@ -73,6 +79,7 @@ export default [
     },
     {
         id: 7,
+        companyId: 1,
         dateRegister: new Date("02/25/2018"),
         document: "369.846.996-78",
         name: "marina oliveira",
@@ -85,6 +92,7 @@ export default [
     },
     {
         id: 8,
+        companyId: 1,
         dateRegister: new Date("03/21/2018"),
         document: "369.846.996-78",
         name: "marina oliveira",
@@ -97,6 +105,7 @@ export default [
     },
     {
         id: 9,
+        companyId: 1,
         dateRegister: new Date("04/04/2018"),
         document: "659.996.784-89",
         name: "pedro mariano",
@@ -109,6 +118,7 @@ export default [
     },
     {
         id: 10,
+        companyId: 1,
         dateRegister: new Date("08/10/2018"),
         document: "864.221.697-12",
         name: "ingrid lopes",
@@ -121,6 +131,7 @@ export default [
     },
     {
         id: 11,
+        companyId: 2,
         dateRegister: new Date("08/11/2018"),
         document: "460.328.018-10",
         name: "matheus ferreira",
@@ -133,6 +144,7 @@ export default [
     },
     {
         id: 12,
+        companyId: 2,
         dateRegister: new Date("11/10/2018"),
         document: "864.221.697-12",
         name: "ingrid lopes",
@@ -145,6 +157,7 @@ export default [
     },
     {
         id: 13,
+        companyId: 1,
         dateRegister: new Date("10/03/2018"),
         document: "864.221.697-12",
         name: "ingrid lopes",
@@ -157,6 +170,7 @@ export default [
     },
     {
         id: 14,
+        companyId: 2,
         dateRegister: new Date("02/15/2019"),
         document: "864.221.697-12",
         name: "ingrid lopes",
@@ -169,6 +183,7 @@ export default [
     },
     {
         id: 15,
+        companyId: 2,
         dateRegister: new Date("11/25/2019"),
         document: "460.328.018-10",
         name: "matheus ferreira",
@@ -181,6 +196,7 @@ export default [
     },
     {
         id: 16,
+        companyId: 1,
         dateRegister: new Date("01/14/2020"),
         document: "460.328.018-10",
         name: "matheus ferreira",
@@ -193,6 +209,7 @@ export default [
     },
     {
         id: 17,
+        companyId: 2,
         dateRegister: new Date("01/26/2020"),
         document: "012.223.845-98",
         name: "rafael da silva",
@@ -205,6 +222,7 @@ export default [
     },
     {
         id: 18,
+        companyId: 1,
         dateRegister: new Date("05/18/2020"),
         document: "012.223.845-98",
         name: "rafael da silva",
@@ -217,6 +235,7 @@ export default [
     },
     {
         id: 19,
+        companyId: 2,
         dateRegister: new Date("08/08/2020"),
         document: "460.328.018-10",
         name: "matheus ferreira",
@@ -229,6 +248,7 @@ export default [
     },
     {
         id: 20,
+        companyId: 1,
         dateRegister: new Date("10/20/2020"),
         document: "460.328.018-10",
         name: "matheus ferreira",
@@ -241,6 +261,7 @@ export default [
     },
     {
         id: 21,
+        companyId: 2,
         dateRegister: new Date("10/22/2020"),
         document: "460.328.018-10",
         name: "matheus ferreira",
@@ -253,6 +274,7 @@ export default [
     },
     {
         id: 22,
+        companyId: 1,
         dateRegister: new Date("10/23/2020"),
         document: "460.328.018-10",
         name: "matheus ferreira",
@@ -265,6 +287,7 @@ export default [
     },
     {
         id: 23,
+        companyId: 1,
         dateRegister: new Date("10/25/2020"),
         document: "012.223.845-98",
         name: "rafael da silva",

@@ -1,44 +1,25 @@
 import { Reducer } from "redux";
 import { StateCompany, types } from "./types";
 
-const { ADD_COMPANY } = types;
+const { LOAD_COMPANY_SUCCESS, ADD_COMPANY_SUCCESS } = types;
 
-import { insertElementById, insertElementAllId } from "../../common/selectors";
+import { insertElementById, insertElementAllId, createTreeAllId, createTreeById } from "../../common/selectors";
 
 const initialState: StateCompany = {
-    byId: {
-        "1": {
-            id: "1",
-            name: "Claro Móvel Brasil",
-            cnpj: "78.441.581/0001-94",
-            email: "claro@claro.com.br",
-            address: [],
-            phoneNumbers: [],
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        },
-        "2": {
-            id: "2",
-            name: "Tim Móvel Brasil",
-            cnpj: "78.441.581/0001-94",
-            email: "tim@tim.com.br",
-            address: [],
-            phoneNumbers: [],
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        },
-    },
-    allId: ["1", "2"],
+    byId: {},
+    allId: [],
 };
 
 const reducerById: Reducer = (state = {}, action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case ADD_COMPANY:
+        case LOAD_COMPANY_SUCCESS:
+            return createTreeById(payload);
+        case ADD_COMPANY_SUCCESS:
             return insertElementById(state, payload);
         default:
-            return initialState.byId;
+            return state;
     }
 };
 
@@ -46,10 +27,12 @@ const reducerAllId: Reducer = (state = [], action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case ADD_COMPANY:
+        case LOAD_COMPANY_SUCCESS:
+            return createTreeAllId(payload);
+        case ADD_COMPANY_SUCCESS:
             return insertElementAllId(state, payload);
         default:
-            return initialState.allId;
+            return state;
     }
 };
 
