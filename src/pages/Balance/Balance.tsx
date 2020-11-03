@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { balanceContainer } from "./BalanceContainer";
 
@@ -33,6 +33,10 @@ interface Props {
 
         handleFlowReceived(amountMonth: number): number[];
         handleFlowValueReceived(amountMonth: number): number[];
+
+        actions: {
+            handleLoadDebtor(): void;
+        };
     };
 }
 
@@ -57,7 +61,15 @@ const Balance: React.FC<Props> = ({ payload }) => {
 
         handleFlowReceived,
         handleFlowValueReceived,
+
+        actions,
     } = payload;
+
+    const { handleLoadDebtor } = actions;
+
+    useEffect(() => {
+        handleLoadDebtor();
+    }, []);
 
     return (
         <div className="page">

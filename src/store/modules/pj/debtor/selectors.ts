@@ -1,4 +1,5 @@
 import { createSelector } from "reselect";
+import { addMonths } from "date-fns";
 
 import { Debtor } from "./types";
 // common selectors
@@ -30,7 +31,9 @@ export const receiveDebtorsValueNextDays = createSelector(stateDebtor, (debtorsI
                 cur.detailsPortion
                     .filter(
                         (item) =>
-                            item.situation === 0 && new Date(item.dueDate).getMonth() + 1 === new Date().getMonth() + 2,
+                            item.situation === 0 &&
+                            item.dueDate >= new Date() &&
+                            item.dueDate <= addMonths(new Date(), 1),
                     )
                     .reduce((acc, cur) => {
                         return acc + cur.valuePortion;

@@ -183,7 +183,7 @@ export default [
         id: 19,
         idRegister: 23,
         portion: 4,
-        dueDate: new Date("01/28/2021"),
+        dueDate: new Date("11/20/2020"),
         valuePortion: 100,
         datePayment: null,
         situation: 0,

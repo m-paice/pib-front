@@ -1,8 +1,9 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addMonths, differenceInMonths, subMonths, subYears } from "date-fns";
 
+// selectors
 import { totalValue } from "../../store/modules/pj/wallet/selectors";
 import {
     dataDebtor,
@@ -15,8 +16,13 @@ import {
     amountDetorsWallet,
 } from "../../store/modules/pj/debtor/selectors";
 
+// action
+import { actions as actionsDebtor } from "../../store/modules/pj/debtor/actions";
+
 export const balanceContainer = (Component: React.ElementType) => {
     const Container: React.FC = () => {
+        const dispatch = useDispatch();
+
         const debtors = useSelector(dataDebtor);
         const availableValue = useSelector(totalValue);
         const receiveValue = useSelector(receiveDebtorsValueNextDays);
@@ -26,6 +32,10 @@ export const balanceContainer = (Component: React.ElementType) => {
         const amountPf = useSelector(amountDebtorsPf);
         const amountDebtsPf = useSelector(amountDetorsDebtsPf);
         const amountWallet = useSelector(amountDetorsWallet);
+
+        const handleLoadDebtor = () => {
+            dispatch(actionsDebtor.loadNegociation());
+        };
 
         const handleFormatValue = (value: number) =>
             value.toLocaleString("pt-br", {
@@ -255,6 +265,10 @@ export const balanceContainer = (Component: React.ElementType) => {
 
                     handleFlowReceived,
                     handleFlowValueReceived,
+
+                    actions: {
+                        handleLoadDebtor,
+                    },
                 }}
             />
         );
