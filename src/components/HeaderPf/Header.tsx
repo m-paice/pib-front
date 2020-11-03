@@ -1,7 +1,9 @@
 import React from "react";
 
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+
+import { userAuthenticated } from "../../store/modules/auth/selectors";
 
 import { actions as actionAuth } from "../../store/modules/auth/actions";
 
@@ -22,6 +24,8 @@ import I24 from "../../assets/imagens/i24.png";
 const Header: React.FC = () => {
     const dispacth = useDispatch();
 
+    const user = useSelector(userAuthenticated);
+
     return (
         <header id="masthead" className="site-header limita" role="banner" data-parallax="scroll">
             <div className="site-header-wrap">
@@ -35,7 +39,7 @@ const Header: React.FC = () => {
 
                         <div className="col-xs-12 col-sm-10 bxmenu">
                             <div className="buser">
-                                Olá Fulano
+                                Olá {user.name}
                                 <Link to="/profile">Seu Cadastro</Link>
                                 <Link to="/" onClick={() => dispacth(actionAuth.logout())}>
                                     Sair

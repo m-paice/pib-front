@@ -1,6 +1,9 @@
 import React from "react";
 
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
+import { userAuthenticated } from "../../store/modules/auth/selectors";
 
 // assets
 import Logo from "../../assets/imagens/logo.png";
@@ -17,6 +20,8 @@ import User from "../../assets/imagens/iUser.png";
 import UserBlue from "../../assets/imagens/iUser2.png";
 
 const Header: React.FC = () => {
+    const user = useSelector(userAuthenticated);
+
     return (
         <header id="masthead" className="site-header limita" role="banner" data-parallax="scroll">
             <div className="site-header-wrap">
@@ -30,7 +35,7 @@ const Header: React.FC = () => {
 
                         <div className="col-xs-12 col-sm-10 bxmenu">
                             <div className="buser">
-                                Olá Fulano
+                                Olá {user.name}
                                 <Link to="/profile">Seu Cadastro</Link>
                                 <Link to="/">Sair</Link>
                             </div>
