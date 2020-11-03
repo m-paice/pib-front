@@ -23,11 +23,11 @@ const reducerToken: Reducer = (state = "", action): string => {
             }
         }
         default:
-            return initialState.token;
+            return state;
     }
 };
 
-const reducerUser: Reducer = (state: Partial<User> = {}, action): User => {
+const reducerUser: Reducer = (state: User = {} as User, action): User => {
     const { type, payload } = action;
 
     switch (type) {
@@ -42,7 +42,7 @@ const reducerUser: Reducer = (state: Partial<User> = {}, action): User => {
             }
         }
         default:
-            return initialState.user;
+            return state;
     }
 };
 

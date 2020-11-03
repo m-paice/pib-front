@@ -30,4 +30,4 @@ export const selectDebtsPending = createSelector(stateDebts, stateCompaniesById,
 export const valueTotalDebts = createSelector(stateDebts, (debts) =>
     debts.filter((debt) => debt.situation === 0).reduce((acc, cur) => acc + cur.debt, 0),
 );
-export const amountDebts = createSelector(stateDebts, (debts) => debts.filter((debt) => debt.situation === 0).length);
+export const amountDebts = createSelector(stateDebts, (debts) => debts.filter((debt) => debt.situation !== 2).length);

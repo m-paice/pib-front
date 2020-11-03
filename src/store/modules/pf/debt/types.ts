@@ -23,7 +23,7 @@ export enum types {
 export interface Debt {
     id: string;
     situation: number;
-    dateRegister: Date | null;
+    dateRegister: Date;
     dateNegociation: Date | null;
     maturities: Date;
     debt: number;

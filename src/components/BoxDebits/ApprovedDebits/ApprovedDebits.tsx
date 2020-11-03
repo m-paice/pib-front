@@ -56,28 +56,24 @@ const ApprovedDebits: React.FC<Props> = (props) => {
         const { situation } = props;
 
         const renderStatus = {
-            done: {
-                title: "Pago",
-                class: "green",
-            },
-            late: {
-                title: "Em atraso",
-                class: "red",
-            },
-            next: {
+            1: {
                 title: "Próximo",
                 class: "blue",
             },
-            open: {
-                title: "",
-                class: "",
+            2: {
+                title: "Em atraso",
+                class: "red",
+            },
+            3: {
+                title: "Pago",
+                class: "green",
             },
         };
 
-        return renderStatus[situation];
+        return renderStatus[String(situation)];
     };
 
-    const { company, maturities } = props;
+    const { company, maturities, dateRegister } = props;
 
     return (
         <div className="cada debito ativo">
@@ -91,11 +87,13 @@ const ApprovedDebits: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-3 c colBorder">
-                    <span className="labelDebito text-left p-left">{company.name}</span>
+                    {/* <span className="labelDebito text-left p-left">{company.name}</span> */}
                 </div>
 
                 <div className="col-md-6 c nobri">
-                    <span className="labelDebito text-center hidden-xs">Já negociada em {formatDate(maturities)}</span>
+                    <span className="labelDebito text-center hidden-xs">
+                        Já negociada em {formatDate(dateRegister)}
+                    </span>
                 </div>
                 <div className="col-md-2 cb">
                     <a

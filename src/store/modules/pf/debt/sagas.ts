@@ -15,8 +15,6 @@ function* loadDebt() {
     try {
         const response = yield data.filter((item) => item.document === user.document);
 
-        console.log("response: ", response);
-
         yield put({
             type: types.LOAD_DEBT_SUCCESS,
             payload: response,
