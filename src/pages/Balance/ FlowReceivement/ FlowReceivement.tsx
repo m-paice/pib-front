@@ -104,12 +104,12 @@ const FlowReceivement: React.FC<Props> = ({
     return (
         <>
             <div className="col-sm-4 text-center">
-                <div>
+                <div style={{ width: 396 }}>
                     <div className="row">
                         <div className="col-md-6 text-left font-25">
                             <b>Meios de pagamento</b>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-6" style={{ zIndex: 2 }}>
                             <div style={{ width: 196 }}>
                                 <Select
                                     options={optionsSituationPie}
@@ -120,11 +120,13 @@ const FlowReceivement: React.FC<Props> = ({
                         </div>
                     </div>
                     <br />
-                    <Pie
-                        labels={paymentForm.map((payment) => paymentTypes[payment])}
-                        data={paymentForm.map((situation) => data[situation])}
-                        colors={["#26d3ff", "#14657b", "#4E4C67", "#A6B1E1"]}
-                    />
+                    <section style={{ marginTop: 20 }}>
+                        <Pie
+                            labels={paymentForm.map((payment) => paymentTypes[payment])}
+                            data={paymentForm.map((situation) => data[situation])}
+                            colors={["#26d3ff", "#14657b", "#4E4C67", "#A6B1E1"]}
+                        />
+                    </section>
                 </div>
             </div>
             <div className="col-sm-1 colum-width-2">

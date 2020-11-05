@@ -91,12 +91,12 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
     return (
         <>
             <div className="col-sm-4 text-center">
-                <div>
+                <div style={{ width: 396 }}>
                     <div className="row">
                         <div className="col-md-6 text-left font-25">
                             <b>Planos</b>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-6" style={{ zIndex: 2 }}>
                             <div style={{ width: 196 }}>
                                 <Select
                                     options={optionSituationPie}
@@ -106,14 +106,15 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
                             </div>
                         </div>
                     </div>
+                    <br />
+                    <section style={{ marginTop: 40 }}>
+                        <Pie
+                            labels={Array.from({ length: 2 }).map((_, index) => paymentTypes[index + 1])}
+                            data={Object.values(data)}
+                            colors={["#4E4C67", "#A6B1E1"]}
+                        />
+                    </section>
                 </div>
-
-                <br />
-                <Pie
-                    labels={Array.from({ length: 2 }).map((_, index) => paymentTypes[index + 1])}
-                    data={Object.values(data)}
-                    colors={["#4E4C67", "#A6B1E1"]}
-                />
             </div>
             <div className="col-sm-1 colum-width-2">
                 <div className="traco-vertical-g"></div>
