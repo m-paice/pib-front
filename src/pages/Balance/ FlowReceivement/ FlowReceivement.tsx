@@ -151,18 +151,18 @@ const FlowReceivement: React.FC<Props> = ({
 
                         <Bar
                             labels={Array.from({ length: amountMonth.value }).map((_, index) => {
-                                const currentMonth = new Date().getMonth();
+                                const currentMonth = new Date().getMonth() + 1;
                                 const currentYear = new Date().getFullYear();
 
-                                if (currentMonth + (index + 2) > 24) {
+                                if (currentMonth + index > 24) {
                                     return `${currentMonth - currentMonth + (index - 13)}/${currentYear + 2}`;
                                 }
 
-                                if (currentMonth + (index + 2) > 12) {
+                                if (currentMonth + index > 12) {
                                     return `${currentMonth - currentMonth + (index - 1)}/${currentYear + 1}`;
                                 }
 
-                                return `${currentMonth + (index + 2)}/${currentYear}`;
+                                return `${currentMonth + index}/${currentYear}`;
                             })}
                             data={barData.filter((item, index) => index !== 0)}
                             color="#26d3ff"

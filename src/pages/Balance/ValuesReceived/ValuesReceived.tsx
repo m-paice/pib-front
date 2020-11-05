@@ -140,11 +140,11 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
                                 return `${currentMonth - currentMonth + (index - 13)}`;
                             }
 
-                            if (currentMonth + index > 12) {
-                                return `${currentMonth - currentMonth + (index - 1)}/${currentYear}`;
+                            if (currentMonth + index >= 12) {
+                                return `${currentMonth - currentMonth + index}/${currentYear}`;
                             }
 
-                            return `${currentMonth + index}/${currentYear - 1}`;
+                            return `${currentMonth + index + 1}/${currentYear - 1}`;
                         })}
                         data={barData}
                         color="#4E4C67"
