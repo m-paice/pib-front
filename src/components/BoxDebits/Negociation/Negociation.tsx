@@ -95,21 +95,28 @@ const Negociation: React.FC<Props> = (props) => {
                                     {" "}
                                     {state.payment === "card" ? "Data da Transação" : "Data de Vencimento"}{" "}
                                 </div>
-                                <select style={{ color: "#000" }} className="sel parcelamentoSelect">
-                                    <option style={{ color: "#000" }} value="0">
-                                        Escolha uma data
-                                    </option>
-                                    {Array.from({ length: 7 }).map((item, index) => (
-                                        <option
-                                            key={index}
-                                            style={{ color: "#000" }}
-                                            value={formatDate(addDays(new Date(), index + 1))}
-                                        >
-                                            {" "}
-                                            {formatDate(addDays(new Date(), index + 1))}{" "}
+                                {state.payment === "card" ? (
+                                    <div>
+                                        {" "}
+                                        <b> Hoje: </b> {formatDate(new Date())}{" "}
+                                    </div>
+                                ) : (
+                                    <select style={{ color: "#000" }} className="sel parcelamentoSelect">
+                                        <option style={{ color: "#000" }} value="0">
+                                            Escolha uma data
                                         </option>
-                                    ))}
-                                </select>
+                                        {Array.from({ length: 7 }).map((item, index) => (
+                                            <option
+                                                key={index}
+                                                style={{ color: "#000" }}
+                                                value={formatDate(addDays(new Date(), index + 1))}
+                                            >
+                                                {" "}
+                                                {formatDate(addDays(new Date(), index + 1))}{" "}
+                                            </option>
+                                        ))}
+                                    </select>
+                                )}
                             </label>
                         </div>
                         <div className="col-md-6">
@@ -150,7 +157,7 @@ const Negociation: React.FC<Props> = (props) => {
 
             {state.modal && (
                 <SweetAlert
-                    title="Deseja confirmar acordo ?"
+                    title="Deseja confirmar acordo?"
                     handleConfirm={handleConfirm}
                     handleCancel={handleCancel}
                 />
