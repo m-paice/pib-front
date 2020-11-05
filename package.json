@@ -22,6 +22,7 @@
         "normalize.css": "^8.0.1",
         "popper.js": "^1.16.1",
         "react": "^16.13.1",
+        "react-bootstrap-icons": "^1.1.0",
         "react-bootstrap-sweetalert": "^5.2.0",
         "react-chartjs-2": "^2.10.0",
         "react-dom": "^16.13.1",

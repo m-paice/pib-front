@@ -62,9 +62,17 @@ const Debits: React.FC<Props> = ({ payload }) => {
                     </div>
                 </div>
 
-                {debts.map((debt) => (
-                    <ApprovedDebits key={debt.id} {...debt} />
-                ))}
+                {debts
+                    .filter((item) => item.situation === 0)
+                    .map((debt) => (
+                        <DeniedDebts key={debt.id} {...debt} />
+                    ))}
+
+                {debts
+                    .filter((item) => item.situation !== 0)
+                    .map((debt) => (
+                        <ApprovedDebits key={debt.id} {...debt} />
+                    ))}
             </div>
         </div>
     );

@@ -6,41 +6,46 @@ import Ccv from "../../../assets/imagens/ccv.png";
 
 const Card: React.FC = () => {
     return (
-        <div className="col-xs-12 col-sm-6 pagb3 ccor">
-            Preencha com os dados do seu cartão
+        <div>
+            <div className="font-weight-bold">Preencha com os dados do seu cartão</div>
             <img src={Bandeiras} className="bandeiras" />
-            <div className="col-xs-12 nopadding">
+
+            <div className="row ml-0 mr-0">
                 <label>
-                    <input placeholder="Número do cartão" />
+                    <input className="imp" placeholder="Número do cartão" />
                 </label>
             </div>
-            <div className="col-xs-12 nopadding">
+            <div className="row ml-0 mr-0">
                 <label>
-                    <input placeholder="Validade mês" />
+                    <input className="imp" placeholder="Validade mês" />
                 </label>
             </div>
-            <div className="col-xs-12 nopadding">
+            <div className="row ml-0 mr-0">
                 <label>
-                    <input placeholder="Validade ano" />
+                    <input className="imp" placeholder="Validade ano" />
                 </label>
             </div>
-            <div className="col-xs-12 nopadding">
+            <div className="row ml-0 mr-0">
                 <label>
-                    <input placeholder="Nome impresso no cartão" />
+                    <input className="imp" placeholder="Nome impresso no cartão" />
                 </label>
             </div>
-            <div className="col-xs-12 col-md-6 nopadding">
-                <label className="ccv">
-                    <img src={Ccv} />
-                    <input placeholder="CCV" />
-                </label>
+
+            <div className="row ml-0 mr-0">
+                <div className="col-md-6 nopadding padding-10">
+                    <label className="ccv">
+                        {/* <img src={Ccv} /> */}
+                        <input className="imp" placeholder="CCV" />
+                    </label>
+                </div>
+                <div className="col-md-6 nopadding padding-10">
+                    <a className="cacordo" href="javascript:void(0);">
+                        Finalizar
+                    </a>
+                </div>
             </div>
-            <div className="col-xs-12 col-md-6 nopadright">
-                <a className="cacordo" href="javascript:void(0);">
-                    Finalizar
-                </a>
-            </div>
-            <div className="col-xs-12 erro nopadding">
+
+            <div className="error">
                 *Por favor, revise a quantidade de parcelas do seu acordo seguindo o número máximo de prestações
                 definidas pelo emissor de seu cartão de crédito
             </div>

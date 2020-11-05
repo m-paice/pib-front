@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import { Plus, Dash } from "react-bootstrap-icons";
+
 import { Debt } from "../../../store/modules/pf/debt/types";
 
 // components
@@ -76,10 +78,11 @@ const ApprovedDebits: React.FC<Props> = (props) => {
             <div className="row rowCenter">
                 <div className="col-md-1">
                     <a className="smais">
-                        <span
-                            className={`btn glyphicon ${info ? "glyphicon-minus" : "glyphicon-plus"} align-btn-b`}
-                            onClick={() => handleSetState("info", !info)}
-                        ></span>
+                        {info ? (
+                            <Dash className="btn glyphicon" onClick={() => handleSetState("info", !info)} />
+                        ) : (
+                            <Plus className="btn glyphicon" onClick={() => handleSetState("info", !info)} />
+                        )}
                     </a>
                 </div>
                 <div className=" col-md-3 c colBorder">

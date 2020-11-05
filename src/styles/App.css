@@ -3844,6 +3844,11 @@ div.ativo .l2 {
     color: red;
 }
 
+.pagb1 .error {
+    color: red;
+    font-size: 14px;
+}
+
 .pagb1 .imp {
     float: left;
     width: 100%;
@@ -4176,8 +4181,7 @@ body .cada .table > tbody > tr > td {
 .pagt {
     padding: 10px 0px;
     padding-bottom: 5px;
-    width: 97%;
-    margin: 0px 15px;
+    width: 100%;
 }
 
 .cacordo {
@@ -5462,6 +5466,7 @@ select::-ms-expand {
 
     .erro {
         font-size: 18px;
+        color: red;
     }
 
     .titulo-mob {
