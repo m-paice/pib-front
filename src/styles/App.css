@@ -5705,3 +5705,11 @@ table.dataTable td {
 html {
     scroll-behavior: smooth;
 }
+
+.btn-sweet-alert {
+    color: #fff;
+}
+
+.btn-sweet-alert:hover {
+    text-decoration: none;
+}

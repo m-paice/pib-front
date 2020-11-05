@@ -1,21 +1,30 @@
 import React, { useState } from "react";
 
+import { addDays } from "date-fns";
+
 // components
 import Billet from "./Billet";
 import Card from "./Card";
+
+// utils
+import formatDate from "../../../utils/formatDate";
+
+import SweetAlert from "../../../components/SweetAlert";
 
 interface Props {}
 
 interface State {
     payment: "billet" | "card";
+    modal: boolean;
 }
 
 const Negociation: React.FC<Props> = (props) => {
     const [state, setState] = useState<State>({
         payment: "billet",
+        modal: false,
     });
 
-    const handleSetState = (key: string, value: string) => {
+    const handleSetState = (key: string, value: string | boolean) => {
         setState((prevState) => ({
             ...prevState,
             [key]: value,
@@ -26,6 +35,13 @@ const Negociation: React.FC<Props> = (props) => {
         const { target } = event;
 
         handleSetState("payment", target.value);
+    };
+
+    const handleConfirm = () => {
+        handleSetState("modal", !state.modal);
+    };
+    const handleCancel = () => {
+        handleSetState("modal", !state.modal);
     };
 
     const { payment } = state;
@@ -75,8 +91,25 @@ const Negociation: React.FC<Props> = (props) => {
                             </label>
                             <br />
                             <label>
-                                <div className="font-weight-bold">Data de Vencimento</div>
-                                <input type="date" className="imp" id="datepicker" />
+                                <div className="font-weight-bold">
+                                    {" "}
+                                    {state.payment === "card" ? "Data da Transação" : "Data de Vencimento"}{" "}
+                                </div>
+                                <select style={{ color: "#000" }} className="sel parcelamentoSelect">
+                                    <option style={{ color: "#000" }} value="0">
+                                        Escolha uma data
+                                    </option>
+                                    {Array.from({ length: 7 }).map((item, index) => (
+                                        <option
+                                            key={index}
+                                            style={{ color: "#000" }}
+                                            value={formatDate(addDays(new Date(), index + 1))}
+                                        >
+                                            {" "}
+                                            {formatDate(addDays(new Date(), index + 1))}{" "}
+                                        </option>
+                                    ))}
+                                </select>
                             </label>
                         </div>
                         <div className="col-md-6">
@@ -93,7 +126,10 @@ const Negociation: React.FC<Props> = (props) => {
                             <label>
                                 <input className="imp disabled-bc" disabled placeholder="R$ 100,00" />
                             </label>
-                            <a className="cacordo confirmarAcordo font-weight-bold" href="javascript:void(0);">
+                            <a
+                                className="cacordo confirmarAcordo font-weight-bold"
+                                onClick={() => handleSetState("modal", !state.modal)}
+                            >
                                 Confirmar Acordo
                             </a>
                         </div>
@@ -111,6 +147,14 @@ const Negociation: React.FC<Props> = (props) => {
                     </div>
                 )}
             </div>
+
+            {state.modal && (
+                <SweetAlert
+                    title="Deseja confirmar acordo ?"
+                    handleConfirm={handleConfirm}
+                    handleCancel={handleCancel}
+                />
+            )}
         </div>
     );
 };

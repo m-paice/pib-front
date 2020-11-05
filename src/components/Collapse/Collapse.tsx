@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+
+import { ArrowRightShort, ArrowDownShort } from "react-bootstrap-icons";
 
 interface Props {
     id: string;
@@ -8,6 +10,8 @@ interface Props {
 }
 
 const Collapse: React.FC<Props> = ({ id, href, title, text }) => {
+    const [toggle, setToggle] = useState(false);
+
     return (
         <div className="panel panel-default">
             <div className="panel-heading" role="tab" id="headingThree">
@@ -18,11 +22,10 @@ const Collapse: React.FC<Props> = ({ id, href, title, text }) => {
                         data-toggle="collapse"
                         data-parent="#accordion"
                         href={href}
-                        aria-expanded="false"
+                        aria-expanded={toggle}
                         aria-controls={id}
                     >
-                        <span className="glyphicon glyphicon-chevron-right"></span>
-                        <span className="glyphicon glyphicon-chevron-down"></span>
+                        {toggle ? <ArrowRightShort /> : <ArrowDownShort />}
                         {title}
                     </a>
                 </h4>
