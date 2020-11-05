@@ -45,7 +45,6 @@ const Routes: React.FC = () => {
                 <DashboardLayoutPf exact path="/profile" component={Profile} />
                 <DashboardLayoutPf exact path="/contact" component={Contact} />
                 <DashboardLayoutPf exact path="/register" component={Register} />
-                <DashboardLayoutPf exact path="/debits" component={Debits} />
 
                 {/** views pj */}
                 <DashboardLayoutPj exact path="/pj" component={Balance} />

@@ -12,6 +12,16 @@ export const selectDebts = createSelector(stateDebts, (debts) => {
     return debts.filter((debt) => debt.situation !== 0);
 });
 
+export const amountDebitsOpened = createSelector(
+    stateDebts,
+    (debits) => debits.filter((item) => item.situation !== 3).length,
+);
+
+export const amountDebitsPaidOut = createSelector(
+    stateDebts,
+    (debits) => debits.filter((item) => item.situation === 3).length,
+);
+
 export const selectDebtsPending = createSelector(stateDebts, (debts) => {
     return debts.filter((debt) => debt.situation === 0);
 });
