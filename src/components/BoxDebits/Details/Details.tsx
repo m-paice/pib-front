@@ -1,8 +1,16 @@
 import React from "react";
 
+import { Details } from "../../../store/modules/pf/debt/types";
+
 import DetailsItem from "./DetailsItem";
 
-const Detaisl: React.FC = () => {
+interface Props {
+    detailsPortion: Details[];
+}
+
+const Detaisl: React.FC<Props> = (props) => {
+    const { detailsPortion } = props;
+
     return (
         <div className="p-3">
             <div className="row nopadding ltab">
@@ -15,9 +23,16 @@ const Detaisl: React.FC = () => {
                 <div className="col-md-2 font-weight-bold lth sit">Situação</div>
                 <div className="col-md-2 font-weight-bold lth"></div>
             </div>
-            <DetailsItem situation="paga" />
-            <DetailsItem situation="ematraso" />
-            <DetailsItem situation="proxima" />
+
+            {detailsPortion
+                .sort((a, b) => (a.dueDate > b.dueDate ? 1 : -1))
+                .map((item, index) => {
+                    if (item.situation === 0) return <DetailsItem key={index} {...item} />;
+
+                    if (item.situation === 1) return <DetailsItem key={index} {...item} />;
+
+                    return <DetailsItem key={index} {...item} />;
+                })}
         </div>
     );
 };

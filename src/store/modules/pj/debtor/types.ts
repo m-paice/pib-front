@@ -20,7 +20,7 @@ export enum types {
     UPDATE_DEBTOR_FAILURE = "@pj/DEBTOR/UPDATE_DEBTOR_FAILURE",
 }
 
-interface Details {
+export interface Details {
     id: number;
     idRegister: number;
     portion: number;

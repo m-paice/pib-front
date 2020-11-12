@@ -22,7 +22,7 @@ interface State {
 }
 
 const DeniedDebts: React.FC<Props> = (props) => {
-    const { company, maturities, debt, dateRegister } = props;
+    const { id, company, maturities, debt, dateRegister } = props;
 
     const [state, setState] = useState<State>({
         info: false,
@@ -78,7 +78,9 @@ const DeniedDebts: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-2">
-                    <span className="labelDebito text-left">{companyMain.name}</span>
+                    <span className="labelDebito text-left">
+                        {id} - {companyMain.name}
+                    </span>
                 </div>
                 <div className="col-md-7 d-flex justify-content-between">
                     <div style={{ width: 75 }}>

@@ -22,6 +22,17 @@ export enum types {
     UPDATE_DEBT_FAILURE = "@pj/debt/UPDATE_DEBT_FAILURE",
 }
 
+export interface Details {
+    id: number;
+    idRegister: number;
+    portion: number;
+    dueDate: Date;
+    valuePortion: number;
+    datePayment: Date;
+    situation: number; // [1] ok [2] proxima
+    next: number;
+}
+
 export interface Debt {
     id: string;
     situation: number;
@@ -36,6 +47,7 @@ export interface Debt {
     companyId: string;
     userId: string;
     company: Company[];
+    detailsPortion: Details[];
     createdAt: Date | null;
     updatedAt: Date | null;
 }
