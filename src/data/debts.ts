@@ -10,7 +10,7 @@ export default [
         receipt: 50,
         late: 0,
         payment: 1,
-        situation: 2,
+        situation: 1,
     },
     {
         id: 2,
@@ -75,7 +75,7 @@ export default [
         receipt: 100,
         late: 500,
         payment: 1,
-        situation: 1,
+        situation: 2,
     },
     {
         id: 7,
@@ -270,7 +270,7 @@ export default [
         receipt: 270,
         late: 0,
         payment: 2,
-        situation: 2,
+        situation: 1,
     },
     {
         id: 22,

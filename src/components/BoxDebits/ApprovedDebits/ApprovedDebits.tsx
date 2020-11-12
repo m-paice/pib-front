@@ -86,9 +86,7 @@ const ApprovedDebits: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-3 c colBorder">
-                    <span className="labelDebito text-left p-left">
-                        {id} - {companyMain.name}
-                    </span>
+                    <span className="labelDebito text-left p-left">{companyMain.name}</span>
                 </div>
 
                 <div className="col-md-6 c nobri">

@@ -15,9 +15,9 @@ export default [
         portion: 2,
         dueDate: new Date("10/20/2020"),
         valuePortion: 200,
-        datePayment: null,
-        situation: 0,
-        next: 1,
+        datePayment: new Date("11/10/2020"),
+        situation: 2,
+        next: 0,
     },
     {
         id: 3,
@@ -25,9 +25,9 @@ export default [
         portion: 3,
         dueDate: new Date("11/30/2020"),
         valuePortion: 200,
-        datePayment: new Date("10/27/2020"),
-        situation: 2,
-        next: 0,
+        datePayment: null,
+        situation: 0,
+        next: 1,
     },
     {
         id: 4,
@@ -47,7 +47,7 @@ export default [
         valuePortion: 100,
         datePayment: null,
         situation: 1,
-        next: 0,
+        next: 1,
     },
     {
         id: 6,
@@ -57,7 +57,7 @@ export default [
         valuePortion: 100,
         datePayment: null,
         situation: 1,
-        next: 1,
+        next: 0,
     },
     {
         id: 7,
