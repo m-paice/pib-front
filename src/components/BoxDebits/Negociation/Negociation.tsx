@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
+import { useSelector } from "react-redux";
 import { addDays } from "date-fns";
+
+import { ApplicationState } from "../../../store";
+
+// selectors
+import { negociationByMonth } from "../../../store/modules/pj/negociation/selectors";
 
 // components
 import Billet from "./Billet";
@@ -8,20 +14,36 @@ import Card from "./Card";
 
 // utils
 import formatDate from "../../../utils/formatDate";
+import formatPrice from "../../../utils/formatPrice";
 
 import SweetAlert from "../../../components/SweetAlert";
 
-interface Props {}
+interface Props {
+    debit: number;
+    monthForRule: number;
+}
 
 interface State {
     payment: "billet" | "card";
     modal: boolean;
+    confirmWakeUp: boolean;
 }
 
 const Negociation: React.FC<Props> = (props) => {
+    const { debit, monthForRule } = props;
+
+    const [options, setOptions] = useState<number[]>([]);
+
+    const negociation = useSelector((state: ApplicationState) => negociationByMonth(state, monthForRule));
+
+    useEffect(() => {
+        if (negociation) setOptions(Array.from({ length: negociation.maxPortion }).map((_, index) => index + 1));
+    }, [negociation]);
+
     const [state, setState] = useState<State>({
         payment: "billet",
         modal: false,
+        confirmWakeUp: false,
     });
 
     const handleSetState = (key: string, value: string | boolean) => {
@@ -39,12 +61,14 @@ const Negociation: React.FC<Props> = (props) => {
 
     const handleConfirm = () => {
         handleSetState("modal", !state.modal);
+        handleSetState("confirmWakeUp", !state.confirmWakeUp);
     };
     const handleCancel = () => {
         handleSetState("modal", !state.modal);
     };
 
-    const { payment } = state;
+    const { payment, confirmWakeUp } = state;
+    const discount = (debit + Number(negociation?.discount)) / 100;
 
     return (
         <div className="p-3">
@@ -57,6 +81,7 @@ const Negociation: React.FC<Props> = (props) => {
 
                             <label className="boleto">
                                 <input
+                                    disabled={confirmWakeUp}
                                     type="radio"
                                     name="payment"
                                     value="billet"
@@ -67,8 +92,14 @@ const Negociation: React.FC<Props> = (props) => {
                             </label>
                             <br />
                             <label className="cartaoc">
-                                <input type="radio" name="payment" value="card" onChange={handlePaymentChange} /> Cartão
-                                de Crédito
+                                <input
+                                    disabled={confirmWakeUp}
+                                    type="radio"
+                                    name="payment"
+                                    value="card"
+                                    onChange={handlePaymentChange}
+                                />{" "}
+                                Cartão de Crédito
                             </label>
                             <br />
                             <label>
@@ -78,15 +109,11 @@ const Negociation: React.FC<Props> = (props) => {
                                     <option style={{ color: "#000" }} value="0">
                                         Escolha o plano
                                     </option>
-                                    <option style={{ color: "#000" }} value="1">
-                                        1x R$ 300,00
-                                    </option>
-                                    <option style={{ color: "#000" }} value="2">
-                                        2x R$ 150,00
-                                    </option>
-                                    <option style={{ color: "#000" }} value="3">
-                                        3x R$ 100,00
-                                    </option>
+                                    {options.map((value, index) => (
+                                        <option style={{ color: "#000" }} key={value} value={value}>
+                                            {index + 1} - {formatPrice((debit - discount) / options.length)}
+                                        </option>
+                                    ))}
                                 </select>
                             </label>
                             <br />
@@ -109,46 +136,49 @@ const Negociation: React.FC<Props> = (props) => {
                                             <option
                                                 key={index}
                                                 style={{ color: "#000" }}
-                                                value={formatDate(addDays(new Date(), index + 1))}
+                                                value={formatDate(addDays(new Date(), index))}
                                             >
                                                 {" "}
-                                                {formatDate(addDays(new Date(), index + 1))}{" "}
+                                                {formatDate(addDays(new Date(), index))}{" "}
                                             </option>
                                         ))}
                                     </select>
                                 )}
                             </label>
                         </div>
+
                         <div className="col-md-6">
                             <div className="font-weight-bold">Resumo de seu acordo</div>
                             <label>
                                 <div className="font-weight-bold">Valor da dívida</div>
-                                <input className="imp" disabled placeholder="R$ 100,00" />
+                                <input className="imp" disabled value={formatPrice(debit)} />
                             </label>
                             <div className="font-weight-bold">Valor do desconto</div>
                             <label>
-                                <input className="imp desconto disabled-bc" disabled value="- R$ 100,00" />
+                                <input className="imp desconto disabled-bc" disabled value={formatPrice(discount)} />
                             </label>
                             <div className="font-weight-bold">Total</div>
                             <label>
-                                <input className="imp disabled-bc" disabled placeholder="R$ 100,00" />
+                                <input className="imp disabled-bc" disabled value={formatPrice(debit - discount)} />
                             </label>
-                            <a
+                            <button
+                                style={{ border: "none" }}
+                                disabled={confirmWakeUp}
                                 className="cacordo confirmarAcordo font-weight-bold"
                                 onClick={() => handleSetState("modal", !state.modal)}
                             >
                                 Confirmar Acordo
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                {payment === "billet" && (
+                {confirmWakeUp && payment === "billet" && (
                     <div className="col-md-6">
                         <Billet />
                     </div>
                 )}
-                {payment === "card" && (
+                {confirmWakeUp && payment === "card" && (
                     <div className="col-md-6">
                         <Card />
                     </div>

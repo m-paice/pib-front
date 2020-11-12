@@ -4003,6 +4003,11 @@ div.ativo .l2 {
     border-radius: 10px;
     margin-top: 5px;
     text-align: center;
+    cursor: pointer;
+}
+
+.cacordo:disabled {
+    background: #14657b;
 }
 
 .cacordo:hover {

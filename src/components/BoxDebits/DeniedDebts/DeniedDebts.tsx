@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Plus, Dash } from "react-bootstrap-icons";
+import { differenceInCalendarMonths } from "date-fns";
 
 import { Debt } from "../../../store/modules/pf/debt/types";
 
@@ -17,15 +18,34 @@ type Props = Debt;
 interface State {
     info: boolean;
     negociation: boolean;
+    discount: number;
 }
 
 const DeniedDebts: React.FC<Props> = (props) => {
+    const { company, maturities, debt, dateRegister } = props;
+
     const [state, setState] = useState<State>({
         info: false,
         negociation: false,
+        discount: 0,
     });
 
+    const [amountMonth, setAmountMonth] = useState(0);
+
     const { info, negociation } = state;
+
+    useEffect(() => {
+        const handleDayNumber = (date: Date) => Number(String(formatDate(date)).split("/")[0]);
+
+        const currentMonth = new Date();
+        const registerMonth = new Date(dateRegister);
+
+        const amountMonthNumber = differenceInCalendarMonths(currentMonth, registerMonth);
+
+        if (handleDayNumber(registerMonth) > handleDayNumber(currentMonth)) {
+            setAmountMonth(amountMonthNumber - 1);
+        } else setAmountMonth(amountMonthNumber);
+    }, []);
 
     // reset collapse
     useEffect(() => {
@@ -42,8 +62,6 @@ const DeniedDebts: React.FC<Props> = (props) => {
             [key]: value,
         }));
     };
-
-    const { company, maturities, debt } = props;
 
     const [companyMain] = company;
 
@@ -115,7 +133,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                 </div>
             </div>
 
-            {negociation && <Negociation />}
+            {negociation && <Negociation debit={debt} monthForRule={amountMonth} />}
 
             {info && <MoreInfo {...companyMain} />}
         </div>

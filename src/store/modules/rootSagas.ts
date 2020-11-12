@@ -45,10 +45,10 @@ export default function* () {
 
         // init services
         takeLatest("persist/REHYDRATE", debtPfSagas.loadDebt),
-        // takeLatest("persist/REHYDRATE", debtorPjSagas.loadDebtors),
-        // takeLatest("persist/REHYDRATE", walletPjSagas.loadNegociation),
+        takeLatest("persist/REHYDRATE", negociationPjSagas.loadNegociation),
 
         // init services for authenticated
         takeLatest(typesAuth.AUTH_LOGIN_SUCCESS, companyPjSagas.loadCompanies),
+        takeLatest(typesAuth.AUTH_LOGIN_SUCCESS, negociationPjSagas.loadNegociation),
     ]);
 }
