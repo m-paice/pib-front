@@ -19,6 +19,16 @@ const data = {
         updatedAt: new Date(),
     },
 
+    "460.328.018-12": {
+        id: "d32ab3c5-af99-494a-93a8-0e73311b8f22",
+        name: "Daniel Barbosa",
+        email: "daniel@gmail.com",
+        document: "460.328.018-12",
+        type: "pf",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+
     "00.018.948/0001-74": {
         id: 1,
         name: "ELETRICA LEATI",

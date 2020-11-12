@@ -298,4 +298,17 @@ export default [
         payment: 2,
         situation: 2,
     },
+    {
+        id: 24,
+        companyId: 1,
+        dateRegister: new Date("10/25/2020"),
+        document: "460.328.018-12",
+        name: "daniel barbosa",
+        debt: 500,
+        negociation: 400,
+        receipt: 400,
+        late: 0,
+        payment: 2,
+        situation: 3,
+    },
 ];

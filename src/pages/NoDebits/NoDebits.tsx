@@ -14,7 +14,7 @@ import Carafeliz from "../../assets/imagens/carafeliz.png";
 interface Props {
     payload: {
         data: {
-            amountDebitsPaidOut: number;
+            debitsPaidOut: boolean;
         };
         actions: object;
     };
@@ -22,7 +22,7 @@ interface Props {
 
 const NoDebits: React.FC<Props> = ({ payload }) => {
     const { data, actions } = payload;
-    const { amountDebitsPaidOut } = data;
+    const { debitsPaidOut } = data;
 
     return (
         <div className="page">
@@ -35,7 +35,7 @@ const NoDebits: React.FC<Props> = ({ payload }) => {
                 <div className="col-xs-12 col-sm-8 titulos">
                     <h2>Parabéns,</h2>
                     <h3>não encontramos dívidas em seu nome.</h3>
-                    {amountDebitsPaidOut > 0 && <Link to="/debits">Ver painel com débitos</Link>}
+                    {debitsPaidOut && <Link to="/debits">Ver painel com débitos</Link>}
                 </div>
             </div>
 

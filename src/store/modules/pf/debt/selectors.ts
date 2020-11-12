@@ -17,6 +17,11 @@ export const amountDebitsOpened = createSelector(
     (debits) => debits.filter((item) => item.situation !== 3).length,
 );
 
+export const debitsPaid = createSelector(
+    stateDebts,
+    (debits) => debits.length !== 0 && debits.every((item) => item.situation === 3),
+);
+
 export const amountDebitsPaidOut = createSelector(
     stateDebts,
     (debits) => debits.filter((item) => item.situation === 3).length,
