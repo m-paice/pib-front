@@ -1,24 +1,30 @@
 import React from "react";
 
-interface Props {}
+import { Company } from "../../../store/modules/pj/company/types";
+
+type Props = Company;
 
 const MoreInfo: React.FC<Props> = (props) => {
+    const { address, email, phoneNumbers, cnpj, bank } = props;
+    const [addressMain] = address;
+    const [phoneNumbersMain] = phoneNumbers;
+
     return (
         <div className="p-3">
             <div className="row ">
                 <div className="col-md-6 text-left">
                     <b>Informações adicionais</b> <br />
-                    <b>Banco:</b> Banco do Brasil <br />
+                    <b>Banco:</b> {bank.name} <br />
                     <b>Motivo de devolução:</b> Descrição do motivo da devolução
                 </div>
                 <div className="col-md-2 text-left">
-                    <b>Agencia:</b> 123-4
+                    <b>Agencia:</b> {bank.agency}
                 </div>
                 <div className="col-md-2 text-left">
-                    <b>Conta:</b> 481559
+                    <b>Conta:</b> {bank.account}
                 </div>
                 <div className="col-md-2 text-left">
-                    <b>Digito:</b> 9
+                    <b>Digito:</b> {bank.digit}
                 </div>
             </div>
 
@@ -29,16 +35,16 @@ const MoreInfo: React.FC<Props> = (props) => {
             <div className="row">
                 <div className="col-md-6 text-left">
                     <b>Informações do credor</b> <br />
-                    <b>CNPJ:</b> 78.441.581/0001-94 <br />
-                    <b>Endereço:</b> Rua nome da rua nº 1234 Bairro Centro
+                    <b>CNPJ:</b> {cnpj} <br />
+                    <b>Endereço:</b> {addressMain.street} nº {addressMain.number} Bairro {addressMain.neighborhood}
                 </div>
                 <div className="col-md-3 text-left">
-                    <b>Email:</b> email@email.com.br <br />
-                    <b>Cidade:</b> Marília
+                    <b>Email:</b> {email} <br />
+                    <b>Cidade:</b> {addressMain.city} - <b>CEP</b>: {addressMain.zipcode}
                 </div>
                 <div className="col-md-3 text-left">
-                    <b>Telefone:</b> (14) 99856-8956 <br />
-                    <b>UF:</b> SP
+                    <b>Telefone:</b> ({phoneNumbersMain.ddd}) {phoneNumbersMain.number} <br />
+                    <b>UF:</b> {addressMain.uf}
                 </div>
             </div>
         </div>

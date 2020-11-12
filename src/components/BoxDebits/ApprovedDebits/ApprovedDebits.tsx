@@ -71,7 +71,7 @@ const ApprovedDebits: React.FC<Props> = (props) => {
 
     const { company, maturities, dateRegister } = props;
 
-    const [companyFirst] = company;
+    const [companyMain] = company;
 
     return (
         <div className="cada debito ativo">
@@ -86,7 +86,7 @@ const ApprovedDebits: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-3 c colBorder">
-                    <span className="labelDebito text-left p-left">{companyFirst.name}</span>
+                    <span className="labelDebito text-left p-left">{companyMain.name}</span>
                 </div>
 
                 <div className="col-md-6 c nobri">
@@ -104,7 +104,7 @@ const ApprovedDebits: React.FC<Props> = (props) => {
                 </div>
             </div>
 
-            {info && <MoreInfo />}
+            {info && <MoreInfo {...companyMain} />}
             {negociation && <Details />}
         </div>
     );

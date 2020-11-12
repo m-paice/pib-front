@@ -36,13 +36,22 @@ export interface PhoneNumber {
     main: boolean;
 }
 
+export interface Bank {
+    name: string;
+    agency: string;
+    account: string;
+    digit: string;
+}
+
 export interface Company {
     id: string;
     name: string;
     cnpj: string;
     email: string;
+    type: string;
     address: Address[];
     phoneNumbers: PhoneNumber[];
+    bank: Bank;
     createdAt: Date | null;
     updatedAt: Date | null;
 }

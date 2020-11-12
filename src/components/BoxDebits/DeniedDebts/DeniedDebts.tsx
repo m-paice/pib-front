@@ -45,7 +45,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
 
     const { company, maturities, debt } = props;
 
-    const [companyFirst] = company;
+    const [companyMain] = company;
 
     return (
         <div className="cada debito">
@@ -60,17 +60,17 @@ const DeniedDebts: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-2">
-                    <span className="labelDebito text-left">{companyFirst.name}</span>
+                    <span className="labelDebito text-left">{companyMain.name}</span>
                 </div>
                 <div className="col-md-7 d-flex justify-content-between">
-                    <div>
+                    <div style={{ width: 75 }}>
                         <div className="lab">
                             <div className="help" data-toggle="tooltip" data-placement="top" title="Texto ajuda">
                                 Tipo
                                 <span className="glyphicon glyphicon-question-sign ml-1"></span>
                             </div>
                         </div>
-                        <div className="txt-12 m-0 font-weight-bold">Telefonia Fixa</div>
+                        <div className="txt-12 m-0 font-weight-bold">{companyMain.type}</div>
                     </div>
                     <div className="div c"></div>
                     <div>
@@ -117,7 +117,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
 
             {negociation && <Negociation />}
 
-            {info && <MoreInfo />}
+            {info && <MoreInfo {...companyMain} />}
         </div>
     );
 };

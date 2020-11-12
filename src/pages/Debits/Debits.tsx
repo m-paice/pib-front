@@ -70,6 +70,7 @@ const Debits: React.FC<Props> = ({ payload }) => {
 
                 {debts
                     .filter((item) => item.situation !== 0)
+                    .sort((a, b) => (a.situation > b.situation ? 1 : -1))
                     .map((debt) => (
                         <ApprovedDebits key={debt.id} {...debt} />
                     ))}
