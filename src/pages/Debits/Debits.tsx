@@ -1,19 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // container
 import { debtsContainer } from "./DebitsContainer";
 
 import { Debt } from "../../store/modules/pf/debt/types";
-import { Company } from "../../store/modules/pj/company/types";
-
-// components
-import ApprovedDebits from "../../components/BoxDebits/ApprovedDebits";
-import DeniedDebts from "../../components/BoxDebits/DeniedDebts";
 
 import Fotoperfil2 from "../../assets/imagens/fotoperfil2.png";
 import Caratriste from "../../assets/imagens/caratriste.png";
 import Fotoperfil from "../../assets/imagens/fotoperfil.png";
 import Carafeliz from "../../assets/imagens/carafeliz.png";
+
+import TableDebits from "../../components/Table/TableDebits";
 
 // utils
 import formatPrice from "../../utils/formatPrice";
@@ -39,9 +36,15 @@ const Debits: React.FC<Props> = ({ payload }) => {
     const { debts, isDebitsPaid } = data;
     const { handleLoadDebts } = actions;
 
+    const [tbody, setTbody] = useState<Debt[]>(debts);
+
     useEffect(() => {
         handleLoadDebts();
     }, []);
+
+    useEffect(() => {
+        setTbody(payload.data.debts);
+    }, [payload.data]);
 
     if (!debts.length) {
         return <p> Nenhum débito </p>;
@@ -79,18 +82,7 @@ const Debits: React.FC<Props> = ({ payload }) => {
                     </div>
                 )}
 
-                {debts
-                    .filter((item) => item.situation === 0)
-                    .map((debt) => (
-                        <DeniedDebts key={debt.id} {...debt} />
-                    ))}
-
-                {debts
-                    .filter((item) => item.situation !== 0)
-                    .sort((a, b) => (a.situation > b.situation ? 1 : -1))
-                    .map((debt) => (
-                        <ApprovedDebits key={debt.id} {...debt} />
-                    ))}
+                <TableDebits tbody={tbody} />
             </div>
         </div>
     );
