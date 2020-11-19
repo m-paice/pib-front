@@ -5718,3 +5718,8 @@ html {
 .btn-sweet-alert:hover {
     text-decoration: none;
 }
+
+.text-white * {
+    color: #fff;
+    font-size: 14px;
+}
