@@ -39,7 +39,9 @@ const NoDebits: React.FC<Props> = ({ payload }) => {
                 </div>
             </div>
 
-            <Carousel />
+            <div className="container">
+                <Carousel />
+            </div>
 
             <div className="faixa2">
                 <div className="row container">
