@@ -98,7 +98,7 @@ const Negociation: React.FC<Props> = (props) => {
                                     name="payment"
                                     value="card"
                                     onChange={handlePaymentChange}
-                                />{" "}
+                                />
                                 Cartão de Crédito
                             </label>
                             <br />
@@ -119,16 +119,13 @@ const Negociation: React.FC<Props> = (props) => {
                             <br />
                             <label>
                                 <div className="font-weight-bold">
-                                    {" "}
-                                    {state.payment === "card" ? "Data da Transação" : "Data de Vencimento"}{" "}
+                                    {state.payment === "card" ? "Data da Transação" : "Data de Vencimento"}
                                 </div>
                                 {state.payment === "card" ? (
                                     <div>
-                                        <select style={{ color: "#000" }} className="sel parcelamentoSelect">
-                                            <option style={{ color: "#000" }} value="0">
-                                                {formatDate(new Date())}
-                                            </option>
-                                        </select>
+                                        <div style={{ color: "#000", padding: "7px 3px" }} className="sel">
+                                            {formatDate(new Date())}
+                                        </div>
                                     </div>
                                 ) : (
                                     <select style={{ color: "#000" }} className="sel parcelamentoSelect">
@@ -141,8 +138,7 @@ const Negociation: React.FC<Props> = (props) => {
                                                 style={{ color: "#000" }}
                                                 value={formatDate(addDays(new Date(), index))}
                                             >
-                                                {" "}
-                                                {formatDate(addDays(new Date(), index))}{" "}
+                                                {formatDate(addDays(new Date(), index))}
                                             </option>
                                         ))}
                                     </select>
