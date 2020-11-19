@@ -53,15 +53,16 @@ const ApprovedDebits: React.FC<Props> = (props) => {
 
         const renderStatus = {
             1: {
-                title: "Próximo",
-                class: "blue",
-            },
-            2: {
                 title: "Em atraso",
                 class: "red",
             },
+            2: {
+                title: "Em dia",
+                class: "blue",
+            },
+
             3: {
-                title: "Pago",
+                title: "Quitada",
                 class: "green",
             },
         };
