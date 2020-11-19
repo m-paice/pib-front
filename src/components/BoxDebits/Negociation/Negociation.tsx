@@ -81,7 +81,7 @@ const Negociation: React.FC<Props> = (props) => {
 
                             <label className="boleto">
                                 <input
-                                    disabled={confirmWakeUp}
+                                    disabled={!confirmWakeUp}
                                     type="radio"
                                     name="payment"
                                     value="billet"
@@ -93,7 +93,7 @@ const Negociation: React.FC<Props> = (props) => {
                             <br />
                             <label className="cartaoc">
                                 <input
-                                    disabled={confirmWakeUp}
+                                    disabled={!confirmWakeUp}
                                     type="radio"
                                     name="payment"
                                     value="card"
@@ -182,7 +182,7 @@ const Negociation: React.FC<Props> = (props) => {
                 )}
                 {payment === "card" && (
                     <div className="col-md-6">
-                        <Card />
+                        <Card confirm={confirmWakeUp} />
                     </div>
                 )}
             </div>
