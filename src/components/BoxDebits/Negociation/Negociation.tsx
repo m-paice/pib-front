@@ -43,7 +43,7 @@ const Negociation: React.FC<Props> = (props) => {
     const [state, setState] = useState<State>({
         payment: "billet",
         modal: false,
-        confirmWakeUp: false,
+        confirmWakeUp: true,
     });
 
     const handleSetState = (key: string, value: string | boolean) => {
@@ -68,7 +68,7 @@ const Negociation: React.FC<Props> = (props) => {
     };
 
     const { payment, confirmWakeUp } = state;
-    const discount = (debit + Number(negociation?.discount)) / 100;
+    const discount = (debit * Number(negociation?.discount)) / 100;
 
     return (
         <div className="p-3">
@@ -111,7 +111,7 @@ const Negociation: React.FC<Props> = (props) => {
                                     </option>
                                     {options.map((value, index) => (
                                         <option style={{ color: "#000" }} key={value} value={value}>
-                                            {index + 1} - {formatPrice((debit - discount) / options.length)}
+                                            {index + 1} X {formatPrice((debit - discount) / (index + 1))}
                                         </option>
                                     ))}
                                 </select>
@@ -124,15 +124,18 @@ const Negociation: React.FC<Props> = (props) => {
                                 </div>
                                 {state.payment === "card" ? (
                                     <div>
-                                        {" "}
-                                        <b> Hoje: </b> {formatDate(new Date())}{" "}
+                                        <select style={{ color: "#000" }} className="sel parcelamentoSelect">
+                                            <option style={{ color: "#000" }} value="0">
+                                                {formatDate(new Date())}
+                                            </option>
+                                        </select>
                                     </div>
                                 ) : (
                                     <select style={{ color: "#000" }} className="sel parcelamentoSelect">
                                         <option style={{ color: "#000" }} value="0">
                                             Escolha uma data
                                         </option>
-                                        {Array.from({ length: 7 }).map((item, index) => (
+                                        {Array.from({ length: 9 }).map((item, index) => (
                                             <option
                                                 key={index}
                                                 style={{ color: "#000" }}
@@ -153,7 +156,7 @@ const Negociation: React.FC<Props> = (props) => {
                                 <div className="font-weight-bold">Valor da dívida</div>
                                 <input className="imp" disabled value={formatPrice(debit)} />
                             </label>
-                            <div className="font-weight-bold">Valor do desconto</div>
+                            <div className="font-weight-bold">Valor do desconto ({`${negociation?.discount}%`})</div>
                             <label>
                                 <input className="imp desconto disabled-bc" disabled value={formatPrice(discount)} />
                             </label>
@@ -163,7 +166,6 @@ const Negociation: React.FC<Props> = (props) => {
                             </label>
                             <button
                                 style={{ border: "none" }}
-                                disabled={confirmWakeUp}
                                 className="cacordo confirmarAcordo font-weight-bold"
                                 onClick={() => handleSetState("modal", !state.modal)}
                             >
@@ -173,12 +175,12 @@ const Negociation: React.FC<Props> = (props) => {
                     </div>
                 </div>
 
-                {confirmWakeUp && payment === "billet" && (
+                {payment === "billet" && (
                     <div className="col-md-6">
-                        <Billet />
+                        <Billet confirm={confirmWakeUp} />
                     </div>
                 )}
-                {confirmWakeUp && payment === "card" && (
+                {payment === "card" && (
                     <div className="col-md-6">
                         <Card />
                     </div>

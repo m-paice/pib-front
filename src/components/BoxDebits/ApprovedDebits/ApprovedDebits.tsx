@@ -69,7 +69,7 @@ const ApprovedDebits: React.FC<Props> = (props) => {
         return renderStatus[String(situation)];
     };
 
-    const { id, company, maturities, dateRegister, detailsPortion } = props;
+    const { id, company, maturities, dateRegister, detailsPortion, payment } = props;
 
     const [companyMain] = company;
 
@@ -105,7 +105,7 @@ const ApprovedDebits: React.FC<Props> = (props) => {
             </div>
 
             {info && <MoreInfo {...companyMain} />}
-            {negociation && <Details detailsPortion={detailsPortion} />}
+            {negociation && <Details payment={payment} detailsPortion={detailsPortion} />}
         </div>
     );
 };

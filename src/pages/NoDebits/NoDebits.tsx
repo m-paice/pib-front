@@ -35,7 +35,7 @@ const NoDebits: React.FC<Props> = ({ payload }) => {
                 <div className="col-xs-12 col-sm-8 titulos">
                     <h2>Parabéns,</h2>
                     <h3>não encontramos dívidas em seu nome.</h3>
-                    {debitsPaidOut && <Link to="/debits">Ver painel com débitos</Link>}
+                    {debitsPaidOut && <Link to="/debits">Ver débitos que você já negociou conosco</Link>}
                 </div>
             </div>
 
