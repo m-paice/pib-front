@@ -4007,7 +4007,12 @@ div.ativo .l2 {
 }
 
 .cacordo:disabled {
-    background: #14657b;
+    background: #6e6e6e;
+}
+
+.cacordo:disabled:hover {
+    background: #6e6e6e;
+    color: #fff;
 }
 
 .cacordo:hover {

@@ -153,6 +153,7 @@ const Negociation: React.FC<Props> = (props) => {
                                     style={{ color: "#000" }}
                                     onChange={handleSelectPortionChange}
                                     className="sel parcelamentoSelect"
+                                    disabled={!confirmWakeUp}
                                 >
                                     <option style={{ color: "#000" }} value="">
                                         Escolha o plano
@@ -184,6 +185,7 @@ const Negociation: React.FC<Props> = (props) => {
                                             style={{ color: "#000" }}
                                             onChange={handleSelectDatePaymentChange}
                                             className="sel parcelamentoSelect"
+                                            disabled={!confirmWakeUp}
                                         >
                                             <option style={{ color: "#000" }} value="">
                                                 Escolha uma data
