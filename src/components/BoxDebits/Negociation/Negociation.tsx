@@ -18,6 +18,11 @@ import formatPrice from "../../../utils/formatPrice";
 
 import SweetAlert from "../../../components/SweetAlert";
 
+const stylesErrosMessage: React.CSSProperties = {
+    color: "#ff0000",
+    fontSize: 11,
+};
+
 interface Props {
     debit: number;
     monthForRule: number;
@@ -25,8 +30,11 @@ interface Props {
 
 interface State {
     payment: "billet" | "card";
-    modal: boolean;
+    portion: string;
+    datePayment: string;
     confirmWakeUp: boolean;
+    modal: boolean;
+    errors: object;
 }
 
 const Negociation: React.FC<Props> = (props) => {
@@ -42,11 +50,16 @@ const Negociation: React.FC<Props> = (props) => {
 
     const [state, setState] = useState<State>({
         payment: "billet",
+        portion: "",
+        datePayment: "",
+        confirmWakeUp: true, // TODO: fazer a logica inversa [começar com false]
         modal: false,
-        confirmWakeUp: true,
+        errors: {},
     });
 
-    const handleSetState = (key: string, value: string | boolean) => {
+    console.log(state);
+
+    const handleSetState = (key: string, value: string | boolean | object) => {
         setState((prevState) => ({
             ...prevState,
             [key]: value,
@@ -57,6 +70,37 @@ const Negociation: React.FC<Props> = (props) => {
         const { target } = event;
 
         handleSetState("payment", target.value);
+    };
+
+    const handleSelectPortionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        handleSetState("portion", event.target.value);
+    };
+
+    const handleSelectDatePaymentChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        handleSetState("datePayment", event.target.value);
+    };
+
+    const handleConfirmWakeUp = () => {
+        if (!state.portion) {
+            handleSetState("errors", {
+                portion: "Parcelamento é obrigatório.",
+            });
+
+            return;
+        }
+
+        if (state.payment === "billet") {
+            if (!state.datePayment) {
+                handleSetState("errors", {
+                    datePayment: "Data do vencimento é obrigatório.",
+                });
+
+                return;
+            }
+        }
+
+        handleSetState("modal", !state.modal);
+        handleSetState("errors", {});
     };
 
     const handleConfirm = () => {
@@ -105,8 +149,12 @@ const Negociation: React.FC<Props> = (props) => {
                             <label>
                                 <div className="font-weight-bold">Parcelamento</div>
                                 <br />
-                                <select style={{ color: "#000" }} className="sel parcelamentoSelect">
-                                    <option style={{ color: "#000" }} value="0">
+                                <select
+                                    style={{ color: "#000" }}
+                                    onChange={handleSelectPortionChange}
+                                    className="sel parcelamentoSelect"
+                                >
+                                    <option style={{ color: "#000" }} value="">
                                         Escolha o plano
                                     </option>
                                     {options.map((value, index) => (
@@ -115,6 +163,9 @@ const Negociation: React.FC<Props> = (props) => {
                                         </option>
                                     ))}
                                 </select>
+                                {state.errors["portion"] && (
+                                    <span style={stylesErrosMessage}> {state.errors["portion"]} </span>
+                                )}
                             </label>
                             <br />
                             <label>
@@ -128,20 +179,29 @@ const Negociation: React.FC<Props> = (props) => {
                                         </div>
                                     </div>
                                 ) : (
-                                    <select style={{ color: "#000" }} className="sel parcelamentoSelect">
-                                        <option style={{ color: "#000" }} value="0">
-                                            Escolha uma data
-                                        </option>
-                                        {Array.from({ length: 9 }).map((item, index) => (
-                                            <option
-                                                key={index}
-                                                style={{ color: "#000" }}
-                                                value={formatDate(addDays(new Date(), index))}
-                                            >
-                                                {formatDate(addDays(new Date(), index))}
+                                    <>
+                                        <select
+                                            style={{ color: "#000" }}
+                                            onChange={handleSelectDatePaymentChange}
+                                            className="sel parcelamentoSelect"
+                                        >
+                                            <option style={{ color: "#000" }} value="">
+                                                Escolha uma data
                                             </option>
-                                        ))}
-                                    </select>
+                                            {Array.from({ length: 9 }).map((item, index) => (
+                                                <option
+                                                    key={index}
+                                                    style={{ color: "#000" }}
+                                                    value={formatDate(addDays(new Date(), index))}
+                                                >
+                                                    {formatDate(addDays(new Date(), index))}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        {state.errors["datePayment"] && (
+                                            <span style={stylesErrosMessage}> {state.errors["datePayment"]} </span>
+                                        )}
+                                    </>
                                 )}
                             </label>
                         </div>
@@ -163,9 +223,9 @@ const Negociation: React.FC<Props> = (props) => {
                             <button
                                 style={{ border: "none" }}
                                 className="cacordo confirmarAcordo font-weight-bold"
-                                onClick={() => handleSetState("modal", !state.modal)}
+                                onClick={handleConfirmWakeUp}
                             >
-                                Confirmar Acordo
+                                Quero pagar
                             </button>
                         </div>
                     </div>

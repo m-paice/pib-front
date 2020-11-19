@@ -46,7 +46,7 @@ const Card: React.FC<Props> = (props) => {
                 </div>
                 <div className="col-md-6 nopadding padding-10">
                     <button style={{ border: "none" }} disabled={confirm} className="cacordo font-weight-bold">
-                        Finalizar
+                        Confirmar acordo
                     </button>
                 </div>
             </div>
