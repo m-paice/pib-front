@@ -22,7 +22,7 @@ interface State {
 }
 
 const DeniedDebts: React.FC<Props> = (props) => {
-    const { id, company, maturities, debt, dateRegister } = props;
+    const { id, company, maturities, debt, dateRegister, situation } = props;
 
     const [state, setState] = useState<State>({
         info: false,
@@ -127,9 +127,15 @@ const DeniedDebts: React.FC<Props> = (props) => {
                     </div>
                 </div>
                 <div className=" col-md-2 cb ">
-                    <a onClick={() => handleSetState("negociation", !negociation)} className="btneg btn">
-                        Quero Negociar
-                    </a>
+                    {situation === -1 ? (
+                        <a onClick={() => handleSetState("info", !info)} className="btneg gray btn">
+                            Contate o credor
+                        </a>
+                    ) : (
+                        <a onClick={() => handleSetState("negociation", !negociation)} className="btneg btn">
+                            Quero Negociar
+                        </a>
+                    )}
                 </div>
             </div>
 

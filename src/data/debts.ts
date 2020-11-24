@@ -23,7 +23,7 @@ export default [
         receipt: 0,
         late: 0,
         payment: 2,
-        situation: 0,
+        situation: -1,
     },
     {
         id: 3,

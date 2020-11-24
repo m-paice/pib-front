@@ -4300,6 +4300,17 @@ body .cada .table > tbody > tr > td {
     margin-top: -1px;
 }
 
+.btneg.gray {
+    background: #e6e6e6;
+    color: #6e6e6e;
+}
+
+.btneg.gray:hover {
+    background: #fff;
+    color: #6e6e6e;
+    border-color: #6e6e6e;
+}
+
 .debito.ativo .btneg.red,
 .debito.ativo .btneg.green,
 .debito.ativo .btneg.blue {

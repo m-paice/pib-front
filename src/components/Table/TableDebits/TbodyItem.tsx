@@ -10,7 +10,7 @@ type Props = Debt;
 const TbodyItem: React.FC<Props> = (props) => {
     const { situation } = props;
 
-    if (situation === 0) {
+    if (situation === 0 || situation === -1) {
         return <DeniedDebts {...props} />;
     }
 
