@@ -60,9 +60,18 @@
       fi
     done
 
+cache:
+  key: "$CI_COMMIT_SHORT_SHA"
+  paths:
+    - ./.yarn-offline
+    - dist
+    - build
+    - node_modules
+    - yarn.lock
 
 stages:
   - checks
+  - build
   - image
   - deploy
 
@@ -71,6 +80,13 @@ commitlint:
   image: nsfilho/commitlint:latest
   script:
     - check.sh
+
+install:
+  stage: build
+  image: node:14
+  script:
+    - yarn install
+    - yarn build
 
 build:
   stage: image
