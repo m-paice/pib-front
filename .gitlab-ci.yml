@@ -85,6 +85,7 @@ install:
   stage: build
   image: node:14
   script:
+    - *env_definitions
     - yarn install
     - cp .env.$BRANCH .env
     - yarn build
@@ -94,7 +95,6 @@ build:
   image: docker:19-dind
   script:
     - *env_definitions
-    - cp .env.$BRANCH .env
     - docker build -t $REGISTRY_IMAGE_NAME -t $REGISTRY_IMAGE_NAME_LATEST .
 
 qa:
