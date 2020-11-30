@@ -2,6 +2,7 @@ import { all, takeLatest } from "redux-saga/effects";
 
 // types
 import { types as typesAuth } from "./auth/types";
+import { types as typesUsers } from "./users/types";
 // types pf
 import { types as typesPfDebt } from "./pf/debt/types";
 // types pj
@@ -12,6 +13,7 @@ import { types as typesPjDebtors } from "./pj/debtor/types";
 
 // sagas
 import authSagas from "./auth/sagas";
+import usersSagas from "./users/sagas";
 // sagas pf
 import debtPfSagas from "./pf/debt/sagas";
 // sagas pj
@@ -25,6 +27,9 @@ export default function* () {
         // auth
         takeLatest(typesAuth.AUTH_LOGIN, authSagas.login),
         takeLatest(typesAuth.AUTH_LOGOUT, authSagas.logout),
+
+        // users
+        takeLatest(typesUsers.CREATE_USER, usersSagas.create),
 
         /** PF */
         // debt

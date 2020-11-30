@@ -4,6 +4,8 @@ import InputMask from "react-input-mask";
 import { Formik, Form, Field, FieldProps } from "formik";
 import * as Yup from "yup";
 
+import { registerContainer } from "./RegisterContainer";
+
 interface FormValues {
     cpf: string;
     name: string;
@@ -11,6 +13,8 @@ interface FormValues {
     phone: string;
     email: string;
     emailConfirm: string;
+    password: string;
+    passwordConfirm: string;
 }
 
 // components
@@ -28,6 +32,10 @@ const SignupSchema = Yup.object().shape({
     emailConfirm: Yup.string()
         .required("obrigatório")
         .oneOf([Yup.ref("email")], "os emails devem corresponder"),
+    password: Yup.string().required("obrigatório"),
+    passwordConfirm: Yup.string()
+        .required("obrigatório")
+        .oneOf([Yup.ref("password")], "as senhas devem corresponder"),
 });
 
 const initialValues: FormValues = {
@@ -37,13 +45,26 @@ const initialValues: FormValues = {
     phone: "",
     email: "",
     emailConfirm: "",
+    password: "",
+    passwordConfirm: "",
 };
 
-const Register: React.FC = () => {
-    const handleSubmit = useCallback((values: FormValues) => {
-        // TODO: call action
+interface Props {
+    payload: {
+        data: {};
+        actions: {
+            create(data): void;
+        };
+    };
+}
 
-        console.log(values);
+const Register: React.FC<Props> = ({ payload }) => {
+    const { data, actions } = payload;
+
+    const { create } = actions;
+
+    const handleSubmit = useCallback((values: FormValues) => {
+        create(values);
     }, []);
 
     return (
@@ -141,7 +162,7 @@ const Register: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="form-group col-md-6">
                                 <Field name="email">
                                     {(props: FieldProps) => (
@@ -160,6 +181,43 @@ const Register: React.FC = () => {
                                         <div>
                                             <Input
                                                 placeholder="Confirme seu email"
+                                                className="form-control"
+                                                {...props.field}
+                                            />
+                                            <span className="erro">
+                                                {props.meta.touched && props.meta.error && props.meta.error}
+                                            </span>
+                                        </div>
+                                    )}
+                                </Field>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="form-group col-md-6">
+                                <Field name="password">
+                                    {(props: FieldProps) => (
+                                        <div>
+                                            <Input
+                                                placeholder="Senha"
+                                                type="password"
+                                                className="form-control"
+                                                {...props.field}
+                                            />
+                                            <span className="erro">
+                                                {props.meta.touched && props.meta.error && props.meta.error}
+                                            </span>
+                                        </div>
+                                    )}
+                                </Field>
+                            </div>
+                            <div className="form-group col-md-6">
+                                <Field name="passwordConfirm">
+                                    {(props: FieldProps) => (
+                                        <div>
+                                            <Input
+                                                placeholder="Confirme sua senha"
+                                                type="password"
                                                 className="form-control"
                                                 {...props.field}
                                             />
@@ -224,4 +282,4 @@ const Register: React.FC = () => {
     );
 };
 
-export default Register;
+export default registerContainer(Register);
