@@ -1,5 +1,5 @@
 {
-    "name": "accredite",
+    "name": "frontend",
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
@@ -53,6 +53,7 @@
         "@typescript-eslint/parser": "^3.7.0",
         "autoprefixer": "^9.8.6",
         "clean-webpack-plugin": "^3.0.0",
+        "commitizen": "^4.2.2",
         "css-loader": "^4.2.1",
         "eslint": "^7.5.0",
         "eslint-config-prettier": "^6.11.0",
