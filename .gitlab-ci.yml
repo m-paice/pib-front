@@ -86,6 +86,7 @@ install:
   image: node:14
   script:
     - yarn install
+    - cp .env.$BRANCH .env
     - yarn build
 
 build:
