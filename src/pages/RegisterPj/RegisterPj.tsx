@@ -3,6 +3,10 @@ import React, { useCallback, useState } from "react";
 import { Formik, Form, FormikProps } from "formik";
 import * as Yup from "yup";
 
+import { FormStepper, FormStep } from "../../components/FormStepper";
+
+import { Container } from "./RegisterPjContainer";
+
 export interface FormValues {
     cnpj: string;
     socialReason: string;
@@ -14,6 +18,8 @@ export interface FormValues {
     cellPhone: string;
     email: string;
     emailConfirm: string;
+    password: string;
+    passwordConfirm: string;
     zipcode: string;
     type: string;
     address: string;
@@ -65,6 +71,10 @@ const Step2Schema = Yup.object().shape({
         .email("e-mail inválido")
         .required("obrigatório")
         .oneOf([Yup.ref("email")], "os emails devem corresponder"),
+    password: Yup.string().required("obrigatório"),
+    passwordConfirm: Yup.string()
+        .required("obrigatório")
+        .oneOf([Yup.ref("password")], "as senhas devem corresponder"),
     zipcode: Yup.string().matches(/^\d{5}-\d{3}$/, "CEP inválido"),
     address: Yup.string().required("obrigatório"),
     number: Yup.string().required("obrigatório"),
@@ -90,19 +100,19 @@ const Step3Schema = Yup.object().shape({
     termsOfUse: Yup.bool().oneOf([true], "você precisa aceitar os termos para seguir em frente"),
 });
 
-const schemaArray = [Step1Schema, Step2Schema, Step3Schema];
-
 const initialValues: FormValues = {
-    cnpj: "12.321.312/0001-21",
-    socialReason: "Matheus Paice SA",
-    fantasyName: "Matheus Paice",
-    foundationDate: "10/10/2020",
-    namePartnerMain: "Marina Paice",
+    cnpj: "",
+    socialReason: "",
+    fantasyName: "",
+    foundationDate: "",
+    namePartnerMain: "",
     namePartnerSecondary: "",
 
     cellPhone: "",
     email: "",
     emailConfirm: "",
+    password: "",
+    passwordConfirm: "",
     zipcode: "",
     type: "",
     address: "",
@@ -124,43 +134,22 @@ const initialValues: FormValues = {
     receiveTips: false,
 };
 
-const RegisterPj: React.FC = (props) => {
-    const [currentStep, setCurrentStep] = useState(2);
-    const [test, setTest] = useState(0);
+interface Props {
+    payload: {
+        data: {};
+        actions: {
+            create(data): void;
+        };
+    };
+}
+
+const RegisterPj: React.FC<Props> = ({ payload }) => {
+    const { data, actions } = payload;
+    const { create } = actions;
 
     const handleSubmit = useCallback((values: FormValues) => {
-        // TODO: call action
-
-        console.log(values);
+        create(values);
     }, []);
-
-    const handleNextSteps = (props: FormikProps<FormValues>) => {
-        props.submitForm().then(() => {
-            setTest((prevState) => prevState + 1);
-
-            if (test > 0 && props.isValid) {
-                setCurrentStep((prevState) => prevState + 1);
-                props.validateForm();
-                props.setTouched({});
-            }
-        });
-    };
-
-    const handlePrevSteps = () => {
-        setCurrentStep((prevCurrentPage) => prevCurrentPage - 1);
-    };
-
-    const handleGoToStep = (step: number, props: FormikProps<FormValues>) => {
-        props.submitForm().then(() => {
-            setTest((prevState) => prevState + 1);
-
-            if (test > 0 && props.isValid) {
-                setCurrentStep(step);
-                props.validateForm();
-                props.setTouched({});
-            }
-        });
-    };
 
     return (
         <div className="page">
@@ -172,59 +161,22 @@ const RegisterPj: React.FC = (props) => {
                         </div>
                     </div>
                 </div>
-                <Formik
-                    initialValues={initialValues}
-                    validationSchema={schemaArray[currentStep]}
-                    onSubmit={handleSubmit}
-                    enableReinitialize
-                >
-                    {(formikBag) => (
-                        <Form>
-                            <div className="col-xs-12">
-                                <nav className="menu-pj">
-                                    <ul style={{ marginBottom: 30 }}>
-                                        <NavSteps
-                                            currentStep={currentStep}
-                                            handleGoToStep={handleGoToStep}
-                                            formikBag={formikBag}
-                                            text="Cadastro inicial"
-                                            number="1"
-                                            value={0}
-                                        />
-                                        <NavSteps
-                                            currentStep={currentStep}
-                                            handleGoToStep={handleGoToStep}
-                                            formikBag={formikBag}
-                                            text="Contato"
-                                            number="2"
-                                            value={1}
-                                        />
-                                        <NavSteps
-                                            currentStep={currentStep}
-                                            handleGoToStep={handleGoToStep}
-                                            formikBag={formikBag}
-                                            text="Dados Bancários"
-                                            number="3"
-                                            value={2}
-                                        />
-                                    </ul>
-                                </nav>
-                            </div>
-                            {currentStep === 0 && <Step1 handleNextSteps={handleNextSteps} formikProps={formikBag} />}
-                            {currentStep === 1 && (
-                                <Step2
-                                    handleNextSteps={handleNextSteps}
-                                    handlePrevSteps={handlePrevSteps}
-                                    formikProps={formikBag}
-                                />
-                            )}
-                            {currentStep === 2 && <Step3 handlePrevSteps={handlePrevSteps} />}
-                        </Form>
-                    )}
-                </Formik>
+                <FormStepper initialValues={initialValues} onSubmit={handleSubmit}>
+                    <FormStep validationSchema={Step1Schema}>
+                        <Step1 />
+                    </FormStep>
+
+                    <FormStep validationSchema={Step2Schema}>
+                        <Step2 />
+                    </FormStep>
+
+                    <FormStep validationSchema={Step3Schema}>
+                        <Step3 />
+                    </FormStep>
+                </FormStepper>
             </div>
         </div>
     );
 };
 
-export default RegisterPj;
+export default Container(RegisterPj);

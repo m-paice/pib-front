@@ -1,4 +1,5 @@
 import LayoutPj from "./LayoutPj";
 import LayoutPf from "./LayoutPf";
+import LayoutPublic from "./LayoutPublic";
 
-export { LayoutPj, LayoutPf };
+export { LayoutPj, LayoutPf, LayoutPublic };

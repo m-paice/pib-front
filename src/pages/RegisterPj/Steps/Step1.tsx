@@ -7,16 +7,9 @@ import Input from "../../../components/Fields/Input";
 
 import { FormValues } from "../RegisterPj";
 
-interface Props {
-    handleNextSteps(formikPrps: FormikProps<FormValues>): void;
-    formikProps: FormikProps<FormValues>;
-}
+interface Props {}
 
-const Step1: React.FC<Props> = ({ handleNextSteps, formikProps }) => {
-    const handleNext = () => {
-        handleNextSteps(formikProps);
-    };
-
+const Step1: React.FC<Props> = () => {
     return (
         <div>
             <div className="row">
@@ -116,10 +109,6 @@ const Step1: React.FC<Props> = ({ handleNextSteps, formikProps }) => {
                         )}
                     </Field>
                 </div>
-            </div>
-
-            <div className="bbuttons col-xs-12 col-sm-3 p-0" onClick={handleNext}>
-                <a className="btpadrao">PRÓXIMO</a>
             </div>
         </div>
     );

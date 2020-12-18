@@ -35,7 +35,7 @@ const Header: React.FC = () => {
 
                         <div className="col-xs-12 col-sm-10 bxmenu">
                             <div className="buser">
-                                Olá {user.name}
+                                Olá {user.nome}
                                 <Link to="/profile">Seu Cadastro</Link>
                                 <Link to="/">Sair</Link>
                             </div>

@@ -13,11 +13,11 @@ import companiesData from "../../../../data/companies";
 function* loadDebtors() {
     const user: User = yield select(userAuthenticated);
 
-    if (user.type === "pj") {
+    if (user.document === "pj") {
         // TODO: remover
         try {
             const response = data
-                .filter((item) => item.companyId === user.id)
+                .filter((item) => item.companyId === Number(user.id))
                 .reduce((acc, cur) => {
                     const portionFiltered = portionData.filter((item) => item.idRegister === cur.id);
                     const companyFiltered = companiesData.filter((item) => item.id === cur.companyId);

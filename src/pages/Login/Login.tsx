@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 // actions
@@ -9,6 +10,7 @@ interface Props {}
 
 const Login: React.FC<Props> = (props) => {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [document, setDocument] = useState("460.328.018-10");
 
@@ -26,6 +28,7 @@ const Login: React.FC<Props> = (props) => {
         <div
             style={{
                 display: "flex",
+                flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
                 width: "100%",
@@ -51,6 +54,14 @@ const Login: React.FC<Props> = (props) => {
 
                 <button onClick={handleClick}> Entrar </button>
             </div>
+            <button style={{ maxWidth: 200, margin: "15px 0" }} onClick={() => history.push("/register")}>
+                {" "}
+                Cadastro Consumidor{" "}
+            </button>
+            <button style={{ maxWidth: 200, margin: "15px 0" }} onClick={() => history.push("/registerpj")}>
+                {" "}
+                Cadastro Lojista{" "}
+            </button>
         </div>
     );
 };

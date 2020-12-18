@@ -2,17 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 import InputMask from "react-input-mask";
-import { Field, FieldProps, FormikProps } from "formik";
-
-import Input from "../../../components/Fields/Input";
+import { Field, FieldProps, useFormikContext } from "formik";
 
 import { FormValues } from "../RegisterPj";
 
-interface Props {
-    handleNextSteps(formikPrps: FormikProps<FormValues>): void;
-    handlePrevSteps(): void;
-    formikProps: FormikProps<FormValues>;
-}
+import Input from "../../../components/Fields/Input";
+
+interface Props {}
 
 interface FullAddress {
     bairro: string;
@@ -27,16 +23,18 @@ interface FullAddress {
     uf: string;
 }
 
-const Step2: React.FC<Props> = ({ handleNextSteps, handlePrevSteps, formikProps }) => {
+const Step2: React.FC<Props> = () => {
+    const { setFieldValue } = useFormikContext<FormValues>();
+
     const [fullAddress, setFullAddress] = useState<FullAddress | null>(null);
 
     useEffect(() => {
         if (fullAddress) {
-            formikProps.setFieldValue("type", fullAddress.logradouro?.split(" ")[0]);
-            formikProps.setFieldValue("address", fullAddress.logradouro);
-            formikProps.setFieldValue("neighborhood", fullAddress.bairro);
-            formikProps.setFieldValue("city", fullAddress.localidade);
-            formikProps.setFieldValue("uf", fullAddress.uf);
+            setFieldValue("type", fullAddress.logradouro?.split(" ")[0]);
+            setFieldValue("address", fullAddress.logradouro);
+            setFieldValue("neighborhood", fullAddress.bairro);
+            setFieldValue("city", fullAddress.localidade);
+            setFieldValue("uf", fullAddress.uf);
         }
     }, [fullAddress]);
 
@@ -93,6 +91,39 @@ const Step2: React.FC<Props> = ({ handleNextSteps, handlePrevSteps, formikProps 
                         {(props: FieldProps) => (
                             <div>
                                 <Input placeholder="Confirmar E-mail:" className="form-control" {...props.field} />
+                                <span className="erro">
+                                    {props.meta.touched && props.meta.error && props.meta.error}
+                                </span>
+                            </div>
+                        )}
+                    </Field>
+                </div>
+            </div>
+
+            <div className="row">
+                <div className="form-group col-xs-12 col-sm-6">
+                    <Field name="password">
+                        {(props: FieldProps) => (
+                            <div>
+                                <Input placeholder="Senha:" className="form-control" type="password" {...props.field} />
+                                <span className="erro">
+                                    {props.meta.touched && props.meta.error && props.meta.error}
+                                </span>
+                            </div>
+                        )}
+                    </Field>
+                </div>
+
+                <div className="form-group col-xs-12 col-sm-6">
+                    <Field name="passwordConfirm">
+                        {(props: FieldProps) => (
+                            <div>
+                                <Input
+                                    placeholder="Confirmar Senha:"
+                                    className="form-control"
+                                    type="password"
+                                    {...props.field}
+                                />
                                 <span className="erro">
                                     {props.meta.touched && props.meta.error && props.meta.error}
                                 </span>
@@ -218,15 +249,6 @@ const Step2: React.FC<Props> = ({ handleNextSteps, handlePrevSteps, formikProps 
                             </div>
                         )}
                     </Field>
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="bbuttons col-xs-12 col-sm-3 p-0" onClick={handlePrevSteps}>
-                    <a className="btpadrao">ANTERIOR</a>
-                </div>
-                <div className="bbuttons col-xs-12 col-sm-3 p-0" onClick={() => handleNextSteps(formikProps)}>
-                    <a className="btpadrao">PRÓXIMO</a>
                 </div>
             </div>
         </div>

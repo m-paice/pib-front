@@ -10,11 +10,9 @@ import Select from "../../../components/Fields/Select";
 // data banks
 import options from "../../../data/banks.json";
 
-interface Props {
-    handlePrevSteps(): void;
-}
+interface Props {}
 
-const Step1: React.FC<Props> = ({ handlePrevSteps }) => {
+const Step1: React.FC<Props> = ({}) => {
     return (
         <div className="page">
             <div>
@@ -166,17 +164,6 @@ const Step1: React.FC<Props> = ({ handlePrevSteps }) => {
                     <label htmlFor="receiveTips" className="tex">
                         Gostaria de receber dicas e oportunidades da Newco
                     </label>
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="bbuttons col-xs-12 col-sm-3 p-0" onClick={handlePrevSteps}>
-                    <a className="btpadrao">ANTERIOR</a>
-                </div>
-                <div className="bbuttons col-xs-12 col-sm-3 p-0">
-                    <button type="submit" className="btpadrao">
-                        SALVAR
-                    </button>
                 </div>
             </div>
 

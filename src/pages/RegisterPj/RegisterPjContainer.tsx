@@ -3,16 +3,16 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // actions
-import { actions as actionsUser } from "../../store/modules/users/actions";
+import { actions } from "../../store/modules/users/actions";
 
 // selectors
 
-export const registerContainer = (Component: React.ElementType) => {
+export const Container = (Component: React.ElementType) => {
     const Container: React.FC = () => {
         const dispatch = useDispatch();
 
-        const handleCreateUser = (data) => {
-            dispatch(actionsUser.create({ ...data, document: "consumidor" }));
+        const handleCreate = (data) => {
+            dispatch(actions.create({ ...data, document: "lojista" }));
         };
 
         return (
@@ -20,7 +20,7 @@ export const registerContainer = (Component: React.ElementType) => {
                 payload={{
                     data: {},
                     actions: {
-                        create: handleCreateUser,
+                        create: handleCreate,
                     },
                 }}
             />

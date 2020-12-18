@@ -8,6 +8,7 @@ import history from "../utils/history";
 // layout
 import DashboardLayoutPf from "./DashboardLayoutPf";
 import DashboardLayoutPj from "./DashboardLayoutPj";
+import PublicLayout from "./PublicLayout";
 
 // pages
 import Panel from "../pages/Panel";
@@ -37,6 +38,10 @@ const Routes: React.FC = () => {
                 </Route>
                 <Route path="/login" component={Login} />
 
+                {/* views public */}
+                <PublicLayout exact path="/register" component={Register} />
+                <PublicLayout exact path="/registerpj" component={RegisterPj} />
+
                 {/* views pf */}
                 <DashboardLayoutPf exact path="/pf" component={Panel} />
                 <DashboardLayoutPf exact path="/debits" component={Debits} />
@@ -45,11 +50,9 @@ const Routes: React.FC = () => {
                 <DashboardLayoutPf exact path="/help" component={Help} />
                 <DashboardLayoutPf exact path="/profile" component={Profile} />
                 <DashboardLayoutPf exact path="/contact" component={Contact} />
-                <DashboardLayoutPf exact path="/register" component={Register} />
 
                 {/** views pj */}
                 <DashboardLayoutPj exact path="/pj" component={Balance} />
-                <DashboardLayoutPj exact path="/registerpj" component={RegisterPj} />
                 <DashboardLayoutPj exact path="/debitorBase" component={DebtorBase} />
                 <DashboardLayoutPj exact path="/ruleNegociation" component={RuleNegociation} />
                 <DashboardLayoutPj exact path="/financialReport" component={FinancialReport} />

@@ -14,13 +14,20 @@ export interface Auth {
 }
 
 export interface User {
-    id: string | number;
-    name: string;
+    id: string;
+    senha: string;
+    nome: string;
+    nascimento: string;
     email: string;
+    celular: string;
+    login: string;
+    ativo: boolean;
+    updatedAt: Date;
+    createdAt: Date;
+    pessoais: null;
+    termos: null;
+    token: null;
     document: string;
-    type: string;
-    createdAt: Date | null;
-    updatedAt: Date | null;
 }
 
 export interface StateAuth {
