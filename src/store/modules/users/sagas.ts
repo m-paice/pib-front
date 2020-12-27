@@ -1,7 +1,8 @@
-import { put, call } from "redux-saga/effects";
+import { put, call, take } from "redux-saga/effects";
 
 import { types } from "./types";
 import { types as typesAuth } from "../auth/types";
+import { types as typesDebt } from "../pf/debt/types";
 
 import history from "../../../utils/history";
 
@@ -72,9 +73,16 @@ function* create(action) {
             },
         });
 
+        yield (api.defaults.headers["Authorization"] = `Bearer ${response.data.token}`);
+
         const typeUserAuthenticated = yield response.data.document;
 
         // TODO: load actions for user
+
+        if (typeUserAuthenticated === "pf") {
+            yield put({ type: typesDebt.LOAD_DEBT });
+            yield take(typesDebt.LOAD_DEBT_SUCCESS);
+        }
 
         yield history.push("/" + typeUserAuthenticated);
 

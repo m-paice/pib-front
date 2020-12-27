@@ -4,10 +4,29 @@ import { Company } from "../../../store/modules/pj/company/types";
 
 type Props = Company;
 
+const address = {
+    street: "",
+    number: "",
+    neighborhood: "",
+    zipcode: "",
+    city: "",
+    uf: "",
+};
+const bank = {
+    name: "",
+    agency: "",
+    account: "",
+    digit: "",
+};
+const phoneNumbers = {
+    ddd: "",
+    number: "",
+};
+const email = "";
+
 const MoreInfo: React.FC<Props> = (props) => {
-    const { address, email, phoneNumbers, cnpj, bank } = props;
-    const [addressMain] = address;
-    const [phoneNumbersMain] = phoneNumbers;
+    console.log("props: ", props);
+    const { cnpj } = props;
 
     return (
         <div className="p-3">
@@ -36,15 +55,15 @@ const MoreInfo: React.FC<Props> = (props) => {
                 <div className="col-md-6 text-left">
                     <b>Informações do credor</b> <br />
                     <b>CNPJ:</b> {cnpj} <br />
-                    <b>Endereço:</b> {addressMain.street} nº {addressMain.number} Bairro {addressMain.neighborhood}
+                    <b>Endereço:</b> {address.street} nº {address.number} Bairro {address.neighborhood}
                 </div>
                 <div className="col-md-3 text-left">
                     <b>Email:</b> {email} <br />
-                    <b>Cidade:</b> {addressMain.city} - <b>CEP</b>: {addressMain.zipcode}
+                    <b>Cidade:</b> {address.city} - <b>CEP</b>: {address.zipcode}
                 </div>
                 <div className="col-md-3 text-left">
-                    <b>Telefone:</b> ({phoneNumbersMain.ddd}) {phoneNumbersMain.number} <br />
-                    <b>UF:</b> {addressMain.uf}
+                    <b>Telefone:</b> ({phoneNumbers.ddd}) {phoneNumbers.number} <br />
+                    <b>UF:</b> {address.uf}
                 </div>
             </div>
         </div>

@@ -3,25 +3,39 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-// actions
-import { actions as actionsAuth } from "../../store/modules/auth/actions";
+import { loginContainer } from "./LoginContainer";
 
-interface Props {}
+interface Props {
+    payload: {
+        data: {};
+        actions: {
+            login(data): void;
+        };
+    };
+}
 
-const Login: React.FC<Props> = (props) => {
-    const dispatch = useDispatch();
+const Login: React.FC<Props> = ({ payload }) => {
+    const { actions } = payload;
+    const { login } = actions;
+
     const history = useHistory();
 
     const [document, setDocument] = useState("460.328.018-10");
+    const [password, setPassword] = useState("");
 
-    const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeInputLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDocument(event.target.value);
     };
+    const handleChangeInputPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
+    };
 
-    const handleClick = () => {
-        if (!document.length || !document) return;
+    const handleClick = (event: React.FormEvent) => {
+        event.preventDefault();
 
-        dispatch(actionsAuth.login({ document }));
+        if (!document.length || !password.length) return;
+
+        login({ login: document, senha: password });
     };
 
     return (
@@ -45,14 +59,24 @@ const Login: React.FC<Props> = (props) => {
                     justifyContent: "center",
                 }}
             >
-                <input
-                    value={document}
-                    onChange={handleChangeInput}
-                    placeholder="type a document..."
-                    style={{ marginBottom: 20 }}
-                />
+                <form onSubmit={handleClick} autoComplete="off">
+                    <input
+                        value={document}
+                        onChange={handleChangeInputLogin}
+                        placeholder="type a document..."
+                        style={{ marginBottom: 20 }}
+                    />
+                    <br />
+                    <input
+                        value={password}
+                        type="password"
+                        onChange={handleChangeInputPassword}
+                        placeholder="type a document..."
+                        style={{ marginBottom: 20 }}
+                    />
 
-                <button onClick={handleClick}> Entrar </button>
+                    <button type="submit"> Entrar </button>
+                </form>
             </div>
             <button style={{ maxWidth: 200, margin: "15px 0" }} onClick={() => history.push("/register")}>
                 {" "}
@@ -66,4 +90,4 @@ const Login: React.FC<Props> = (props) => {
     );
 };
 
-export default Login;
+export default loginContainer(Login);

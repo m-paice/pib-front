@@ -49,8 +49,8 @@ export default function* () {
         takeLatest(typesPjDebtors.LOAD_DEBTOR, debtorPjSagas.loadDebtors),
 
         // init services
+        takeLatest("persist/REHYDRATE", authSagas.reLogin),
         takeLatest("persist/REHYDRATE", debtPfSagas.loadDebt),
-        takeLatest("persist/REHYDRATE", negociationPjSagas.loadNegociation),
 
         // init services for authenticated
         takeLatest(typesAuth.AUTH_LOGIN_SUCCESS, companyPjSagas.loadCompanies),

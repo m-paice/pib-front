@@ -33,23 +33,42 @@ export interface Details {
     next: number;
 }
 
+export interface Consumer {
+    id: string;
+    cpf: string;
+    usuarioId: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface Shookeeper {
+    id: string;
+    usuarioId: string;
+    cnpj: string;
+    dataFundacao: string;
+    fantasia: string;
+    inscricaoEstadual: string;
+    inscricaoMunicipal: string;
+    razaoSocial: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export interface Debt {
     id: string;
-    situation: number;
-    dateRegister: Date;
-    dateNegociation: Date | null;
-    maturities: Date;
-    debt: number;
-    negociation: number;
-    receipt: number;
-    late: number;
-    payment: number;
-    companyId: string;
-    userId: string;
-    company: Company[];
-    detailsPortion: Details[];
-    createdAt: Date | null;
-    updatedAt: Date | null;
+    consumidorId: string;
+    lojistaId: string;
+    consumidor: Consumer;
+    lojista: Shookeeper;
+    contrato: string;
+    inclusao: string;
+    seqdiv: string;
+    status: string;
+    tipoDoc: string;
+    valor: string;
+    vencimento: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface ById {

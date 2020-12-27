@@ -44,16 +44,16 @@ export interface Bank {
 }
 
 export interface Company {
-    id: string;
-    name: string;
     cnpj: string;
-    email: string;
-    type: string;
-    address: Address[];
-    phoneNumbers: PhoneNumber[];
-    bank: Bank;
-    createdAt: Date | null;
-    updatedAt: Date | null;
+    createdAt: string;
+    dataFundacao: string;
+    fantasia: string;
+    id: string;
+    inscricaoEstadual: string;
+    inscricaoMunicipal: string;
+    razaoSocial: string;
+    updatedAt: string;
+    usuarioId: string;
 }
 
 export interface ById {

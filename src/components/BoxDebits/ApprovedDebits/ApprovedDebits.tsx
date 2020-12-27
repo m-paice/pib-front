@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Plus, Dash } from "react-bootstrap-icons";
 
 import { Debt } from "../../../store/modules/pf/debt/types";
+import { status as statusSituation } from "../../../store/modules/pf/debt/selectors";
 
 // components
 import MoreInfo from "../MoreInfo";
@@ -49,7 +50,7 @@ const ApprovedDebits: React.FC<Props> = (props) => {
 
     // check status of debits
     const handleCheckStatus = (): handleCheckStatusReturn => {
-        const { situation } = props;
+        const { status } = props;
 
         const renderStatus = {
             1: {
@@ -67,12 +68,10 @@ const ApprovedDebits: React.FC<Props> = (props) => {
             },
         };
 
-        return renderStatus[String(situation)];
+        return renderStatus[statusSituation[status]];
     };
 
-    const { id, company, maturities, dateRegister, detailsPortion, payment } = props;
-
-    const [companyMain] = company;
+    const { id, lojista, inclusao } = props;
 
     return (
         <div className="cada debito ativo">
@@ -87,12 +86,12 @@ const ApprovedDebits: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-3 c colBorder">
-                    <span className="labelDebito text-left p-left">{companyMain.name}</span>
+                    <span className="labelDebito text-left p-left">{lojista.fantasia}</span>
                 </div>
 
                 <div className="col-md-6 c nobri">
                     <span className="labelDebito text-center hidden-xs">
-                        Já negociada em {formatDate(dateRegister)}
+                        Já negociada em {formatDate(new Date(inclusao))}
                     </span>
                 </div>
                 <div className="col-md-2 cb">
@@ -105,8 +104,8 @@ const ApprovedDebits: React.FC<Props> = (props) => {
                 </div>
             </div>
 
-            {info && <MoreInfo {...companyMain} />}
-            {negociation && <Details payment={payment} detailsPortion={detailsPortion} />}
+            {info && <MoreInfo {...lojista} />}
+            {negociation && <Details payment={1} detailsPortion={[]} />}
         </div>
     );
 };

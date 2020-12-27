@@ -1,10 +1,11 @@
-import { put, take, call } from "redux-saga/effects";
+import { put, take, call, select } from "redux-saga/effects";
 
 import { types } from "./types";
-import { types as typesPfDebits } from "../pf/debt/types";
-import { types as typesPjDebtor } from "../pj/debtor/types";
+import { types as typesDebt } from "../pf/debt/types";
 
 import history from "../../../utils/history";
+
+import { tokenAuthenticated } from "./selectors";
 
 import api from "../../../service/api";
 
@@ -22,18 +23,16 @@ function* login(action) {
             },
         });
 
-        const typeUserAuthenticated = response.data.user;
+        yield (api.defaults.headers["Authorization"] = `Bearer ${response.data.token}`);
 
-        // if (typeUserAuthenticated === "pf") {
-        //     yield put({ type: typesPfDebits.LOAD_DEBT });
-        //     yield take(typesPfDebits.LOAD_DEBT_SUCCESS);
-        // }
-        // if (typeUserAuthenticated === "pj") {
-        //     yield put({ type: typesPjDebtor.LOAD_DEBTOR });
-        //     yield take(typesPjDebtor.LOAD_DEBTOR_SUCCESS);
-        // }
+        const typeUserAuthenticated = yield response.data.document;
 
-        // history.push("/" + typeUserAuthenticated);
+        if (typeUserAuthenticated === "pf") {
+            yield put({ type: typesDebt.LOAD_DEBT });
+            yield take(typesDebt.LOAD_DEBT_SUCCESS);
+        }
+
+        yield history.push("/" + typeUserAuthenticated);
     } catch (error) {
         yield put({ type: types.AUTH_LOGIN_FAILURE });
     }
@@ -49,7 +48,16 @@ function* logout() {
     }
 }
 
+function* reLogin() {
+    const token = yield select(tokenAuthenticated);
+
+    if (token) yield (api.defaults.headers["Authorization"] = `Bearer ${token}`);
+
+    if (!token) yield history.push("/");
+}
+
 export default {
     login,
     logout,
+    reLogin,
 };

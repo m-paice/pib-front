@@ -8,7 +8,7 @@ interface Result {
 }
 
 interface Actions {
-    login(data: { document: string }): Result;
+    login(data: { login: string; senha: string }): Result;
     logout(): Result;
 }
 

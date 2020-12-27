@@ -13,6 +13,8 @@ import MoreInfo from "../MoreInfo";
 import formatDate from "../../../utils/formatDate";
 import formatPrice from "../../../utils/formatPrice";
 
+import { status as statusSituation } from "../../../store/modules/pf/debt/selectors";
+
 type Props = Debt;
 
 interface State {
@@ -22,7 +24,7 @@ interface State {
 }
 
 const DeniedDebts: React.FC<Props> = (props) => {
-    const { id, company, maturities, debt, dateRegister, situation } = props;
+    const { id, lojista, inclusao, valor, status, vencimento } = props;
 
     const [state, setState] = useState<State>({
         info: false,
@@ -35,10 +37,12 @@ const DeniedDebts: React.FC<Props> = (props) => {
     const { info, negociation } = state;
 
     useEffect(() => {
-        const handleDayNumber = (date: Date) => Number(String(formatDate(date)).split("/")[0]);
+        const handleDayNumber = (date: Date) => {
+            return Number(String(formatDate(date)).split("/")[0]);
+        };
 
         const currentMonth = new Date();
-        const registerMonth = new Date(dateRegister);
+        const registerMonth = new Date(); // TODO: adicinar inclusao
 
         const amountMonthNumber = differenceInCalendarMonths(currentMonth, registerMonth);
 
@@ -63,8 +67,6 @@ const DeniedDebts: React.FC<Props> = (props) => {
         }));
     };
 
-    const [companyMain] = company;
-
     return (
         <div className="cada debito">
             <div className="row rowCenter">
@@ -78,7 +80,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-2">
-                    <span className="labelDebito text-left">{companyMain.name}</span>
+                    <span className="labelDebito text-left">{lojista.fantasia}</span>
                 </div>
                 <div className="col-md-7 d-flex justify-content-between">
                     <div style={{ width: 75 }}>
@@ -88,7 +90,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                                 <span className="glyphicon glyphicon-question-sign ml-1"></span>
                             </div>
                         </div>
-                        <div className="txt-12 m-0 font-weight-bold">{companyMain.type}</div>
+                        <div className="txt-12 m-0 font-weight-bold"> EMPRESA </div>
                     </div>
                     <div className="div c"></div>
                     <div>
@@ -98,7 +100,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                                 <span className="glyphicon glyphicon-question-sign ml-1"></span>
                             </div>
                         </div>
-                        {/* <div className="txt-12 m-0 font-weight-bold">{formatDate(maturities)}</div> */}
+                        <div className="txt-12 m-0 font-weight-bold"> {formatDate(new Date(vencimento))}</div>
                     </div>
                     <div className="div c"></div>
                     <div>
@@ -113,7 +115,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                                 <span className="glyphicon glyphicon-question-sign ml-1"></span>
                             </div>
                         </div>
-                        <div className="txt-12 m-0 font-weight-bold">R$ {formatPrice(debt)}</div>
+                        <div className="txt-12 m-0 font-weight-bold">R$ {formatPrice(Number(valor))}</div>
                     </div>
                     <div className="div c"></div>
                     <div>
@@ -123,11 +125,11 @@ const DeniedDebts: React.FC<Props> = (props) => {
                                 <span className="glyphicon glyphicon-question-sign ml-1"></span>
                             </div>
                         </div>
-                        <div className="txt-12 m-0 font-weight-bold">01/01/2020</div>
+                        <div className="txt-12 m-0 font-weight-bold">{formatDate(new Date(inclusao))}</div>
                     </div>
                 </div>
                 <div className=" col-md-2 cb ">
-                    {situation === -1 ? (
+                    {statusSituation[status] === -1 ? (
                         <a onClick={() => handleSetState("info", !info)} className="btneg gray btn">
                             Contate o credor
                         </a>
@@ -139,9 +141,9 @@ const DeniedDebts: React.FC<Props> = (props) => {
                 </div>
             </div>
 
-            {negociation && <Negociation debit={debt} monthForRule={amountMonth} />}
+            {negociation && <Negociation debit={Number(valor)} monthForRule={amountMonth} />}
 
-            {info && <MoreInfo {...companyMain} />}
+            {info && <MoreInfo {...lojista} />}
         </div>
     );
 };
