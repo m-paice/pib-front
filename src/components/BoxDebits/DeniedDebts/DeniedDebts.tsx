@@ -80,7 +80,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-2">
-                    <span className="labelDebito text-left">{lojista.fantasia}</span>
+                    <span className="labelDebito text-left">{lojista.razaoSocial}</span>
                 </div>
                 <div className="col-md-7 d-flex justify-content-between">
                     <div style={{ width: 75 }}>
@@ -115,7 +115,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                                 <span className="glyphicon glyphicon-question-sign ml-1"></span>
                             </div>
                         </div>
-                        <div className="txt-12 m-0 font-weight-bold">R$ {formatPrice(Number(valor))}</div>
+                        <div className="txt-12 m-0 font-weight-bold">{formatPrice(Number(valor))}</div>
                     </div>
                     <div className="div c"></div>
                     <div>

@@ -4,6 +4,8 @@ import { Formik, Form, Field, FieldProps } from "formik";
 import * as Yup from "yup";
 import InputMask from "react-input-mask";
 
+import { profileContainer } from "./ProfileContainer";
+
 import IconeError from "../../assets/imagens/icone-erro.png";
 
 interface FormValues {
@@ -41,11 +43,11 @@ const SignupSchema = Yup.object().shape({
 });
 
 const initialValues: FormValues = {
-    firstName: "Matheus",
-    lastName: "Paice",
+    firstName: "",
+    lastName: "",
     birthDate: "",
-    email: "matheus.paice@gmail.com",
-    phone: "(14) 99802-2422",
+    email: "",
+    phone: "",
     zipcode: "",
     type: "",
     address: "",
@@ -60,7 +62,18 @@ const initialValues: FormValues = {
     receiveTips: true,
 };
 
-const Profile: React.FC = () => {
+interface Props {
+    payload: {
+        data: {
+            user: any;
+        };
+    };
+}
+
+const Profile: React.FC<Props> = ({ payload }) => {
+    const { data } = payload;
+    const { user } = data;
+
     const [submitSuccess, setSubmitSuccess] = useState(false);
 
     // only for animation. code temporary.
@@ -79,9 +92,23 @@ const Profile: React.FC = () => {
         setSubmitSuccess(true);
     }, []);
 
+    const [firstName] = user.nome.split(" ");
+    const lastName = user.nome.replace(firstName, "").trim();
+
     return (
         <div className="container meu-cadastro">
-            <Formik initialValues={initialValues} validationSchema={SignupSchema} onSubmit={handleSubmit}>
+            <Formik
+                initialValues={{
+                    ...initialValues,
+                    firstName,
+                    lastName,
+                    birthDate: user.nascimento,
+                    email: user.email,
+                    phone: user.celular,
+                }}
+                validationSchema={SignupSchema}
+                onSubmit={handleSubmit}
+            >
                 {(formikBag) => (
                     <Form>
                         <div className="row mb-4">
@@ -116,7 +143,12 @@ const Profile: React.FC = () => {
                                 <Field name="lastName">
                                     {(props: FieldProps) => (
                                         <div>
-                                            <Input placeholder="Sobrenome" className="form-control" {...props.field} />
+                                            <Input
+                                                placeholder="Sobrenome"
+                                                className="form-control"
+                                                disabled
+                                                {...props.field}
+                                            />
                                             <span className="erro">
                                                 {props.meta.touched && props.meta.error && props.meta.error}
                                             </span>
@@ -131,11 +163,12 @@ const Profile: React.FC = () => {
                                 <Field name="birthDate">
                                     {(props: FieldProps) => (
                                         <div>
-                                            <InputMask mask="99/99/9999" {...props.field}>
+                                            <InputMask mask="99/99/9999" disabled {...props.field}>
                                                 {() => (
                                                     <Input
                                                         placeholder="Data de Nascimento"
                                                         className="data-nascimento form-control"
+                                                        disabled
                                                         {...props.field}
                                                     />
                                                 )}
@@ -428,4 +461,4 @@ const Profile: React.FC = () => {
     );
 };
 
-export default Profile;
+export default profileContainer(Profile);
