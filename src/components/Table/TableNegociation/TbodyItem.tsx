@@ -167,7 +167,7 @@ interface ErrorsState {
 }
 
 const TbodyItem: React.FC<Props> = (props) => {
-    const { id, yaerDebit, interest, discount, maxPortion, attenuator, trafficTicket, readjustment } = props;
+    const { id, idadeDivida, juros, desconto, maximoParcela, atenuador, assessoria, reajuste } = props;
 
     const dispatch = useDispatch();
 
@@ -176,29 +176,20 @@ const TbodyItem: React.FC<Props> = (props) => {
     const [confirmEdit, setConfirmEdit] = useState(false);
     const [errors, setErrors] = useState<ErrorsState>({} as ErrorsState);
 
-    const [values, setValues] = useState<Negociation>({
-        id,
-        yaerDebit,
-        interest,
-        discount,
-        maxPortion,
-        attenuator,
-        trafficTicket,
-        readjustment,
-    });
+    const [values, setValues] = useState<Negociation>({} as Negociation);
 
     /** toggle edit and reset values */
     const handleToggleEdit = () => {
         setEdit(!edit);
         setErrors({});
-        setValues({ id, yaerDebit, interest, discount, maxPortion, attenuator, trafficTicket, readjustment });
+        setValues({ id, idadeDivida, juros, desconto, maximoParcela, atenuador, assessoria, reajuste });
     };
 
     const handleToggleSimulator = () => {
         setSimulator(!simulator);
     };
 
-    const handleFormatYaerDebit = (amountMonth: number | string): string =>
+    const handleFormatidadeDivida = (amountMonth: number | string): string =>
         amountMonth === 1 ? `${amountMonth} mês` : `${amountMonth} meses`;
 
     /** set values */
@@ -223,24 +214,24 @@ const TbodyItem: React.FC<Props> = (props) => {
     /** check validations and edit */
     const handleSave = () => {
         /** always whole numbersery  */
-        if (Number(values.discount) % 1 !== 0) {
-            values.discount = String(Math.floor(Number(values.discount)));
+        if (values.desconto % 1 !== 0) {
+            values.desconto = Math.floor(Number(values.desconto));
         }
 
-        /** trafficTicket max 2% */
-        if (Number(values.trafficTicket) > 2) {
-            handleSetErrors(values.trafficTicket, "O percentual máximo para cobrança de multa é de 2,0%");
+        /** assessoria max 2% */
+        if (Number(values.assessoria) > 2) {
+            handleSetErrors(values.assessoria, "O percentual máximo para cobrança de multa é de 2,0%");
             return false;
         }
 
-        /** discount max 99% */
-        if (Number(values.discount) > 99) {
-            handleSetErrors(values.discount, "O percentual máximo para desconto é de 99%");
+        /** desconto max 99% */
+        if (values.desconto > 99) {
+            handleSetErrors(String(values.desconto), "O percentual máximo para desconto é de 99%");
             return false;
         }
 
         /** confirmEdit */
-        if (values.maxPortion > 12) {
+        if (values.maximoParcela > 12) {
             setConfirmEdit(true);
             return false;
         }
@@ -271,17 +262,17 @@ const TbodyItem: React.FC<Props> = (props) => {
         return (
             <>
                 <tr className="itemListaRegras">
-                    <Item text={handleFormatYaerDebit(yaerDebit)} errors={handleCheckError()} />
-                    <Item text={interest} errors={handleCheckError()} />
+                    <Item text={handleFormatidadeDivida(idadeDivida)} errors={handleCheckError()} />
+                    <Item text={juros} errors={handleCheckError()} />
                     <InputEdit
-                        name="discount"
-                        initialValue={values.discount}
+                        name="desconto"
+                        initialValue={values.desconto}
                         handleSetValues={handleSetValues}
                         errors={handleCheckError()}
                     />
                     <InputEdit
-                        name="maxPortion"
-                        initialValue={values.maxPortion}
+                        name="maximoParcela"
+                        initialValue={values.maximoParcela}
                         handleSetValues={handleSetValues}
                         options={Array.from({ length: 24 }).map((_, index) => ({
                             name: String(index + 1),
@@ -289,9 +280,9 @@ const TbodyItem: React.FC<Props> = (props) => {
                         }))}
                         errors={handleCheckError()}
                     />
-                    {/* <Item text={attenuator} errors={handleCheckError()} /> */}
-                    <Item text={trafficTicket} errors={handleCheckError()} />
-                    <Item text={readjustment} errors={handleCheckError()} />
+                    {/* <Item text={atenuador} errors={handleCheckError()} /> */}
+                    <Item text={assessoria} errors={handleCheckError()} />
+                    <Item text={reajuste} errors={handleCheckError()} />
                     <ActionsEdit
                         handleToggleEdit={handleToggleEdit}
                         handleSave={handleSave}
@@ -314,7 +305,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                     <SweetAlert
                         title={
                             <div className="txt-sweet-alert">
-                                Tem certeza que deseja <br /> permitir o parcelamento em {values.maxPortion}X ?
+                                Tem certeza que deseja <br /> permitir o parcelamento em {values.maximoParcela}X ?
                             </div>
                         }
                         style={{
@@ -336,13 +327,13 @@ const TbodyItem: React.FC<Props> = (props) => {
 
     return (
         <tr className="itemListaRegras">
-            <Item text={handleFormatYaerDebit(yaerDebit)} />
-            <Item text={`${Number(interest).toFixed(1)}%`} />
-            <Item text={`${discount}%`} />
-            <Item text={maxPortion} />
-            {/* <Item text={`${Number(attenuator).toFixed(1)}%`} /> */}
-            <Item text={`${Number(trafficTicket).toFixed(1)}%`} />
-            <Item text={`${Number(readjustment).toFixed(1)}%`} />
+            <Item text={handleFormatidadeDivida(idadeDivida)} />
+            <Item text={`${Number(juros).toFixed(1)}%`} />
+            <Item text={`${desconto}%`} />
+            <Item text={maximoParcela} />
+            {/* <Item text={`${Number(atenuador).toFixed(1)}%`} /> */}
+            <Item text={`${Number(assessoria).toFixed(1)}%`} />
+            <Item text={`${Number(reajuste).toFixed(1)}%`} />
             <Actions handleToggleEdit={handleToggleEdit} handleToggleSimulator={handleToggleSimulator} />
 
             {simulator && (
@@ -350,7 +341,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                     {...props}
                     isOpen={simulator}
                     onClose={handleToggleSimulator}
-                    yaerDebit={handleFormatYaerDebit(yaerDebit)}
+                    idadeDividaFormatado={handleFormatidadeDivida(idadeDivida)}
                 />
             )}
         </tr>

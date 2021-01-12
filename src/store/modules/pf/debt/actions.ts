@@ -9,9 +9,9 @@ export interface ResultAction {
 
 interface Actions {
     loadDebt(): ResultAction;
-    addDebt(data: Partial<Debt>): ResultAction;
+    addDebt(data): ResultAction;
     removeDebt(id: string): ResultAction;
-    updateDebt(id: string, data: any): ResultAction;
+    updateDebt(id: string, data): ResultAction;
 }
 
 export const actions: Actions = {

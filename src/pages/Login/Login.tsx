@@ -1,9 +1,23 @@
 import React, { useState } from "react";
 
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import InputMask from "react-input-mask";
+import { Formik, Form, Field, FieldProps, FormikProps } from "formik";
+
+// components
+import Input from "../../components/Fields/Input";
 
 import { loginContainer } from "./LoginContainer";
+
+interface FormValues {
+    login: string;
+    password: string;
+}
+
+const initialValues: FormValues = {
+    login: "",
+    password: "",
+};
 
 interface Props {
     payload: {
@@ -18,74 +32,116 @@ const Login: React.FC<Props> = ({ payload }) => {
     const { actions } = payload;
     const { login } = actions;
 
-    const history = useHistory();
+    const handleSubmit = (values: FormValues) => {
+        if (!values.login.length || !values.password.length) return;
 
-    const [document, setDocument] = useState("460.328.018-10");
-    const [password, setPassword] = useState("");
-
-    const handleChangeInputLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDocument(event.target.value);
-    };
-    const handleChangeInputPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
-    };
-
-    const handleClick = (event: React.FormEvent) => {
-        event.preventDefault();
-
-        if (!document.length || !password.length) return;
-
-        login({ login: document, senha: password });
+        login({ login: values.login.replace("_", ""), senha: values.password });
     };
 
     return (
-        <div
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "100%",
-                height: "100vh",
-            }}
-        >
-            <div
-                style={{
-                    width: "100%",
-                    maxWidth: 500,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <form onSubmit={handleClick} autoComplete="off">
-                    <input
-                        value={document}
-                        onChange={handleChangeInputLogin}
-                        placeholder="type a document..."
-                        style={{ marginBottom: 20 }}
-                    />
-                    <br />
-                    <input
-                        value={password}
-                        type="password"
-                        onChange={handleChangeInputPassword}
-                        placeholder="type a document..."
-                        style={{ marginBottom: 20 }}
-                    />
+        <div>
+            <header id="masthead" className="site-header limita" role="banner" data-parallax="scroll">
+                <div className="site-header-wrap">
+                    <div className="site-branding" style={{ height: 194 }}>
+                        <div className="row container">
+                            <div className="col-xs-12 col-sm-2">
+                                <div className="site-logo">{/* <img src={Logo} /> */}</div>
+                            </div>
 
-                    <button type="submit"> Entrar </button>
-                </form>
-            </div>
-            <button style={{ maxWidth: 200, margin: "15px 0" }} onClick={() => history.push("/register")}>
-                {" "}
-                Cadastro Consumidor{" "}
-            </button>
-            <button style={{ maxWidth: 200, margin: "15px 0" }} onClick={() => history.push("/registerpj")}>
-                {" "}
-                Cadastro Lojista{" "}
-            </button>
+                            <div className="col-xs-12 col-sm-10 bxmenu">
+                                <nav
+                                    id="site-navigation"
+                                    className="main-navigation"
+                                    role="navigation"
+                                    style={{ display: "flex" }}
+                                >
+                                    <ul style={{ width: "100%" }}>
+                                        <li>CONSUMIDORES</li>
+                                        <li>QUEM SOMOS</li>
+                                        <li>CADASTRE-SE</li>
+                                    </ul>
+                                    <div>
+                                        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+                                            {(formikProps: FormikProps<FormValues>) => (
+                                                <Form>
+                                                    <div className="form-group ">
+                                                        <Field name="login">
+                                                            {(props: FieldProps) => (
+                                                                <div>
+                                                                    {props.field.value.replace(/\D/g, "").length >
+                                                                    11 ? (
+                                                                        <InputMask
+                                                                            mask="99.999.999/9999-99"
+                                                                            {...props.field}
+                                                                        >
+                                                                            {() => (
+                                                                                <Input
+                                                                                    placeholder="CPF ou CNPJ"
+                                                                                    className="form-control"
+                                                                                    {...props.field}
+                                                                                />
+                                                                            )}
+                                                                        </InputMask>
+                                                                    ) : (
+                                                                        <InputMask
+                                                                            mask="999.999.999-99*"
+                                                                            {...props.field}
+                                                                        >
+                                                                            {() => (
+                                                                                <Input
+                                                                                    placeholder="CPF ou CNPJ"
+                                                                                    className="form-control"
+                                                                                    {...props.field}
+                                                                                />
+                                                                            )}
+                                                                        </InputMask>
+                                                                    )}
+                                                                    <span className="erro">
+                                                                        {props.meta.touched &&
+                                                                            props.meta.error &&
+                                                                            props.meta.error}
+                                                                    </span>
+                                                                </div>
+                                                            )}
+                                                        </Field>
+                                                    </div>
+
+                                                    {(formikProps.values.login.replace(/\D/g, "").length === 11 ||
+                                                        formikProps.values.login.replace(/\D/g, "").length === 14) && (
+                                                        <div>
+                                                            <Field name="password">
+                                                                {(props: FieldProps) => (
+                                                                    <div>
+                                                                        <Input
+                                                                            placeholder="Senha"
+                                                                            type="password"
+                                                                            className="form-control"
+                                                                            {...props.field}
+                                                                        />
+                                                                        <span className="erro">
+                                                                            {props.meta.touched &&
+                                                                                props.meta.error &&
+                                                                                props.meta.error}
+                                                                        </span>
+                                                                    </div>
+                                                                )}
+                                                            </Field>
+
+                                                            <button className="btpadrao" type="submit">
+                                                                Entrar
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </Form>
+                                            )}
+                                        </Formik>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
         </div>
     );
 };

@@ -1,11 +1,6 @@
 import { put, select, call } from "redux-saga/effects";
 
 import { types } from "./types";
-import { ResultAction } from "./actions";
-
-import { User } from "../../auth/types";
-
-import { userIdAuthenticated, userAuthenticated } from "../../auth/selectors";
 
 // api
 import api from "../../../../service/api";
@@ -14,7 +9,7 @@ function* loadDebt() {
     try {
         const response = yield call(api.get, "/debito", {
             params: {
-                include: ["consumidor", "lojista"],
+                include: ["consumidor", "lojista", "negociacao"],
             },
         });
 
@@ -29,16 +24,16 @@ function* loadDebt() {
     }
 }
 
-function* createDebt(action: ResultAction) {
-    const { type, payload } = action;
-
-    const userId = yield select(userIdAuthenticated);
+function* createDebt(action) {
+    const { payload } = action;
 
     try {
-        yield put({
-            type: types.ADD_DEBT_SUCCESS,
-            payload: [],
-        });
+        const response = yield call(api.post, "/negociacao", payload);
+
+        // yield put({
+        //     type: types.ADD_DEBT_SUCCESS,
+        //     payload: [],
+        // });
     } catch (error) {
         yield put({ type: types.ADD_DEBT_FAILURE });
     }

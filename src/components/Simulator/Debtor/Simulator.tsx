@@ -34,7 +34,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, debt }) => 
     const negociation = useSelector((state: ApplicationState) => negociationByMonth(state, monthForRule));
 
     useEffect(() => {
-        if (negociation) setOptions(Array.from({ length: negociation.maxPortion }).map((_, index) => index + 1));
+        if (negociation) setOptions(Array.from({ length: negociation.maximoParcela }).map((_, index) => index + 1));
     }, [negociation]);
 
     const handleCalculateValue = () => {
@@ -89,7 +89,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, debt }) => 
                                 className="form-control inputModal"
                                 title="Tempo de vida da dívida"
                                 style={stylesPrimary}
-                                value={`${negociation.yaerDebit} meses`}
+                                value={`${negociation.idadeDivida} meses`}
                                 disabled
                             />
                         </div>
@@ -114,7 +114,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, debt }) => 
                                 className="form-control inputModal"
                                 title="Desconto concedido"
                                 style={stylesPrimary}
-                                value={`${negociation.discount}%`}
+                                value={`${negociation.desconto}%`}
                                 disabled
                             />
                         </div>

@@ -15,6 +15,8 @@ interface FormValues {
     emailConfirm: string;
     password: string;
     passwordConfirm: string;
+    terms: boolean;
+    receiveTips: boolean;
 }
 
 // components
@@ -36,6 +38,7 @@ const SignupSchema = Yup.object().shape({
     passwordConfirm: Yup.string()
         .required("obrigatório")
         .oneOf([Yup.ref("password")], "as senhas devem corresponder"),
+    terms: Yup.bool().oneOf([true], "os termos e condições são obrigatórios"),
 });
 
 const initialValues: FormValues = {
@@ -47,6 +50,8 @@ const initialValues: FormValues = {
     emailConfirm: "",
     password: "",
     passwordConfirm: "",
+    terms: false,
+    receiveTips: false,
 };
 
 interface Props {
@@ -236,16 +241,22 @@ const Register: React.FC<Props> = ({ payload }) => {
                                     <Field name="terms">
                                         {(props: FieldProps) => (
                                             <div>
-                                                <Input type="checkbox" {...props.field} checked={props.field.value} />
+                                                <div className="text ">
+                                                    <Input
+                                                        type="checkbox"
+                                                        className="mr-2"
+                                                        {...props.field}
+                                                        checked={props.field.value}
+                                                    />
+                                                    Li e concordo com o <i>Termo de Uso</i> e a{" "}
+                                                    <i>Política de Privacidade</i>
+                                                </div>
                                                 <span className="erro">
                                                     {props.meta.touched && props.meta.error && props.meta.error}
                                                 </span>
                                             </div>
                                         )}
                                     </Field>
-                                </div>
-                                <div className="text ml-2">
-                                    Li e concordo com o <i>Termo de Uso</i> e a <i>Política de Privacidade</i>
                                 </div>
                             </div>
                         </div>
@@ -256,7 +267,15 @@ const Register: React.FC<Props> = ({ payload }) => {
                                     <Field name="receiveTips">
                                         {(props: FieldProps) => (
                                             <div>
-                                                <Input type="checkbox" {...props.field} checked={props.field.value} />
+                                                <div className="text">
+                                                    <Input
+                                                        type="checkbox"
+                                                        className="mr-2"
+                                                        {...props.field}
+                                                        checked={props.field.value}
+                                                    />
+                                                    Gostaria de receber dicas e oportunidades da Credas
+                                                </div>
                                                 <span className="erro">
                                                     {props.meta.touched && props.meta.error && props.meta.error}
                                                 </span>
@@ -264,7 +283,6 @@ const Register: React.FC<Props> = ({ payload }) => {
                                         )}
                                     </Field>
                                 </div>
-                                <div className="text ml-2">Gostaria de receber dicas e oportunidades da Newco</div>
                             </div>
                         </div>
 

@@ -7,6 +7,7 @@ import { Negociation } from "../../../store/modules/pj/negociation/types";
 interface Props extends Negociation {
     isOpen: boolean;
     onClose(): void;
+    idadeDividaFormatado: string;
 }
 
 const stylesPrimary: React.CSSProperties = {
@@ -19,8 +20,15 @@ const stylesSecondary: React.CSSProperties = {
     color: "#14657b",
 };
 
-const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxPortion }) => {
-    const options = Array.from({ length: maxPortion }).map((_, index) => index + 1);
+const Simulator: React.FC<Props> = ({
+    isOpen,
+    onClose,
+    idadeDivida,
+    desconto,
+    maximoParcela,
+    idadeDividaFormatado,
+}) => {
+    const options = Array.from({ length: maximoParcela }).map((_, index) => index + 1);
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [totalPrice, setTotalPrice] = useState(754);
@@ -97,7 +105,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, yaerDebit, discount, maxP
                                 className="form-control inputModal"
                                 title="Tempo de vida da dívida"
                                 style={stylesPrimary}
-                                value={yaerDebit}
+                                value={idadeDividaFormatado}
                             />
                         </div>
                         <div className="col-sm-4 comp-modal">

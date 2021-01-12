@@ -27,11 +27,6 @@ function* login(action) {
 
         const typeUserAuthenticated = yield response.data.document;
 
-        if (typeUserAuthenticated === "pf") {
-            yield put({ type: typesDebt.LOAD_DEBT });
-            yield take(typesDebt.LOAD_DEBT_SUCCESS);
-        }
-
         yield history.push("/" + typeUserAuthenticated);
     } catch (error) {
         yield put({ type: types.AUTH_LOGIN_FAILURE });
@@ -52,8 +47,6 @@ function* reLogin() {
     const token = yield select(tokenAuthenticated);
 
     if (token) yield (api.defaults.headers["Authorization"] = `Bearer ${token}`);
-
-    if (!token) yield history.push("/");
 }
 
 export default {

@@ -42,7 +42,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
         };
 
         const currentMonth = new Date();
-        const registerMonth = new Date(); // TODO: adicinar inclusao
+        const registerMonth = new Date(inclusao); // TODO: adicinar inclusao
 
         const amountMonthNumber = differenceInCalendarMonths(currentMonth, registerMonth);
 
@@ -141,7 +141,9 @@ const DeniedDebts: React.FC<Props> = (props) => {
                 </div>
             </div>
 
-            {negociation && <Negociation debit={Number(valor)} monthForRule={amountMonth} />}
+            {negociation && (
+                <Negociation debit={Number(valor)} monthForRule={amountMonth} lojistaId={lojista.id} debitoId={id} />
+            )}
 
             {info && <MoreInfo {...lojista} />}
         </div>

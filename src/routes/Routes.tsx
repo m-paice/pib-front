@@ -36,7 +36,7 @@ const Routes: React.FC = () => {
                 <Route exact path="/">
                     <Redirect to="/login" />
                 </Route>
-                <Route path="/login" component={Login} />
+                <Route exact path="/login" component={Login} />
 
                 {/* views public */}
                 <PublicLayout exact path="/register" component={Register} />

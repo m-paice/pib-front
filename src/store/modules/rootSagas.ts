@@ -34,6 +34,7 @@ export default function* () {
         /** PF */
         // debt
         takeLatest(typesPfDebt.LOAD_DEBT, debtPfSagas.loadDebt),
+        takeLatest(typesPfDebt.ADD_DEBT, debtPfSagas.createDebt),
 
         /* PJ **/
         // company
@@ -50,7 +51,6 @@ export default function* () {
 
         // init services
         takeLatest("persist/REHYDRATE", authSagas.reLogin),
-        takeLatest("persist/REHYDRATE", debtPfSagas.loadDebt),
 
         // init services for authenticated
         takeLatest(typesAuth.AUTH_LOGIN_SUCCESS, companyPjSagas.loadCompanies),

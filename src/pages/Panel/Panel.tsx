@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import NoDebits from "../NoDebits";
 import Debits from "../Debits";
@@ -10,13 +10,20 @@ interface Props {
         data: {
             amountDebits: number;
         };
-        actions: object;
+        actions: {
+            loadDebits(): void;
+        };
     };
 }
 
 const Panel: React.FC<Props> = ({ payload }) => {
     const { data, actions } = payload;
+    const { loadDebits } = actions;
     const { amountDebits } = data;
+
+    useEffect(() => {
+        loadDebits();
+    }, []);
 
     if (amountDebits <= 0) return <NoDebits />;
 

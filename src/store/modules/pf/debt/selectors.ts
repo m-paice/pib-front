@@ -17,7 +17,7 @@ export const stateDebts = (state: ApplicationState) => getElements<Debt>(state.p
  */
 
 export const status = {
-    A: 0,
+    processing: 0,
     B: 1,
     C: 2,
     D: 3,

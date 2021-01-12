@@ -22,13 +22,16 @@ export enum types {
 
 export interface Negociation {
     id: string;
-    yaerDebit: number | string;
-    interest: string;
-    discount: string;
-    maxPortion: number;
-    attenuator: string;
-    trafficTicket: string;
-    readjustment: string;
+    assessoria: string;
+    atenuador: number;
+    desconto: number;
+    idadeDivida: number;
+    juros: number;
+    maximoParcela: number;
+    multa?: number;
+    reajuste: number;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 export interface ById {

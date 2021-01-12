@@ -15,5 +15,5 @@ export const dataNegociation = createSelector(stateNegociation, (negociations) =
 export const negociationByMonth = createSelector(
     stateNegociation,
     (_, month: number) => month,
-    (negociations, month) => negociations.find((negociation) => negociation.yaerDebit === month),
+    (negociations, month) => negociations.find((negociation) => negociation.idadeDivida === month),
 );

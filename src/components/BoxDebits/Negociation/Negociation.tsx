@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addDays } from "date-fns";
 
 import { ApplicationState } from "../../../store";
 
 // selectors
 import { negociationByMonth } from "../../../store/modules/pj/negociation/selectors";
+import { actions as actionsDebits } from "../../../store/modules/pf/debt/actions";
 
 // components
 import Billet from "./Billet";
@@ -26,6 +27,8 @@ const stylesErrosMessage: React.CSSProperties = {
 interface Props {
     debit: number;
     monthForRule: number;
+    lojistaId: string;
+    debitoId: string;
 }
 
 interface State {
@@ -38,14 +41,16 @@ interface State {
 }
 
 const Negociation: React.FC<Props> = (props) => {
-    const { debit, monthForRule } = props;
+    const { debit, monthForRule, lojistaId, debitoId } = props;
+
+    const dispatch = useDispatch();
 
     const [options, setOptions] = useState<number[]>([]);
 
     const negociation = useSelector((state: ApplicationState) => negociationByMonth(state, monthForRule));
 
     useEffect(() => {
-        if (negociation) setOptions(Array.from({ length: negociation.maxPortion }).map((_, index) => index + 1));
+        if (negociation) setOptions(Array.from({ length: negociation.maximoParcela }).map((_, index) => index + 1));
     }, [negociation]);
 
     const [state, setState] = useState<State>({
@@ -57,7 +62,12 @@ const Negociation: React.FC<Props> = (props) => {
         errors: {},
     });
 
-    console.log(state);
+    if (!negociation) {
+        return <p> nenhuma negociação encontrada para essa dívida (idade da dívida não encontrado) </p>;
+    }
+
+    const { payment, confirmWakeUp } = state;
+    const discount = (debit * negociation.desconto) / 100;
 
     const handleSetState = (key: string, value: string | boolean | object) => {
         setState((prevState) => ({
@@ -106,13 +116,23 @@ const Negociation: React.FC<Props> = (props) => {
     const handleConfirm = () => {
         handleSetState("modal", !state.modal);
         handleSetState("confirmWakeUp", !state.confirmWakeUp);
+
+        const { payment, portion, datePayment } = state;
+
+        dispatch(
+            actionsDebits.addDebt({
+                debitoId,
+                lojistaId,
+                reguaNegociacaoId: negociation.id,
+                formaPagamento: payment,
+                parcelamento: portion,
+                dataVencimento: datePayment,
+            }),
+        );
     };
     const handleCancel = () => {
         handleSetState("modal", !state.modal);
     };
-
-    const { payment, confirmWakeUp } = state;
-    const discount = (debit * Number(negociation?.discount)) / 100;
 
     return (
         <div className="p-3">
@@ -214,7 +234,7 @@ const Negociation: React.FC<Props> = (props) => {
                                 <div className="font-weight-bold">Valor da dívida</div>
                                 <input className="imp" disabled value={formatPrice(debit)} />
                             </label>
-                            <div className="font-weight-bold">Valor do desconto ({`${negociation?.discount}%`})</div>
+                            <div className="font-weight-bold">Valor do desconto ({`${negociation?.desconto}%`})</div>
                             <label>
                                 <input className="imp desconto disabled-bc" disabled value={formatPrice(discount)} />
                             </label>

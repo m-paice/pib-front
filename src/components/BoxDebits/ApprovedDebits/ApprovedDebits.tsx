@@ -50,9 +50,13 @@ const ApprovedDebits: React.FC<Props> = (props) => {
 
     // check status of debits
     const handleCheckStatus = (): handleCheckStatusReturn => {
-        const { status } = props;
+        const { negociacao } = props;
 
         const renderStatus = {
+            0: {
+                title: "Processando",
+                class: "green",
+            },
             1: {
                 title: "Em atraso",
                 class: "red",
@@ -68,10 +72,10 @@ const ApprovedDebits: React.FC<Props> = (props) => {
             },
         };
 
-        return renderStatus[statusSituation[status]];
+        return renderStatus[statusSituation[negociacao.situacao]];
     };
 
-    const { id, lojista, inclusao } = props;
+    const { id, lojista, inclusao, negociacao } = props;
 
     return (
         <div className="cada debito ativo">
@@ -86,12 +90,12 @@ const ApprovedDebits: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-3 c colBorder">
-                    <span className="labelDebito text-left p-left">{lojista.fantasia}</span>
+                    <span className="labelDebito text-left p-left">{lojista.razaoSocial}</span>
                 </div>
 
                 <div className="col-md-6 c nobri">
                     <span className="labelDebito text-center hidden-xs">
-                        Já negociada em {formatDate(new Date(inclusao))}
+                        Já negociada em {formatDate(new Date(negociacao.dataRegistro))}
                     </span>
                 </div>
                 <div className="col-md-2 cb">

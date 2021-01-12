@@ -19,9 +19,6 @@ export const debtsContainer = (Component: React.ElementType) => {
         const isDebitsPaid = useSelector(debitsPaid);
 
         // actions
-        const handleLoadDebts = () => {
-            dispatch(actionsDebts.loadDebt());
-        };
 
         return (
             <Component
@@ -30,9 +27,7 @@ export const debtsContainer = (Component: React.ElementType) => {
                         debts,
                         isDebitsPaid,
                     },
-                    actions: {
-                        handleLoadDebts,
-                    },
+                    actions: {},
                     amount,
                     value,
                 }}

@@ -34,13 +34,8 @@ interface Props {
 const Debits: React.FC<Props> = ({ payload }) => {
     const { data, actions, amount, value } = payload;
     const { debts, isDebitsPaid } = data;
-    const { handleLoadDebts } = actions;
 
     const [tbody, setTbody] = useState<Debt[]>(debts);
-
-    useEffect(() => {
-        handleLoadDebts();
-    }, []);
 
     useEffect(() => {
         setTbody(payload.data.debts);

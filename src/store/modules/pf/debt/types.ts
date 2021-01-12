@@ -54,11 +54,31 @@ export interface Shookeeper {
     updatedAt: string;
 }
 
+export interface Negociation {
+    id: string;
+    atrasado: string;
+    consumidorId: string;
+    dataRegistro: Date;
+    dataVencimento: string;
+    debitoId: string;
+    desconto: string;
+    divida: string;
+    formaPagamento: string;
+    lojistaId: string;
+    negociado: string;
+    parcelamento: number;
+    recebido: string;
+    situacao: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 export interface Debt {
     id: string;
     consumidorId: string;
     lojistaId: string;
     consumidor: Consumer;
+    negociacao: Negociation;
     lojista: Shookeeper;
     contrato: string;
     inclusao: string;
