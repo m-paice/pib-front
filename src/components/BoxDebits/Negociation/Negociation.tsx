@@ -43,6 +43,8 @@ interface State {
 const Negociation: React.FC<Props> = (props) => {
     const { debit, monthForRule, lojistaId, debitoId } = props;
 
+    console.log("monthForRule: ", monthForRule);
+
     const dispatch = useDispatch();
 
     const [options, setOptions] = useState<number[]>([]);
