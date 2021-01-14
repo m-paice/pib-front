@@ -34,7 +34,7 @@ interface Props {
         actions: {
             handleLoadDebtors(): void;
         };
-        handleFilterSituation(situation: number): Debtor[];
+        handleFilterSituation(situation: string | null): Debtor[];
     };
 }
 
@@ -44,7 +44,7 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
 
     const [tbody, setTbody] = useState<Debtor[]>(data);
     const [searchData, setSearchData] = useState<Debtor[]>([]);
-    const [filteredSituation, setFilteredSituation] = useState({ value: -1, label: "Todos" });
+    const [filteredSituation, setFilteredSituation] = useState({ value: null, label: "Todos" });
     const [lastColumn, setLastColum] = useState("");
 
     useEffect(() => {
@@ -71,9 +71,11 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
 
         if (!value.length) return setSearchData([]);
 
-        const debitFound = tbody.filter((item) => String(item.debt).includes(value));
-        const negociationFound = tbody.filter((item) => String(item.negociation).includes(value));
-        const documentFound = tbody.filter((item) => item.document.toLowerCase().includes(value.toLowerCase()));
+        const debitFound = tbody.filter((item) => item.negociacao && String(item.negociacao.divida).includes(value));
+        const negociationFound = tbody.filter(
+            (item) => item.negociacao && String(item.negociacao.negociado).includes(value),
+        );
+        const documentFound = tbody.filter((item) => item.consumidor.cpf.toLowerCase().includes(value.toLowerCase()));
 
         if (debitFound.length) return setSearchData(debitFound);
         else if (negociationFound.length) return setSearchData(negociationFound);

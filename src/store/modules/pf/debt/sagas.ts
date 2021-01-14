@@ -7,11 +7,7 @@ import api from "../../../../service/api";
 
 function* loadDebt() {
     try {
-        const response = yield call(api.get, "/debito", {
-            params: {
-                include: ["consumidor", "lojista", "negociacao"],
-            },
-        });
+        const response = yield call(api.get, "/debito/consumidor");
 
         yield put({
             type: types.LOAD_DEBT_SUCCESS,
@@ -24,6 +20,7 @@ function* loadDebt() {
     }
 }
 
+// TODO: create negociation
 function* createDebt(action) {
     const { payload } = action;
 

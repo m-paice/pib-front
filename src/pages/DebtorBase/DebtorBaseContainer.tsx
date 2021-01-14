@@ -13,10 +13,10 @@ export const debtorBaseContainer = (Component: React.ElementType) => {
         const dispatch = useDispatch();
         const debtors = useSelector(dataDebtor);
 
-        const handleFilterSituation = (situation: number) => {
-            if (situation === -1) return debtors;
+        const handleFilterSituation = (situation: string | null) => {
+            if (!situation) return debtors;
 
-            return debtors.filter((debtor) => debtor.situation === situation);
+            return debtors.filter((debtor) => debtor.negociacao?.situacao === situation);
         };
 
         const handleLoadDebtors = () => {

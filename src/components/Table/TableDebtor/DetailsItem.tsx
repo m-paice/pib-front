@@ -12,19 +12,19 @@ interface Props extends Debtor {
 }
 
 const DetailsItem: React.FC<Props> = (props) => {
-    const { situation, payment, value, negociation, detailsPortion } = props;
+    const { value, negociacao } = props;
 
-    const handleViewPayment = (payment: number) => {
-        if (payment === 1) return "Cartão de crédito";
-        if (payment === 2) return "Boleto";
+    const handleViewPayment = (payment: string) => {
+        if (payment === "cartao") return "Cartão de crédito";
+        if (payment === "boleto") return "Boleto";
 
         return "";
     };
 
-    const handleViewSituation = (situation: number) => {
-        if (situation === 0) return "PRÓXIMA";
-        if (situation === 1) return "EM ATRASO";
-        if (situation === 2) return "PAGA";
+    const handleViewSituation = (situation: string) => {
+        if (situation === "proxima") return "PRÓXIMA";
+        if (situation === "atrasado") return "EM ATRASO";
+        if (situation === "pago") return "PAGA";
 
         return "";
     };
@@ -35,23 +35,21 @@ const DetailsItem: React.FC<Props> = (props) => {
             currency: "BRL",
         });
 
-    const discount = value - negociation;
-    const total = value - discount;
-
     return (
         <div className="row pagt align-center">
             <div className="row pagt align-center">
                 <div className="col-md text-nowrap txt-lista-regras">
                     Forma de Pagamento
                     <div className="lab lab2">
-                        <strong>{handleViewPayment(payment || 0)}</strong>
+                        <strong>{handleViewPayment(negociacao?.formaPagamento || "")}</strong>
                     </div>
                 </div>
                 <div className="col-md text-nowrap txt-lista-regras">
                     Parcelamento
                     <div className="lab lab2">
                         <strong>
-                            {DetailsItem.length} de {handleFormatPrice(total / detailsPortion.length)}
+                            {negociacao?.parcelamento} de{" "}
+                            {negociacao && handleFormatPrice(negociacao?.negociado / negociacao?.parcelamento)}
                         </strong>
                     </div>
                 </div>
@@ -72,13 +70,13 @@ const DetailsItem: React.FC<Props> = (props) => {
                         <div className=" text-nowrap txt-lista-regras">
                             Desconto
                             <div className="lab lab2">
-                                <strong>{handleFormatPrice(discount)}</strong>
+                                <strong>{negociacao && handleFormatPrice(negociacao?.desconto)}</strong>
                             </div>
                         </div>
                         <div className=" text-nowrap txt-lista-regras">
                             Total
                             <div className="lab lab2">
-                                <strong>{handleFormatPrice(total)}</strong>
+                                <strong>{negociacao && handleFormatPrice(negociacao?.divida)}</strong>
                             </div>
                         </div>
                     </div>
@@ -97,31 +95,31 @@ const DetailsItem: React.FC<Props> = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {detailsPortion.map((value, index) => {
+                    {negociacao?.parcelas.map((value, index) => {
                         return (
                             <tr key={index}>
                                 <td className="txt-lista-regras" style={{ border: "none" }}>
                                     {index + 1}
                                 </td>
                                 <td className="txt-lista-regras" style={{ border: "none" }}>
-                                    {formatDate(value.dueDate)}
+                                    {formatDate(value.vencimento)}
                                 </td>
                                 <td className="txt-lista-regras" style={{ border: "none" }}>
-                                    {handleFormatPrice(value.valuePortion)}
+                                    {handleFormatPrice(value.valorParcela)}
                                 </td>
                                 <td className="txt-lista-regras" style={{ border: "none" }}>
-                                    {value.datePayment && formatDate(value.datePayment)}
+                                    {value.dataPagamento && formatDate(value.dataPagamento)}
                                 </td>
                                 <td className="txt-lista-regras" style={{ border: "none" }}>
-                                    {handleViewSituation(value.situation)}
+                                    {handleViewSituation(value.situacao)}
                                 </td>
-                                <td className="txt-lista-regras" style={{ border: "none", width: 150 }}>
+                                {/* <td className="txt-lista-regras" style={{ border: "none", width: 150 }}>
                                     {situation === 1 && payment === 2 && index === 0 && <span> Gerar boleto </span>}
 
                                     {situation !== 1 && payment === 2 && value.next === 1 && (
                                         <span> Gerar boleto </span>
                                     )}
-                                </td>
+                                </td> */}
                             </tr>
                         );
                     })}

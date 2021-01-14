@@ -20,32 +20,79 @@ export enum types {
     UPDATE_DEBTOR_FAILURE = "@pj/DEBTOR/UPDATE_DEBTOR_FAILURE",
 }
 
-export interface Details {
-    id: number;
-    idRegister: number;
-    portion: number;
-    dueDate: Date;
-    valuePortion: number;
-    datePayment: Date;
-    situation: number; // [1] ok [2] proxima
-    next: number;
+export interface User {
+    nome: string;
+}
+
+export interface PortionNegociation {
+    id: string;
+    negociacaoId: string;
+    dataPagamento: Date;
+    parcela: number;
+    situacao: string;
+    valorParcela: number;
+    vencimento: Date;
+    createdAt: string;
+    updatedAt: string;
+}
+export interface Negociation {
+    id: string;
+    lojistaId: string;
+    consumidorId: string;
+    debitoId: string;
+    atrasado: number;
+    dataRegistro: Date;
+    dataVencimento: Date;
+    desconto: number;
+    divida: number;
+    formaPagamento: string;
+    negociado: number;
+    parcelamento: number;
+    recebido: number;
+    situacao: string;
+    parcelas: PortionNegociation[];
+    updatedAt: Date;
+    createdAt: Date;
+}
+export interface Shoopeerk {
+    id: string;
+    usuarioId: string;
+    cnpj: string;
+    dataFundacao: Date;
+    fantasia: string;
+    inscricaoEstadual: string;
+    inscricaoMunicipal: string;
+    razaoSocial: string;
+    usuario: User;
+    updatedAt: Date;
+    createdAt: Date;
+}
+
+export interface Consumer {
+    id: string;
+    usuarioId: string;
+    cpf: string;
+    usuario: User;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface Debtor {
     id: string;
-    companyId: number;
-    dateRegister: Date;
-    document: string;
-    name: string;
-    debt: number;
-    negociation: number;
-    receipt: number;
-    late: number;
-    situation: number;
-    payment: number; // [1] cartão de crédit0 [2] boleto
-    portion: number;
-    discount: number;
-    detailsPortion: Details[];
+    consumidorId: string;
+    lojistaId: string;
+    contrato: string;
+    inclusao: string;
+    seqdiv: string;
+    status: string;
+    tipoDoc: string;
+    valor: number;
+    vencimento: Date;
+    consumidor: Consumer;
+    lojista: Shoopeerk;
+    negociacao?: Negociation;
+    updatedAt: Date;
+    createdAt: Date;
 }
 
 export interface ById {

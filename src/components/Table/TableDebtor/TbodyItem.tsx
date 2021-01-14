@@ -4,7 +4,7 @@ import { differenceInCalendarMonths } from "date-fns";
 import SweetAlert from "react-bootstrap-sweetalert";
 
 // types
-import { Debtor } from "../../../store/modules/pj/debtor/types";
+import { Debtor, Negociation } from "../../../store/modules/pj/debtor/types";
 
 // utils
 import formatDate from "../../../utils/formatDate";
@@ -91,21 +91,7 @@ interface Props extends Debtor {
 }
 
 const TbodyItem: React.FC<Props> = (props) => {
-    const {
-        id,
-        dateRegister,
-        document,
-        name,
-        debt,
-        negociation,
-        receipt,
-        late,
-        situation,
-        portion,
-        discount,
-        handleSetId,
-        idItemSelected,
-    } = props;
+    const { id, consumidor, negociacao, inclusao, handleSetId, idItemSelected } = props;
 
     const [simulator, setSimulator] = useState(false);
     const [confirm, setConfirm] = useState(false);
@@ -117,7 +103,7 @@ const TbodyItem: React.FC<Props> = (props) => {
 
     useEffect(() => {
         const currentMonth = new Date();
-        const registerMonth = new Date(dateRegister);
+        const registerMonth = new Date(inclusao);
 
         const amountMonthNumber = differenceInCalendarMonths(currentMonth, registerMonth);
 
@@ -130,16 +116,16 @@ const TbodyItem: React.FC<Props> = (props) => {
         setSimulator(!simulator);
     };
 
-    const handleViewSituation = (situation: number) => {
-        if (situation === 0) return <a className="btneg blue none-border-radius blue-p pointer">NÃO NEGOCIADA</a>;
-        if (situation === 1) return <a className="btneg red none-border-radius pointer">EM ATRASO</a>;
-        if (situation === 2) return <a className="btneg green2 none-border-radius pointer">EM DIA</a>;
-        if (situation === 3) return <a className="btneg green none-border-radius pointer">QUITADA</a>;
+    const handleViewSituation = (situation: string | null) => {
+        if (!situation) return <a className="btneg blue none-border-radius blue-p pointer">NÃO NEGOCIADA</a>;
+        if (situation === "atrasado") return <a className="btneg red none-border-radius pointer">EM ATRASO</a>;
+        if (situation === "em dia") return <a className="btneg green2 none-border-radius pointer">EM DIA</a>;
+        if (situation === "quitada") return <a className="btneg green none-border-radius pointer">QUITADA</a>;
 
         return "";
     };
 
-    const formatNumber = (value: number) =>
+    const formatNumber = (value = 0) =>
         value.toLocaleString("pt-br", {
             style: "currency",
             currency: "BRL",
@@ -165,103 +151,39 @@ const TbodyItem: React.FC<Props> = (props) => {
         <>
             <tr className="itemListaRegras">
                 <Item width={100}>
-                    <span style={styles}>{formatDate(dateRegister)}</span>
-                </Item>
-                <Item width={120}>
-                    <span style={styles}>{document}</span>
+                    <span style={styles}>{formatDate(new Date(props.inclusao))}</span>
                 </Item>
                 <Item width={150}>
-                    <span style={styles}>{name}</span>
+                    <span style={styles}>{props.consumidor.cpf}</span>
                 </Item>
-                <Item width={80}>
-                    <span style={styles}>{formatNumber(debt)}</span>
+                <Item width={180}>
+                    <span style={styles}>{props.consumidor.usuario.nome}</span>
                 </Item>
-                {situation !== 3 ? (
-                    <>
-                        {" "}
-                        <Item>
-                            <span style={styles}>{formatNumber(negociation)}</span>
-                        </Item>
-                        <Item>
-                            <span style={styles}>{formatNumber(receipt)}</span>
-                        </Item>
-                        <Item separator={false}>
-                            <span>{situation !== 1 ? formatNumber(0) : formatNumber(late)}</span>
-                        </Item>
-                    </>
-                ) : (
-                    <>
-                        <Item>
-                            <span style={styles}>{formatNumber(0)}</span>
-                        </Item>
-                        <Item>
-                            <span style={styles}>{formatNumber(0)}</span>
-                        </Item>
-                        <Item separator={false}>
-                            <span>{formatNumber(0)}</span>
-                        </Item>{" "}
-                    </>
-                )}
-                <Item separator={false} width={152}>
-                    {situation === 0 ? (
-                        <span onClick={handleToggleMessageNegociation}>{handleViewSituation(situation)}</span>
-                    ) : (
-                        <span onClick={() => handleSetId(id)}>{handleViewSituation(situation)}</span>
-                    )}
+                <Item width={150}>
+                    <span style={styles}>{formatNumber(props.valor)}</span>
                 </Item>
+                <Item width={150}>
+                    <span style={styles}>{props.negociacao ? formatNumber(props.negociacao.negociado) : 0}</span>
+                </Item>
+                <Item width={150}>
+                    <span style={styles}>{props.negociacao ? formatNumber(props.negociacao.recebido) : 0}</span>
+                </Item>
+                <Item width={150}>
+                    <span style={styles}>{props.negociacao ? formatNumber(props.negociacao.atrasado) : 0}</span>
+                </Item>
+                <Item separator={false} width={150}>
+                    <span>
+                        {props.negociacao ? handleViewSituation(props.negociacao.situacao) : handleViewSituation(null)}
+                    </span>
+                </Item>
+
                 <Actions
-                    show={situation === 0}
+                    show={false}
                     closed={closed}
                     handleToggleSimulator={handleToggleSimulator}
                     handleToggleConfirm={handleToggleConfirm}
                 />
             </tr>
-            {idItemSelected === id && (
-                <tr className="itemListaRegras">
-                    <td></td>
-                    <td className="txt-lista-regras" colSpan={7}>
-                        <DetailsItem
-                            {...props}
-                            total={debt - discount}
-                            value={debt}
-                            valuePortion={(debt - discount) / portion}
-                        />
-                    </td>
-                    <td></td>
-                </tr>
-            )}
-            {messageNegociation && (
-                <tr className="itemListaRegras">
-                    <td></td>
-                    <td className="txt-lista-regras" colSpan={7}>
-                        <span> Não há informações detalhadas porque esta dívida ainda não foi negociada </span>
-                    </td>
-                    <td></td>
-                </tr>
-            )}
-            {simulator && (
-                <Simulator isOpen={simulator} onClose={handleToggleSimulator} monthForRule={amountMonth} {...props} />
-            )}
-            {confirm && (
-                <SweetAlert
-                    title={
-                        <div className="txt-sweet-alert">
-                            Tem certeza que deseja <br /> {closed ? "bloquear" : "desbloquear"} negociação ?
-                        </div>
-                    }
-                    style={{
-                        background: "#14647b",
-                        color: "#fff !important",
-                    }}
-                    showCancel
-                    confirmBtnCssClass="btn-sweet-alert"
-                    cancelBtnCssClass="btn-sweet-alert"
-                    confirmBtnText="Confirmar"
-                    cancelBtnText="Cancelar"
-                    onConfirm={handleConfirm}
-                    onCancel={handleCancel}
-                />
-            )}
         </>
     );
 };

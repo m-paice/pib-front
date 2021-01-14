@@ -19,7 +19,7 @@ export const stateDebts = (state: ApplicationState) => getElements<Debt>(state.p
 export const status = {
     processing: 0,
     B: 1,
-    C: 2,
+    ["em dia"]: 2,
     D: 3,
 };
 

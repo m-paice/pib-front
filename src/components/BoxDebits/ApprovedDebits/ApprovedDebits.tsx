@@ -53,10 +53,6 @@ const ApprovedDebits: React.FC<Props> = (props) => {
         const { negociacao } = props;
 
         const renderStatus = {
-            0: {
-                title: "Processando",
-                class: "green",
-            },
             1: {
                 title: "Em atraso",
                 class: "red",
@@ -90,7 +86,7 @@ const ApprovedDebits: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-3 c colBorder">
-                    <span className="labelDebito text-left p-left">{lojista.razaoSocial}</span>
+                    <span className="labelDebito text-left p-left">{lojista.usuario.nome}</span>
                 </div>
 
                 <div className="col-md-6 c nobri">
@@ -109,7 +105,7 @@ const ApprovedDebits: React.FC<Props> = (props) => {
             </div>
 
             {info && <MoreInfo {...lojista} />}
-            {negociation && <Details payment={1} detailsPortion={[]} />}
+            {negociation && <Details {...negociacao} />}
         </div>
     );
 };

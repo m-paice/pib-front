@@ -80,7 +80,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                     </a>
                 </div>
                 <div className=" col-md-2">
-                    <span className="labelDebito text-left">{lojista.razaoSocial}</span>
+                    <span className="labelDebito text-left">{lojista.usuario.nome}</span>
                 </div>
                 <div className="col-md-7 d-flex justify-content-between">
                     <div style={{ width: 75 }}>

@@ -48,18 +48,20 @@ export const balanceContainer = (Component: React.ElementType) => {
             debtors.reduce((acc, cur) => {
                 return {
                     ...acc,
-                    [cur.payment]: (acc[cur.payment] || 0) + 1,
+                    [cur.negociacao ? cur.negociacao.formaPagamento : ""]:
+                        (acc[cur.negociacao ? cur.negociacao.formaPagamento : ""] || 0) + 1,
                 };
             }, {});
 
-        const filterPaymentForSituaction = (situation: number) => {
-            if (situation !== -1) {
+        const filterPaymentForSituaction = (situation: string) => {
+            if (situation !== null) {
                 return debtors
-                    .filter((item) => item.situation === situation)
+                    .filter((item) => item.negociacao && item.negociacao.situacao === situation)
                     .reduce((acc, cur) => {
                         return {
                             ...acc,
-                            [cur.payment]: (acc[cur.payment] || 0) + 1,
+                            [cur.negociacao ? cur.negociacao.formaPagamento : ""]:
+                                (acc[cur.negociacao ? cur.negociacao.formaPagamento : ""] || 0) + 1,
                         };
                     }, {});
             }
@@ -67,13 +69,14 @@ export const balanceContainer = (Component: React.ElementType) => {
             return debtors.reduce((acc, cur) => {
                 return {
                     ...acc,
-                    [cur.payment]: (acc[cur.payment] || 0) + 1,
+                    [cur.negociacao ? cur.negociacao.formaPagamento : ""]:
+                        (acc[cur.negociacao ? cur.negociacao.formaPagamento : ""] || 0) + 1,
                 };
             }, {});
         };
 
         // flow received for situatio
-        const handleFilterFlowReceivedForSituation = (situation: number, amountMonth: number) => {
+        const handleFilterFlowReceivedForSituation = (situation: string, amountMonth: number) => {
             const response: number[] = [];
 
             const initialDate = `${new Date().getMonth() + 2}/01/${new Date().getFullYear()}`;
@@ -89,15 +92,15 @@ export const balanceContainer = (Component: React.ElementType) => {
                 const valueOfMonth = debtors.reduce((acc, cur) => {
                     return (
                         acc +
-                        cur.detailsPortion
+                        (cur.negociacao ? cur.negociacao.parcelas : [])
                             .filter((item) =>
-                                situation === -1
-                                    ? item.situation !== 2 && item.dueDate > new Date(initialDate)
-                                    : item.situation === situation && item.dueDate > new Date(initialDate),
+                                situation === null
+                                    ? item.situacao !== "em dia" && item.vencimento > new Date(initialDate)
+                                    : item.situacao === situation && item.vencimento > new Date(initialDate),
                             )
                             .reduce((acc, cur) => {
-                                if (differenceInMonths(i, cur.dueDate) === 1) {
-                                    return acc + cur.valuePortion;
+                                if (differenceInMonths(i, cur.vencimento) === 1) {
+                                    return acc + cur.valorParcela;
                                 }
 
                                 return acc;
@@ -118,23 +121,27 @@ export const balanceContainer = (Component: React.ElementType) => {
             debtors.reduce((acc, cur) => {
                 return {
                     ...acc,
-                    [cur.id]: cur.detailsPortion.reduce((acc, cur) => {
-                        return acc + 1;
-                    }, 0),
+                    [cur.id]: cur.negociacao
+                        ? cur.negociacao.parcelas
+                        : [].reduce((acc, cur) => {
+                              return acc + 1;
+                          }, 0),
                 };
             }, {});
 
         // filter payment in cash or portion
-        const filterInCashOrPortion = (situation: number) => {
-            if (situation !== -1) {
+        const filterInCashOrPortion = (situation: string) => {
+            if (situation !== null) {
                 return debtors
-                    .filter((item) => item.situation === situation)
+                    .filter((item) => item.negociacao && item.negociacao.situacao === situation)
                     .reduce((acc, cur) => {
                         return {
                             ...acc,
-                            [cur.id]: cur.detailsPortion.reduce((acc, cur) => {
-                                return acc + 1;
-                            }, 0),
+                            [cur.id]: cur.negociacao
+                                ? cur.negociacao.parcelas
+                                : [].reduce((acc, cur) => {
+                                      return acc + 1;
+                                  }, 0),
                         };
                     }, {});
             }
@@ -142,24 +149,26 @@ export const balanceContainer = (Component: React.ElementType) => {
             return debtors.reduce((acc, cur) => {
                 return {
                     ...acc,
-                    [cur.id]: cur.detailsPortion.reduce((acc, cur) => {
-                        return acc + 1;
-                    }, 0),
+                    [cur.id]:
+                        cur.negociacao &&
+                        cur.negociacao.parcelas.reduce((acc, cur) => {
+                            return acc + 1;
+                        }, 0),
                 };
             }, {});
         };
 
         // filter amount debtors for situation
-        const filterAmountDebtorsForSituation = (situation: number) => {
-            if (situation !== -1) {
+        const filterAmountDebtorsForSituation = (situation: string) => {
+            if (situation !== null) {
                 const mapDocument = debtors
-                    .filter((item) => item.situation === situation)
+                    .filter((item) => item.negociacao && item.negociacao.situacao === situation)
                     .reduce((acc, cur) => {
-                        if (acc[cur.document]) return acc;
+                        if (acc[cur.consumidor.cpf]) return acc;
 
                         return {
                             ...acc,
-                            [cur.document]: (acc[cur.document] || 0) + 1,
+                            [cur.consumidor.cpf]: (acc[cur.consumidor.cpf] || 0) + 1,
                         };
                     }, {});
 
@@ -167,11 +176,11 @@ export const balanceContainer = (Component: React.ElementType) => {
             }
 
             const mapDocument = debtors.reduce((acc, cur) => {
-                if (acc[cur.document]) return acc;
+                if (acc[cur.consumidor.cpf]) return acc;
 
                 return {
                     ...acc,
-                    [cur.document]: (acc[cur.document] || 0) + 1,
+                    [cur.consumidor.cpf]: (acc[cur.consumidor.cpf] || 0) + 1,
                 };
             }, {});
 
@@ -179,14 +188,14 @@ export const balanceContainer = (Component: React.ElementType) => {
         };
 
         // filter amount debt for situation
-        const filterAmountDebtsForSituation = (situation: number) => {
-            if (situation !== -1) {
+        const filterAmountDebtsForSituation = (situation: string) => {
+            if (situation !== null) {
                 const mapDocument = debtors
-                    .filter((item) => item.situation === situation)
+                    .filter((item) => item.negociacao && item.negociacao.situacao === situation)
                     .reduce((acc, cur) => {
                         return {
                             ...acc,
-                            [cur.document]: (acc[cur.document] || 0) + 1,
+                            [cur.consumidor.cpf]: (acc[cur.consumidor.cpf] || 0) + 1,
                         };
                     }, {});
 
@@ -196,7 +205,7 @@ export const balanceContainer = (Component: React.ElementType) => {
             const mapDocument = debtors.reduce((acc, cur) => {
                 return {
                     ...acc,
-                    [cur.document]: (acc[cur.document] || 0) + 1,
+                    [cur.consumidor.cpf]: (acc[cur.consumidor.cpf] || 0) + 1,
                 };
             }, {});
 
@@ -220,11 +229,11 @@ export const balanceContainer = (Component: React.ElementType) => {
                 const valueOfMonth = debtors.reduce((acc, cur) => {
                     return (
                         acc +
-                        cur.detailsPortion
-                            .filter((item) => item.situation !== 2 && item.dueDate > new Date(initialDate))
+                        (cur.negociacao ? cur.negociacao.parcelas : [])
+                            .filter((item) => item.situacao !== "em dia" && item.vencimento > new Date(initialDate))
                             .reduce((acc, cur) => {
-                                if (differenceInMonths(i, cur.dueDate) === 1) {
-                                    return acc + cur.valuePortion;
+                                if (differenceInMonths(i, cur.vencimento) === 1) {
+                                    return acc + cur.valorParcela;
                                 }
 
                                 return acc;
@@ -251,11 +260,11 @@ export const balanceContainer = (Component: React.ElementType) => {
                 const valueOfMonth = debtors.reduce((acc, cur) => {
                     return (
                         acc +
-                        cur.detailsPortion
-                            .filter((item) => item.situation === 2)
+                        (cur.negociacao ? cur.negociacao.parcelas : [])
+                            .filter((item) => item.situacao === "em dia")
                             .reduce((acc, cur) => {
-                                if (cur.datePayment && differenceInMonths(i, cur.datePayment) === 0) {
-                                    return acc + cur.valuePortion;
+                                if (cur.dataPagamento && differenceInMonths(i, cur.dataPagamento) === 0) {
+                                    return acc + cur.valorParcela;
                                 }
 
                                 return acc;
@@ -271,16 +280,16 @@ export const balanceContainer = (Component: React.ElementType) => {
             return response;
         };
 
-        const filterAmountWalletForSituation = (situation: number) => {
-            if (situation !== -1)
+        const filterAmountWalletForSituation = (situation: string) => {
+            if (situation !== null)
                 return debtors
-                    .filter((item) => item.situation === situation)
+                    .filter((item) => item.negociacao && item.negociacao.situacao === situation)
                     .reduce((acc, cur) => {
-                        return acc + cur.debt;
+                        return acc + cur.valor;
                     }, 0);
 
             return debtors.reduce((acc, cur) => {
-                return acc + cur.debt;
+                return acc + cur.valor;
             }, 0);
         };
 

@@ -1,18 +1,17 @@
 import React from "react";
 
-import { Details } from "../../../store/modules/pf/debt/types";
+import { Details, Negociation } from "../../../store/modules/pf/debt/types";
 
 import DetailsItem from "./DetailsItem";
 
 import formatPrice from "../../../utils/formatPrice";
+import formatDate from "../../../utils/formatDate";
 
-interface Props {
-    detailsPortion: Details[];
-    payment: number;
-}
+type Props = Negociation;
 
 const Detaisl: React.FC<Props> = (props) => {
-    const { detailsPortion, payment } = props;
+    const negociacao = props;
+    const { parcelas } = negociacao;
 
     const handleViewPayment = (payment: number) => {
         if (payment === 1) return "Cartão de crédito";
@@ -27,27 +26,27 @@ const Detaisl: React.FC<Props> = (props) => {
                 <div className="col-md text-nowrap txt-lista-regras">
                     Forma de Pagamento
                     <div className="lab lab2">
-                        <strong>{handleViewPayment(payment || 0)}</strong>
+                        <strong>{negociacao.formaPagamento}</strong>
                     </div>
                 </div>
                 <div className="col-md text-nowrap txt-lista-regras">
                     Parcelamento
                     <div className="lab lab2">
                         <strong>
-                            {DetailsItem.length} de {formatPrice(500 / detailsPortion.length)}
+                            {negociacao.parcelamento} de {formatPrice(negociacao.negociado / negociacao.parcelamento)}
                         </strong>
                     </div>
                 </div>
                 <div className="col-md text-nowrap txt-lista-regras">
                     Data de Vencimento
                     <div className="lab lab2">
-                        <strong>data</strong>
+                        <strong>{formatDate(new Date(negociacao.dataRegistro))}</strong>
                     </div>
                 </div>
                 <div className="col-md text-nowrap txt-lista-regras">
                     Valor da Dívida
                     <div className="lab lab2">
-                        <strong>{formatPrice(1512)}</strong>
+                        <strong>{formatPrice(negociacao.divida)}</strong>
                     </div>
                 </div>
                 <div className="col-md-2">
@@ -55,13 +54,13 @@ const Detaisl: React.FC<Props> = (props) => {
                         <div className=" text-nowrap txt-lista-regras">
                             Desconto
                             <div className="lab lab2">
-                                <strong>{formatPrice(22)}</strong>
+                                <strong>{formatPrice(negociacao.desconto)}</strong>
                             </div>
                         </div>
                         <div className=" text-nowrap txt-lista-regras">
                             Total
                             <div className="lab lab2">
-                                <strong>{formatPrice(555)}</strong>
+                                <strong>{formatPrice(negociacao.divida - negociacao.desconto)}</strong>
                             </div>
                         </div>
                     </div>
@@ -79,15 +78,9 @@ const Detaisl: React.FC<Props> = (props) => {
                 <div className="col-md-2 font-weight-bold lth"></div>
             </div>
 
-            {detailsPortion
-                .sort((a, b) => (a.dueDate > b.dueDate ? 1 : -1))
-                .map((item, index) => {
-                    if (item.situation === 0) return <DetailsItem key={index} payment={payment} {...item} />;
-
-                    if (item.situation === 1) return <DetailsItem key={index} payment={payment} {...item} />;
-
-                    return <DetailsItem key={index} payment={payment} {...item} />;
-                })}
+            {parcelas.map((item, index) => {
+                return <DetailsItem key={index} formaPagamento={negociacao.formaPagamento} {...item} />;
+            })}
         </div>
     );
 };

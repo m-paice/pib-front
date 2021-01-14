@@ -16,6 +16,7 @@ import Card from "./Card";
 // utils
 import formatDate from "../../../utils/formatDate";
 import formatPrice from "../../../utils/formatPrice";
+import generateDate from "../../../utils/generateDate";
 
 import SweetAlert from "../../../components/SweetAlert";
 
@@ -32,7 +33,7 @@ interface Props {
 }
 
 interface State {
-    payment: "billet" | "card";
+    payment: "boleto" | "cartao";
     portion: string;
     datePayment: string;
     confirmWakeUp: boolean;
@@ -42,8 +43,6 @@ interface State {
 
 const Negociation: React.FC<Props> = (props) => {
     const { debit, monthForRule, lojistaId, debitoId } = props;
-
-    console.log("monthForRule: ", monthForRule);
 
     const dispatch = useDispatch();
 
@@ -56,7 +55,7 @@ const Negociation: React.FC<Props> = (props) => {
     }, [negociation]);
 
     const [state, setState] = useState<State>({
-        payment: "billet",
+        payment: "boleto",
         portion: "",
         datePayment: "",
         confirmWakeUp: true, // TODO: fazer a logica inversa [começar com false]
@@ -101,7 +100,7 @@ const Negociation: React.FC<Props> = (props) => {
             return;
         }
 
-        if (state.payment === "billet") {
+        if (state.payment === "boleto") {
             if (!state.datePayment) {
                 handleSetState("errors", {
                     datePayment: "Data do vencimento é obrigatório.",
@@ -121,6 +120,8 @@ const Negociation: React.FC<Props> = (props) => {
 
         const { payment, portion, datePayment } = state;
 
+        const dataVencimento = payment === "cartao" ? new Date() : new Date(generateDate(datePayment));
+
         dispatch(
             actionsDebits.addDebt({
                 debitoId,
@@ -128,7 +129,7 @@ const Negociation: React.FC<Props> = (props) => {
                 reguaNegociacaoId: negociation.id,
                 formaPagamento: payment,
                 parcelamento: portion,
-                dataVencimento: datePayment,
+                dataVencimento,
             }),
         );
     };
@@ -150,8 +151,8 @@ const Negociation: React.FC<Props> = (props) => {
                                     disabled={!confirmWakeUp}
                                     type="radio"
                                     name="payment"
-                                    value="billet"
-                                    checked={payment === "billet"}
+                                    value="boleto"
+                                    checked={payment === "boleto"}
                                     onChange={handlePaymentChange}
                                 />
                                 Boleto
@@ -162,7 +163,7 @@ const Negociation: React.FC<Props> = (props) => {
                                     disabled={!confirmWakeUp}
                                     type="radio"
                                     name="payment"
-                                    value="card"
+                                    value="cartao"
                                     onChange={handlePaymentChange}
                                 />
                                 Cartão de Crédito
@@ -193,9 +194,9 @@ const Negociation: React.FC<Props> = (props) => {
                             <br />
                             <label>
                                 <div className="font-weight-bold">
-                                    {state.payment === "card" ? "Data da Transação" : "Data de Vencimento"}
+                                    {state.payment === "cartao" ? "Data da Transação" : "Data de Vencimento"}
                                 </div>
-                                {state.payment === "card" ? (
+                                {state.payment === "cartao" ? (
                                     <div>
                                         <div style={{ color: "#000", padding: "7px 3px" }} className="sel">
                                             {formatDate(new Date())}
@@ -255,12 +256,12 @@ const Negociation: React.FC<Props> = (props) => {
                     </div>
                 </div>
 
-                {payment === "billet" && (
+                {payment === "boleto" && (
                     <div className="col-md-6">
                         <Billet confirm={confirmWakeUp} />
                     </div>
                 )}
-                {payment === "card" && (
+                {payment === "cartao" && (
                     <div className="col-md-6">
                         <Card confirm={confirmWakeUp} />
                     </div>

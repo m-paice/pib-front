@@ -22,6 +22,10 @@ export enum types {
     UPDATE_DEBT_FAILURE = "@pj/debt/UPDATE_DEBT_FAILURE",
 }
 
+export interface User {
+    nome: string;
+}
+
 export interface Details {
     id: number;
     idRegister: number;
@@ -35,8 +39,9 @@ export interface Details {
 
 export interface Consumer {
     id: string;
-    cpf: string;
     usuarioId: string;
+    cpf: string;
+    usuario: User;
     createdAt: string;
     updatedAt: string;
 }
@@ -50,25 +55,39 @@ export interface Shookeeper {
     inscricaoEstadual: string;
     inscricaoMunicipal: string;
     razaoSocial: string;
+    usuario: User;
     createdAt: string;
     updatedAt: string;
 }
 
+export interface Parcelas {
+    id: string;
+    negociacaoId: string;
+    dataPagamento: Date;
+    parcela: number;
+    situacao: string;
+    valorParcela: number;
+    vencimento: Date;
+    updatedAt: Date;
+    createdAt: Date;
+}
+
 export interface Negociation {
     id: string;
-    atrasado: string;
     consumidorId: string;
+    lojistaId: string;
+    debitoId: string;
     dataRegistro: Date;
     dataVencimento: string;
-    debitoId: string;
-    desconto: string;
-    divida: string;
-    formaPagamento: string;
-    lojistaId: string;
-    negociado: string;
+    desconto: number;
+    divida: number;
+    negociado: number;
     parcelamento: number;
-    recebido: string;
+    recebido: number;
+    atrasado: number;
+    formaPagamento: string;
     situacao: string;
+    parcelas: Parcelas[];
     createdAt: Date;
     updatedAt: Date;
 }
