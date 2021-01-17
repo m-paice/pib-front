@@ -22,8 +22,8 @@ const Step1: React.FC<Props> = ({}) => {
                             {(props: FieldProps) => (
                                 <Select
                                     options={[
-                                        { value: "chain", label: "Corrente" },
-                                        { value: "savings", label: "Poupança" },
+                                        { value: "corrente", label: "Corrente" },
+                                        { value: "poupanca", label: "Poupança" },
                                     ]}
                                     placeholder="Tipo de conta"
                                     fieldProps={props}

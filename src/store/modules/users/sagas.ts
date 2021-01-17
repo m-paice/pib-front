@@ -46,9 +46,9 @@ function* create(action) {
             cidade: payload.city,
             uf: payload.uf,
 
-            tipo: payload.accountType,
-            banco: payload.bank,
-            nomeInstituicao: payload.bank,
+            tipo: payload.accountType.value,
+            banco: payload.bank.value,
+            nomeInstituicao: payload.bank.label,
             agencia: payload.agency,
             conta: payload.account + "-" + payload.digit,
             nomeTitular: payload.holder,
