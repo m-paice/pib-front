@@ -15,6 +15,17 @@ import formatPrice from "../../../utils/formatPrice";
 
 import { status as statusSituation } from "../../../store/modules/pf/debt/selectors";
 
+const tiposDocumentos = {
+    CH: "Cheque",
+    CN: "Carnê",
+    CQ: "Não souberam me informar...",
+    CT: "Contrato",
+    DP: "Duplicata",
+    NP: "Nota promissória",
+    OU: "Outros",
+    XX: "Não definido",
+};
+
 type Props = Debt;
 
 interface State {
@@ -24,7 +35,7 @@ interface State {
 }
 
 const DeniedDebts: React.FC<Props> = (props) => {
-    const { id, lojista, inclusao, valor, status, vencimento } = props;
+    const { id, lojista, inclusao, valor, status, vencimento, tipoDoc } = props;
 
     const [state, setState] = useState<State>({
         info: false,
@@ -90,7 +101,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                                 <span className="glyphicon glyphicon-question-sign ml-1"></span>
                             </div>
                         </div>
-                        <div className="txt-12 m-0 font-weight-bold"> EMPRESA </div>
+                        <div className="txt-12 m-0 font-weight-bold"> {tiposDocumentos[tipoDoc]} </div>
                     </div>
                     <div className="div c"></div>
                     <div>

@@ -22,8 +22,25 @@ export enum types {
     UPDATE_DEBT_FAILURE = "@pj/debt/UPDATE_DEBT_FAILURE",
 }
 
+export interface Address {
+    id: string;
+    usuarioId: string;
+    bairro: string;
+    cep: string;
+    cidade: string;
+    complemento: string;
+    numero: string;
+    rua: string;
+    uf: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 export interface User {
     nome: string;
+    celular: string;
+    email: string;
+    endereco: Address;
 }
 
 export interface Details {
@@ -46,6 +63,20 @@ export interface Consumer {
     updatedAt: string;
 }
 
+export interface DadosBancarios {
+    id: string;
+    lojistaId: string;
+    agencia: string;
+    banco: string;
+    conta: string;
+    documento: string;
+    nomeInstituicao: string;
+    nomeTitular: string;
+    tipo: string;
+    updatedAt: Date;
+    createdAt: Date;
+}
+
 export interface Shookeeper {
     id: string;
     usuarioId: string;
@@ -56,6 +87,7 @@ export interface Shookeeper {
     inscricaoMunicipal: string;
     razaoSocial: string;
     usuario: User;
+    dadosBancarios: DadosBancarios;
     createdAt: string;
     updatedAt: string;
 }

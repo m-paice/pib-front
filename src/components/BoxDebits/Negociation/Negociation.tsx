@@ -181,11 +181,17 @@ const Negociation: React.FC<Props> = (props) => {
                                     <option style={{ color: "#000" }} value="">
                                         Escolha o plano
                                     </option>
-                                    {options.map((value, index) => (
-                                        <option style={{ color: "#000" }} key={value} value={value}>
-                                            {index + 1} X {formatPrice((debit - discount) / (index + 1))}
-                                        </option>
-                                    ))}
+                                    {options
+                                        .map((value, index) => ({
+                                            valor: (debit - discount) / (index + 1),
+                                            parcela: index + 1,
+                                        }))
+                                        .filter((item) => item.valor > 50)
+                                        .map((item) => (
+                                            <option style={{ color: "#000" }} key={item.parcela} value={item.parcela}>
+                                                {item.parcela} X {formatPrice(item.valor)}
+                                            </option>
+                                        ))}
                                 </select>
                                 {state.errors["portion"] && (
                                     <span style={stylesErrosMessage}> {state.errors["portion"]} </span>

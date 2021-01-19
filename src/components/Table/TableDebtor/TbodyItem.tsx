@@ -118,6 +118,7 @@ const TbodyItem: React.FC<Props> = (props) => {
 
     const handleViewSituation = (situation: string | null) => {
         if (!situation) return <a className="btneg blue none-border-radius blue-p pointer">NÃO NEGOCIADA</a>;
+
         if (situation === "atrasado") return <a className="btneg red none-border-radius pointer">EM ATRASO</a>;
         if (situation === "em dia") return <a className="btneg green2 none-border-radius pointer">EM DIA</a>;
         if (situation === "quitada") return <a className="btneg green none-border-radius pointer">QUITADA</a>;
@@ -163,27 +164,39 @@ const TbodyItem: React.FC<Props> = (props) => {
                     <span style={styles}>{formatNumber(props.valor)}</span>
                 </Item>
                 <Item width={150}>
-                    <span style={styles}>{props.negociacao ? formatNumber(props.negociacao.negociado) : 0}</span>
+                    <span style={styles}>{formatNumber(props.negociacao ? props.negociacao.negociado : 0)}</span>
                 </Item>
                 <Item width={150}>
-                    <span style={styles}>{props.negociacao ? formatNumber(props.negociacao.recebido) : 0}</span>
+                    <span style={styles}>{formatNumber(props.negociacao ? props.negociacao.recebido : 0)}</span>
                 </Item>
                 <Item width={150}>
-                    <span style={styles}>{props.negociacao ? formatNumber(props.negociacao.atrasado) : 0}</span>
+                    <span style={styles}>{formatNumber(props.negociacao ? props.negociacao.atrasado : 0)}</span>
                 </Item>
                 <Item separator={false} width={150}>
-                    <span>
+                    <span onClick={() => props.negociacao && handleSetId(id)}>
                         {props.negociacao ? handleViewSituation(props.negociacao.situacao) : handleViewSituation(null)}
                     </span>
                 </Item>
 
                 <Actions
-                    show={false}
+                    show={props.negociacao ? true : false}
                     closed={closed}
                     handleToggleSimulator={handleToggleSimulator}
                     handleToggleConfirm={handleToggleConfirm}
                 />
             </tr>
+
+            {/* renderizacoes a partir das acoes do usuario */}
+
+            {props.negociacao && idItemSelected === id && (
+                <tr className="itemListaRegras">
+                    <td></td>
+                    <td className="txt-lista-regras" colSpan={7}>
+                        <DetailsItem {...props.negociacao} />
+                    </td>
+                    <td></td>
+                </tr>
+            )}
         </>
     );
 };

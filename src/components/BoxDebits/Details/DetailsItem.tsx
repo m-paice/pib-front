@@ -6,16 +6,15 @@ import formatDate from "../../../utils/formatDate";
 import formatPrice from "../../../utils/formatPrice";
 
 interface Props extends Parcelas {
-    formaPagamento: string;
+    nextPayment: string;
 }
-
 interface Situation {
     label: string;
     class: string;
 }
 
 const DetailsItem: React.FC<Props> = (props) => {
-    const { parcela, situacao, vencimento, valorParcela, dataPagamento, formaPagamento } = props;
+    const { id, parcela, situacao, vencimento, valorParcela, dataPagamento, nextPayment } = props;
 
     const handleSituation = (): Situation => {
         const renderSituation = {
@@ -27,7 +26,7 @@ const DetailsItem: React.FC<Props> = (props) => {
                 label: "Em atraso",
                 class: "ematraso",
             },
-            paga: {
+            pago: {
                 label: "Paga",
                 class: "paga",
             },
@@ -46,11 +45,11 @@ const DetailsItem: React.FC<Props> = (props) => {
                 <span className={handleSituation().class}> {handleSituation().label} </span>
             </div>
 
-            {/* {payment === 2 && next !== 0 && (
+            {nextPayment === id && (
                 <div className="col-md-2">
                     <a className="proxima txt-10-mob">Gerar Boleto</a>
                 </div>
-            )} */}
+            )}
         </div>
     );
 };

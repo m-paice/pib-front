@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { Details, Negociation } from "../../../store/modules/pf/debt/types";
 
@@ -11,7 +11,18 @@ type Props = Negociation;
 
 const Detaisl: React.FC<Props> = (props) => {
     const negociacao = props;
-    const { parcelas } = negociacao;
+    const { parcelas, formaPagamento } = negociacao;
+
+    const [nextPayment, setNextPayment] = useState("");
+
+    useEffect(() => {
+        const portionFound = parcelas
+            .sort((a, b) => (a.parcela > b.parcela ? 1 : -1))
+            .find((item) => !item.dataPagamento && item.situacao === "proxima");
+
+        // mostrar o botao e gerar boleto
+        formaPagamento === "boleto" && setNextPayment(portionFound?.id || "");
+    }, []);
 
     const handleViewPayment = (payment: number) => {
         if (payment === 1) return "Cartão de crédito";
@@ -37,12 +48,12 @@ const Detaisl: React.FC<Props> = (props) => {
                         </strong>
                     </div>
                 </div>
-                <div className="col-md text-nowrap txt-lista-regras">
+                {/* <div className="col-md text-nowrap txt-lista-regras">
                     Data de Vencimento
                     <div className="lab lab2">
                         <strong>{formatDate(new Date(negociacao.dataRegistro))}</strong>
                     </div>
-                </div>
+                </div> */}
                 <div className="col-md text-nowrap txt-lista-regras">
                     Valor da Dívida
                     <div className="lab lab2">
@@ -78,9 +89,11 @@ const Detaisl: React.FC<Props> = (props) => {
                 <div className="col-md-2 font-weight-bold lth"></div>
             </div>
 
-            {parcelas.map((item, index) => {
-                return <DetailsItem key={index} formaPagamento={negociacao.formaPagamento} {...item} />;
-            })}
+            {parcelas
+                .sort((a, b) => (a.parcela > b.parcela ? 1 : -1))
+                .map((item, index) => {
+                    return <DetailsItem key={index} nextPayment={nextPayment} {...item} />;
+                })}
         </div>
     );
 };
