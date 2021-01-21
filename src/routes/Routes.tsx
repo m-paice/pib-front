@@ -8,6 +8,7 @@ import history from "../utils/history";
 // layout
 import DashboardLayoutPf from "./DashboardLayoutPf";
 import DashboardLayoutPj from "./DashboardLayoutPj";
+import DashboardLayoutAssociation from "./DashboardLayoutAssociation";
 import PublicLayout from "./PublicLayout";
 
 // pages
@@ -23,6 +24,7 @@ import Contact from "../pages/Contact";
 import RuleNegociation from "../pages/RuleNegociation";
 import FinancialReport from "../pages/FinancialReport";
 import Balance from "../pages/Balance";
+import Shopkeepers from "../pages/Shopkeepers";
 
 import Register from "../pages/Register";
 import RegisterPj from "../pages/RegisterPj";
@@ -57,6 +59,10 @@ const Routes: React.FC = () => {
                 <DashboardLayoutPj exact path="/ruleNegociation" component={RuleNegociation} />
                 <DashboardLayoutPj exact path="/financialReport" component={FinancialReport} />
                 <DashboardLayoutPj exact path="/balance" component={Balance} />
+
+                {/* views associacao */}
+                <DashboardLayoutAssociation exact path="/associacao" component={Balance} />
+                <DashboardLayoutAssociation exact path="/shopkeepers" component={Shopkeepers} />
             </Switch>
         </Router>
     );

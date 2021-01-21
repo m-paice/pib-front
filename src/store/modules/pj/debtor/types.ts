@@ -54,7 +54,7 @@ export interface Negociation {
     updatedAt: Date;
     createdAt: Date;
 }
-export interface Shoopeerk {
+export interface shopkeeper {
     id: string;
     usuarioId: string;
     cnpj: string;
@@ -89,7 +89,7 @@ export interface Debtor {
     valor: number;
     vencimento: Date;
     consumidor: Consumer;
-    lojista: Shoopeerk;
+    lojista: shopkeeper;
     negociacao?: Negociation;
     updatedAt: Date;
     createdAt: Date;

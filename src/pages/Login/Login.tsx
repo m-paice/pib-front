@@ -160,7 +160,7 @@ const Login: React.FC<Props> = ({ payload }) => {
                                                                 }}
                                                                 {...props.field}
                                                                 type="text"
-                                                                placeholder="Digite seu CPF ou CNJP"
+                                                                placeholder="Digite seu CPF ou CNPJ"
                                                             />
                                                             <span className="erro">
                                                                 {props.meta.touched &&
@@ -224,7 +224,7 @@ const Login: React.FC<Props> = ({ payload }) => {
                             <h1 style={{ color: "#fff", margin: 0, fontSize: 80, fontWeight: "bold" }}>
                                 sua conta <br /> em dia
                             </h1>
-                            <input style={{ borderRadius: 20 }} type="text" placeholder="Digite seu CPF ou CNJP" />
+                            <input style={{ borderRadius: 20 }} type="text" placeholder="Digite seu CPF ou CNPJ" />
                         </div>
                         <div style={{ width: "50%" }}>IMAGEM</div>
                     </div>

@@ -7,6 +7,7 @@ import { Debtor } from "../../store/modules/pj/debtor/types";
 // components
 import Table from "../../components/Table/TableDebtor";
 import Select from "../../components/unconnected/Fields/Select";
+import UnableUser from "../../components/UnableUser";
 
 const header = [
     { text: "Data de \n Registro", title: "Data de Registro", reference: "register" },
@@ -30,19 +31,23 @@ const options = [
 
 interface Props {
     payload: {
-        data: Debtor[];
+        data: {
+            userEnable: boolean;
+            debtors: Debtor[];
+        };
         actions: {
             handleLoadDebtors(): void;
+            handleFilterSituation(situation: string | null): Debtor[];
         };
-        handleFilterSituation(situation: string | null): Debtor[];
     };
 }
 
 const DebtorBase: React.FC<Props> = ({ payload }) => {
-    const { data, actions, handleFilterSituation } = payload;
-    const { handleLoadDebtors } = actions;
+    const { data, actions } = payload;
+    const { debtors, userEnable } = data;
+    const { handleLoadDebtors, handleFilterSituation } = actions;
 
-    const [tbody, setTbody] = useState<Debtor[]>(data);
+    const [tbody, setTbody] = useState<Debtor[]>(debtors);
     const [searchData, setSearchData] = useState<Debtor[]>([]);
     const [filteredSituation, setFilteredSituation] = useState({ value: null, label: "Todos" });
     const [lastColumn, setLastColum] = useState("");
@@ -102,6 +107,7 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
     return (
         <div className="page">
             <div className="container">
+                {!userEnable && <UnableUser />}
                 <div className="listaBaseDev">
                     <div className="descmod cadastro">
                         <div className="row">

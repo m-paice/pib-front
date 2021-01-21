@@ -21,13 +21,14 @@ export interface User {
     email: string;
     celular: string;
     login: string;
-    ativo: boolean;
-    updatedAt: Date;
-    createdAt: Date;
     pessoais: null;
     termos: null;
     token: null;
     document: string;
+    ativo: boolean;
+    habilitado: boolean;
+    updatedAt: Date;
+    createdAt: Date;
 }
 
 export interface StateAuth {

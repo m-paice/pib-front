@@ -2,14 +2,16 @@ import React from "react";
 
 import { useSelector } from "react-redux";
 
+// selectors
 import { dataWallet, totalValue } from "../../store/modules/pj/wallet/selectors";
-import { userAuthenticated } from "../../store/modules/auth/selectors";
+import { userAuthenticated, userEnabled } from "../../store/modules/auth/selectors";
 
 export const financialReportContainer = (Component: React.ElementType) => {
     const Container: React.FC = () => {
         const transactions = useSelector(dataWallet);
         const totalValueTransactions = useSelector(totalValue);
         const userAuthenticate = useSelector(userAuthenticated);
+        const userEnable = useSelector(userEnabled);
 
         const handleFilterCurrentMonth = (month: number) => {
             return transactions.filter((transaction) => new Date(transaction.date).getMonth() === month);
@@ -37,15 +39,20 @@ export const financialReportContainer = (Component: React.ElementType) => {
         return (
             <Component
                 payload={{
-                    data: transactions,
-                    totalValueTransactions: totalValueTransactions.toLocaleString("pt-br", {
-                        style: "currency",
-                        currency: "BRL",
-                    }),
-                    isValidValue: totalValueTransactions > 25,
-                    userAuthenticate,
-                    handleFilterCurrentMonth,
-                    handleReduceValueOfMonth,
+                    data: {
+                        transactions,
+                        userEnable,
+                        totalValueTransactions: totalValueTransactions.toLocaleString("pt-br", {
+                            style: "currency",
+                            currency: "BRL",
+                        }),
+                        isValidValue: totalValueTransactions > 25,
+                        userAuthenticate,
+                    },
+                    actions: {
+                        handleFilterCurrentMonth,
+                        handleReduceValueOfMonth,
+                    },
                 }}
             />
         );

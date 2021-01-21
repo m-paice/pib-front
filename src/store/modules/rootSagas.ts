@@ -10,6 +10,8 @@ import { types as typesPjCompany } from "./pj/company/types";
 import { types as typesPjNegociation } from "./pj/negociation/types";
 import { types as typesPjWallet } from "./pj/wallet/types";
 import { types as typesPjDebtors } from "./pj/debtor/types";
+// types association
+import { types as typesshopkeeper } from "./association/shopkeeper/types";
 
 // sagas
 import authSagas from "./auth/sagas";
@@ -21,6 +23,8 @@ import companyPjSagas from "./pj/company/sagas";
 import negociationPjSagas from "./pj/negociation/sagas";
 import walletPjSagas from "./pj/wallet/sagas";
 import debtorPjSagas from "./pj/debtor/sagas";
+// sagas association
+import shopkeeperSagas from "./association/shopkeeper/sagas";
 
 export default function* () {
     return yield all([
@@ -48,6 +52,10 @@ export default function* () {
         takeLatest(typesPjWallet.ADD_WALLET, walletPjSagas.addItemWallet),
         // debtor
         takeLatest(typesPjDebtors.LOAD_DEBTOR, debtorPjSagas.loadDebtors),
+
+        /** ASSOCIATION */
+        takeLatest(typesshopkeeper.LOAD_SHOPKEEPER, shopkeeperSagas.loadShopkeepers),
+        takeLatest(typesshopkeeper.UPDATE_SHOPKEEPER, shopkeeperSagas.updateShopkeeper),
 
         // init services
         takeLatest("persist/REHYDRATE", authSagas.reLogin),

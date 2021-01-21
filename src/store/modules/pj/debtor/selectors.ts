@@ -84,7 +84,9 @@ export const receivedDebtorsPortion = createSelector(stateDebtor, (debtorsItems)
 
 // amount debtors pf
 export const amountDebtorsPf = createSelector(stateDebtor, (debtorsItems) => {
-    const mapDocument = debtorsItems.reduce((acc, cur) => {
+    const mapDocument: {
+        [key: string]: number;
+    } = debtorsItems.reduce((acc, cur) => {
         if (acc[cur.consumidor.cpf]) return acc;
 
         return {
@@ -93,7 +95,9 @@ export const amountDebtorsPf = createSelector(stateDebtor, (debtorsItems) => {
         };
     }, {});
 
-    return Object.values(mapDocument).reduce((acc: number, cur: number) => acc + cur, 0);
+    const response = Object.values(mapDocument).reduce((acc, cur) => acc + cur, 0);
+
+    return response;
 });
 
 // amount debt for pf

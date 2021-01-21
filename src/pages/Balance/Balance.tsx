@@ -4,6 +4,7 @@ import { balanceContainer } from "./BalanceContainer";
 
 // components
 import { SeparatorHorizontal, SeparatorVertical } from "../../components/Separator";
+import UnableUser from "../../components/UnableUser";
 
 import Available from "./Available";
 import Received from "./Received";
@@ -14,27 +15,29 @@ import Wallet from "./Wallet";
 
 interface Props {
     payload: {
-        availableValue: number;
-        receiveValue: number;
-        delayValue: number;
-        paymentForm: number[];
-        amountPayment(): { [key: number]: number };
-        filterPaymentForSituaction(situation: number): { [key: number]: number };
-        receivedPortion: { [key: string]: any };
-        amountInCashOrPortion(): { [key: number]: number };
-        filterInCashOrPortion(situation: number): { [key: number]: number };
-        isValidValue: boolean;
-        amountPf: number;
-        filterAmountDebtorsForSituation(situation: number): number;
-        amountDebtsPf: number;
-        filterAmountDebtsForSituation(situation: number): number;
-        amountWallet: number;
-        filterAmountWalletForSituation(situation: number): number;
+        data: {
+            userEnable: boolean;
+            availableValue: number;
+            receiveValue: number;
+            delayValue: number;
+            paymentForm: number[];
+            amountPayment(): { [key: number]: number };
+            filterPaymentForSituaction(situation: number): { [key: number]: number };
+            receivedPortion: { [key: string]: any };
+            amountInCashOrPortion(): { [key: number]: number };
+            filterInCashOrPortion(situation: number): { [key: number]: number };
+            isValidValue: boolean;
+            amountPf: number;
+            filterAmountDebtorsForSituation(situation: number): number;
+            amountDebtsPf: number;
+            filterAmountDebtsForSituation(situation: number): number;
+            amountWallet: number;
+            filterAmountWalletForSituation(situation: number): number;
 
-        handleFlowReceived(amountMonth: number): number[];
-        handleFilterFlowReceivedForSituation(situation: number, amountMonth: number);
-        handleFlowValueReceived(amountMonth: number): number[];
-
+            handleFlowReceived(amountMonth: number): number[];
+            handleFilterFlowReceivedForSituation(situation: number, amountMonth: number);
+            handleFlowValueReceived(amountMonth: number): number[];
+        };
         actions: {
             handleLoadDebtor(): void;
         };
@@ -42,7 +45,10 @@ interface Props {
 }
 
 const Balance: React.FC<Props> = ({ payload }) => {
+    const { data, actions } = payload;
+
     const {
+        userEnable,
         availableValue,
         receiveValue,
         delayValue,
@@ -63,9 +69,7 @@ const Balance: React.FC<Props> = ({ payload }) => {
         handleFlowReceived,
         handleFilterFlowReceivedForSituation,
         handleFlowValueReceived,
-
-        actions,
-    } = payload;
+    } = data;
 
     const { handleLoadDebtor } = actions;
 
@@ -76,6 +80,7 @@ const Balance: React.FC<Props> = ({ payload }) => {
     return (
         <div className="page">
             <div className="container">
+                {!userEnable && <UnableUser />}
                 <div className="descmod cadastro">
                     <div className="row">
                         <Available availableValue={availableValue} isValidValue={isValidValue} />

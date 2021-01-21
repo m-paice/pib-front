@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 
-import { useDispatch } from "react-redux";
-
 import { ruleNegociationContainer } from "./RuleNegociationContainer";
 
 import { Negociation } from "../../store/modules/pj/negociation/types";
 
-// actions
-import { actions as actionsNegociation } from "../../store/modules/pj/negociation/actions";
-
+// components
 import Table from "../../components/Table/TableNegociation";
+import UnableUser from "../../components/UnableUser";
 
 interface Props {
     payload: {
-        data: Negociation[];
+        data: {
+            userEnable: boolean;
+            negociations: Negociation[];
+        };
+        actions: {
+            loadRuleNegociations(): void;
+        };
     };
 }
 
@@ -22,26 +25,27 @@ const header = [
     { text: "Juros", title: "Juros", reference: "interest" },
     { text: "Desconto", title: "Desconto", reference: "discount" },
     { text: "Máximo de \n Parcelas", title: "Máximo de Parcelas", reference: "maxPortion" },
-    // { text: "Atenuador", title: "Atenuador", reference: "attenuator" },
+    // { text: "Atenuador", title: "Atenuador", reference: "attenuator" }, // TODO: manter comentado
     { text: "Multa", title: "Multa", reference: "trafficTicket" },
     { text: "Reajuste", title: "Reajuste", reference: "readjustment" },
     { text: "Editar e \n Simular", title: "Editar e Simular", reference: "" },
 ];
 
 const RuleNegociation: React.FC<Props> = ({ payload }) => {
-    const { data } = payload;
+    const { data, actions } = payload;
 
-    const dispatch = useDispatch();
+    const { userEnable, negociations } = data;
+    const { loadRuleNegociations } = actions;
 
-    const [tbody, setTbody] = useState<Negociation[]>(data);
+    const [tbody, setTbody] = useState<Negociation[]>(negociations);
     const [lastColumn, setLastColum] = useState("");
 
     useEffect(() => {
-        dispatch(actionsNegociation.loadNegociation());
+        loadRuleNegociations();
     }, []);
 
     useEffect(() => {
-        setTbody(payload.data);
+        setTbody(negociations);
     }, [payload.data]);
 
     const handleOrderByColumn = (column: string) => {
@@ -62,6 +66,7 @@ const RuleNegociation: React.FC<Props> = ({ payload }) => {
     return (
         <div className="page">
             <div className="container">
+                {!userEnable && <UnableUser />}
                 <div className="descmod cadastro d-flex justify-content-between">
                     <div className="col-xs-12">
                         <b>Fique por dentro das negociações</b>

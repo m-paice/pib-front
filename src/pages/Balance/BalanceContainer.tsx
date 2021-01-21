@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addMonths, differenceInMonths, subMonths, subYears } from "date-fns";
 
 // selectors
+import { userEnabled } from "../../store/modules/auth/selectors";
 import { totalValue } from "../../store/modules/pj/wallet/selectors";
 import {
     dataDebtor,
@@ -23,6 +24,7 @@ export const balanceContainer = (Component: React.ElementType) => {
     const Container: React.FC = () => {
         const dispatch = useDispatch();
 
+        const userEnable = useSelector(userEnabled);
         const debtors = useSelector(dataDebtor);
         const availableValue = useSelector(totalValue);
         const receiveValue = useSelector(receiveDebtorsValueNextDays);
@@ -159,57 +161,61 @@ export const balanceContainer = (Component: React.ElementType) => {
         };
 
         // filter amount debtors for situation
-        const filterAmountDebtorsForSituation = (situation: string) => {
-            if (situation !== null) {
-                const mapDocument = debtors
-                    .filter((item) => item.negociacao && item.negociacao.situacao === situation)
-                    .reduce((acc, cur) => {
-                        if (acc[cur.consumidor.cpf]) return acc;
+        const filterAmountDebtorsForSituation = (situation: number) => {
+            if (!situation || situation === 0) return amountPf;
 
-                        return {
-                            ...acc,
-                            [cur.consumidor.cpf]: (acc[cur.consumidor.cpf] || 0) + 1,
-                        };
-                    }, {});
+            const optionsSituation = {
+                1: "nao negociada",
+                2: "atraso",
+                3: "em dia",
+                4: "quitada",
+            };
 
-                return Object.values(mapDocument).reduce((acc: number, cur: number) => acc + cur, 0);
-            }
+            // quantidade de devedores nao negociados
+            if (situation === 1) return debtors.filter((item) => !item.negociacao).length;
 
-            const mapDocument = debtors.reduce((acc, cur) => {
-                if (acc[cur.consumidor.cpf]) return acc;
+            const mapDocument: {
+                [key: string]: number;
+            } = debtors
+                .filter((item) => item.negociacao && item.negociacao.situacao === optionsSituation[situation])
+                .reduce((acc, cur) => {
+                    if (acc[cur.consumidor.cpf]) return acc;
 
-                return {
-                    ...acc,
-                    [cur.consumidor.cpf]: (acc[cur.consumidor.cpf] || 0) + 1,
-                };
-            }, {});
+                    return {
+                        ...acc,
+                        [cur.consumidor.cpf]: (acc[cur.consumidor.cpf] || 0) + 1,
+                    };
+                }, {});
 
-            return Object.values(mapDocument).reduce((acc: number, cur: number) => acc + cur, 0);
+            return Object.values(mapDocument).reduce((acc, cur) => acc + cur, 0);
         };
 
         // filter amount debt for situation
-        const filterAmountDebtsForSituation = (situation: string) => {
-            if (situation !== null) {
-                const mapDocument = debtors
-                    .filter((item) => item.negociacao && item.negociacao.situacao === situation)
-                    .reduce((acc, cur) => {
-                        return {
-                            ...acc,
-                            [cur.consumidor.cpf]: (acc[cur.consumidor.cpf] || 0) + 1,
-                        };
-                    }, {});
+        const filterAmountDebtsForSituation = (situation: number) => {
+            if (!situation || situation === 0) return amountDebtsPf;
 
-                return Object.values(mapDocument).reduce((acc: number, cur: number) => acc + cur, 0);
-            }
+            const optionsSituation = {
+                1: "nao negociada",
+                2: "atraso",
+                3: "em dia",
+                4: "quitada",
+            };
 
-            const mapDocument = debtors.reduce((acc, cur) => {
-                return {
-                    ...acc,
-                    [cur.consumidor.cpf]: (acc[cur.consumidor.cpf] || 0) + 1,
-                };
-            }, {});
+            // quantidade de dividas nao negociadas
+            if (situation === 1) return debtors.filter((item) => !item.negociacao).length;
 
-            return Object.values(mapDocument).reduce((acc: number, cur: number) => acc + cur, 0);
+            const mapDocument: {
+                [key: string]: number;
+            } = debtors
+                .filter((item) => item.negociacao && item.negociacao.situacao === optionsSituation[situation])
+                .reduce((acc, cur) => {
+                    return {
+                        ...acc,
+                        [cur.consumidor.cpf]: (acc[cur.consumidor.cpf] || 0) + 1,
+                    };
+                }, {});
+
+            return Object.values(mapDocument).reduce((acc, cur) => acc + cur, 0);
         };
 
         // fluxo de recevimento (PARCELAS em atraso [1] e proxima[0])
@@ -280,43 +286,51 @@ export const balanceContainer = (Component: React.ElementType) => {
             return response;
         };
 
-        const filterAmountWalletForSituation = (situation: string) => {
-            if (situation !== null)
-                return debtors
-                    .filter((item) => item.negociacao && item.negociacao.situacao === situation)
-                    .reduce((acc, cur) => {
-                        return acc + cur.valor;
-                    }, 0);
+        const filterAmountWalletForSituation = (situation: number) => {
+            if (!situation || situation === 0) return amountWallet;
 
-            return debtors.reduce((acc, cur) => {
-                return acc + cur.valor;
-            }, 0);
+            const optionsSituation = {
+                1: "nao negociada",
+                2: "atraso",
+                3: "em dia",
+                4: "quitada",
+            };
+
+            // quantidade de dividas nao negociadas
+            if (situation === 1)
+                return debtors.filter((item) => !item.negociacao).reduce((acc, cur) => acc + cur.valor, 0);
+
+            return debtors
+                .filter((item) => item.negociacao && item.negociacao.situacao === optionsSituation[situation])
+                .reduce((acc, cur) => acc + cur.valor, 0);
         };
 
         return (
             <Component
                 payload={{
-                    availableValue: handleFormatValue(availableValue),
-                    receiveValue: handleFormatValue(receiveValue),
-                    delayValue: handleFormatValue(delayValue),
-                    paymentForm,
-                    amountPayment,
-                    filterPaymentForSituaction,
-                    receivedPortion,
-                    amountInCashOrPortion,
-                    filterInCashOrPortion,
-                    isValidValue: availableValue > 25,
-                    amountPf,
-                    filterAmountDebtorsForSituation,
-                    amountDebtsPf,
-                    filterAmountDebtsForSituation,
-                    amountWallet,
-                    filterAmountWalletForSituation,
+                    data: {
+                        userEnable,
+                        availableValue: handleFormatValue(availableValue),
+                        receiveValue: handleFormatValue(receiveValue),
+                        delayValue: handleFormatValue(delayValue),
+                        paymentForm,
+                        amountPayment,
+                        filterPaymentForSituaction,
+                        receivedPortion,
+                        amountInCashOrPortion,
+                        filterInCashOrPortion,
+                        isValidValue: availableValue > 25,
+                        amountPf,
+                        filterAmountDebtorsForSituation,
+                        amountDebtsPf,
+                        filterAmountDebtsForSituation,
+                        amountWallet,
+                        filterAmountWalletForSituation,
 
-                    handleFlowReceived,
-                    handleFilterFlowReceivedForSituation,
-                    handleFlowValueReceived,
-
+                        handleFlowReceived,
+                        handleFilterFlowReceivedForSituation,
+                        handleFlowValueReceived,
+                    },
                     actions: {
                         handleLoadDebtor,
                     },

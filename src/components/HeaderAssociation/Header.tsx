@@ -55,31 +55,31 @@ const Header: React.FC = () => {
                                     <li className="div menucel"></li>
 
                                     <li>
-                                        <Link to="/balance">
+                                        <Link to="/associacao">
                                             <img className="i1" src={I1} />
                                             <img className="i2" src={I21} />
                                             Resumo
                                         </Link>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <Link to="/financialReport">
                                             <img className="i1" src={I2} />
                                             <img className="i2" src={I22} />
                                             Extrato
                                         </Link>
-                                    </li>
-                                    <li>
+                                    </li> */}
+                                    {/* <li>
                                         <Link to="/ruleNegociation">
                                             <img className="i1" src={RulerAndPencil} />
                                             <img className="i2" src={RulerAndPencilBlue} />
                                             Reguá de Dívidas
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li>
-                                        <Link to="/debitorBase">
+                                        <Link to="/shopkeepers">
                                             <img className="i1" src={User} />
                                             <img className="i2" src={UserBlue} />
-                                            Controle PF
+                                            Lojistas
                                         </Link>
                                     </li>
 

@@ -16,6 +16,7 @@ import { financialReportContainer } from "./FinancialReportContainer";
 import Table from "../../components/Table/TableFinancial";
 import Select from "../../components/unconnected/Fields/Select";
 import AlertWithdraw from "../../components/AlertWithdraw";
+import UnableUser from "../../components/UnableUser";
 
 // utils
 import monthNames from "../../utils/monthNames";
@@ -48,30 +49,30 @@ const operations = [
 
 interface Props {
     payload: {
-        data: Wallet[];
-        totalValueTransactions: number;
-        isValidValue: boolean;
-        userAuthenticate: User;
-        handleFilterCurrentMonth(month: number): Wallet[];
-        handleReduceValueOfMonth(): { [key: number]: number };
+        data: {
+            userEnable: boolean;
+            transactions: Wallet[];
+            totalValueTransactions: number;
+            isValidValue: boolean;
+            userAuthenticate: User;
+        };
+        actions: {
+            handleFilterCurrentMonth(month: number): Wallet[];
+            handleReduceValueOfMonth(): { [key: number]: number };
+        };
     };
 }
 
 const FinancialReport: React.FC<Props> = ({ payload }) => {
-    const {
-        data,
-        totalValueTransactions,
-        isValidValue,
-        userAuthenticate,
-        handleFilterCurrentMonth,
-        handleReduceValueOfMonth,
-    } = payload;
+    const { data, actions } = payload;
 
-    const dispatch = useDispatch();
+    const { userEnable, transactions, totalValueTransactions, isValidValue, userAuthenticate } = data;
+
+    const { handleFilterCurrentMonth, handleReduceValueOfMonth } = actions;
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const [tbody, setTbody] = useState<Wallet[]>(data);
+    const [tbody, setTbody] = useState<Wallet[]>(transactions);
     const [searchData, setSearchData] = useState<Wallet[]>([]);
     const [lastColumn, setLastColum] = useState("");
 
@@ -86,9 +87,9 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
     }, []);
 
     useEffect(() => {
-        const transactions = handleFilterCurrentMonth(monthSelected.value);
+        const transactionsFiltered = handleFilterCurrentMonth(monthSelected.value);
 
-        if (transactions.length) {
+        if (transactionsFiltered.length) {
             const valueOfMonth = handleReduceValueOfMonth();
 
             const response: Wallet[] = [
@@ -100,14 +101,14 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
                     operation: 0,
                     value: valueOfMonth[monthSelected.value - 1],
                 },
-                ...transactions,
+                ...transactionsFiltered,
             ];
 
             return setTbody(response);
         }
 
-        setTbody(payload.data);
-    }, [payload.data]);
+        setTbody(transactions);
+    }, [transactions]);
 
     useEffect(() => {
         if (inputRef.current) {
@@ -184,6 +185,7 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
     return (
         <div className="page">
             <div className="container">
+                {!userEnable && <UnableUser />}
                 <div className="row">
                     <div className="col-xs-6 col-sm-6" style={{ fontSize: 35 }}>
                         <b>Seu Saldo: &nbsp;</b>

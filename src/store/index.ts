@@ -12,6 +12,7 @@ import rootSagas from "./modules/rootSagas";
 import { Auth } from "./modules/auth/types";
 import { StatePF } from "./modules/pf";
 import { StatePJ } from "./modules/pj";
+import { StateAssociation } from "./modules/association";
 
 const persistConfig = {
     key: "root",
@@ -22,6 +23,7 @@ export interface ApplicationState {
     auth: Auth;
     pf: StatePF;
     pj: StatePJ;
+    association: StateAssociation;
 }
 
 const sagaMiddleware = createSagaMiddleware();

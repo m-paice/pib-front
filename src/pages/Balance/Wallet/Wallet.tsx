@@ -4,11 +4,11 @@ import React, { useState, useEffect } from "react";
 import Select from "../../../components/unconnected/Fields/Select";
 
 const optionsSituation = [
-    { value: -1, label: "Todos" },
-    { value: 1, label: "Em atraso" },
-    { value: 2, label: "Em dia" },
-    { value: 0, label: "Não negociada" },
-    { value: 3, label: "Quitada" },
+    { value: 0, label: "Todos" },
+    { value: 1, label: "Não negociada" },
+    { value: 2, label: "Em atraso" },
+    { value: 3, label: "Em dia" },
+    { value: 4, label: "Quitada" },
 ];
 
 interface Props {
@@ -29,13 +29,13 @@ const Wallet: React.FC<Props> = ({
     filterAmountWalletForSituation,
 }) => {
     const [state, setState] = useState({
-        amountPf: amountPf,
-        amountDebtsPf: amountDebtsPf,
+        amountPf,
+        amountDebtsPf,
         amountWallet,
     });
 
     const [situationSelected, setSituationSelected] = useState({
-        value: -1,
+        value: 0,
         label: "Todos",
     });
 
