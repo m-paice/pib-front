@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import InputMask from "react-input-mask";
 import { Formik, Form, Field, FieldProps, FormikProps } from "formik";
+import history from "../../utils/history";
 
 // components
 import Input from "../../components/Fields/Input";
@@ -45,6 +46,12 @@ const Login: React.FC<Props> = ({ payload }) => {
         if (!values.login.length || !values.password.length) return;
 
         login({ login: values.login.replace("_", ""), senha: values.password });
+    };
+
+    const handleGetDocument = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter" || event.keyCode === 13) {
+            history.push(`/register-client/${event.currentTarget.value}`);
+        }
     };
 
     return (
@@ -224,7 +231,12 @@ const Login: React.FC<Props> = ({ payload }) => {
                             <h1 style={{ color: "#fff", margin: 0, fontSize: 80, fontWeight: "bold" }}>
                                 sua conta <br /> em dia
                             </h1>
-                            <input style={{ borderRadius: 20 }} type="text" placeholder="Digite seu CPF ou CNPJ" />
+                            <input
+                                style={{ borderRadius: 20 }}
+                                onKeyDown={handleGetDocument}
+                                type="text"
+                                placeholder="Digite seu CPF ou CNPJ"
+                            />
                         </div>
                         <div style={{ width: "50%" }}>IMAGEM</div>
                     </div>

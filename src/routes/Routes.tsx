@@ -26,6 +26,7 @@ import FinancialReport from "../pages/FinancialReport";
 import Balance from "../pages/Balance";
 import Shopkeepers from "../pages/Shopkeepers";
 
+import RegisterClient from "../pages/RegisterClient";
 import Register from "../pages/Register";
 import RegisterPj from "../pages/RegisterPj";
 
@@ -41,6 +42,7 @@ const Routes: React.FC = () => {
                 <Route exact path="/login" component={Login} />
 
                 {/* views public */}
+                <PublicLayout exact path="/register-client/:id" component={RegisterClient} />
                 <PublicLayout exact path="/register" component={Register} />
                 <PublicLayout exact path="/registerpj" component={RegisterPj} />
 

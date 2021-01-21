@@ -1,14 +1,25 @@
 import { useCallback } from "react";
 import { useIdleTimer } from "react-idle-timer";
 
+// store
+import storeDefault from "../store";
+import { types as typesAuth } from "../store/modules/auth/types";
+
+// utils
+import history from "../utils/history";
+
 export default () => {
+    const { store } = storeDefault();
+
     const setUserAway = useCallback(() => {
-        console.log("offline");
+        store.dispatch({
+            type: typesAuth.AUTH_LOGOUT,
+        });
+
+        history.push("/");
     }, []);
 
-    const setUserOnline = useCallback(() => {
-        console.log("online");
-    }, []);
+    const setUserOnline = useCallback(() => {}, []);
 
     useIdleTimer({
         timeout: 1000 * 60 * 1, // 5 minutes
