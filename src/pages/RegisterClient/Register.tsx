@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 
-import { useParams } from "react-router-dom";
-
 import history from "../../utils/history";
 import validators from "../../utils/validators";
 
 interface Props {}
 
 const Register: React.FC<Props> = ({}) => {
-    const { id } = useParams<{ id: string }>();
-
-    const [value, setValue] = useState(id);
+    const [value, setValue] = useState("");
 
     const handleSetPageRegister = () => {
         if (validators.document(value) === "pj") {

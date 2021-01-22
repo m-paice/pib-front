@@ -8,7 +8,7 @@ import { userAuthenticated } from "../../store/modules/auth/selectors";
 import { actions as actionAuth } from "../../store/modules/auth/actions";
 
 // assets
-import Logo from "../../assets/imagens/logo.png";
+import Logo from "../../assets/credas-icon.png";
 import I1 from "../../assets/imagens/i1.png";
 import I21 from "../../assets/imagens/i21.png";
 

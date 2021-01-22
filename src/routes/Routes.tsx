@@ -42,7 +42,7 @@ const Routes: React.FC = () => {
                 <Route exact path="/login" component={Login} />
 
                 {/* views public */}
-                <PublicLayout exact path="/register-client/:id" component={RegisterClient} />
+                <PublicLayout exact path="/register-client" component={RegisterClient} />
                 <PublicLayout exact path="/register" component={Register} />
                 <PublicLayout exact path="/registerpj" component={RegisterPj} />
 

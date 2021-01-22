@@ -13,13 +13,10 @@ const Footer: React.FC = () => {
                             <h3>Quem somos</h3>
                             <ul>
                                 <li>
-                                    <a href="">Item</a>
+                                    <a href="">Nosso diferencial</a>
                                 </li>
                                 <li>
-                                    <a href="">Item</a>
-                                </li>
-                                <li>
-                                    <a href="">Item</a>
+                                    <a href="">Equipe</a>
                                 </li>
                             </ul>
                         </div>
@@ -28,13 +25,10 @@ const Footer: React.FC = () => {
                             <h3>Como Funciona</h3>
                             <ul>
                                 <li>
-                                    <a href="">Item</a>
+                                    <a href="">Para consumidores</a>
                                 </li>
                                 <li>
-                                    <a href="">Item</a>
-                                </li>
-                                <li>
-                                    <a href="">Item</a>
+                                    <a href="">Para empresas</a>
                                 </li>
                             </ul>
                         </div>
@@ -43,13 +37,13 @@ const Footer: React.FC = () => {
                             <h3>Serviços</h3>
                             <ul>
                                 <li>
-                                    <a href="">Item</a>
+                                    <a href="">Consulta CPF</a>
                                 </li>
                                 <li>
-                                    <a href="">Item</a>
+                                    <a href="">Negociação de dívidas</a>
                                 </li>
                                 <li>
-                                    <a href="">Item</a>
+                                    <a href="">Empréstimos</a>
                                 </li>
                             </ul>
                         </div>
@@ -58,13 +52,10 @@ const Footer: React.FC = () => {
                             <h3>Parceiros</h3>
                             <ul>
                                 <li>
-                                    <a href="">Item</a>
+                                    <a href="">Associações comerciais</a>
                                 </li>
                                 <li>
-                                    <a href="">Item</a>
-                                </li>
-                                <li>
-                                    <a href="">Item</a>
+                                    <a href="">Produtos</a>
                                 </li>
                             </ul>
                         </div>
@@ -73,13 +64,13 @@ const Footer: React.FC = () => {
                             <h3>Dúvidas</h3>
                             <ul>
                                 <li>
-                                    <a href="">Item</a>
+                                    <a href="">Perguntas Frequentes</a>
                                 </li>
                                 <li>
-                                    <a href="">Item</a>
+                                    <a href="">Segurança</a>
                                 </li>
                                 <li>
-                                    <a href="">Item</a>
+                                    <a href="">Fale conosco</a>
                                 </li>
                             </ul>
                         </div>

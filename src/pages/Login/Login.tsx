@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 
 import { useHistory } from "react-router-dom";
-import InputMask from "react-input-mask";
 import { Formik, Form, Field, FieldProps, FormikProps } from "formik";
-import history from "../../utils/history";
 
-// components
-import Input from "../../components/Fields/Input";
+// utils
+import validators from "../../utils/validators";
 
 // assets
 import IconKey from "../../assets/imagens/icon-chave.png";
+import ImagePeople from "../../assets/people.png";
 
 import { loginContainer } from "./LoginContainer";
 
@@ -36,6 +35,8 @@ const Login: React.FC<Props> = ({ payload }) => {
     const { actions } = payload;
     const { login } = actions;
 
+    const history = useHistory();
+
     const [openLogin, setOpenLogin] = useState(false);
 
     const handleToggleLogin = () => {
@@ -49,8 +50,16 @@ const Login: React.FC<Props> = ({ payload }) => {
     };
 
     const handleGetDocument = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        const value = event.currentTarget.value;
+
         if (event.key === "Enter" || event.keyCode === 13) {
-            history.push(`/register-client/${event.currentTarget.value}`);
+            if (validators.document(value) === "pj") {
+                history.push("/registerpj");
+            }
+
+            if (validators.document(value) === "pf") {
+                history.push("/register");
+            }
         }
     };
 
@@ -61,7 +70,7 @@ const Login: React.FC<Props> = ({ payload }) => {
                     className="site-branding"
                     style={{ height: "100vh", display: "flex", flexDirection: "column", alignItems: "center" }}
                 >
-                    <div style={{ width: "100%", maxWidth: 900, minHeight: 200 }}>
+                    <div style={{ width: "100%", maxWidth: 900, minHeight: 200, position: "relative" }}>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
                             <div
                                 style={{
@@ -105,7 +114,12 @@ const Login: React.FC<Props> = ({ payload }) => {
                                     fontWeight: "bold",
                                 }}
                             >
-                                <span style={{ margin: "0 7px", cursor: "pointer" }}>CADASTRE-SE</span>
+                                <span
+                                    onClick={() => history.push("/register-client")}
+                                    style={{ margin: "0 7px", cursor: "pointer" }}
+                                >
+                                    CADASTRE-SE
+                                </span>
                             </div>
                             <div style={{ color: "#fff", height: 20, borderRight: "1px solid #fff" }}>
                                 <img
@@ -141,6 +155,9 @@ const Login: React.FC<Props> = ({ payload }) => {
                                     display: "flex",
                                     justifyContent: "flex-end",
                                     marginTop: 15,
+                                    position: "absolute",
+                                    zIndex: 10,
+                                    width: "100%",
                                 }}
                             >
                                 <div
@@ -201,11 +218,6 @@ const Login: React.FC<Props> = ({ payload }) => {
                                                     )}
                                                 </Field>
 
-                                                <button type="submit" style={{ display: "none" }}>
-                                                    {" "}
-                                                    logar{" "}
-                                                </button>
-
                                                 <span
                                                     style={{
                                                         width: "119px",
@@ -218,6 +230,25 @@ const Login: React.FC<Props> = ({ payload }) => {
                                                 >
                                                     Esqueci minha senha
                                                 </span>
+                                                <span style={{ marginLeft: 10, marginRight: 10, color: "#fff" }}>
+                                                    |
+                                                </span>
+                                                <button
+                                                    type="submit"
+                                                    style={{
+                                                        width: "20px",
+                                                        fontSize: "11px",
+                                                        color: "#fff",
+                                                        marginTop: "7px",
+                                                        textDecoration: "underline",
+                                                        cursor: "pointer",
+                                                        padding: 0,
+                                                        backgroundColor: "transparent",
+                                                        border: "none",
+                                                    }}
+                                                >
+                                                    ENTRAR
+                                                </button>
                                             </Form>
                                         )}
                                     </Formik>
@@ -238,7 +269,17 @@ const Login: React.FC<Props> = ({ payload }) => {
                                 placeholder="Digite seu CPF ou CNPJ"
                             />
                         </div>
-                        <div style={{ width: "50%" }}>IMAGEM</div>
+                        <div style={{ width: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <img
+                                src={ImagePeople}
+                                alt="people-image"
+                                style={{
+                                    width: "500px",
+                                    height: "525px",
+                                    marginBottom: "250px",
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
             </header>

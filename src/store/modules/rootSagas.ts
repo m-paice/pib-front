@@ -61,7 +61,7 @@ export default function* () {
         takeLatest("persist/REHYDRATE", authSagas.reLogin),
 
         // init services for authenticated
-        takeLatest(typesAuth.AUTH_LOGIN_SUCCESS, companyPjSagas.loadCompanies),
-        takeLatest(typesAuth.AUTH_LOGIN_SUCCESS, negociationPjSagas.loadNegociation),
+        // takeLatest(typesAuth.AUTH_LOGIN_SUCCESS, companyPjSagas.loadCompanies),
+        // takeLatest(typesAuth.AUTH_LOGIN_SUCCESS, negociationPjSagas.loadNegociation),
     ]);
 }
