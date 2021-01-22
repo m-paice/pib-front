@@ -13,7 +13,7 @@ interface PropsLayout {
 }
 
 const DashboardLayout: React.FC<PropsLayout> = ({ component: Component, ...rest }) => {
-    useVisibility();
+    // useVisibility();
 
     return (
         <Route
