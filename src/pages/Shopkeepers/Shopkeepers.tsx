@@ -10,6 +10,7 @@ import TableShopkeepers from "../../components/Table/TableShopkeepers";
 
 const header = [
     { text: "Nome", title: "Nome", reference: "name" },
+    { text: "CNPJ", title: "CNPJ", reference: "document" },
     { text: "Habilitado", title: "Habilitado", reference: "enable" },
     { text: "Ação", title: "Ação", reference: "action" },
 ];

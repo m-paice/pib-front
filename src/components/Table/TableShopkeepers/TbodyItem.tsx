@@ -43,6 +43,7 @@ interface Props extends Shopkeeper {
 const TbodyItem: React.FC<Props> = (props) => {
     const {
         id,
+        cnpj,
         usuario: { nome, habilitado },
         updateShopkeeper,
     } = props;
@@ -50,6 +51,7 @@ const TbodyItem: React.FC<Props> = (props) => {
     return (
         <tr className="itemListaRegras">
             <Item text={nome} />
+            <Item text={cnpj} />
             <Item text={habilitado ? "SIM" : "NÃO"} />
             <ActionsItem>
                 <Switch onChange={() => updateShopkeeper(id)} checked={habilitado} />
