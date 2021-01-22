@@ -13,7 +13,7 @@ const optionsSituation = [
 ];
 
 const optionsSituationPie = [
-    { value: -1, label: "Todos" },
+    { value: 0, label: "Todos" },
     { value: 1, label: "Em atraso" },
     { value: 2, label: "Em dia" },
     { value: 3, label: "Quitada" },
@@ -25,9 +25,11 @@ const optionsYears = [
 ];
 
 const paymentTypes = {
-    1: "Cartão de crédito",
-    2: "Boleto",
+    cartao: "Cartão de crédito",
+    boleto: "Boleto",
 };
+
+const paymentForm = ["boleto", "cartao"];
 
 interface Props {
     paymentForm: number[];
@@ -40,7 +42,6 @@ interface Props {
 }
 
 const FlowReceivement: React.FC<Props> = ({
-    paymentForm,
     amountPayment,
     filterPaymentForSituaction,
     receivedPortion,

@@ -12,16 +12,13 @@ const optionsYears = [
 ];
 
 const optionSituationPie = [
-    { value: -1, label: "Todos" },
+    { value: 0, label: "Todos" },
     { value: 1, label: "Em atraso" },
     { value: 2, label: "Em dia" },
     { value: 3, label: "Quitada" },
 ];
 
-const paymentTypes = {
-    1: "À vista",
-    2: "Parcelado",
-};
+const paymentTypes = ["À vista", "Parcelado"];
 
 interface Props {
     amountInCashOrPortion(): { [key: number]: number };
@@ -39,21 +36,20 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
     });
 
     const [paymentSituationSelected, setPaymentSituationSelected] = useState({
-        value: -1,
+        value: 0,
         label: "Todos",
     });
+
+    // console.log(data);
 
     useEffect(() => {
         const response = amountInCashOrPortion();
         const barDataResponse = handleFlowValueReceived(amountMonth.value);
 
-        const inCash = Object.values(response).filter((item) => item === 1).length;
-        const portion = Object.values(response).filter((item) => item > 1).length;
+        // const inCash = Object.values(response).filter((item) => item === 1).length;
+        // const portion = Object.values(response).filter((item) => item > 1).length;
 
-        setData({
-            1: inCash,
-            2: portion,
-        });
+        setData(response);
         setBarData(barDataResponse);
     }, [amountInCashOrPortion]);
 
@@ -65,13 +61,8 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
 
     useEffect(() => {
         const response = filterInCashOrPortion(paymentSituationSelected.value);
-        const inCash = Object.values(response).filter((item) => item === 1).length;
-        const portion = Object.values(response).filter((item) => item > 1).length;
 
-        setData({
-            1: inCash,
-            2: portion,
-        });
+        setData(response);
     }, [paymentSituationSelected.value]);
 
     const handleSetAmountMonth = useCallback(
@@ -108,11 +99,7 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
                     </div>
                     <br />
                     <section style={{ marginTop: 40 }}>
-                        <Pie
-                            labels={Array.from({ length: 2 }).map((_, index) => paymentTypes[index + 1])}
-                            data={Object.values(data)}
-                            colors={["#4E4C67", "#A6B1E1"]}
-                        />
+                        <Pie labels={paymentTypes} data={Object.values(data)} colors={["#4E4C67", "#A6B1E1"]} />
                     </section>
                 </div>
             </div>

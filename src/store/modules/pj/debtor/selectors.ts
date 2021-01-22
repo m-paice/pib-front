@@ -15,47 +15,45 @@ export const dataDebtor = createSelector(stateDebtor, (debtorsItems) => debtorsI
 
 // receive debtors value next 30 days
 export const receiveDebtorsValueNextDays = createSelector(stateDebtor, (debtorsItems) => {
-    /**
-     * REGRAS APLICADAS:
-     * filtrar todos os que a parcela for PROXIMO (situation === 0)
-     * Pegar somento os debtos do mês seguinte
-     * Somar as parcelas
-     * Somar o total das parcelas
-     */
     const response = debtorsItems.reduce((acc, cur) => {
-        return [
-            ...acc,
-            cur.negociacao &&
-                cur.negociacao.parcelas
-                    .filter(
-                        (item) =>
-                            item.situacao === "nao negociado" &&
-                            item.vencimento >= new Date() &&
-                            item.vencimento <= addMonths(new Date(), 1),
-                    )
-                    .reduce((acc, cur) => {
-                        return acc + cur.valorParcela;
-                    }, 0),
-        ];
-    }, []);
-    // .reduce((acc, cur) => acc + cur, 0);
+        if (!cur.negociacao) return acc;
 
-    return 0;
+        return (
+            acc +
+            cur.negociacao.parcelas
+                .filter(
+                    (item) =>
+                        item.situacao !== "atraso" &&
+                        new Date(item.vencimento) > new Date() &&
+                        new Date(item.vencimento) < addMonths(new Date(), 1),
+                )
+                .reduce((acc, cur) => acc + cur.valorParcela, 0)
+        );
+    }, 0);
+
+    return response;
 });
 
 // delay value
-export const delayDebtorsValue = createSelector(stateDebtor, (debtorsItems) =>
-    debtorsItems
-        .filter((item) => item.negociacao && item.negociacao.situacao === "atrasado")
-        .reduce((acc, cur) => {
-            return (
-                acc +
-                (cur.negociacao ? cur.negociacao.parcelas : [])
-                    .filter((item) => item.situacao === "atrasado")
-                    .reduce((acc, cur) => acc + cur.valorParcela, 0)
-            );
-        }, 0),
-);
+export const delayDebtorsValue = createSelector(stateDebtor, (debtorsItems) => {
+    const response = debtorsItems.reduce((acc, cur) => {
+        if (!cur.negociacao) return acc;
+
+        return (
+            acc +
+            cur.negociacao.parcelas
+                .filter(
+                    (item) =>
+                        item.situacao === "atraso" &&
+                        new Date(item.vencimento) > new Date() &&
+                        new Date(item.vencimento) < addMonths(new Date(), 1),
+                )
+                .reduce((acc, cur) => acc + cur.valorParcela, 0)
+        );
+    }, 0);
+
+    return response;
+});
 
 // names form payment
 export const namesDebtorsPayments = createSelector(stateDebtor, (debtorsItems) =>

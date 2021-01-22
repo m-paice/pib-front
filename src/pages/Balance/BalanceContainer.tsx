@@ -47,34 +47,56 @@ export const balanceContainer = (Component: React.ElementType) => {
 
         // amount items for payment
         const amountPayment = () =>
-            debtors.reduce((acc, cur) => {
-                return {
-                    ...acc,
-                    [cur.negociacao ? cur.negociacao.formaPagamento : ""]:
-                        (acc[cur.negociacao ? cur.negociacao.formaPagamento : ""] || 0) + 1,
-                };
-            }, {});
+            debtors.reduce(
+                (acc, cur) => {
+                    if (!cur.negociacao) return acc;
 
-        const filterPaymentForSituaction = (situation: string) => {
-            if (situation !== null) {
-                return debtors
-                    .filter((item) => item.negociacao && item.negociacao.situacao === situation)
-                    .reduce((acc, cur) => {
+                    return {
+                        ...acc,
+                        ...(cur.negociacao
+                            ? {
+                                  [cur.negociacao.formaPagamento]: acc[cur.negociacao.formaPagamento] + 1,
+                              }
+                            : acc),
+                    };
+                },
+                { boleto: 0, cartao: 0 },
+            );
+
+        const filterPaymentForSituaction = (situation: number) => {
+            if (!situation || situation === 0)
+                return debtors.reduce(
+                    (acc, cur) => {
+                        if (!cur.negociacao) return acc;
+
                         return {
                             ...acc,
                             [cur.negociacao ? cur.negociacao.formaPagamento : ""]:
                                 (acc[cur.negociacao ? cur.negociacao.formaPagamento : ""] || 0) + 1,
                         };
-                    }, {});
-            }
+                    },
+                    { boleto: 0, cartao: 0 },
+                );
 
-            return debtors.reduce((acc, cur) => {
-                return {
-                    ...acc,
-                    [cur.negociacao ? cur.negociacao.formaPagamento : ""]:
-                        (acc[cur.negociacao ? cur.negociacao.formaPagamento : ""] || 0) + 1,
-                };
-            }, {});
+            const optionsSituation = {
+                1: "atraso",
+                2: "em dia",
+                3: "quitada",
+            };
+
+            return debtors
+                .filter((item) => item.negociacao && item.negociacao.situacao === optionsSituation[situation])
+                .reduce(
+                    (acc, cur) => {
+                        if (!cur.negociacao) return acc;
+                        return {
+                            ...acc,
+                            [cur.negociacao ? cur.negociacao.formaPagamento : ""]:
+                                (acc[cur.negociacao ? cur.negociacao.formaPagamento : ""] || 0) + 1,
+                        };
+                    },
+                    { boleto: 0, cartao: 0 },
+                );
         };
 
         // flow received for situatio
@@ -120,44 +142,70 @@ export const balanceContainer = (Component: React.ElementType) => {
 
         // amount payment in cash or portion
         const amountInCashOrPortion = () =>
-            debtors.reduce((acc, cur) => {
-                return {
-                    ...acc,
-                    [cur.id]: cur.negociacao
-                        ? cur.negociacao.parcelas
-                        : [].reduce((acc, cur) => {
-                              return acc + 1;
-                          }, 0),
-                };
-            }, {});
+            debtors.reduce(
+                (acc, cur) => {
+                    if (!cur.negociacao) return acc;
+
+                    return {
+                        ...acc,
+                        ...(cur.negociacao?.parcelas.length > 1
+                            ? {
+                                  parcelado: acc["parcelado"] + 1,
+                              }
+                            : {
+                                  ["a vista"]: acc["a vista"] + 1,
+                              }),
+                    };
+                },
+                { ["a vista"]: 0, parcelado: 0 },
+            );
 
         // filter payment in cash or portion
-        const filterInCashOrPortion = (situation: string) => {
-            if (situation !== null) {
-                return debtors
-                    .filter((item) => item.negociacao && item.negociacao.situacao === situation)
-                    .reduce((acc, cur) => {
+        const filterInCashOrPortion = (situation: number) => {
+            if (!situation || situation === 0)
+                return debtors.reduce(
+                    (acc, cur) => {
+                        if (!cur.negociacao) return acc;
+
                         return {
                             ...acc,
-                            [cur.id]: cur.negociacao
-                                ? cur.negociacao.parcelas
-                                : [].reduce((acc, cur) => {
-                                      return acc + 1;
-                                  }, 0),
+                            ...(cur.negociacao.parcelas.length > 1
+                                ? {
+                                      parcelado: acc["parcelado"] + 1,
+                                  }
+                                : {
+                                      ["a vista"]: acc["a vista"] + 1,
+                                  }),
                         };
-                    }, {});
-            }
+                    },
+                    { ["a vista"]: 0, parcelado: 0 },
+                );
 
-            return debtors.reduce((acc, cur) => {
-                return {
-                    ...acc,
-                    [cur.id]:
-                        cur.negociacao &&
-                        cur.negociacao.parcelas.reduce((acc, cur) => {
-                            return acc + 1;
-                        }, 0),
-                };
-            }, {});
+            const optionsSituation = {
+                1: "atraso",
+                2: "em dia",
+                3: "quitada",
+            };
+
+            return debtors
+                .filter((item) => item.negociacao && item.negociacao.situacao === optionsSituation[situation])
+                .reduce(
+                    (acc, cur) => {
+                        if (!cur.negociacao) return acc;
+
+                        return {
+                            ...acc,
+                            ...(cur.negociacao?.parcelas.length > 1
+                                ? {
+                                      parcelado: acc["parcelado"] || 0 + 1,
+                                  }
+                                : {
+                                      ["a vista"]: acc["a vista"] + 1,
+                                  }),
+                        };
+                    },
+                    { ["a vista"]: 0, parcelado: 0 },
+                );
         };
 
         // filter amount debtors for situation
