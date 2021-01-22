@@ -155,17 +155,13 @@ const FlowReceivement: React.FC<Props> = ({
                                 const currentMonth = new Date().getMonth() + 1;
                                 const currentYear = new Date().getFullYear();
 
-                                if (currentMonth + index > 24) {
-                                    return `${currentMonth - currentMonth + (index - 13)}/${currentYear + 2}`;
-                                }
-
-                                if (currentMonth + index > 12) {
-                                    return `${currentMonth - currentMonth + (index - 1)}/${currentYear + 1}`;
+                                if (index + 1 > 12) {
+                                    return `${index + 1 - 12}/${currentYear + 1}`;
                                 }
 
                                 return `${currentMonth + index}/${currentYear}`;
                             })}
-                            data={barData.filter((item, index) => index !== 0)}
+                            data={barData}
                             color="#26d3ff"
                         />
                     </div>

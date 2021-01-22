@@ -13,7 +13,7 @@ export const stateDebtor = (state: ApplicationState) => getElements<Debtor>(stat
 
 export const dataDebtor = createSelector(stateDebtor, (debtorsItems) => debtorsItems);
 
-// receive debtors value next 30 days
+// parcelas a receber nos proximos 30 dias
 export const receiveDebtorsValueNextDays = createSelector(stateDebtor, (debtorsItems) => {
     const response = debtorsItems.reduce((acc, cur) => {
         if (!cur.negociacao) return acc;
@@ -34,7 +34,7 @@ export const receiveDebtorsValueNextDays = createSelector(stateDebtor, (debtorsI
     return response;
 });
 
-// delay value
+// parcelas em atraso sem filtros por situacao
 export const delayDebtorsValue = createSelector(stateDebtor, (debtorsItems) => {
     const response = debtorsItems.reduce((acc, cur) => {
         if (!cur.negociacao) return acc;
@@ -42,12 +42,7 @@ export const delayDebtorsValue = createSelector(stateDebtor, (debtorsItems) => {
         return (
             acc +
             cur.negociacao.parcelas
-                .filter(
-                    (item) =>
-                        item.situacao === "atraso" &&
-                        new Date(item.vencimento) > new Date() &&
-                        new Date(item.vencimento) < addMonths(new Date(), 1),
-                )
+                .filter((item) => item.situacao === "atraso")
                 .reduce((acc, cur) => acc + cur.valorParcela, 0)
         );
     }, 0);
