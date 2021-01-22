@@ -14,6 +14,7 @@ export const painelContainer = (Component: React.ElementType) => {
         const dispatch = useDispatch();
 
         const handleLoadDebits = () => {
+            dispatch(actionsNegociactions.loadNegociation());
             dispatch(actionsDebits.loadDebt());
         };
 
