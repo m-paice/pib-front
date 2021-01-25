@@ -100,41 +100,36 @@ export const balanceContainer = (Component: React.ElementType) => {
         };
 
         // flow received for situatio
-        const handleFilterFlowReceivedForSituation = (situation: string, amountMonth: number) => {
+        const handleFilterFlowReceivedForSituation = (situation: 0, amountMonth: number) => {
             const response: number[] = [];
 
-            const initialDate = `${new Date().getMonth() + 2}/01/${new Date().getFullYear()}`;
+            const optionsSituation = {
+                1: "em atraso",
+                2: "proxima",
+            };
 
-            let count = 1;
-            for (
-                let i = new Date(initialDate);
-                i <= addMonths(new Date(initialDate), amountMonth);
-                i = addMonths(new Date(initialDate), count)
-            ) {
-                // console.log(formatDate(i));
+            for (let i = 0; i < amountMonth; i = i + 1) {
+                let currentMonth: null | Date = null;
 
-                const valueOfMonth = debtors.reduce((acc, cur) => {
+                if (i === 0) {
+                    currentMonth = new Date();
+                } else {
+                    currentMonth = addMonths(new Date(), i);
+                }
+
+                const debits = debtors.reduce((acc, cur) => {
+                    if (!cur.negociacao) return acc;
+
                     return (
                         acc +
-                        (cur.negociacao ? cur.negociacao.parcelas : [])
-                            .filter((item) =>
-                                situation === null
-                                    ? item.situacao !== "em dia" && item.vencimento > new Date(initialDate)
-                                    : item.situacao === situation && item.vencimento > new Date(initialDate),
-                            )
-                            .reduce((acc, cur) => {
-                                if (differenceInMonths(i, cur.vencimento) === 1) {
-                                    return acc + cur.valorParcela;
-                                }
-
-                                return acc;
-                            }, 0)
+                        cur.negociacao.parcelas
+                            .filter((item) => (situation !== 0 ? item.situacao === optionsSituation[situation] : item))
+                            .filter((item) => !item.dataPagamento && new Date(item.vencimento).getMonth() === i)
+                            .reduce((acc, cur) => acc + cur.valorParcela, 0)
                     );
                 }, 0);
 
-                response.push(valueOfMonth);
-
-                count = count + 1;
+                response.push(debits);
             }
 
             return response;
@@ -271,13 +266,9 @@ export const balanceContainer = (Component: React.ElementType) => {
             const response: number[] = [];
 
             for (let i = 0; i < amountMonth; i = i + 1) {
-                let currentMonth: null | Date = null;
+                let currentMonth = new Date();
 
-                if (i === 0) {
-                    currentMonth = new Date();
-                } else {
-                    currentMonth = addMonths(new Date(), i);
-                }
+                if (i !== 0) currentMonth = addMonths(new Date(), i);
 
                 const debits = debtors.reduce((acc, cur) => {
                     if (!cur.negociacao) return acc;
@@ -285,7 +276,11 @@ export const balanceContainer = (Component: React.ElementType) => {
                     return (
                         acc +
                         cur.negociacao.parcelas
-                            .filter((item) => !item.dataPagamento && new Date(item.vencimento).getMonth() === i)
+                            .filter(
+                                (item) =>
+                                    !item.dataPagamento &&
+                                    new Date(item.vencimento).getMonth() === currentMonth.getMonth(),
+                            )
                             .reduce((acc, cur) => acc + cur.valorParcela, 0)
                     );
                 }, 0);
@@ -298,7 +293,33 @@ export const balanceContainer = (Component: React.ElementType) => {
 
         // valores recebidos (PARCELAS [2])
         const handleFlowValueReceived = (amountMonth = 12) => {
-            return [];
+            const response: number[] = [];
+
+            for (let i = 0; i < amountMonth; i = i + 1) {
+                let currentMonth = new Date();
+
+                if (i !== 0) currentMonth = subMonths(new Date(), i);
+
+                const debits = debtors.reduce((acc, cur) => {
+                    if (!cur.negociacao) return acc;
+
+                    return (
+                        acc +
+                        cur.negociacao.parcelas
+                            .filter(
+                                (item) =>
+                                    item.dataPagamento &&
+                                    new Date(item.dataPagamento).getMonth() === currentMonth.getMonth() &&
+                                    new Date(item.dataPagamento).getFullYear() === currentMonth.getFullYear(),
+                            )
+                            .reduce((acc, cur) => acc + cur.valorParcela, 0)
+                    );
+                }, 0);
+
+                response.push(debits);
+            }
+
+            return response;
         };
 
         const filterAmountWalletForSituation = (situation: number) => {

@@ -7,9 +7,9 @@ import Bar from "../../../components/Graphics/Bar";
 import Pie from "../../../components/Graphics/Pie";
 
 const optionsSituation = [
-    { value: -1, label: "Todos" },
+    { value: 0, label: "Todos" },
     { value: 1, label: "Em atraso" },
-    { value: 0, label: "Próxima" },
+    { value: 2, label: "Próxima" },
 ];
 
 const optionsSituationPie = [
@@ -52,12 +52,12 @@ const FlowReceivement: React.FC<Props> = ({
     const [barData, setBarData] = useState<number[]>([]);
 
     const [situationSelected, setSituationSelected] = useState({
-        value: -1,
+        value: 0,
         label: "Todos",
     });
 
     const [paymentSituationSelected, setPaymentSituationSelected] = useState({
-        value: -1,
+        value: 0,
         label: "Todos",
     });
 

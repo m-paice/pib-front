@@ -40,8 +40,6 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
         label: "Todos",
     });
 
-    // console.log(data);
-
     useEffect(() => {
         const response = amountInCashOrPortion();
         const barDataResponse = handleFlowValueReceived(amountMonth.value);
@@ -120,16 +118,31 @@ const ValuesReceived: React.FC<Props> = ({ amountInCashOrPortion, filterInCashOr
                     </div>
                     <Bar
                         labels={Array.from({ length: amountMonth.value }).map((_, index) => {
-                            const currentMonth = new Date().getMonth() + 1;
-                            const currentYear = new Date().getFullYear();
+                            if (amountMonth.value === 24) {
+                                const currentMonth = new Date().getMonth() + 2;
+                                const currentYear = new Date().getFullYear() - 2;
 
-                            if (index + 1 > 12) {
-                                return `${index + 1 - 12}/${currentYear + 1}`;
+                                if (index + 2 > 24) {
+                                    return `${index + 2 - 24}/${currentYear + 2}`;
+                                }
+
+                                if (index + 2 > 12) {
+                                    return `${index + 2 - 12}/${currentYear + 1}`;
+                                }
+
+                                return `${currentMonth + index}/${currentYear}`;
+                            }
+
+                            const currentMonth = new Date().getMonth() + 2;
+                            const currentYear = new Date().getFullYear() - 1;
+
+                            if (index + 2 > 12) {
+                                return `${index + 2 - 12}/${currentYear + 1}`;
                             }
 
                             return `${currentMonth + index}/${currentYear}`;
                         })}
-                        data={barData}
+                        data={barData.reverse()}
                         color="#4E4C67"
                     />
                 </div>
