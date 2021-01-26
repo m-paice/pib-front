@@ -279,7 +279,8 @@ export const balanceContainer = (Component: React.ElementType) => {
                             .filter(
                                 (item) =>
                                     !item.dataPagamento &&
-                                    new Date(item.vencimento).getMonth() === currentMonth.getMonth(),
+                                    new Date(item.vencimento).getMonth() === currentMonth.getMonth() &&
+                                    new Date(item.vencimento).getFullYear() === currentMonth.getFullYear(),
                             )
                             .reduce((acc, cur) => acc + cur.valorParcela, 0)
                     );
