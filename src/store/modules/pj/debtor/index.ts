@@ -1,7 +1,7 @@
 import { Reducer } from "redux";
 import { StateDebtor, types } from "./types";
 
-const { LOAD_DEBTOR_SUCCESS, UPDATE_DEBTOR_SUCCESS } = types;
+const { LOAD_DEBTOR_SUCCESS, UPDATE_DEBTOR_SUCCESS, CLOSE_OR_OPEN_DEBTOR_SUCCESS } = types;
 
 import { createTreeById, createTreeAllId, insertElementById, insertElementAllId } from "../../common/selectors";
 
@@ -17,6 +17,7 @@ const reducerById: Reducer = (state = {}, action) => {
         case LOAD_DEBTOR_SUCCESS:
             return createTreeById(payload);
         case UPDATE_DEBTOR_SUCCESS:
+        case CLOSE_OR_OPEN_DEBTOR_SUCCESS:
             return insertElementById(state, payload);
         default:
             return state;
@@ -30,6 +31,7 @@ const reducerAllId: Reducer = (state = [], action) => {
         case LOAD_DEBTOR_SUCCESS:
             return createTreeAllId(payload);
         case UPDATE_DEBTOR_SUCCESS:
+        case CLOSE_OR_OPEN_DEBTOR_SUCCESS:
             return insertElementAllId(state, payload);
         default:
             return state;

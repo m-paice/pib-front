@@ -26,9 +26,10 @@ interface Props {
     thead: Thead[];
     tbody: Tbody[];
     handleOrderByColumn(column: string): void;
+    handleCloseOrOpenDebit(data): void;
 }
 
-const TableNegociation: React.FC<Props> = ({ thead, tbody, handleOrderByColumn }) => {
+const TableNegociation: React.FC<Props> = ({ thead, tbody, handleOrderByColumn, handleCloseOrOpenDebit }) => {
     const [data, setData] = useState<Tbody[]>(tbody);
     const [idSelected, setIdSelected] = useState("");
 
@@ -108,7 +109,13 @@ const TableNegociation: React.FC<Props> = ({ thead, tbody, handleOrderByColumn }
                 </thead>
                 <tbody className="listaCompletaRegras">
                     {data.map((item, index) => (
-                        <TbodyItem key={item.id} handleSetId={handleSetId} idItemSelected={idSelected} {...item} />
+                        <TbodyItem
+                            key={item.id}
+                            handleSetId={handleSetId}
+                            idItemSelected={idSelected}
+                            {...item}
+                            handleCloseOrOpenDebit={handleCloseOrOpenDebit}
+                        />
                     ))}
 
                     {!data.length && (

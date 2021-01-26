@@ -15,14 +15,31 @@ export const debtorBaseContainer = (Component: React.ElementType) => {
         const debtors = useSelector(dataDebtor);
         const userEnable = useSelector(userEnabled);
 
-        const handleFilterSituation = (situation: string | null) => {
-            if (!situation) return debtors;
+        const handleFilterSituation = (situation: number) => {
+            if (!situation || situation === 0) return debtors;
 
-            return debtors.filter((debtor) => debtor.negociacao?.situacao === situation);
+            const optionsSituation = {
+                1: "nao negociada",
+                2: "atraso",
+                3: "em dia",
+                4: "quitada",
+            };
+
+            if (situation === 1) {
+                return debtors.filter((debtor) => !debtor.negociacao);
+            }
+
+            return debtors.filter(
+                (debtor) => debtor.negociacao && debtor.negociacao.situacao === optionsSituation[situation],
+            );
         };
 
         const handleLoadDebtors = () => {
             dispatch(actionsDebtors.loadNegociation());
+        };
+
+        const handleCloseOrOpenDebit = (debit) => {
+            dispatch(actionsDebtors.closeOrOpen(debit));
         };
 
         return (
@@ -35,6 +52,7 @@ export const debtorBaseContainer = (Component: React.ElementType) => {
                     actions: {
                         handleLoadDebtors,
                         handleFilterSituation,
+                        handleCloseOrOpenDebit,
                     },
                 }}
             />

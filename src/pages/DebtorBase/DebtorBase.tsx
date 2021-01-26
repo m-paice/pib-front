@@ -22,11 +22,11 @@ const header = [
 ];
 
 const options = [
-    { value: -1, label: "Todos" },
-    { value: 1, label: "Em atraso" },
-    { value: 2, label: "Em dia" },
-    { value: 0, label: "Não negociada" },
-    { value: 3, label: "Quitada" },
+    { value: 0, label: "Todos" },
+    { value: 1, label: "Não negociada" },
+    { value: 2, label: "Em atraso" },
+    { value: 3, label: "Em dia" },
+    { value: 4, label: "Quitada" },
 ];
 
 interface Props {
@@ -38,6 +38,7 @@ interface Props {
         actions: {
             handleLoadDebtors(): void;
             handleFilterSituation(situation: string | null): Debtor[];
+            handleCloseOrOpenDebit(data): void;
         };
     };
 }
@@ -45,7 +46,7 @@ interface Props {
 const DebtorBase: React.FC<Props> = ({ payload }) => {
     const { data, actions } = payload;
     const { debtors, userEnable } = data;
-    const { handleLoadDebtors, handleFilterSituation } = actions;
+    const { handleLoadDebtors, handleFilterSituation, handleCloseOrOpenDebit } = actions;
 
     const [tbody, setTbody] = useState<Debtor[]>(debtors);
     const [searchData, setSearchData] = useState<Debtor[]>([]);
@@ -132,6 +133,7 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
                         thead={header}
                         tbody={searchData.length !== 0 ? searchData : tbody}
                         handleOrderByColumn={handleOrderByColumn}
+                        handleCloseOrOpenDebit={handleCloseOrOpenDebit}
                     />
                 </div>
             </div>

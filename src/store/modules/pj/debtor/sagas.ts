@@ -17,6 +17,28 @@ function* loadDebtors() {
     }
 }
 
+function* closeOrOpenDebit(action) {
+    const { type, payload } = action;
+
+    const payloadData = {
+        habilitado: !payload.habilitado,
+    };
+
+    try {
+        const response = yield call(api.put, `/debito/${payload.id}`, payloadData);
+
+        yield put({
+            type: types.CLOSE_OR_OPEN_DEBTOR_SUCCESS,
+            payload: response.data,
+        });
+    } catch (error) {
+        yield put({
+            type: types.CLOSE_OR_OPEN_DEBTOR_FAILURE,
+        });
+    }
+}
+
 export default {
     loadDebtors,
+    closeOrOpenDebit,
 };

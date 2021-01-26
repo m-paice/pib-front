@@ -87,11 +87,21 @@ const Actions: React.FC<PropsActions> = ({ show, closed, handleToggleSimulator, 
 
 interface Props extends Debtor {
     handleSetId(id: string): void;
+    handleCloseOrOpenDebit(data): void;
     idItemSelected: string;
 }
 
 const TbodyItem: React.FC<Props> = (props) => {
-    const { id, consumidor, negociacao, inclusao, handleSetId, idItemSelected } = props;
+    const {
+        id,
+        consumidor,
+        negociacao,
+        inclusao,
+        idItemSelected,
+        habilitado,
+        handleSetId,
+        handleCloseOrOpenDebit,
+    } = props;
 
     const [simulator, setSimulator] = useState(false);
     const [confirm, setConfirm] = useState(false);
@@ -148,6 +158,13 @@ const TbodyItem: React.FC<Props> = (props) => {
         setMessageNebociation(!messageNegociation);
     };
 
+    const handleCloseOrOpenDebitFn = () => {
+        handleCloseOrOpenDebit({
+            id,
+            habilitado,
+        });
+    };
+
     return (
         <>
             <tr className="itemListaRegras">
@@ -180,9 +197,9 @@ const TbodyItem: React.FC<Props> = (props) => {
 
                 <Actions
                     show={props.negociacao ? true : false}
-                    closed={closed}
+                    closed={habilitado}
                     handleToggleSimulator={handleToggleSimulator}
-                    handleToggleConfirm={handleToggleConfirm}
+                    handleToggleConfirm={handleCloseOrOpenDebitFn}
                 />
             </tr>
 

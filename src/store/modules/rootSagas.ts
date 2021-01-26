@@ -52,6 +52,7 @@ export default function* () {
         takeLatest(typesPjWallet.ADD_WALLET, walletPjSagas.addItemWallet),
         // debtor
         takeLatest(typesPjDebtors.LOAD_DEBTOR, debtorPjSagas.loadDebtors),
+        takeLatest(typesPjDebtors.CLOSE_OR_OPEN_DEBTOR, debtorPjSagas.closeOrOpenDebit),
 
         /** ASSOCIATION */
         takeLatest(typesshopkeeper.LOAD_SHOPKEEPER, shopkeeperSagas.loadShopkeepers),

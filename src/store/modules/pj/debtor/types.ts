@@ -4,6 +4,11 @@ export enum types {
     LOAD_DEBTOR_SUCCESS = "@pj/DEBTOR/LOAD_DEBTOR_SUCCESS",
     LOAD_DEBTOR_FAILURE = "@pj/DEBTOR/LOAD_DEBTOR_FAILURE",
 
+    CLOSE_OR_OPEN_DEBTOR = "@pj/DEBTOR/CLOSE_OR_OPEN_DEBTOR",
+    CLOSE_OR_OPEN_DEBTOR_INIT = "@pj/DEBTOR/CLOSE_OR_OPEN_DEBTOR_INIT",
+    CLOSE_OR_OPEN_DEBTOR_SUCCESS = "@pj/DEBTOR/CLOSE_OR_OPEN_DEBTOR_SUCCESS",
+    CLOSE_OR_OPEN_DEBTOR_FAILURE = "@pj/DEBTOR/CLOSE_OR_OPEN_DEBTOR_FAILURE",
+
     ADD_DEBTOR = "@pj/DEBTOR/ADD_DEBTOR",
     ADD_DEBTOR_INIT = "@pj/DEBTOR/ADD_DEBTOR_INIT",
     ADD_DEBTOR_SUCCESS = "@pj/DEBTOR/ADD_DEBTOR_SUCCESS",
@@ -88,6 +93,7 @@ export interface Debtor {
     tipoDoc: string;
     valor: number;
     vencimento: Date;
+    habilitado: boolean;
     consumidor: Consumer;
     lojista: shopkeeper;
     negociacao?: Negociation;
