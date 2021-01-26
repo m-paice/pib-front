@@ -35,6 +35,9 @@ const Simulator: React.FC<Props> = ({
     const [debitPrice, setDebitPrice] = useState("");
     const [discountValue, setDiscountValue] = useState(0);
 
+    const [portionPrice, setPortionPrice] = useState(1);
+    const [portionSelected, setPortionSelected] = useState(0);
+
     useEffect(() => {
         if (Number(String(discountValue).replace(/\D/g, "")) > 99) {
             setErrors((prevState) => ({
@@ -52,7 +55,6 @@ const Simulator: React.FC<Props> = ({
             const debitFormated = Number(debitPrice.replace(",", "."));
 
             const response = debitFormated - (debitFormated * discountValue) / 100;
-
             setTotalPrice(response);
         }
 
@@ -60,6 +62,14 @@ const Simulator: React.FC<Props> = ({
             setTotalPrice(0);
         }
     }, [debitPrice, discountValue]);
+
+    useEffect(() => {
+        if (debitPrice && discountValue && portionSelected) {
+            setPortionPrice(totalPrice / portionSelected);
+        } else {
+            setPortionPrice(0);
+        }
+    }, [portionSelected]);
 
     const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDebitPrice(event.target.value);
@@ -111,20 +121,7 @@ const Simulator: React.FC<Props> = ({
                                 value={idadeDividaFormatado}
                             />
                         </div>
-                        <div className="col-sm-4 comp-modal">
-                            <label className="lblModal">Número de parcelas</label>
-                            <select
-                                style={{ paddingLeft: "12px !important", color: "#fff" }}
-                                className="form-control inputModal selectModal"
-                            >
-                                {options.map((value) => (
-                                    <option key={value} value={value}>
-                                        {" "}
-                                        {value}{" "}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+
                         <div className="col-sm-4 comp-modal">
                             <label className="lblModal">Desconto concedido (%)</label>
                             <input
@@ -137,6 +134,32 @@ const Simulator: React.FC<Props> = ({
                                 onBlur={handleBlurInputDiscount}
                             />
                             {errors["discount"] && <span className="text-white"> {errors["discount"]} </span>}
+                        </div>
+                        <div className="col-sm-4 comp-modal">
+                            <label className="lblModal">Número de parcelas</label>
+                            <select
+                                style={{ paddingLeft: "12px !important", color: "#fff" }}
+                                className="form-control inputModal selectModal"
+                                onChange={(event) => setPortionSelected(Number(event.target.value))}
+                            >
+                                {options.map((value) => (
+                                    <option key={value} value={value}>
+                                        {" "}
+                                        {value}{" "}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="col-sm-4 comp-modal">
+                            <label className="lblModal">Valor de cada parcela</label>
+                            <input
+                                type="text"
+                                className="form-control inputModal money"
+                                title="Valor de cada parcela"
+                                style={stylesSecondary}
+                                value={portionPrice.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
+                                disabled
+                            />
                         </div>
                         <div className="col-sm-4 comp-modal">
                             <label className="lblModal">Valor a ser pago</label>
