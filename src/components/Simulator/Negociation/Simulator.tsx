@@ -31,9 +31,9 @@ const Simulator: React.FC<Props> = ({
     const options = Array.from({ length: maximoParcela }).map((_, index) => index + 1);
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
-    const [totalPrice, setTotalPrice] = useState(754);
-    const [debitPrice, setDebitPrice] = useState<string | number>(0);
-    const [discountValue, setDiscountValue] = useState<string | number>(0);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [debitPrice, setDebitPrice] = useState("");
+    const [discountValue, setDiscountValue] = useState(0);
 
     useEffect(() => {
         if (Number(String(discountValue).replace(/\D/g, "")) > 99) {
@@ -47,26 +47,30 @@ const Simulator: React.FC<Props> = ({
         }
     }, [discountValue]);
 
-    const handleCalculateValue = () => {
-        setTotalPrice(Math.floor(Math.random() * 999));
-    };
+    useEffect(() => {
+        if (debitPrice && discountValue) {
+            const debitFormated = Number(debitPrice.replace(",", "."));
+
+            const response = debitFormated - (debitFormated * discountValue) / 100;
+
+            setTotalPrice(response);
+        }
+
+        if (!debitPrice || !discountValue) {
+            setTotalPrice(0);
+        }
+    }, [debitPrice, discountValue]);
 
     const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDebitPrice(event.target.value);
     };
 
-    const handleBlurInput = (event: React.FocusEvent<HTMLInputElement>) => {
-        const value = Number(event.target.value);
-        setDebitPrice(value.toLocaleString("pt-br", { style: "currency", currency: "BRL" }));
-    };
-
     const handleChangeInputDiscount = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-        setDiscountValue(value.replace("%", ""));
+        setDiscountValue(Number(event.target.value));
     };
 
     const handleBlurInputDiscount = (event: React.FocusEvent<HTMLInputElement>) => {
-        setDiscountValue(`${event.target.value}%`);
+        setDiscountValue(Number(event.target.value));
     };
 
     return (
@@ -95,7 +99,6 @@ const Simulator: React.FC<Props> = ({
                                 style={stylesPrimary}
                                 value={debitPrice}
                                 onChange={handleChangeInput}
-                                onBlur={handleBlurInput}
                             />
                         </div>
                         <div className="col-sm-4 comp-modal">
@@ -113,7 +116,6 @@ const Simulator: React.FC<Props> = ({
                             <select
                                 style={{ paddingLeft: "12px !important", color: "#fff" }}
                                 className="form-control inputModal selectModal"
-                                onChange={handleCalculateValue}
                             >
                                 {options.map((value) => (
                                     <option key={value} value={value}>
@@ -124,7 +126,7 @@ const Simulator: React.FC<Props> = ({
                             </select>
                         </div>
                         <div className="col-sm-4 comp-modal">
-                            <label className="lblModal">Desconto concedido</label>
+                            <label className="lblModal">Desconto concedido (%)</label>
                             <input
                                 type="text"
                                 className="form-control inputModal"

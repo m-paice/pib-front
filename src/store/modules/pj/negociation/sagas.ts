@@ -1,4 +1,5 @@
 import { put, call } from "redux-saga/effects";
+import omit from "lodash/omit";
 
 import { Result } from "./actions";
 import { types } from "./types";
@@ -25,8 +26,12 @@ function* loadNegociation() {
 function* updateNegociation(action: Result) {
     const { type, payload } = action;
 
+    const payloadData = omit(payload, ["id"]);
+
     try {
-        yield put({ type: types.UPDATE_NEGOCIATION_SUCCESS, payload });
+        const response = yield call(api.put, `/regua-negociacao/${payload.id}`, payloadData);
+
+        yield put({ type: types.UPDATE_NEGOCIATION_SUCCESS, payload: response.data });
     } catch (error) {
         yield put({ type: types.UPDATE_NEGOCIATION_FAILURE });
     }

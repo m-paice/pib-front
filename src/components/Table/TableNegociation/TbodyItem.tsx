@@ -19,7 +19,7 @@ import CheckIcon from "../../../assets/imagens/check.svg";
 import CancelIcon from "../../../assets/imagens/cancel.svg";
 
 interface PropsItem {
-    text: string | number;
+    text: string | number | undefined;
     separator?: boolean;
     errors?: boolean;
 }
@@ -72,6 +72,7 @@ const InputEdit: React.FC<PropsInputEdit> = (props) => {
                     onChange={handleChangeValue}
                     style={{ minWidth: 85, height: 26, textAlign: "center", color: "#000" }}
                 >
+                    <option selected>{initialValue}</option>
                     {options.map((item, index) => (
                         <option key={index} value={item.value} style={{ color: "#000" }}>
                             {item.name}
@@ -167,7 +168,7 @@ interface ErrorsState {
 }
 
 const TbodyItem: React.FC<Props> = (props) => {
-    const { id, idadeDivida, juros, desconto, maximoParcela, atenuador, assessoria, reajuste } = props;
+    const { id, idadeDivida, juros, desconto, maximoParcela, atenuador, assessoria, reajuste, multa } = props;
 
     const dispatch = useDispatch();
 
@@ -182,7 +183,7 @@ const TbodyItem: React.FC<Props> = (props) => {
     const handleToggleEdit = () => {
         setEdit(!edit);
         setErrors({});
-        setValues({ id, idadeDivida, juros, desconto, maximoParcela, atenuador, assessoria, reajuste });
+        setValues({ id, idadeDivida, juros, desconto, maximoParcela, atenuador, assessoria, reajuste, multa });
     };
 
     const handleToggleSimulator = () => {
@@ -201,7 +202,7 @@ const TbodyItem: React.FC<Props> = (props) => {
     };
 
     /** set errors */
-    const handleSetErrors = (key: string, message: string) => {
+    const handleSetErrors = (key: any, message: string) => {
         setErrors((prevState) => ({
             ...prevState,
             [key]: {
@@ -218,9 +219,9 @@ const TbodyItem: React.FC<Props> = (props) => {
             values.desconto = Math.floor(Number(values.desconto));
         }
 
-        /** assessoria max 2% */
-        if (Number(values.assessoria) > 2) {
-            handleSetErrors(values.assessoria, "O percentual máximo para cobrança de multa é de 2,0%");
+        /** multa max 2% */
+        if (Number(values.multa) > 2) {
+            handleSetErrors(values.multa, "O percentual máximo para cobrança de multa é de 2,0%");
             return false;
         }
 
@@ -276,12 +277,12 @@ const TbodyItem: React.FC<Props> = (props) => {
                         handleSetValues={handleSetValues}
                         options={Array.from({ length: 24 }).map((_, index) => ({
                             name: String(index + 1),
-                            value: String(index + 1),
+                            value: index + 1,
                         }))}
                         errors={handleCheckError()}
                     />
                     {/* <Item text={atenuador} errors={handleCheckError()} /> */}
-                    <Item text={assessoria} errors={handleCheckError()} />
+                    <Item text={multa} errors={handleCheckError()} />
                     <Item text={reajuste} errors={handleCheckError()} />
                     <ActionsEdit
                         handleToggleEdit={handleToggleEdit}
@@ -332,7 +333,7 @@ const TbodyItem: React.FC<Props> = (props) => {
             <Item text={`${desconto}%`} />
             <Item text={maximoParcela} />
             {/* <Item text={`${Number(atenuador).toFixed(1)}%`} /> */}
-            <Item text={`${Number(assessoria).toFixed(1)}%`} />
+            <Item text={`${Number(multa).toFixed(1)}%`} />
             <Item text={`${Number(reajuste).toFixed(1)}%`} />
             <Actions handleToggleEdit={handleToggleEdit} handleToggleSimulator={handleToggleSimulator} />
 
