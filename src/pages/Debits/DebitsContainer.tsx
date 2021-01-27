@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // actions
-import { actions as actionsDebts } from "../../store/modules/pf/debt/actions";
+import { actions as actionsDebits } from "../../store/modules/pf/debt/actions";
 
 // selectors
 import { selectDebts, valueTotalDebts, amountDebts, debitsPaid } from "../../store/modules/pf/debt/selectors";
@@ -19,6 +19,9 @@ export const debtsContainer = (Component: React.ElementType) => {
         const isDebitsPaid = useSelector(debitsPaid);
 
         // actions
+        const handleGenerateBillet = (id: string) => {
+            dispatch(actionsDebits.paymentBillet({ id }));
+        };
 
         return (
             <Component
@@ -27,7 +30,9 @@ export const debtsContainer = (Component: React.ElementType) => {
                         debts,
                         isDebitsPaid,
                     },
-                    actions: {},
+                    actions: {
+                        generateBillet: handleGenerateBillet,
+                    },
                     amount,
                     value,
                 }}

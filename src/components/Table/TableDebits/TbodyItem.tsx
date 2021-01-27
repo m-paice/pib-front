@@ -5,7 +5,9 @@ import { Debt } from "../../../store/modules/pf/debt/types";
 import DeniedDebts from "../../BoxDebits/DeniedDebts";
 import ApprovedDebits from "../../BoxDebits/ApprovedDebits";
 
-type Props = Debt;
+interface Props extends Debt {
+    generateBillet(data): void;
+}
 
 const TbodyItem: React.FC<Props> = (props) => {
     const { negociacao } = props;

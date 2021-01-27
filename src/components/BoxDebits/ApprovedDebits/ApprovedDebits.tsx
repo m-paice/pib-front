@@ -12,7 +12,9 @@ import Details from "../Details";
 // utils
 import formatDate from "../../../utils/formatDate";
 
-type Props = Debt;
+interface Props extends Debt {
+    generateBillet(data): void;
+}
 
 interface State {
     info: boolean;
@@ -105,7 +107,7 @@ const ApprovedDebits: React.FC<Props> = (props) => {
             </div>
 
             {info && <MoreInfo {...lojista} />}
-            {negociation && <Details {...negociacao} />}
+            {negociation && <Details generateBillet={props.generateBillet} {...negociacao} />}
         </div>
     );
 };

@@ -7,6 +7,7 @@ import formatPrice from "../../../utils/formatPrice";
 
 interface Props extends Parcelas {
     nextPayment: string;
+    generateBillet(data): void;
 }
 interface Situation {
     label: string;
@@ -14,7 +15,7 @@ interface Situation {
 }
 
 const DetailsItem: React.FC<Props> = (props) => {
-    const { id, parcela, situacao, vencimento, valorParcela, dataPagamento, nextPayment } = props;
+    const { id, parcela, situacao, vencimento, valorParcela, dataPagamento, nextPayment, generateBillet } = props;
 
     const handleSituation = (): Situation => {
         const renderSituation = {
@@ -47,7 +48,9 @@ const DetailsItem: React.FC<Props> = (props) => {
 
             {nextPayment === id && (
                 <div className="col-md-2">
-                    <a className="proxima txt-10-mob">Gerar Boleto</a>
+                    <a onClick={() => generateBillet(id)} className="proxima txt-10-mob">
+                        Gerar Boleto
+                    </a>
                 </div>
             )}
         </div>

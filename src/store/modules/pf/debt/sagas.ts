@@ -36,7 +36,29 @@ function* createDebt(action) {
     }
 }
 
+function* paymentBillet(action) {
+    const { payload } = action;
+
+    const payloadData = {
+        parcelaId: payload.id,
+    };
+
+    try {
+        const response = yield call(api.post, "/pagamento/boleto", payloadData);
+
+        yield put({
+            type: types.PAYMENT_BILLET_DEBT_SUCCESS,
+        });
+    } catch (error) {
+        yield put({
+            type: types.PAYMENT_BILLET_DEBT_FAILURE,
+        });
+    }
+}
+
 export default {
     loadDebt,
     createDebt,
+
+    paymentBillet,
 };

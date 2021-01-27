@@ -24,7 +24,7 @@ interface Props {
             isDebitsPaid: boolean;
         };
         actions: {
-            handleLoadDebts(): void;
+            generateBillet(data): void;
         };
         amount: number;
         value: number;
@@ -34,6 +34,7 @@ interface Props {
 const Debits: React.FC<Props> = ({ payload }) => {
     const { data, actions, amount, value } = payload;
     const { debts, isDebitsPaid } = data;
+    const { generateBillet } = actions;
 
     const [tbody, setTbody] = useState<Debt[]>(debts);
 
@@ -77,7 +78,7 @@ const Debits: React.FC<Props> = ({ payload }) => {
                     </div>
                 )}
 
-                <TableDebits tbody={tbody} />
+                <TableDebits tbody={tbody} generateBillet={generateBillet} />
             </div>
         </div>
     );

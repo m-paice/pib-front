@@ -17,9 +17,10 @@ type Tbody = Debt;
 
 interface Props {
     tbody: Tbody[];
+    generateBillet(data): void;
 }
 
-const TableDebits: React.FC<Props> = ({ tbody }) => {
+const TableDebits: React.FC<Props> = ({ tbody, generateBillet }) => {
     const [data, setData] = useState<Tbody[]>(tbody);
 
     const [pagination, setPagination] = useState<PaginationSate>({
@@ -71,7 +72,7 @@ const TableDebits: React.FC<Props> = ({ tbody }) => {
             <span id="top"></span>
 
             {data.map((item, index) => (
-                <TbodyItem key={index} {...item} />
+                <TbodyItem key={index} generateBillet={generateBillet} {...item} />
             ))}
 
             {!data.length && <span className="text-center pt-3 pb-3">Nenhum registro encontrado.</span>}

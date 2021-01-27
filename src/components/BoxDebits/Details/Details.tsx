@@ -7,9 +7,12 @@ import DetailsItem from "./DetailsItem";
 import formatPrice from "../../../utils/formatPrice";
 import formatDate from "../../../utils/formatDate";
 
-type Props = Negociation;
+interface Props extends Negociation {
+    generateBillet(data): void;
+}
 
 const Detaisl: React.FC<Props> = (props) => {
+    const { generateBillet } = props;
     const negociacao = props;
     const { parcelas, formaPagamento } = negociacao;
 
@@ -92,7 +95,9 @@ const Detaisl: React.FC<Props> = (props) => {
             {parcelas
                 .sort((a, b) => (a.parcela > b.parcela ? 1 : -1))
                 .map((item, index) => {
-                    return <DetailsItem key={index} nextPayment={nextPayment} {...item} />;
+                    return (
+                        <DetailsItem key={index} generateBillet={generateBillet} nextPayment={nextPayment} {...item} />
+                    );
                 })}
         </div>
     );

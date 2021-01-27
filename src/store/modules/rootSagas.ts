@@ -39,6 +39,8 @@ export default function* () {
         // debt
         takeLatest(typesPfDebt.LOAD_DEBT, debtPfSagas.loadDebt),
         takeLatest(typesPfDebt.ADD_DEBT, debtPfSagas.createDebt),
+        // payment
+        takeLatest(typesPfDebt.PAYMENT_BILLET_DEBT, debtPfSagas.paymentBillet),
 
         /* PJ **/
         // company
