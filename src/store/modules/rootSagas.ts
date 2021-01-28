@@ -6,7 +6,6 @@ import { types as typesUsers } from "./users/types";
 // types pf
 import { types as typesPfDebt } from "./pf/debt/types";
 // types pj
-import { types as typesPjCompany } from "./pj/company/types";
 import { types as typesPjNegociation } from "./pj/negociation/types";
 import { types as typesPjWallet } from "./pj/wallet/types";
 import { types as typesPjDebtors } from "./pj/debtor/types";
@@ -19,7 +18,6 @@ import usersSagas from "./users/sagas";
 // sagas pf
 import debtPfSagas from "./pf/debt/sagas";
 // sagas pj
-import companyPjSagas from "./pj/company/sagas";
 import negociationPjSagas from "./pj/negociation/sagas";
 import walletPjSagas from "./pj/wallet/sagas";
 import debtorPjSagas from "./pj/debtor/sagas";
@@ -43,9 +41,6 @@ export default function* () {
         takeLatest(typesPfDebt.PAYMENT_BILLET_DEBT, debtPfSagas.paymentBillet),
 
         /* PJ **/
-        // company
-        takeLatest(typesPjCompany.LOAD_COMPANY, companyPjSagas.loadCompanies),
-        takeLatest(typesPjCompany.ADD_COMPANY, companyPjSagas.createCompany),
         // negociation
         takeLatest(typesPjNegociation.LOAD_NEGOCIATION, negociationPjSagas.loadNegociation),
         takeLatest(typesPjNegociation.UPDATE_NEGOCIATION, negociationPjSagas.updateNegociation),

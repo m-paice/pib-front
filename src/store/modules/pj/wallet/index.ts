@@ -1,5 +1,6 @@
 import { Reducer } from "redux";
 import { StateWallet, types } from "./types";
+import { types as typesAuth } from "../../auth/types";
 
 const { LOAD_WALLET_SUCCESS, ADD_WALLET_SUCCESS } = types;
 
@@ -18,6 +19,8 @@ const reducerById: Reducer = (state = {}, action) => {
             return createTreeById(payload);
         case ADD_WALLET_SUCCESS:
             return insertElementById(state, payload);
+        case typesAuth.AUTH_LOGOUT_SUCCESS:
+            return {};
         default:
             return state;
     }
@@ -32,6 +35,8 @@ const reducerAllId: Reducer = (state = [], action) => {
         case ADD_WALLET_SUCCESS:
             console.log(payload);
             return insertElementAllId(state, payload);
+        case typesAuth.AUTH_LOGOUT_SUCCESS:
+            return [];
         default:
             return state;
     }

@@ -1,4 +1,5 @@
 import { put, select, call } from "redux-saga/effects";
+import omit from "lodash/omit";
 
 import { types } from "./types";
 
@@ -27,10 +28,15 @@ function* createDebt(action) {
     try {
         const response = yield call(api.post, "/negociacao", payload);
 
-        // yield put({
-        //     type: types.ADD_DEBT_SUCCESS,
-        //     payload: [],
-        // });
+        const responseData = {
+            ...response.data,
+            negociacaoId: response.data.negociacao.id,
+        };
+
+        yield put({
+            type: types.ADD_DEBT_SUCCESS,
+            payload: omit(responseData, ["negociacao"]),
+        });
     } catch (error) {
         yield put({ type: types.ADD_DEBT_FAILURE });
     }

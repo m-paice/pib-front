@@ -114,6 +114,25 @@ const Negociation: React.FC<Props> = (props) => {
         handleSetState("errors", {});
     };
 
+    const handleConfirmWithCreditCard = (values) => {
+        const { payment, portion } = state;
+
+        const dataVencimento = new Date();
+
+        dispatch(
+            actionsDebits.addDebt({
+                ...values,
+                debitoId,
+                lojistaId,
+                reguaNegociacaoId: negociation.id,
+                formaPagamento: payment,
+                parcelamento: portion,
+                dataVencimento,
+                expiracaoCartao: values.mesCartao + values.anoCartao,
+            }),
+        );
+    };
+
     const handleConfirm = () => {
         handleSetState("modal", !state.modal);
         handleSetState("confirmWakeUp", !state.confirmWakeUp);
@@ -122,16 +141,18 @@ const Negociation: React.FC<Props> = (props) => {
 
         const dataVencimento = payment === "cartao" ? new Date() : new Date(generateDate(datePayment));
 
-        dispatch(
-            actionsDebits.addDebt({
-                debitoId,
-                lojistaId,
-                reguaNegociacaoId: negociation.id,
-                formaPagamento: payment,
-                parcelamento: portion,
-                dataVencimento,
-            }),
-        );
+        if (payment !== "cartao") {
+            dispatch(
+                actionsDebits.addDebt({
+                    debitoId,
+                    lojistaId,
+                    reguaNegociacaoId: negociation.id,
+                    formaPagamento: payment,
+                    parcelamento: portion,
+                    dataVencimento,
+                }),
+            );
+        }
     };
     const handleCancel = () => {
         handleSetState("modal", !state.modal);
@@ -269,7 +290,7 @@ const Negociation: React.FC<Props> = (props) => {
                 )}
                 {payment === "cartao" && (
                     <div className="col-md-6">
-                        <Card confirm={confirmWakeUp} />
+                        <Card disabled={confirmWakeUp} handleConfirm={handleConfirmWithCreditCard} />
                     </div>
                 )}
             </div>

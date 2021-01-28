@@ -1,5 +1,3 @@
-import { Company } from "../../pj/company/types";
-
 export enum types {
     LOAD_DEBT = "@pj/debt/LOAD_DEBT",
     LOAD_DEBT_INIT = "@pj/debt/LOAD_DEBT_INIT",

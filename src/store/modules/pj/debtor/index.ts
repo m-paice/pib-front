@@ -1,5 +1,6 @@
 import { Reducer } from "redux";
 import { StateDebtor, types } from "./types";
+import { types as typesAuth } from "../../auth/types";
 
 const { LOAD_DEBTOR_SUCCESS, UPDATE_DEBTOR_SUCCESS, CLOSE_OR_OPEN_DEBTOR_SUCCESS } = types;
 
@@ -19,6 +20,8 @@ const reducerById: Reducer = (state = {}, action) => {
         case UPDATE_DEBTOR_SUCCESS:
         case CLOSE_OR_OPEN_DEBTOR_SUCCESS:
             return insertElementById(state, payload);
+        case typesAuth.AUTH_LOGOUT_SUCCESS:
+            return {};
         default:
             return state;
     }
@@ -33,6 +36,8 @@ const reducerAllId: Reducer = (state = [], action) => {
         case UPDATE_DEBTOR_SUCCESS:
         case CLOSE_OR_OPEN_DEBTOR_SUCCESS:
             return insertElementAllId(state, payload);
+        case typesAuth.AUTH_LOGOUT_SUCCESS:
+            return [];
         default:
             return state;
     }

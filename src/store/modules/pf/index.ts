@@ -1,11 +1,12 @@
 import { Reducer } from "redux";
 
-// pf reducers
-
+// reducers
 import { reducers as reducersDebts } from "./debt";
 
+// types
 import { StateDebt } from "./debt/types";
 
+// states
 export interface StatePF {
     debts: StateDebt;
 }

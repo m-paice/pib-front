@@ -1,5 +1,6 @@
 import { Reducer } from "redux";
 import { StateNegociation, types } from "./types";
+import { types as typesAuth } from "../../auth/types";
 
 const { LOAD_NEGOCIATION_SUCCESS, UPDATE_NEGOCIATION_SUCCESS } = types;
 
@@ -18,6 +19,8 @@ const reducerById: Reducer = (state = {}, action) => {
             return createTreeById(payload);
         case UPDATE_NEGOCIATION_SUCCESS:
             return insertElementById(state, payload);
+        case typesAuth.AUTH_LOGOUT_SUCCESS:
+            return {};
         default:
             return state;
     }
@@ -31,6 +34,8 @@ const reducerAllId: Reducer = (state = [], action) => {
             return createTreeAllId(payload);
         case UPDATE_NEGOCIATION_SUCCESS:
             return insertElementAllId(state, payload);
+        case typesAuth.AUTH_LOGOUT_SUCCESS:
+            return [];
         default:
             return state;
     }

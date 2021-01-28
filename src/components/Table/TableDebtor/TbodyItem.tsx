@@ -196,7 +196,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                 </Item>
 
                 <Actions
-                    show={props.negociacao ? true : false}
+                    show={props.negociacao ? false : true}
                     closed={habilitado}
                     handleToggleSimulator={handleToggleSimulator}
                     handleToggleConfirm={handleCloseOrOpenDebitFn}

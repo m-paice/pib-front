@@ -1,7 +1,6 @@
-import { put, take, call, select } from "redux-saga/effects";
+import { put, call, select } from "redux-saga/effects";
 
 import { types } from "./types";
-import { types as typesDebt } from "../pf/debt/types";
 
 import history from "../../../utils/history";
 

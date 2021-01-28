@@ -1,15 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 
 // assets
 import Bandeiras from "../../../assets/imagens/bandeiras.png";
-import Ccv from "../../../assets/imagens/ccv.png";
 
 interface Props {
-    confirm: boolean;
+    disabled: boolean;
+    handleConfirm(data): void;
 }
 
 const Card: React.FC<Props> = (props) => {
-    const { confirm } = props;
+    const { disabled, handleConfirm } = props;
+
+    const [values, setValues] = useState({
+        numeroCartao: "",
+        mesCartao: "",
+        anoCartao: "",
+        nomeCartao: "",
+        codigoCartao: "",
+    });
+
+    const handleSetValues = (key: string, value: string) => {
+        setValues((prevState) => ({
+            ...prevState,
+            [key]: value,
+        }));
+    };
+
+    const handleConfirmWakeUp = () => {
+        const elements = Object.values(values).some((item) => !item);
+
+        if (elements) return;
+
+        handleConfirm(values);
+    };
 
     return (
         <div>
@@ -18,34 +41,63 @@ const Card: React.FC<Props> = (props) => {
 
             <div className="row ml-0 mr-0">
                 <label>
-                    <input className="imp" disabled={confirm} placeholder="Número do cartão" />
+                    <input
+                        onChange={(event) => handleSetValues("numeroCartao", event.target.value)}
+                        className="imp"
+                        disabled={disabled}
+                        placeholder="Número do cartão"
+                    />
                 </label>
             </div>
             <div className="row ml-0 mr-0">
                 <label>
-                    <input className="imp" disabled={confirm} placeholder="Validade mês" />
+                    <input
+                        onChange={(event) => handleSetValues("mesCartao", event.target.value)}
+                        className="imp"
+                        disabled={disabled}
+                        placeholder="Validade mês"
+                    />
                 </label>
             </div>
             <div className="row ml-0 mr-0">
                 <label>
-                    <input className="imp" disabled={confirm} placeholder="Validade ano" />
+                    <input
+                        onChange={(event) => handleSetValues("anoCartao", event.target.value)}
+                        className="imp"
+                        disabled={disabled}
+                        placeholder="Validade ano"
+                    />
                 </label>
             </div>
             <div className="row ml-0 mr-0">
                 <label>
-                    <input className="imp" disabled={confirm} placeholder="Nome impresso no cartão" />
+                    <input
+                        onChange={(event) => handleSetValues("nomeCartao", event.target.value)}
+                        className="imp"
+                        disabled={disabled}
+                        placeholder="Nome impresso no cartão"
+                    />
                 </label>
             </div>
 
             <div className="row ml-0 mr-0">
                 <div className="col-md-6 nopadding padding-10">
                     <label className="ccv">
-                        {/* <img src={Ccv} /> */}
-                        <input className="imp" disabled={confirm} placeholder="CCV" />
+                        <input
+                            onChange={(event) => handleSetValues("codigoCartao", event.target.value)}
+                            className="imp"
+                            disabled={disabled}
+                            placeholder="CVV"
+                        />
                     </label>
                 </div>
                 <div className="col-md-6 nopadding padding-10">
-                    <button style={{ border: "none" }} disabled={confirm} className="cacordo font-weight-bold">
+                    <button
+                        style={{ border: "none" }}
+                        disabled={disabled}
+                        onClick={handleConfirmWakeUp}
+                        className="cacordo font-weight-bold"
+                    >
                         Confirmar acordo
                     </button>
                 </div>
