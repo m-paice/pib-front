@@ -22,7 +22,7 @@ export const debtorBaseContainer = (Component: React.ElementType) => {
                 1: "nao negociada",
                 2: "atraso",
                 3: "em dia",
-                4: "quitada",
+                4: "quitado",
             };
 
             if (situation === 1) {
