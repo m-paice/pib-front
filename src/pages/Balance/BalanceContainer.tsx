@@ -15,6 +15,7 @@ import {
     amountDebtorsPf,
     amountDetorsDebtsPf,
     amountDetorsWallet,
+    totalValueEnable,
 } from "../../store/modules/pj/debtor/selectors";
 
 // action
@@ -26,7 +27,7 @@ export const balanceContainer = (Component: React.ElementType) => {
 
         const userEnable = useSelector(userEnabled);
         const debtors = useSelector(dataDebtor);
-        const availableValue = useSelector(totalValue);
+        const availableValue = useSelector(totalValueEnable);
         const receiveValue = useSelector(receiveDebtorsValueNextDays);
         const delayValue = useSelector(delayDebtorsValue);
         const paymentForm = useSelector(namesDebtorsPayments);
@@ -81,7 +82,7 @@ export const balanceContainer = (Component: React.ElementType) => {
             const optionsSituation = {
                 1: "atraso",
                 2: "em dia",
-                3: "quitada",
+                3: "quitado",
             };
 
             return debtors
@@ -179,7 +180,7 @@ export const balanceContainer = (Component: React.ElementType) => {
             const optionsSituation = {
                 1: "atraso",
                 2: "em dia",
-                3: "quitada",
+                3: "quitado",
             };
 
             return debtors

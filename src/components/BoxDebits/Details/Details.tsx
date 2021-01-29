@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
 
-import { Details, Negociation } from "../../../store/modules/pf/debt/types";
+import { useSelector, useDispatch } from "react-redux";
 
+import { ApplicationState } from "../../../store";
+// types
+import { Negociation } from "../../../store/modules/pf/debt/types";
+// actions
+import { actions as actionsNotifications } from "../../../store/modules/app/notification/actions";
+
+// components
+import Alert from "../../Alert";
 import DetailsItem from "./DetailsItem";
 
+// utils
 import formatPrice from "../../../utils/formatPrice";
-import formatDate from "../../../utils/formatDate";
 
 interface Props extends Negociation {
     generateBillet(data): void;
@@ -14,7 +22,12 @@ interface Props extends Negociation {
 const Detaisl: React.FC<Props> = (props) => {
     const { generateBillet } = props;
     const negociacao = props;
+
     const { parcelas, formaPagamento } = negociacao;
+
+    const showNotification = useSelector((state: ApplicationState) => state.app.notification.show);
+
+    const dispatch = useDispatch();
 
     const [nextPayment, setNextPayment] = useState("");
 
@@ -32,6 +45,10 @@ const Detaisl: React.FC<Props> = (props) => {
         if (payment === 2) return "Boleto";
 
         return "";
+    };
+
+    const handleHideNotification = () => {
+        dispatch(actionsNotifications.hideNotification());
     };
 
     return (
@@ -99,6 +116,14 @@ const Detaisl: React.FC<Props> = (props) => {
                         <DetailsItem key={index} generateBillet={generateBillet} nextPayment={nextPayment} {...item} />
                     );
                 })}
+
+            <Alert
+                show={showNotification}
+                title="Credas informa"
+                message="Parabéns, você acabou de gerar um boleto. Verifique seu e-mail."
+                type="success"
+                handleConfirm={handleHideNotification}
+            />
         </div>
     );
 };

@@ -48,7 +48,7 @@ const DetailsItem: React.FC<Props> = (props) => {
 
             {nextPayment === id && (
                 <div className="col-md-2">
-                    <a onClick={() => generateBillet(id)} className="proxima txt-10-mob">
+                    <a style={{ cursor: "pointer" }} onClick={() => generateBillet(id)} className="proxima txt-10-mob">
                         Gerar Boleto
                     </a>
                 </div>

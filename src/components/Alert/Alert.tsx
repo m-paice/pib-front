@@ -26,7 +26,7 @@ const Alert: React.FC<Props> = (props) => {
 
     return (
         <SweetAlert show={show} type={type} title={title} onConfirm={handleConfirm}>
-            {message}
+            <div style={{ color: "#000" }}>{message}</div>
         </SweetAlert>
     );
 };

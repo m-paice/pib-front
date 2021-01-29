@@ -111,3 +111,9 @@ export const amountDetorsWallet = createSelector(stateDebtor, (debtorsItems) => 
         return acc + cur.valor;
     }, 0);
 });
+
+export const totalValueEnable = createSelector(stateDebtor, (debtorsItems) => {
+    return debtorsItems
+        .filter((item) => item.negociacao && item.negociacao.recebido)
+        .reduce((acc, cur) => acc + (cur.negociacao ? cur.negociacao.recebido : 0), 0);
+});

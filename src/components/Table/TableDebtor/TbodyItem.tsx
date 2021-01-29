@@ -131,7 +131,7 @@ const TbodyItem: React.FC<Props> = (props) => {
 
         if (situation === "atrasado") return <a className="btneg red none-border-radius pointer">EM ATRASO</a>;
         if (situation === "em dia") return <a className="btneg green2 none-border-radius pointer">EM DIA</a>;
-        if (situation === "quitada") return <a className="btneg green none-border-radius pointer">QUITADA</a>;
+        if (situation === "quitado") return <a className="btneg green none-border-radius pointer">QUITADA</a>;
 
         return "";
     };

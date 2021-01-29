@@ -18,9 +18,9 @@ export const stateDebts = (state: ApplicationState) => getElements<Debt>(state.p
 
 export const status = {
     processing: 0,
-    B: 1,
+    atrasado: 1,
     ["em dia"]: 2,
-    D: 3,
+    quitado: 3,
 };
 
 export const selectDebts = createSelector(stateDebts, (debts) => {

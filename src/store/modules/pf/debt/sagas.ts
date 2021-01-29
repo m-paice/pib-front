@@ -51,6 +51,8 @@ function* paymentBillet(action) {
     try {
         const response = yield call(api.post, "/pagamento/boleto", payloadData);
 
+        yield put(actionsNotification.showNotification());
+
         yield put({
             type: types.PAYMENT_BILLET_DEBT_SUCCESS,
         });
