@@ -11,6 +11,7 @@ export enum types {
 export interface Auth {
     token: string;
     user: User;
+    message: "";
 }
 
 export interface User {
@@ -34,4 +35,5 @@ export interface User {
 export interface StateAuth {
     token: string;
     user: User;
+    message: string;
 }

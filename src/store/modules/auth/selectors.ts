@@ -8,3 +8,5 @@ export const userAuthenticated = (state: ApplicationState) => state.auth.user;
 export const tokenAuthenticated = (state: ApplicationState) => state.auth.token;
 
 export const userEnabled = (state: ApplicationState) => state.auth.user.habilitado;
+
+export const message = (state: ApplicationState) => state.auth.message;

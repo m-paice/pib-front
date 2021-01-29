@@ -24,7 +24,9 @@ const initialValues: FormValues = {
 
 interface Props {
     payload: {
-        data: {};
+        data: {
+            messageError: string;
+        };
         actions: {
             login(data): void;
         };
@@ -32,7 +34,8 @@ interface Props {
 }
 
 const Login: React.FC<Props> = ({ payload }) => {
-    const { actions } = payload;
+    const { actions, data } = payload;
+    const { messageError } = data;
     const { login } = actions;
 
     const history = useHistory();
@@ -249,6 +252,17 @@ const Login: React.FC<Props> = ({ payload }) => {
                                                 >
                                                     ENTRAR
                                                 </button>
+                                                {messageError && (
+                                                    <p
+                                                        style={{
+                                                            textAlign: "center",
+                                                            color: "red",
+                                                        }}
+                                                    >
+                                                        {" "}
+                                                        {messageError}{" "}
+                                                    </p>
+                                                )}
                                             </Form>
                                         )}
                                     </Formik>

@@ -2,9 +2,9 @@ import { Reducer } from "redux";
 import { StateDebt, types } from "./types";
 import { types as typesAuth } from "../../auth/types";
 
-const { ADD_DEBT_SUCCESS, LOAD_DEBT_SUCCESS } = types;
+const { LOAD_DEBT_SUCCESS } = types;
 
-import { insertElementById, insertElementAllId, createTreeAllId, createTreeById } from "../../common/selectors";
+import { createTreeAllId, createTreeById } from "../../common/selectors";
 
 const initialState: StateDebt = {
     byId: {},
@@ -17,8 +17,7 @@ const reducerById: Reducer = (state = {}, action) => {
     switch (type) {
         case LOAD_DEBT_SUCCESS:
             return createTreeById(payload);
-        case ADD_DEBT_SUCCESS:
-            return insertElementById(state, payload);
+
         case typesAuth.AUTH_LOGOUT_SUCCESS:
             return {};
         default:
@@ -32,8 +31,7 @@ const reducerAllId: Reducer = (state = [], action) => {
     switch (type) {
         case LOAD_DEBT_SUCCESS:
             return createTreeAllId(payload);
-        case ADD_DEBT_SUCCESS:
-            return insertElementAllId(state, payload);
+
         case typesAuth.AUTH_LOGOUT_SUCCESS:
             return [];
         default:

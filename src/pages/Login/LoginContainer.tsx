@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { actions } from "../../store/modules/auth/actions";
 
 // selectors
+import { message } from "../../store/modules/auth/selectors";
 
 export const loginContainer = (Component: React.ElementType) => {
     const Container: React.FC = () => {
@@ -15,10 +16,14 @@ export const loginContainer = (Component: React.ElementType) => {
             dispatch(actions.login(data));
         };
 
+        const messageError = useSelector(message);
+
         return (
             <Component
                 payload={{
-                    data: {},
+                    data: {
+                        messageError,
+                    },
                     actions: {
                         login: handleLogin,
                     },

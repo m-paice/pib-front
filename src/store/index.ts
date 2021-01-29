@@ -13,6 +13,7 @@ import { Auth } from "./modules/auth/types";
 import { StatePF } from "./modules/pf";
 import { StatePJ } from "./modules/pj";
 import { StateAssociation } from "./modules/association";
+import { StateApp } from "./modules/app";
 
 const persistConfig = {
     key: "root",
@@ -24,6 +25,7 @@ export interface ApplicationState {
     pf: StatePF;
     pj: StatePJ;
     association: StateAssociation;
+    app: StateApp;
 }
 
 const sagaMiddleware = createSagaMiddleware();

@@ -11,6 +11,8 @@ import { types as typesPjWallet } from "./pj/wallet/types";
 import { types as typesPjDebtors } from "./pj/debtor/types";
 // types association
 import { types as typesshopkeeper } from "./association/shopkeeper/types";
+// types app
+import { types as typesNotification } from "./app/notification/types";
 
 // sagas
 import authSagas from "./auth/sagas";
@@ -23,6 +25,8 @@ import walletPjSagas from "./pj/wallet/sagas";
 import debtorPjSagas from "./pj/debtor/sagas";
 // sagas association
 import shopkeeperSagas from "./association/shopkeeper/sagas";
+// sagas app
+import notificationSagas from "./app/notification/sagas";
 
 export default function* () {
     return yield all([
@@ -54,6 +58,10 @@ export default function* () {
         /** ASSOCIATION */
         takeLatest(typesshopkeeper.LOAD_SHOPKEEPER, shopkeeperSagas.loadShopkeepers),
         takeLatest(typesshopkeeper.UPDATE_SHOPKEEPER, shopkeeperSagas.updateShopkeeper),
+
+        /** APP */
+        takeLatest(typesNotification.SHOW_NOTIFICATION, notificationSagas.showNotification),
+        takeLatest(typesNotification.HIDE_NOTIFICATION, notificationSagas.hideNotification),
 
         // init services
         takeLatest("persist/REHYDRATE", authSagas.reLogin),

@@ -7,11 +7,17 @@ import { ApplicationState } from "../../../store";
 
 // selectors
 import { negociationByMonth } from "../../../store/modules/pj/negociation/selectors";
+
+// actions
 import { actions as actionsDebits } from "../../../store/modules/pf/debt/actions";
+import { actions as actionsNotification } from "../../../store/modules/app/notification/actions";
 
 // components
 import Billet from "./Billet";
 import Card from "./Card";
+
+// hooks
+import { paymentPagarme } from "../../../hooks/usePagarme";
 
 // utils
 import formatDate from "../../../utils/formatDate";
@@ -19,6 +25,7 @@ import formatPrice from "../../../utils/formatPrice";
 import generateDate from "../../../utils/generateDate";
 
 import SweetAlert from "../../../components/SweetAlert";
+import Alert from "../../../components/Alert";
 
 const stylesErrosMessage: React.CSSProperties = {
     color: "#ff0000",
@@ -49,10 +56,16 @@ const Negociation: React.FC<Props> = (props) => {
     const [options, setOptions] = useState<number[]>([]);
 
     const negociation = useSelector((state: ApplicationState) => negociationByMonth(state, monthForRule));
+    const showNotification = useSelector((state: ApplicationState) => state.app.notification.show);
 
     useEffect(() => {
         if (negociation) setOptions(Array.from({ length: negociation.maximoParcela }).map((_, index) => index + 1));
     }, [negociation]);
+
+    const [notification, setNotification] = useState({
+        show: false,
+        message: "",
+    });
 
     const [state, setState] = useState<State>({
         payment: "boleto",
@@ -114,21 +127,54 @@ const Negociation: React.FC<Props> = (props) => {
         handleSetState("errors", {});
     };
 
+    const handleSetNotificationErros = (message = "") => {
+        setNotification({
+            show: true,
+            message,
+        });
+    };
+
     const handleConfirmWithCreditCard = (values) => {
         const { payment, portion } = state;
 
         const dataVencimento = new Date();
 
+        paymentPagarme(
+            {
+                card_cvv: values.codigoCartao,
+                card_expiration_date: values.mesCartao + values.anoCartao,
+                card_holder_name: values.nomeCartao,
+                card_number: values.numeroCartao,
+            },
+            (code) =>
+                dispatch(
+                    actionsDebits.addDebt({
+                        cardHash: code,
+                        debitoId,
+                        lojistaId,
+                        reguaNegociacaoId: negociation.id,
+                        formaPagamento: payment,
+                        parcelamento: portion,
+                        dataVencimento,
+                    }),
+                ),
+            (message) => handleSetNotificationErros(message),
+        );
+
+        return;
+    };
+
+    const handleConfirmWithBillet = () => {
+        const { payment, portion, datePayment } = state;
+        const dataVencimento = payment === "cartao" ? new Date() : new Date(generateDate(datePayment));
         dispatch(
             actionsDebits.addDebt({
-                ...values,
                 debitoId,
                 lojistaId,
                 reguaNegociacaoId: negociation.id,
                 formaPagamento: payment,
                 parcelamento: portion,
                 dataVencimento,
-                expiracaoCartao: values.mesCartao + values.anoCartao,
             }),
         );
     };
@@ -137,25 +183,25 @@ const Negociation: React.FC<Props> = (props) => {
         handleSetState("modal", !state.modal);
         handleSetState("confirmWakeUp", !state.confirmWakeUp);
 
-        const { payment, portion, datePayment } = state;
+        const { payment } = state;
 
-        const dataVencimento = payment === "cartao" ? new Date() : new Date(generateDate(datePayment));
-
-        if (payment !== "cartao") {
-            dispatch(
-                actionsDebits.addDebt({
-                    debitoId,
-                    lojistaId,
-                    reguaNegociacaoId: negociation.id,
-                    formaPagamento: payment,
-                    parcelamento: portion,
-                    dataVencimento,
-                }),
-            );
-        }
+        if (payment === "boleto") handleConfirmWithBillet();
     };
+
     const handleCancel = () => {
         handleSetState("modal", !state.modal);
+    };
+
+    const handleHideNotification = () => {
+        dispatch(actionsNotification.hideNotification());
+        dispatch(actionsDebits.loadDebt());
+    };
+
+    const handleHideNotificationErrors = () => {
+        setNotification({
+            show: false,
+            message: "",
+        });
     };
 
     return (
@@ -302,6 +348,22 @@ const Negociation: React.FC<Props> = (props) => {
                     handleCancel={handleCancel}
                 />
             )}
+
+            <Alert
+                show={notification.show}
+                title="Credas informa"
+                message={notification.message}
+                type="error"
+                handleConfirm={handleHideNotificationErrors}
+            />
+
+            <Alert
+                show={showNotification}
+                title="Credas informa"
+                message="Parabéns, sua negociação foi feita com sucesso"
+                type="success"
+                handleConfirm={handleHideNotification}
+            />
         </div>
     );
 };

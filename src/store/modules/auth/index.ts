@@ -1,11 +1,12 @@
 import { Reducer } from "redux";
 import { StateAuth, types, User } from "./types";
 
-const { AUTH_LOGIN_SUCCESS, AUTH_LOGOUT_SUCCESS } = types;
+const { AUTH_LOGIN_SUCCESS, AUTH_LOGOUT_SUCCESS, AUTH_LOGIN_FAILURE } = types;
 
 const initialState: StateAuth = {
     token: "",
     user: {} as User,
+    message: "",
 };
 
 const reducerToken: Reducer = (state = "", action): string => {
@@ -46,7 +47,21 @@ const reducerUser: Reducer = (state: User = {} as User, action): User => {
     }
 };
 
+const reducerMessage: Reducer = (state = "", action) => {
+    const { type, payload } = action;
+
+    switch (type) {
+        case AUTH_LOGIN_SUCCESS:
+            return "";
+        case AUTH_LOGIN_FAILURE:
+            return payload;
+        default:
+            return state;
+    }
+};
+
 export const reducers: Reducer<StateAuth> = (state = initialState, actions) => ({
     token: reducerToken(state.token, actions),
     user: reducerUser(state.user, actions),
+    message: reducerMessage(state.message, actions),
 });

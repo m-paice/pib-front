@@ -3,6 +3,9 @@ import omit from "lodash/omit";
 
 import { types } from "./types";
 
+// actions app [notification]
+import { actions as actionsNotification } from "../../app/notification/actions";
+
 // api
 import api from "../../../../service/api";
 
@@ -28,14 +31,10 @@ function* createDebt(action) {
     try {
         const response = yield call(api.post, "/negociacao", payload);
 
-        const responseData = {
-            ...response.data,
-            negociacaoId: response.data.negociacao.id,
-        };
+        yield put(actionsNotification.showNotification());
 
         yield put({
             type: types.ADD_DEBT_SUCCESS,
-            payload: omit(responseData, ["negociacao"]),
         });
     } catch (error) {
         yield put({ type: types.ADD_DEBT_FAILURE });

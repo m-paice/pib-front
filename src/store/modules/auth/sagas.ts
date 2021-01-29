@@ -14,6 +14,12 @@ function* login(action) {
     try {
         const response = yield call(api.post, "/auth", payload);
 
+        if (response.data.status && response.data.status === 500) {
+            yield put({ type: types.AUTH_LOGIN_FAILURE, payload: response.data.message });
+
+            return;
+        }
+
         yield put({
             type: types.AUTH_LOGIN_SUCCESS,
             payload: {

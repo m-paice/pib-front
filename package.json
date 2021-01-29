@@ -21,6 +21,7 @@
         "lodash": "^4.17.20",
         "mini-css-extract-plugin": "^0.10.0",
         "normalize.css": "^8.0.1",
+        "pagarme": "^4.15.3",
         "popper.js": "^1.16.1",
         "qs": "^6.9.4",
         "react": "^16.13.1",
