@@ -212,7 +212,7 @@ export const balanceContainer = (Component: React.ElementType) => {
                 1: "nao negociada",
                 2: "atraso",
                 3: "em dia",
-                4: "quitada",
+                4: "quitado",
             };
 
             // quantidade de devedores nao negociados
@@ -242,7 +242,7 @@ export const balanceContainer = (Component: React.ElementType) => {
                 1: "nao negociada",
                 2: "atraso",
                 3: "em dia",
-                4: "quitada",
+                4: "quitado",
             };
 
             // quantidade de dividas nao negociadas
@@ -331,7 +331,7 @@ export const balanceContainer = (Component: React.ElementType) => {
                 1: "nao negociada",
                 2: "atraso",
                 3: "em dia",
-                4: "quitada",
+                4: "quitado",
             };
 
             // quantidade de dividas nao negociadas
