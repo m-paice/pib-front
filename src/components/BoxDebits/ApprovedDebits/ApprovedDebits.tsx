@@ -14,6 +14,7 @@ import formatDate from "../../../utils/formatDate";
 
 interface Props extends Debt {
     generateBillet(data): void;
+    renegotiateDebit(id): void;
 }
 
 interface State {
@@ -68,6 +69,10 @@ const ApprovedDebits: React.FC<Props> = (props) => {
                 title: "Quitada",
                 class: "green",
             },
+            4: {
+                title: "Recusado",
+                class: "gray",
+            },
         };
 
         return renderStatus[statusSituation[negociacao.situacao]];
@@ -107,7 +112,13 @@ const ApprovedDebits: React.FC<Props> = (props) => {
             </div>
 
             {info && <MoreInfo {...lojista} />}
-            {negociation && <Details generateBillet={props.generateBillet} {...negociacao} />}
+            {negociation && (
+                <Details
+                    generateBillet={props.generateBillet}
+                    renegotiateDebit={props.renegotiateDebit}
+                    {...negociacao}
+                />
+            )}
         </div>
     );
 };

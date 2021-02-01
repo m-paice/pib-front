@@ -6,6 +6,7 @@ import formatDate from "../../../utils/formatDate";
 import formatPrice from "../../../utils/formatPrice";
 
 interface Props extends Parcelas {
+    debitoId: string;
     nextPayment: string;
     generateBillet(data): void;
 }
@@ -15,7 +16,17 @@ interface Situation {
 }
 
 const DetailsItem: React.FC<Props> = (props) => {
-    const { id, parcela, situacao, vencimento, valorParcela, dataPagamento, nextPayment, generateBillet } = props;
+    const {
+        id,
+        parcela,
+        situacao,
+        vencimento,
+        valorParcela,
+        dataPagamento,
+        debitoId,
+        nextPayment,
+        generateBillet,
+    } = props;
 
     const handleSituation = (): Situation => {
         const renderSituation = {
@@ -48,7 +59,11 @@ const DetailsItem: React.FC<Props> = (props) => {
 
             {nextPayment === id && (
                 <div className="col-md-2">
-                    <a style={{ cursor: "pointer" }} onClick={() => generateBillet(id)} className="proxima txt-10-mob">
+                    <a
+                        style={{ cursor: "pointer" }}
+                        onClick={() => generateBillet({ id, debitoId })}
+                        className="proxima txt-10-mob"
+                    >
                         Gerar Boleto
                     </a>
                 </div>

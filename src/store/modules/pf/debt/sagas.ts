@@ -1,5 +1,4 @@
 import { put, select, call } from "redux-saga/effects";
-import omit from "lodash/omit";
 
 import { types } from "./types";
 
@@ -41,11 +40,30 @@ function* createDebt(action) {
     }
 }
 
+function* renegotiateDebit(action) {
+    const { payload } = action;
+
+    try {
+        const response = yield call(api.delete, `/negociacao/${payload}`);
+
+        yield put(actionsNotification.showNotification());
+
+        yield put({
+            type: types.RENEGOTIATE_DEBT_SUCCESS,
+        });
+    } catch (error) {
+        yield put({
+            type: types.RENEGOTIATE_DEBT_FAILURE,
+        });
+    }
+}
+
 function* paymentBillet(action) {
     const { payload } = action;
 
     const payloadData = {
         parcelaId: payload.id,
+        debitoId: payload.debitoId,
     };
 
     try {
@@ -68,4 +86,5 @@ export default {
     createDebt,
 
     paymentBillet,
+    renegotiateDebit,
 };

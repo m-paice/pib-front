@@ -25,6 +25,7 @@ interface Props {
         };
         actions: {
             generateBillet(data): void;
+            renegotiateDebit(id): void;
         };
         amount: number;
         value: number;
@@ -34,7 +35,7 @@ interface Props {
 const Debits: React.FC<Props> = ({ payload }) => {
     const { data, actions, amount, value } = payload;
     const { debts, isDebitsPaid } = data;
-    const { generateBillet } = actions;
+    const { generateBillet, renegotiateDebit } = actions;
 
     const [tbody, setTbody] = useState<Debt[]>(debts);
 
@@ -78,7 +79,7 @@ const Debits: React.FC<Props> = ({ payload }) => {
                     </div>
                 )}
 
-                <TableDebits tbody={tbody} generateBillet={generateBillet} />
+                <TableDebits tbody={tbody} generateBillet={generateBillet} renegotiateDebit={renegotiateDebit} />
             </div>
         </div>
     );

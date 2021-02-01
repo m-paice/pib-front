@@ -19,8 +19,12 @@ export const debtsContainer = (Component: React.ElementType) => {
         const isDebitsPaid = useSelector(debitsPaid);
 
         // actions
-        const handleGenerateBillet = (id: string) => {
-            dispatch(actionsDebits.paymentBillet({ id }));
+        const handleGenerateBillet = (data) => {
+            dispatch(actionsDebits.paymentBillet(data));
+        };
+
+        const handleRenegotiateDebit = (id: string) => {
+            dispatch(actionsDebits.renegotiateDebt(id));
         };
 
         return (
@@ -32,6 +36,7 @@ export const debtsContainer = (Component: React.ElementType) => {
                     },
                     actions: {
                         generateBillet: handleGenerateBillet,
+                        renegotiateDebit: handleRenegotiateDebit,
                     },
                     amount,
                     value,

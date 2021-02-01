@@ -7,6 +7,7 @@ import { ApplicationState } from "../../../store";
 import { Negociation } from "../../../store/modules/pf/debt/types";
 // actions
 import { actions as actionsNotifications } from "../../../store/modules/app/notification/actions";
+import { actions as actionsDebits } from "../../../store/modules/pf/debt/actions";
 
 // components
 import Alert from "../../Alert";
@@ -17,10 +18,11 @@ import formatPrice from "../../../utils/formatPrice";
 
 interface Props extends Negociation {
     generateBillet(data): void;
+    renegotiateDebit(id): void;
 }
 
 const Detaisl: React.FC<Props> = (props) => {
-    const { generateBillet } = props;
+    const { generateBillet, renegotiateDebit } = props;
     const negociacao = props;
 
     const { parcelas, formaPagamento } = negociacao;
@@ -50,6 +52,27 @@ const Detaisl: React.FC<Props> = (props) => {
     const handleHideNotification = () => {
         dispatch(actionsNotifications.hideNotification());
     };
+
+    const handleHideNotificationAfterLoadDebit = () => {
+        dispatch(actionsNotifications.hideNotification());
+        dispatch(actionsDebits.loadDebt());
+    };
+
+    if (negociacao.situacao === "recusado") {
+        return (
+            <div className="p-3">
+                <button onClick={() => renegotiateDebit(negociacao.id)}> Negociar novamente </button>
+
+                <Alert
+                    show={showNotification}
+                    title="Credas informa"
+                    message="Muito bem. Agora você pode negociar sua dívida novamente."
+                    type="success"
+                    handleConfirm={handleHideNotificationAfterLoadDebit}
+                />
+            </div>
+        );
+    }
 
     return (
         <div className="p-3">
@@ -113,7 +136,13 @@ const Detaisl: React.FC<Props> = (props) => {
                 .sort((a, b) => (a.parcela > b.parcela ? 1 : -1))
                 .map((item, index) => {
                     return (
-                        <DetailsItem key={index} generateBillet={generateBillet} nextPayment={nextPayment} {...item} />
+                        <DetailsItem
+                            key={index}
+                            generateBillet={generateBillet}
+                            debitoId={negociacao.debitoId}
+                            nextPayment={nextPayment}
+                            {...item}
+                        />
                     );
                 })}
 

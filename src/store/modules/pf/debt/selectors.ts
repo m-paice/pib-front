@@ -21,6 +21,7 @@ export const status = {
     atrasado: 1,
     ["em dia"]: 2,
     quitado: 3,
+    recusado: 4,
 };
 
 export const selectDebts = createSelector(stateDebts, (debts) => {

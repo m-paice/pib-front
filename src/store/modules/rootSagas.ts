@@ -41,6 +41,8 @@ export default function* () {
         // debt
         takeLatest(typesPfDebt.LOAD_DEBT, debtPfSagas.loadDebt),
         takeLatest(typesPfDebt.ADD_DEBT, debtPfSagas.createDebt),
+        // negociation
+        takeLatest(typesPfDebt.RENEGOTIATE_DEBT, debtPfSagas.renegotiateDebit),
         // payment
         takeLatest(typesPfDebt.PAYMENT_BILLET_DEBT, debtPfSagas.paymentBillet),
 
