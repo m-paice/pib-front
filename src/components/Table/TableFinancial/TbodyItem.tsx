@@ -25,13 +25,13 @@ const stylesNegative: React.CSSProperties = {
 
 interface PropsItem {
     index: number;
-    operation: number;
+    operation: string;
     separator?: boolean;
     width?: string | number;
 }
 
 const Item: React.FC<PropsItem> = ({ children, index, operation, separator = true, width }) => {
-    const changeColor = operation === 3; // accredite rate
+    const changeColor = operation === "saque"; // accredite rate
 
     const isPar = index % 2 === 0;
 
@@ -54,23 +54,27 @@ interface Props extends Wallet {
     index: number;
 }
 
-const TbodyItem: React.FC<Props> = ({ index, date, cnpj, nameCompany, operation, value }) => {
-    const lateMonth = new Date(date).getMonth();
+const TbodyItem: React.FC<Props> = ({ index, createdAt, lojistaId, documento, nome, operacao, valor, lojista }) => {
+    const lateMonth = new Date(createdAt).getMonth();
 
     const handleViewType = () => {
-        if (operation === 0) return `Saldo ${monthNames[lateMonth]}`;
-        if (operation === 1) return "Recebimento";
-        if (operation === 2) return "Saque";
-        if (operation === 3) return "Comissão";
-        if (operation === 4) return "Taxa de transferência";
+        if (operacao === "saldo") return `Saldo ${monthNames[lateMonth]}`;
+        if (operacao === "recebimento") return "Recebimento";
+        if (operacao === "saque") return "Saque";
+        if (operacao === "comissao") return "Comissão";
+        if (operacao === "taxa") return "Taxa de transferência";
 
         return "";
     };
 
     const handleViewValue = () => {
-        const text = value.toLocaleString("pt-br", { style: "currency", currency: "BRL" });
+        const text = valor.toLocaleString("pt-br", { style: "currency", currency: "BRL" });
 
-        if (operation === 1) {
+        if (operacao === "saldo") {
+            return <span style={stylesPositive}>{text}</span>;
+        }
+
+        if (operacao === "recebimento") {
             return <span style={stylesPositive}>{text}</span>;
         }
 
@@ -79,19 +83,19 @@ const TbodyItem: React.FC<Props> = ({ index, date, cnpj, nameCompany, operation,
 
     return (
         <tr className="itemListaRegras">
-            <Item index={index} operation={operation}>
-                <span style={styles}>{formatDate(date)}</span>
+            <Item index={index} operation={operacao}>
+                <span style={styles}>{formatDate(new Date(createdAt))}</span>
             </Item>
-            <Item index={index} operation={operation} width={150}>
-                <span style={styles}>{cnpj}</span>
+            <Item index={index} operation={operacao} width={150}>
+                <span style={styles}>{documento}</span>
             </Item>
-            <Item index={index} operation={operation}>
-                <span style={styles}>{nameCompany}</span>
+            <Item index={index} operation={operacao}>
+                <span style={styles}>{nome}</span>
             </Item>
-            <Item index={index} operation={operation} width={150}>
+            <Item index={index} operation={operacao} width={150}>
                 <span style={styles}>{handleViewType()}</span>
             </Item>
-            <Item index={index} operation={operation} separator={false}>
+            <Item index={index} operation={operacao} separator={false}>
                 <span style={{ ...styles, marginTop: 7 }}>{handleViewValue()}</span>
             </Item>
         </tr>

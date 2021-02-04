@@ -24,6 +24,7 @@ const DetailsItem: React.FC<Props> = (props) => {
         valorParcela,
         dataPagamento,
         debitoId,
+        boletoUrl,
         nextPayment,
         generateBillet,
     } = props;
@@ -33,6 +34,10 @@ const DetailsItem: React.FC<Props> = (props) => {
             proxima: {
                 label: "Próxima",
                 class: "proxima",
+            },
+            aguardando: {
+                label: "Aguardando pagamento",
+                class: "aguardando",
             },
             atraso: {
                 label: "Em atraso",
@@ -56,6 +61,15 @@ const DetailsItem: React.FC<Props> = (props) => {
             <div className="col-md-2">
                 <span className={handleSituation().class}> {handleSituation().label} </span>
             </div>
+
+            {situacao === "aguardando" && (
+                <div className="col-md-2">
+                    <a href={boletoUrl} download target="blank" style={{ color: "#fff" }}>
+                        {" "}
+                        <b>download boleto</b>{" "}
+                    </a>
+                </div>
+            )}
 
             {nextPayment === id && (
                 <div className="col-md-2">

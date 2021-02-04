@@ -75,17 +75,17 @@ const Header: React.FC = () => {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/ruleNegociation">
+                                        <Link style={{ lineHeight: "18px" }} to="/ruleNegociation">
                                             <img className="i1" src={RulerAndPencil} />
                                             <img className="i2" src={RulerAndPencilBlue} />
-                                            Reguá de Dívidas
+                                            Regras de negociação
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/debitorBase">
+                                        <Link style={{ lineHeight: "18px" }} to="/debitorBase">
                                             <img className="i1" src={User} />
                                             <img className="i2" src={UserBlue} />
-                                            Controle PF
+                                            Carteira de devedores
                                         </Link>
                                     </li>
 

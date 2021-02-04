@@ -3755,6 +3755,17 @@ a.green2:hover {
     margin-top: -7px;
 }
 
+.aguardando {
+    padding: 5px 7px;
+    color: #fff;
+    width: 100%;
+    float: left;
+    background: #f0ad4e;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-top: -7px;
+}
+
 a.proxima {
     color: #38d6ff;
 }

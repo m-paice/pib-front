@@ -51,8 +51,7 @@ export default function* () {
         takeLatest(typesPjNegociation.LOAD_NEGOCIATION, negociationPjSagas.loadNegociation),
         takeLatest(typesPjNegociation.UPDATE_NEGOCIATION, negociationPjSagas.updateNegociation),
         // wallet
-        takeLatest(typesPjWallet.LOAD_WALLET, walletPjSagas.loadNegociation),
-        takeLatest(typesPjWallet.ADD_WALLET, walletPjSagas.addItemWallet),
+        takeLatest(typesPjWallet.LOAD_WALLET, walletPjSagas.load),
         // debtor
         takeLatest(typesPjDebtors.LOAD_DEBTOR, debtorPjSagas.loadDebtors),
         takeLatest(typesPjDebtors.CLOSE_OR_OPEN_DEBTOR, debtorPjSagas.closeOrOpenDebit),

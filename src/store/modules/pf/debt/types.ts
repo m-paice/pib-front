@@ -107,6 +107,7 @@ export interface Parcelas {
     parcela: number;
     situacao: string;
     valorParcela: number;
+    boletoUrl: string;
     vencimento: Date;
     updatedAt: Date;
     createdAt: Date;

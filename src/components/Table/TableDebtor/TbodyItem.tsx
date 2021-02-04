@@ -142,6 +142,9 @@ const TbodyItem: React.FC<Props> = (props) => {
             currency: "BRL",
         });
 
+    const handleFormatidadeDivida = (amountMonth: number | string): string =>
+        amountMonth === 1 ? `${amountMonth} mês` : `${amountMonth} meses`;
+
     const handleToggleConfirm = () => {
         setConfirm(!confirm);
     };
@@ -213,6 +216,16 @@ const TbodyItem: React.FC<Props> = (props) => {
                     </td>
                     <td></td>
                 </tr>
+            )}
+
+            {simulator && (
+                <Simulator
+                    {...props}
+                    isOpen={simulator}
+                    onClose={handleToggleSimulator}
+                    monthForRule={amountMonth}
+                    idadeDividaFormatado={handleFormatidadeDivida(amountMonth)}
+                />
             )}
         </>
     );

@@ -57,6 +57,7 @@ interface Props {
             userAuthenticate: User;
         };
         actions: {
+            loadWallet(): void;
             handleFilterCurrentMonth(month: number): Wallet[];
             handleReduceValueOfMonth(): { [key: number]: number };
         };
@@ -68,7 +69,7 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
 
     const { userEnable, transactions, totalValueTransactions, isValidValue, userAuthenticate } = data;
 
-    const { handleFilterCurrentMonth, handleReduceValueOfMonth } = actions;
+    const { loadWallet, handleFilterCurrentMonth, handleReduceValueOfMonth } = actions;
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -83,60 +84,12 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
     });
 
     useEffect(() => {
-        // dispatch(actionsWallet.loadWallet());s
+        loadWallet();
     }, []);
 
     useEffect(() => {
-        const transactionsFiltered = handleFilterCurrentMonth(monthSelected.value);
-
-        if (transactionsFiltered.length) {
-            const valueOfMonth = handleReduceValueOfMonth();
-
-            const response: Wallet[] = [
-                {
-                    id: Math.random().toString(),
-                    date: subDays(new Date(`${monthSelected.value + 1}/01/2020`), 1),
-                    cnpj: userAuthenticate.document,
-                    nameCompany: userAuthenticate.nome,
-                    operation: 0,
-                    value: valueOfMonth[monthSelected.value - 1],
-                },
-                ...transactionsFiltered,
-            ];
-
-            return setTbody(response);
-        }
-
         setTbody(transactions);
-    }, [transactions]);
-
-    useEffect(() => {
-        if (inputRef.current) {
-            inputRef.current.value = "";
-            setSearchData([]);
-        }
-        const transactions = handleFilterCurrentMonth(monthSelected.value);
-
-        if (transactions.length) {
-            const valueOfMonth = handleReduceValueOfMonth();
-
-            const response: Wallet[] = [
-                {
-                    id: Math.random().toString(),
-                    date: subDays(new Date(`${monthSelected.value + 1}/01/2020`), 1),
-                    cnpj: userAuthenticate.document,
-                    nameCompany: userAuthenticate.nome,
-                    operation: 0,
-                    value: valueOfMonth[monthSelected.value - 1],
-                },
-                ...transactions,
-            ];
-
-            return setTbody(response);
-        }
-
-        setTbody(transactions);
-    }, [monthSelected]);
+    }, [payload.data]);
 
     const handleSetTransfer = () => {
         setTransfer(!transfer);
@@ -146,26 +99,7 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
         setMonthSelected(month);
     };
 
-    const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-
-        if (!value.length) return setSearchData([]);
-
-        const valueFound = tbody.filter((item) => String(item.value).includes(value));
-        const documentFound = tbody.filter((item) => item.cnpj.includes(value));
-        const namesFound = tbody.filter((item) => item.nameCompany.toLowerCase().includes(value.toLowerCase()));
-        const [operationFound] = operations
-            .filter((item) => item.name.toLowerCase().includes(value.toLowerCase()))
-            .map((item) => item.value);
-        const operationsFound = tbody.filter((item) => item.operation === operationFound);
-
-        if (valueFound.length) return setSearchData(valueFound);
-        else if (documentFound.length) return setSearchData(documentFound);
-        else if (namesFound.length) return setSearchData(namesFound);
-        else if (operationsFound.length) return setSearchData(operationsFound);
-
-        return setSearchData([]);
-    };
+    const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {};
 
     const handleOrderByColumn = (column: string) => {
         if (lastColumn === column) {

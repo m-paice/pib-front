@@ -103,10 +103,10 @@ const Card: React.FC<Props> = (props) => {
                 </div>
             </div>
 
-            <div className="error">
+            {/* <div className="error">
                 *Por favor, revise a quantidade de parcelas do seu acordo seguindo o número máximo de prestações
                 definidas pelo emissor de seu cartão de crédito
-            </div>
+            </div> */}
         </div>
     );
 };

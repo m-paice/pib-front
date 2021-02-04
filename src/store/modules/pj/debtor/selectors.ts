@@ -24,6 +24,7 @@ export const receiveDebtorsValueNextDays = createSelector(stateDebtor, (debtorsI
                 .filter(
                     (item) =>
                         item.situacao !== "atraso" &&
+                        !item.dataPagamento &&
                         new Date(item.vencimento) > new Date() &&
                         new Date(item.vencimento) < addMonths(new Date(), 1),
                 )

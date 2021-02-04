@@ -15,6 +15,7 @@ interface Props extends Debtor {
     isOpen: boolean;
     onClose(): void;
     monthForRule: number;
+    idadeDividaFormatado: string;
 }
 
 const stylesPrimary: React.CSSProperties = {
@@ -27,19 +28,22 @@ const stylesSecondary: React.CSSProperties = {
     color: "#14657b",
 };
 
-const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, valor }) => {
+const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, idadeDividaFormatado, valor }) => {
     const [options, setOptions] = useState<number[]>([]);
+    const [portionValue, setPortionValue] = useState(0);
     const [totalPrice, setTotalPrice] = useState<number>(0);
 
     const negociation = useSelector((state: ApplicationState) => negociationByMonth(state, monthForRule));
 
     useEffect(() => {
-        if (negociation) setOptions(Array.from({ length: negociation.maximoParcela }).map((_, index) => index + 1));
+        if (negociation) {
+            setOptions(Array.from({ length: negociation.maximoParcela }).map((_, index) => index + 1));
+        }
     }, [negociation]);
 
-    const handleCalculateValue = () => {
-        setTotalPrice(Math.ceil(Math.random() * 999));
-    };
+    useEffect(() => {
+        setTotalPrice(valor / portionValue);
+    }, [portionValue]);
 
     const handleFormatPrice = (value: number) => value.toLocaleString("pt-br", { style: "currency", currency: "BRL" });
 
@@ -89,7 +93,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, valor }) =>
                                 className="form-control inputModal"
                                 title="Tempo de vida da dívida"
                                 style={stylesPrimary}
-                                value={`${negociation.idadeDivida} meses`}
+                                value={idadeDividaFormatado}
                                 disabled
                             />
                         </div>
@@ -98,8 +102,9 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, valor }) =>
                             <select
                                 style={{ paddingLeft: "12px !important", color: "#fff" }}
                                 className="form-control inputModal selectModal"
-                                onChange={handleCalculateValue}
+                                onChange={(event) => setPortionValue(Number(event.target.value))}
                             >
+                                <option value={0}> selecione </option>
                                 {options.map((value) => (
                                     <option key={value} value={value}>
                                         {value}
