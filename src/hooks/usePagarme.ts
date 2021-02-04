@@ -1,6 +1,11 @@
 import Pagarme from "pagarme/browser";
 
-const key = "ek_test_QIX05dzgcbJvOxgUNOm08ARVXTD61A";
+const KEY_ENV = {
+    development: "ek_test_QIX05dzgcbJvOxgUNOm08ARVXTD61A",
+    production: "ek_live_J3pzX3BQUT2wSPXXNYnrFal43u3x9D",
+};
+
+const key = KEY_ENV.production;
 
 export const paymentPagarme = (
     values: {
