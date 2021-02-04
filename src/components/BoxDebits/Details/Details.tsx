@@ -44,6 +44,11 @@ const Detaisl: React.FC<Props> = (props) => {
         formaPagamento === "boleto" && setNextPayment(portionFound?.id || "");
     }, []);
 
+    const handleGenerateBillet = (data) => {
+        generateBillet(data);
+        setNextPayment("");
+    };
+
     const handleViewPayment = (payment: number) => {
         if (payment === 1) return "Cartão de crédito";
         if (payment === 2) return "Boleto";
@@ -142,7 +147,7 @@ const Detaisl: React.FC<Props> = (props) => {
                             return (
                                 <DetailsItem
                                     key={index}
-                                    generateBillet={generateBillet}
+                                    generateBillet={handleGenerateBillet}
                                     debitoId={negociacao.debitoId}
                                     nextPayment={nextPayment}
                                     {...item}
