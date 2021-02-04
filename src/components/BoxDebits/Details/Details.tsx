@@ -34,9 +34,11 @@ const Detaisl: React.FC<Props> = (props) => {
     const [nextPayment, setNextPayment] = useState("");
 
     useEffect(() => {
-        const portionFound = parcelas
-            .sort((a, b) => (a.parcela > b.parcela ? 1 : -1))
-            .find((item) => !item.dataPagamento && item.situacao === "proxima");
+        const portionFound = parcelas.some((item) => item.situacao === "aguardando")
+            ? null
+            : parcelas
+                  .sort((a, b) => (a.parcela > b.parcela ? 1 : -1))
+                  .find((item) => !item.dataPagamento && item.situacao === "proxima");
 
         // mostrar o botao e gerar boleto
         formaPagamento === "boleto" && setNextPayment(portionFound?.id || "");
@@ -121,30 +123,34 @@ const Detaisl: React.FC<Props> = (props) => {
                 </div>
             </div>
 
-            <div className="row nopadding ltab">
-                <div className="col-md-2 font-weight-bold lth">Parcela</div>
-                <div className="col-md-2 font-weight-bold lth">Vencimento</div>
-                <div className="col-md-2 font-weight-bold lth">Valor da Parcela</div>
-                <div className="col-md-2 font-weight-bold lth" style={{ whiteSpace: "nowrap" }}>
-                    Data de Pagamento
-                </div>
-                <div className="col-md-2 font-weight-bold lth sit">Situação</div>
-                <div className="col-md-2 font-weight-bold lth"></div>
-            </div>
+            {formaPagamento === "boleto" && (
+                <>
+                    <div className="row nopadding ltab">
+                        <div className="col-md-2 font-weight-bold lth">Parcela</div>
+                        <div className="col-md-2 font-weight-bold lth">Vencimento</div>
+                        <div className="col-md-2 font-weight-bold lth">Valor da Parcela</div>
+                        <div className="col-md-2 font-weight-bold lth" style={{ whiteSpace: "nowrap" }}>
+                            Data de Pagamento
+                        </div>
+                        <div className="col-md-2 font-weight-bold lth sit">Situação</div>
+                        <div className="col-md-2 font-weight-bold lth"></div>
+                    </div>
 
-            {parcelas
-                .sort((a, b) => (a.parcela > b.parcela ? 1 : -1))
-                .map((item, index) => {
-                    return (
-                        <DetailsItem
-                            key={index}
-                            generateBillet={generateBillet}
-                            debitoId={negociacao.debitoId}
-                            nextPayment={nextPayment}
-                            {...item}
-                        />
-                    );
-                })}
+                    {parcelas
+                        .sort((a, b) => (a.parcela > b.parcela ? 1 : -1))
+                        .map((item, index) => {
+                            return (
+                                <DetailsItem
+                                    key={index}
+                                    generateBillet={generateBillet}
+                                    debitoId={negociacao.debitoId}
+                                    nextPayment={nextPayment}
+                                    {...item}
+                                />
+                            );
+                        })}
+                </>
+            )}
 
             <Alert
                 show={showNotification}

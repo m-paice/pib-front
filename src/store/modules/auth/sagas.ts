@@ -2,6 +2,7 @@ import { put, call, select } from "redux-saga/effects";
 
 import { types } from "./types";
 import { types as typesNegociation } from "../pj/negociation/types";
+import { types as typesWallet } from "../pj/wallet/types";
 
 import history from "../../../utils/history";
 
@@ -36,6 +37,10 @@ function* login(action) {
         if (typeUserAuthenticated === "pj") {
             yield put({
                 type: typesNegociation.LOAD_NEGOCIATION,
+            });
+
+            yield put({
+                type: typesWallet.LOAD_WALLET,
             });
         }
 

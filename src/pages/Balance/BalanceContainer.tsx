@@ -5,7 +5,6 @@ import { addMonths, differenceInMonths, subMonths, subYears } from "date-fns";
 
 // selectors
 import { userEnabled } from "../../store/modules/auth/selectors";
-import { totalValue } from "../../store/modules/pj/wallet/selectors";
 import {
     dataDebtor,
     receiveDebtorsValueNextDays,
@@ -17,6 +16,7 @@ import {
     amountDetorsWallet,
     totalValueEnable,
 } from "../../store/modules/pj/debtor/selectors";
+import { totalValue } from "../../store/modules/pj/wallet/selectors";
 
 // action
 import { actions as actionsDebtor } from "../../store/modules/pj/debtor/actions";
@@ -27,7 +27,7 @@ export const balanceContainer = (Component: React.ElementType) => {
 
         const userEnable = useSelector(userEnabled);
         const debtors = useSelector(dataDebtor);
-        const availableValue = useSelector(totalValueEnable);
+        const availableValue = useSelector(totalValue);
         const receiveValue = useSelector(receiveDebtorsValueNextDays);
         const delayValue = useSelector(delayDebtorsValue);
         const paymentForm = useSelector(namesDebtorsPayments);

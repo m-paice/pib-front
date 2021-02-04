@@ -49,6 +49,7 @@ export interface User {
     celular: string;
     email: string;
     endereco: Address;
+    habilitado: boolean;
 }
 
 export interface Details {

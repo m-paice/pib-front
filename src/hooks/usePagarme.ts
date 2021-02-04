@@ -5,7 +5,7 @@ const KEY_ENV = {
     production: "ek_live_J3pzX3BQUT2wSPXXNYnrFal43u3x9D",
 };
 
-const key = KEY_ENV.production;
+const key = KEY_ENV.development;
 
 export const paymentPagarme = (
     values: {

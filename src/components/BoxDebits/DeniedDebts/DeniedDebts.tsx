@@ -140,7 +140,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                     </div>
                 </div>
                 <div className=" col-md-2 cb ">
-                    {statusSituation[status] === -1 ? (
+                    {!lojista.usuario.habilitado ? (
                         <a onClick={() => handleSetState("info", !info)} className="btneg gray btn">
                             Contate o credor
                         </a>

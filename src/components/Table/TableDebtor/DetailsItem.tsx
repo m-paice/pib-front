@@ -79,48 +79,50 @@ const DetailsItem: React.FC<Props> = (props) => {
                 </div>
             </div>
 
-            <table className="mt-2">
-                <thead>
-                    <tr>
-                        <th className="txt-lista-regras">Parcela </th>
-                        <th className="txt-lista-regras">Vencimento </th>
-                        <th className="txt-lista-regras">Valor da Parcela </th>
-                        <th className="txt-lista-regras">Data do Pagamento </th>
-                        <th className="txt-lista-regras">Situação </th>
-                        <th className="txt-lista-regras"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {parcelas
-                        .sort((a, b) => (a.parcela > b.parcela ? 1 : -1))
-                        .map((value, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td className="txt-lista-regras" style={{ border: "none" }}>
-                                        {value.parcela}
-                                    </td>
-                                    <td className="txt-lista-regras" style={{ border: "none" }}>
-                                        {formatDate(new Date(value.vencimento))}
-                                    </td>
-                                    <td className="txt-lista-regras" style={{ border: "none" }}>
-                                        {handleFormatPrice(value.valorParcela)}
-                                    </td>
-                                    <td className="txt-lista-regras" style={{ border: "none" }}>
-                                        {value.dataPagamento && formatDate(new Date(value.dataPagamento))}
-                                    </td>
-                                    <td className="txt-lista-regras" style={{ border: "none" }}>
-                                        {handleViewSituation(value.situacao)}
-                                    </td>
-                                    {/* <td className="txt-lista-regras" style={{ border: "none", width: 150 }}>
+            {formaPagamento === "boleto" && (
+                <table className="mt-2">
+                    <thead>
+                        <tr>
+                            <th className="txt-lista-regras">Parcela </th>
+                            <th className="txt-lista-regras">Vencimento </th>
+                            <th className="txt-lista-regras">Valor da Parcela </th>
+                            <th className="txt-lista-regras">Data do Pagamento </th>
+                            <th className="txt-lista-regras">Situação </th>
+                            <th className="txt-lista-regras"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {parcelas
+                            .sort((a, b) => (a.parcela > b.parcela ? 1 : -1))
+                            .map((value, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td className="txt-lista-regras" style={{ border: "none" }}>
+                                            {value.parcela}
+                                        </td>
+                                        <td className="txt-lista-regras" style={{ border: "none" }}>
+                                            {formatDate(new Date(value.vencimento))}
+                                        </td>
+                                        <td className="txt-lista-regras" style={{ border: "none" }}>
+                                            {handleFormatPrice(value.valorParcela)}
+                                        </td>
+                                        <td className="txt-lista-regras" style={{ border: "none" }}>
+                                            {value.dataPagamento && formatDate(new Date(value.dataPagamento))}
+                                        </td>
+                                        <td className="txt-lista-regras" style={{ border: "none" }}>
+                                            {handleViewSituation(value.situacao)}
+                                        </td>
+                                        {/* <td className="txt-lista-regras" style={{ border: "none", width: 150 }}>
                                         {formaPagamento === "boleto" && nextPayment === value.id && (
                                             <span> Gerar boleto </span>
                                         )}
                                     </td> */}
-                                </tr>
-                            );
-                        })}
-                </tbody>
-            </table>
+                                    </tr>
+                                );
+                            })}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 };
