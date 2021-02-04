@@ -151,7 +151,7 @@ const Detaisl: React.FC<Props> = (props) => {
                 title="Credas informa"
                 message="Parabéns, você acabou de gerar um boleto. Verifique seu e-mail."
                 type="success"
-                handleConfirm={handleHideNotification}
+                handleConfirm={handleHideNotificationAfterLoadDebit}
             />
         </div>
     );

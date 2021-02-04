@@ -1,6 +1,7 @@
 import { put, call, select } from "redux-saga/effects";
 
 import { types } from "./types";
+import { types as typesNegociation } from "../pj/negociation/types";
 
 import history from "../../../utils/history";
 
@@ -31,6 +32,12 @@ function* login(action) {
         yield (api.defaults.headers["Authorization"] = `Bearer ${response.data.token}`);
 
         const typeUserAuthenticated = yield response.data.document;
+
+        if (typeUserAuthenticated === "pj") {
+            yield put({
+                type: typesNegociation.LOAD_NEGOCIATION,
+            });
+        }
 
         yield history.push("/" + typeUserAuthenticated);
     } catch (error) {
