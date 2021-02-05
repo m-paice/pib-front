@@ -28,6 +28,7 @@ const header = [
     // { text: "Atenuador", title: "Atenuador", reference: "attenuator" }, // TODO: manter comentado
     { text: "Multa", title: "Multa", reference: "trafficTicket" },
     { text: "Reajuste", title: "Reajuste", reference: "readjustment" },
+    { text: "Assessoria", title: "Assessoria", reference: "ref" },
     { text: "Editar e \n Simular", title: "Editar e Simular", reference: "" },
 ];
 

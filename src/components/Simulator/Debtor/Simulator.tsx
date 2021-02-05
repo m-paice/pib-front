@@ -30,6 +30,7 @@ const stylesSecondary: React.CSSProperties = {
 
 const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, idadeDividaFormatado, valor }) => {
     const [options, setOptions] = useState<number[]>([]);
+    const [portion, setPortion] = useState(0);
     const [portionValue, setPortionValue] = useState(0);
     const [totalPrice, setTotalPrice] = useState<number>(0);
 
@@ -38,12 +39,16 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, idadeDivida
     useEffect(() => {
         if (negociation) {
             setOptions(Array.from({ length: negociation.maximoParcela }).map((_, index) => index + 1));
+
+            setTotalPrice(valor - valor * (negociation.desconto / 100));
         }
     }, [negociation]);
 
     useEffect(() => {
-        setTotalPrice(valor / portionValue);
-    }, [portionValue]);
+        if (negociation) {
+            setPortionValue(valor - (valor * (negociation.desconto / 100)) / portion);
+        }
+    }, [portion]);
 
     const handleFormatPrice = (value: number) => value.toLocaleString("pt-br", { style: "currency", currency: "BRL" });
 
@@ -102,7 +107,7 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, idadeDivida
                             <select
                                 style={{ paddingLeft: "12px !important", color: "#fff" }}
                                 className="form-control inputModal selectModal"
-                                onChange={(event) => setPortionValue(Number(event.target.value))}
+                                onChange={(event) => setPortion(Number(event.target.value))}
                             >
                                 <option value={0}> selecione </option>
                                 {options.map((value) => (
@@ -123,6 +128,18 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, idadeDivida
                                 disabled
                             />
                         </div>
+                        <div className="col-sm-4 comp-modal">
+                            <label className="lblModal">Valor de cada parcela</label>
+                            <input
+                                type="text"
+                                className="form-control inputModal money"
+                                title="Valor de cada parcela"
+                                style={stylesSecondary}
+                                value={handleFormatPrice(portionValue)}
+                                disabled
+                            />
+                        </div>
+
                         <div className="col-sm-4 comp-modal">
                             <label className="lblModal">Valor a ser pago</label>
                             <input

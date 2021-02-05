@@ -284,6 +284,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                     {/* <Item text={atenuador} errors={handleCheckError()} /> */}
                     <Item text={multa} errors={handleCheckError()} />
                     <Item text={reajuste} errors={handleCheckError()} />
+                    <Item text={assessoria} errors={handleCheckError()} />
                     <ActionsEdit
                         handleToggleEdit={handleToggleEdit}
                         handleSave={handleSave}
@@ -335,6 +336,7 @@ const TbodyItem: React.FC<Props> = (props) => {
             {/* <Item text={`${Number(atenuador).toFixed(1)}%`} /> */}
             <Item text={`${Number(multa).toFixed(1)}%`} />
             <Item text={`${Number(reajuste).toFixed(1)}%`} />
+            <Item text={`${Number(assessoria).toFixed(1)}%`} />
             <Actions handleToggleEdit={handleToggleEdit} handleToggleSimulator={handleToggleSimulator} />
 
             {simulator && (

@@ -6,6 +6,10 @@ import { Formik, Form, Field, FieldProps, FormikProps } from "formik";
 // utils
 import validators from "../../utils/validators";
 
+// components
+import Carousel from "../../components/Carousel";
+import Footer from "../../components/Footer";
+
 // assets
 import IconKey from "../../assets/imagens/icon-chave.png";
 import ImagePeople from "../../assets/people.png";
@@ -297,6 +301,20 @@ const Login: React.FC<Props> = ({ payload }) => {
                     </div>
                 </div>
             </header>
+
+            <div
+                style={{
+                    height: "410px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+                className="container"
+            >
+                <Carousel />
+            </div>
+
+            <Footer />
         </div>
     );
 };
