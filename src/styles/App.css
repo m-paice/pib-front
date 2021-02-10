@@ -353,7 +353,7 @@ html {
     }
     .proxima {
         margin-top: 10px !important;
-        margin-left: -20px !important;
+        margin-left: -20px;
         padding-left: 12px !important;
     }
     .table-mobile .lab:first-child {
@@ -3764,6 +3764,7 @@ a.green2:hover {
     border-radius: 10px;
     font-weight: bold;
     margin-top: -7px;
+    font-size: 12px;
 }
 
 a.proxima {

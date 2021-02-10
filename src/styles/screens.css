@@ -1,0 +1,37 @@
+.web {
+    display: block;
+}
+.mobile {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .web {
+        display: none;
+    }
+    .mobile {
+        display: block;
+    }
+}
+
+.width-middle {
+    width: 50%;
+}
+
+.width-full {
+    width: 100%;
+}
+
+.width90 {
+    width: 90px;
+}
+
+.border-top {
+    border-top: 1px solid #fff;
+}
+.border-bottom {
+    border-bottom: 1px solid #fff;
+}
+.border-middle {
+    border-right: 1px solid #fff;
+}

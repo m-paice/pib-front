@@ -43,7 +43,7 @@ const Pagination: React.FC<Props> = ({ page, totalPage, nextPage, prevPage, goTo
 
     return (
         <nav aria-label="...">
-            <ul style={{ display: "inline-flex", width: "100%" }} className="pagination justify-content-center">
+            <ul style={{ display: "inline-flex", width: "100%" }} className="pagination justify-content-center m-0">
                 <li className="page-item pointer" onClick={prevPage}>
                     <a href="#top" className="page-link">
                         Anterior

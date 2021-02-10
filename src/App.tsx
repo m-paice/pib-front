@@ -12,6 +12,7 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./styles/App.css";
+import "./styles/screens.css";
 
 const App: React.FC = () => {
     const { persistor, store } = storeRedux();

@@ -81,45 +81,81 @@ const ApprovedDebits: React.FC<Props> = (props) => {
     const { id, lojista, inclusao, negociacao } = props;
 
     return (
-        <div className="cada debito ativo">
-            <div className="row rowCenter">
-                <div className="col-md-1">
-                    <a className="smais">
-                        {info ? (
-                            <Dash className="btn glyphicon" onClick={() => handleSetState("info", !info)} />
-                        ) : (
-                            <Plus className="btn glyphicon" onClick={() => handleSetState("info", !info)} />
-                        )}
-                    </a>
-                </div>
-                <div className=" col-md-3 c colBorder">
-                    <span className="labelDebito text-left p-left">{lojista.usuario.nome}</span>
+        <>
+            <div className="web cada debito ativo">
+                <div className="row rowCenter">
+                    <div className="col-md-1">
+                        <a className="smais">
+                            {info ? (
+                                <Dash className="btn glyphicon" onClick={() => handleSetState("info", !info)} />
+                            ) : (
+                                <Plus className="btn glyphicon" onClick={() => handleSetState("info", !info)} />
+                            )}
+                        </a>
+                    </div>
+                    <div className=" col-md-3 c colBorder">
+                        <span className="labelDebito text-left p-left">{lojista.usuario.nome}</span>
+                    </div>
+
+                    <div className="col-md-6 c nobri">
+                        <span className="labelDebito text-center hidden-xs">
+                            Já negociada em {formatDate(new Date(negociacao.dataRegistro))}
+                        </span>
+                    </div>
+                    <div className="col-md-2 cb">
+                        <a
+                            className={`btneg ${handleCheckStatus().class}`}
+                            onClick={() => handleSetState("negociation", !negociation)}
+                        >
+                            {handleCheckStatus().title}
+                        </a>
+                    </div>
                 </div>
 
-                <div className="col-md-6 c nobri">
-                    <span className="labelDebito text-center hidden-xs">
-                        Já negociada em {formatDate(new Date(negociacao.dataRegistro))}
-                    </span>
-                </div>
-                <div className="col-md-2 cb">
-                    <a
-                        className={`btneg ${handleCheckStatus().class}`}
-                        onClick={() => handleSetState("negociation", !negociation)}
-                    >
-                        {handleCheckStatus().title}
-                    </a>
-                </div>
+                {info && <MoreInfo {...lojista} />}
+                {negociation && (
+                    <Details
+                        generateBillet={props.generateBillet}
+                        renegotiateDebit={props.renegotiateDebit}
+                        {...negociacao}
+                    />
+                )}
             </div>
 
-            {info && <MoreInfo {...lojista} />}
-            {negociation && (
-                <Details
-                    generateBillet={props.generateBillet}
-                    renegotiateDebit={props.renegotiateDebit}
-                    {...negociacao}
-                />
-            )}
-        </div>
+            <div className="p-2 mobile cada debito ativo">
+                <div className=" d-flex align-items-center justify-content-between">
+                    <div className="d-flex align-items-center">
+                        <a className="smais">
+                            {info ? (
+                                <Dash className="btn glyphicon" onClick={() => handleSetState("info", !info)} />
+                            ) : (
+                                <Plus className="btn glyphicon" onClick={() => handleSetState("info", !info)} />
+                            )}
+                        </a>
+                        <div className="ml-2 colBorder">
+                            <span className="labelDebito text-left p-left">{lojista.usuario.nome}</span>
+                        </div>
+                    </div>
+                    <div className="d-flex align-items-center width90">
+                        <a
+                            className={`btneg ${handleCheckStatus().class}`}
+                            onClick={() => handleSetState("negociation", !negociation)}
+                        >
+                            {handleCheckStatus().title}
+                        </a>
+                    </div>
+                </div>
+
+                {info && <MoreInfo {...lojista} />}
+                {negociation && (
+                    <Details
+                        generateBillet={props.generateBillet}
+                        renegotiateDebit={props.renegotiateDebit}
+                        {...negociacao}
+                    />
+                )}
+            </div>
+        </>
     );
 };
 
