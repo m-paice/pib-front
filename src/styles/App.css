@@ -5458,6 +5458,12 @@ select::-ms-expand {
     .img-calc {
         margin-right: 80px;
     }
+    article.linha1 {
+        flex-direction: column;
+    }
+    article.linha0 {
+        flex-direction: column-reverse;
+    }
 }
 
 @media (min-width: 991px) and (max-width: 4000px) {
