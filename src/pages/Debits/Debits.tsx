@@ -22,6 +22,7 @@ interface Props {
         data: {
             debts: IDebt[];
             isDebitsPaid: boolean;
+            allPaidOut: boolean;
         };
         actions: {
             generateBillet(data): void;
@@ -34,7 +35,7 @@ interface Props {
 
 const Debits: React.FC<Props> = ({ payload }) => {
     const { data, actions, amount, value } = payload;
-    const { debts, isDebitsPaid } = data;
+    const { debts, isDebitsPaid, allPaidOut } = data;
     const { generateBillet, renegotiateDebit } = actions;
 
     const [tbody, setTbody] = useState<Debt[]>(debts);
@@ -42,10 +43,6 @@ const Debits: React.FC<Props> = ({ payload }) => {
     useEffect(() => {
         setTbody(payload.data.debts);
     }, [payload.data]);
-
-    if (!debts.length) {
-        return <p> Nenhum débito </p>;
-    }
 
     return (
         <div className="page">

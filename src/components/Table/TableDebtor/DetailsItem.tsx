@@ -21,7 +21,7 @@ const DetailsItem: React.FC<Props> = (props) => {
         if (situation === "proxima") return "PRÓXIMA";
         if (situation === "atrasado") return "EM ATRASO";
         if (situation === "pago") return "PAGA";
-        if (situation === "aguardando") return "AGUARDANDNO PAGAMENTO";
+        if (situation === "aguardando") return "AGUARDANDO PAGAMENTO";
 
         return "";
     };

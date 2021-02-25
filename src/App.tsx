@@ -7,6 +7,9 @@ import storeRedux from "./store";
 
 import Routes from "./routes";
 
+// context
+import { UserProvider } from "./context/usuario";
+
 import "normalize.css";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -21,7 +24,9 @@ const App: React.FC = () => {
         <div id="page">
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
-                    <Routes />
+                    <UserProvider>
+                        <Routes />
+                    </UserProvider>
                 </PersistGate>
             </Provider>
         </div>

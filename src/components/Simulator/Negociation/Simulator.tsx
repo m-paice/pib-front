@@ -4,6 +4,8 @@ import { Modal, ModalBody } from "reactstrap";
 
 import { Negociation } from "../../../store/modules/pj/negociation/types";
 
+import formatPrice from "../../../utils/formatPrice";
+
 interface Props extends Negociation {
     isOpen: boolean;
     onClose(): void;
@@ -32,14 +34,17 @@ const Simulator: React.FC<Props> = ({
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [totalPrice, setTotalPrice] = useState(0);
-    const [debitPrice, setDebitPrice] = useState("");
+    const [debitPrice, setDebitPrice] = useState(0);
     const [discountValue, setDiscountValue] = useState(0);
 
-    const [portionPrice, setPortionPrice] = useState(1);
+    const [portionPrice, setPortionPrice] = useState(0);
     const [portionSelected, setPortionSelected] = useState(0);
 
+    const [debitPriceFormated, setDebitPriceFormated] = useState("");
+    const [discountValueFormated, setDiscountValueFormated] = useState("");
+
     useEffect(() => {
-        if (Number(String(discountValue).replace(/\D/g, "")) > 99) {
+        if (discountValue > 99) {
             setErrors((prevState) => ({
                 ...prevState,
                 discount: "O percentual máximo para desconto é de 99%",
@@ -51,11 +56,16 @@ const Simulator: React.FC<Props> = ({
     }, [discountValue]);
 
     useEffect(() => {
-        if (debitPrice && discountValue) {
-            const debitFormated = Number(debitPrice.replace(",", "."));
+        const debitPriceDigits = debitPrice;
 
-            const response = debitFormated - (debitFormated * discountValue) / 100;
+        if (debitPrice && discountValue) {
+            const response = debitPriceDigits - (debitPriceDigits * discountValue) / 100;
             setTotalPrice(response);
+        }
+
+        if (portionSelected && debitPrice && discountValue) {
+            const response = debitPriceDigits - (debitPriceDigits * discountValue) / 100;
+            setPortionPrice(response / portionSelected);
         }
 
         if (!debitPrice || !discountValue) {
@@ -71,16 +81,30 @@ const Simulator: React.FC<Props> = ({
         }
     }, [portionSelected]);
 
-    const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDebitPrice(event.target.value);
+    const handleChangeInputDebitPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDebitPriceFormated("");
+        setDebitPrice(Number(event.target.value));
+    };
+    const handleBlurInputDebitPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDebitPriceFormated(formatPrice(event.target.value));
+    };
+    const handleFocusDebitPrice = () => {
+        setDebitPriceFormated("");
     };
 
     const handleChangeInputDiscount = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDiscountValueFormated("");
         setDiscountValue(Number(event.target.value));
     };
+    const handleBlurInputDiscount = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDiscountValueFormated(`${event.target.value}%`);
+    };
+    const handleFocusInputDiscount = () => {
+        setDiscountValueFormated("");
+    };
 
-    const handleBlurInputDiscount = (event: React.FocusEvent<HTMLInputElement>) => {
-        setDiscountValue(Number(event.target.value));
+    const handleChangeSelectPortion = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setPortionSelected(Number(event.target.value));
     };
 
     return (
@@ -107,8 +131,10 @@ const Simulator: React.FC<Props> = ({
                                 className="form-control inputModal money"
                                 title="Valor total da dívida"
                                 style={stylesPrimary}
-                                value={debitPrice}
-                                onChange={handleChangeInput}
+                                value={debitPriceFormated || debitPrice}
+                                onChange={handleChangeInputDebitPrice}
+                                onBlur={handleBlurInputDebitPrice}
+                                onFocus={handleFocusDebitPrice}
                             />
                         </div>
                         <div className="col-sm-4 comp-modal">
@@ -129,9 +155,10 @@ const Simulator: React.FC<Props> = ({
                                 className="form-control inputModal"
                                 title="Desconto concedido"
                                 style={stylesPrimary}
-                                value={discountValue}
+                                value={discountValueFormated || discountValue}
                                 onChange={handleChangeInputDiscount}
                                 onBlur={handleBlurInputDiscount}
+                                onFocus={handleFocusInputDiscount}
                             />
                             {errors["discount"] && <span className="text-white"> {errors["discount"]} </span>}
                         </div>
@@ -140,8 +167,9 @@ const Simulator: React.FC<Props> = ({
                             <select
                                 style={{ paddingLeft: "12px !important", color: "#fff" }}
                                 className="form-control inputModal selectModal"
-                                onChange={(event) => setPortionSelected(Number(event.target.value))}
+                                onChange={handleChangeSelectPortion}
                             >
+                                <option value="0"> Selecione </option>
                                 {options.map((value) => (
                                     <option key={value} value={value}>
                                         {" "}

@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 
 import { differenceInCalendarMonths } from "date-fns";
-import SweetAlert from "react-bootstrap-sweetalert";
 
 // types
 import { Debtor, Negociation } from "../../../store/modules/pj/debtor/types";
 
 // utils
 import formatDate from "../../../utils/formatDate";
+import formatPrice from "../../../utils/formatPrice";
 
 // components
 import Simulator from "../../Simulator/Debtor";
 import DetailsItem from "./DetailsItem";
+import SweetAlert from "../../SweetAlert";
 
 // assets
 import Lock from "../../../assets/imagens/lock.png";
@@ -136,36 +137,22 @@ const TbodyItem: React.FC<Props> = (props) => {
         return "";
     };
 
-    const formatNumber = (value = 0) =>
-        value.toLocaleString("pt-br", {
-            style: "currency",
-            currency: "BRL",
-        });
-
     const handleFormatidadeDivida = (amountMonth: number | string): string =>
         amountMonth === 1 ? `${amountMonth} mês` : `${amountMonth} meses`;
 
     const handleToggleConfirm = () => {
-        setConfirm(!confirm);
+        setConfirm(true);
     };
 
     const handleConfirm = () => {
         setConfirm(false);
-        setClosed(!closed);
-    };
-    const handleCancel = () => {
-        setConfirm(false);
-    };
-
-    const handleToggleMessageNegociation = () => {
-        setMessageNebociation(!messageNegociation);
-    };
-
-    const handleCloseOrOpenDebitFn = () => {
         handleCloseOrOpenDebit({
             id,
             habilitado,
         });
+    };
+    const handleCancel = () => {
+        setConfirm(false);
     };
 
     return (
@@ -181,16 +168,16 @@ const TbodyItem: React.FC<Props> = (props) => {
                     <span style={styles}>{props.consumidor.usuario.nome}</span>
                 </Item>
                 <Item width={150}>
-                    <span style={styles}>{formatNumber(props.valor)}</span>
+                    <span style={styles}>{formatPrice(props.valor)}</span>
                 </Item>
                 <Item width={150}>
-                    <span style={styles}>{formatNumber(props.negociacao ? props.negociacao.negociado : 0)}</span>
+                    <span style={styles}>{formatPrice(props.negociacao ? props.negociacao.negociado : 0)}</span>
                 </Item>
                 <Item width={150}>
-                    <span style={styles}>{formatNumber(props.negociacao ? props.negociacao.recebido : 0)}</span>
+                    <span style={styles}>{formatPrice(props.negociacao ? props.negociacao.recebido : 0)}</span>
                 </Item>
                 <Item width={150}>
-                    <span style={styles}>{formatNumber(props.negociacao ? props.negociacao.atrasado : 0)}</span>
+                    <span style={styles}>{formatPrice(props.negociacao ? props.negociacao.atrasado : 0)}</span>
                 </Item>
                 <Item separator={false} width={150}>
                     <span onClick={() => props.negociacao && handleSetId(id)}>
@@ -202,7 +189,7 @@ const TbodyItem: React.FC<Props> = (props) => {
                     show={props.negociacao ? false : true}
                     closed={habilitado}
                     handleToggleSimulator={handleToggleSimulator}
-                    handleToggleConfirm={handleCloseOrOpenDebitFn}
+                    handleToggleConfirm={handleToggleConfirm}
                 />
             </tr>
 
@@ -225,6 +212,14 @@ const TbodyItem: React.FC<Props> = (props) => {
                     onClose={handleToggleSimulator}
                     monthForRule={amountMonth}
                     idadeDividaFormatado={handleFormatidadeDivida(amountMonth)}
+                />
+            )}
+
+            {confirm && (
+                <SweetAlert
+                    handleCancel={handleCancel}
+                    handleConfirm={handleConfirm}
+                    title={habilitado ? "Deseja bloquear essa dívida?" : "Deseja desbloquear essa dívida?"}
                 />
             )}
         </>

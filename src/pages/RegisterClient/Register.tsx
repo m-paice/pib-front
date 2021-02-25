@@ -1,7 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, CSSProperties } from "react";
 
 import history from "../../utils/history";
 import validators from "../../utils/validators";
+
+const stylesContainer: CSSProperties = {
+    maxWidth: 500,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+};
 
 interface Props {}
 
@@ -20,16 +28,7 @@ const Register: React.FC<Props> = ({}) => {
 
     return (
         <div className="page">
-            <div
-                className="container meu-cadastro"
-                style={{
-                    maxWidth: 500,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                }}
-            >
+            <div className="container meu-cadastro" style={stylesContainer}>
                 <div className="descmod cadastro">
                     <div className="titulo-mob noneBr" style={{ textAlign: "center" }}>
                         Verifique seu documento

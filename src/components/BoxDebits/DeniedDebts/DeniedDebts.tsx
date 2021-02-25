@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { Plus, Dash } from "react-bootstrap-icons";
-import { differenceInCalendarMonths } from "date-fns";
 
 import { Debt } from "../../../store/modules/pf/debt/types";
 
@@ -12,8 +11,6 @@ import MoreInfo from "../MoreInfo";
 // utils
 import formatDate from "../../../utils/formatDate";
 import formatPrice from "../../../utils/formatPrice";
-
-import { status as statusSituation } from "../../../store/modules/pf/debt/selectors";
 
 const tiposDocumentos = {
     CH: "Cheque",
@@ -35,7 +32,7 @@ interface State {
 }
 
 const DeniedDebts: React.FC<Props> = (props) => {
-    const { id, lojista, inclusao, valor, status, vencimento, tipoDoc } = props;
+    const { id, lojista, inclusao, valor, status, vencimento, tipoDoc, reguaNegociacao } = props;
 
     const [state, setState] = useState<State>({
         info: false,
@@ -43,24 +40,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
         discount: 0,
     });
 
-    const [amountMonth, setAmountMonth] = useState(0);
-
     const { info, negociation } = state;
-
-    useEffect(() => {
-        const handleDayNumber = (date: Date) => {
-            return Number(String(formatDate(date)).split("/")[0]);
-        };
-
-        const currentMonth = new Date();
-        const registerMonth = new Date(inclusao); // TODO: adicinar inclusao
-
-        const amountMonthNumber = differenceInCalendarMonths(currentMonth, registerMonth);
-
-        if (handleDayNumber(registerMonth) > handleDayNumber(currentMonth)) {
-            setAmountMonth(amountMonthNumber - 1);
-        } else setAmountMonth(amountMonthNumber);
-    }, []);
 
     // reset collapse
     useEffect(() => {
@@ -138,7 +118,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                                         <span className="glyphicon glyphicon-question-sign ml-1"></span>
                                     </div>
                                 </div>
-                                <div className="txt-12 m-0 font-weight-bold">{formatPrice(Number(valor))}</div>
+                                <div className="txt-12 m-0 font-weight-bold">{formatPrice(valor)}</div>
                             </div>
                             <div className="div c"></div>
                             <div>
@@ -171,10 +151,10 @@ const DeniedDebts: React.FC<Props> = (props) => {
 
                     {negociation && (
                         <Negociation
-                            debit={Number(valor)}
-                            monthForRule={amountMonth}
+                            debito={valor}
                             lojistaId={lojista.id}
                             debitoId={id}
+                            reguaNegociacao={reguaNegociacao}
                         />
                     )}
 
@@ -213,10 +193,10 @@ const DeniedDebts: React.FC<Props> = (props) => {
 
                     {negociation && (
                         <Negociation
-                            debit={Number(valor)}
-                            monthForRule={amountMonth}
+                            debito={valor}
                             lojistaId={lojista.id}
                             debitoId={id}
+                            reguaNegociacao={reguaNegociacao}
                         />
                     )}
 

@@ -134,6 +134,21 @@ export interface Negociation {
     updatedAt: Date;
 }
 
+export interface RuleNegociation {
+    id: string;
+    lojistaId: string;
+    assessoria: string;
+    atenuador: number;
+    desconto: number;
+    idadeDivida: number;
+    juros: number;
+    maximoParcela: number;
+    multa: number;
+    reajuste: number;
+    updatedAt: Date;
+    createdAt: Date;
+}
+
 export interface Debt {
     id: string;
     consumidorId: string;
@@ -141,12 +156,13 @@ export interface Debt {
     consumidor: Consumer;
     negociacao: Negociation;
     lojista: Shookeeper;
+    reguaNegociacao: RuleNegociation;
     contrato: string;
     inclusao: string;
     seqdiv: string;
     status: string;
     tipoDoc: string;
-    valor: string;
+    valor: number;
     vencimento: string;
     createdAt: Date;
     updatedAt: Date;

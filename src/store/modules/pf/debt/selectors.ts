@@ -28,17 +28,19 @@ export const selectDebts = createSelector(stateDebts, (debts) => {
     return debts.sort((a, b) => (status[a.status] > status[b.status] ? 1 : -1));
 });
 
+// todos os debitos quitados
+export const allDebtsPaidOut = createSelector(stateDebts, (debts) => {
+    return debts.every((item) => item.negociacao && item.negociacao.situacao === "quitado");
+});
+
 // quantidade de debitos abertos (que não estão quitados)
 export const amountDebitsOpened = createSelector(
     stateDebts,
-    (debits) => debits.filter((item) => status[item.status] !== 3).length,
+    (debits) => debits.filter((item) => !item.negociacao).length,
 );
 
 // debitos quitados
-export const debitsPaid = createSelector(
-    stateDebts,
-    (debits) => debits.length !== 0 && debits.every((item) => status[item.status] === 3),
-);
+export const debitsPaid = createSelector(stateDebts, (debits) => debits.every((item) => item.negociacao));
 
 // quantidade de debitos quitadas
 export const amountDebitsPaidOut = createSelector(
@@ -53,8 +55,8 @@ export const selectDebtsPending = createSelector(stateDebts, (debts) => {
 
 // valor total dos debitos
 export const valueTotalDebts = createSelector(stateDebts, (debts) =>
-    debts.reduce((acc, cur) => acc + Number(cur.valor), 0),
+    debts.filter((debit) => !debit.negociacao).reduce((acc, cur) => acc + Number(cur.valor), 0),
 );
 
 // quantidade total de debitos
-export const amountDebts = createSelector(stateDebts, (debts) => debts.length);
+export const amountDebts = createSelector(stateDebts, (debts) => debts.filter((debit) => !debit.negociacao).length);

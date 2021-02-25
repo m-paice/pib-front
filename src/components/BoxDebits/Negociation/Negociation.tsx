@@ -3,10 +3,9 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addDays } from "date-fns";
 
+// types
 import { ApplicationState } from "../../../store";
-
-// selectors
-import { negociationByMonth } from "../../../store/modules/pj/negociation/selectors";
+import { RuleNegociation } from "../../../store/modules/pf/debt/types";
 
 // actions
 import { actions as actionsDebits } from "../../../store/modules/pf/debt/actions";
@@ -33,57 +32,146 @@ const stylesErrosMessage: React.CSSProperties = {
 };
 
 interface Props {
-    debit: number;
-    monthForRule: number;
+    debito: number;
     lojistaId: string;
     debitoId: string;
+    reguaNegociacao: RuleNegociation;
 }
 
 interface State {
     payment: "boleto" | "cartao";
-    portion: string;
+    portion: number;
     datePayment: string;
     confirmWakeUp: boolean;
     modal: boolean;
     errors: object;
 }
 
+interface Parcelas {
+    valorParcela: number;
+}
+
+interface StateData {
+    valorTotal: number;
+    valorDesconto: number;
+    desconto: number;
+    parcelas: Parcelas[];
+    parcelaSelecionada: number;
+}
+
+interface StateMap {
+    [key: number]: {
+        atenuador: number;
+        desconto: number;
+        valorTotal: number;
+        valorDesconto: number;
+    };
+}
+
 const Negociation: React.FC<Props> = (props) => {
-    const { debit, monthForRule, lojistaId, debitoId } = props;
+    const { debito, lojistaId, debitoId, reguaNegociacao } = props;
 
     const dispatch = useDispatch();
 
-    const [options, setOptions] = useState<number[]>([]);
+    // const [options, setOptions] = useState<number[]>([]);
 
-    const negociation = useSelector((state: ApplicationState) => negociationByMonth(state, monthForRule));
-    const showNotification = useSelector((state: ApplicationState) => state.app.notification.show);
-
-    useEffect(() => {
-        if (negociation) setOptions(Array.from({ length: negociation.maximoParcela }).map((_, index) => index + 1));
-    }, [negociation]);
+    const [data, setData] = useState<StateData>({
+        valorTotal: 0,
+        valorDesconto: 0,
+        desconto: 0,
+        parcelas: [],
+        parcelaSelecionada: 0,
+    });
 
     const [notification, setNotification] = useState({
         show: false,
         message: "",
     });
 
+    const [map, setMap] = useState<StateMap>({
+        0: {
+            atenuador: 0,
+            desconto: 1,
+            valorDesconto: 1,
+            valorTotal: 1,
+        },
+    });
+
     const [state, setState] = useState<State>({
         payment: "boleto",
-        portion: "",
+        portion: 0,
         datePayment: "",
         confirmWakeUp: true, // TODO: fazer a logica inversa [começar com false]
         modal: false,
         errors: {},
     });
 
-    if (!negociation) {
-        return <p> nenhuma negociação encontrada para essa dívida (idade da dívida não encontrado) </p>;
-    }
+    const negociation = reguaNegociacao;
+    const showNotification = useSelector((state: ApplicationState) => state.app.notification.show);
 
     const { payment, confirmWakeUp } = state;
-    const discount = (debit * negociation.desconto) / 100;
 
-    const handleSetState = (key: string, value: string | boolean | object) => {
+    useEffect(() => {
+        const populateArray = Array.from({ length: negociation.maximoParcela }).map((_, index) => index + 1);
+
+        const response: {
+            [key: number]: {
+                atenuador: number;
+                desconto: number;
+                valorTotal: number;
+                valorDesconto: number;
+            };
+        } = {};
+        const parcelas: { valorParcela: number }[] = [];
+
+        populateArray.reduce((acc, cur, index) => {
+            const atenuador = index * 5;
+
+            if (index === 0) {
+                const desconto = 35;
+                const valorPagar = debito - debito * (desconto / 100);
+                const valorDesconto = debito * (desconto / 100);
+
+                response[index + 1] = {
+                    atenuador,
+                    desconto,
+                    valorDesconto,
+                    valorTotal: valorPagar,
+                };
+                parcelas.push({
+                    valorParcela: valorPagar / 1,
+                });
+
+                return desconto;
+            }
+
+            const desconto = acc - acc * (atenuador / 100);
+            const valorPagar = debito - debito * (desconto / 100);
+            const valorDesconto = debito * (desconto / 100);
+
+            response[index + 1] = {
+                atenuador,
+                desconto,
+                valorDesconto,
+                valorTotal: valorPagar,
+            };
+
+            parcelas.push({
+                valorParcela: valorPagar / (index + 1),
+            });
+
+            return desconto;
+        }, 0);
+
+        setMap(response);
+
+        setData((prevState) => ({
+            ...prevState,
+            parcelas: parcelas.filter((item) => item.valorParcela > 30),
+        }));
+    }, []);
+
+    const handleSetState = (key: string, value: string | boolean | object | number) => {
         setState((prevState) => ({
             ...prevState,
             [key]: value,
@@ -97,7 +185,7 @@ const Negociation: React.FC<Props> = (props) => {
     };
 
     const handleSelectPortionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        handleSetState("portion", event.target.value);
+        handleSetState("portion", Number(event.target.value));
     };
 
     const handleSelectDatePaymentChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -242,23 +330,18 @@ const Negociation: React.FC<Props> = (props) => {
                                 <select
                                     style={{ color: "#000" }}
                                     onChange={handleSelectPortionChange}
+                                    value={state.portion}
                                     className="sel parcelamentoSelect"
                                     disabled={!confirmWakeUp}
                                 >
-                                    <option style={{ color: "#000" }} value="">
-                                        Escolha o plano
+                                    <option style={{ color: "#000" }} value={0}>
+                                        Escolha uma parcela
                                     </option>
-                                    {options
-                                        .map((value, index) => ({
-                                            valor: (debit - discount) / (index + 1),
-                                            parcela: index + 1,
-                                        }))
-                                        .filter((item) => item.valor > 50)
-                                        .map((item) => (
-                                            <option style={{ color: "#000" }} key={item.parcela} value={item.parcela}>
-                                                {item.parcela} X {formatPrice(item.valor)}
-                                            </option>
-                                        ))}
+                                    {data.parcelas.map((item, index) => (
+                                        <option style={{ color: "#000" }} key={index} value={index + 1}>
+                                            {index + 1} x {formatPrice(item.valorParcela)}
+                                        </option>
+                                    ))}
                                 </select>
                                 {state.errors["portion"] && (
                                     <span style={stylesErrosMessage}> {state.errors["portion"]} </span>
@@ -308,15 +391,31 @@ const Negociation: React.FC<Props> = (props) => {
                             <div className="font-weight-bold">Resumo de seu acordo</div>
                             <label>
                                 <div className="font-weight-bold">Valor da dívida</div>
-                                <input className="imp" disabled value={formatPrice(debit)} />
+                                <input className="imp" disabled value={formatPrice(debito)} />
                             </label>
-                            <div className="font-weight-bold">Valor do desconto ({`${negociation?.desconto}%`})</div>
+                            <div className="font-weight-bold">
+                                Valor do desconto (
+                                {`${
+                                    map[state.portion]?.desconto % 1 === 0
+                                        ? map[state.portion]?.desconto
+                                        : map[state.portion]?.desconto.toFixed(1) || 0
+                                }%`}
+                                )
+                            </div>
                             <label>
-                                <input className="imp desconto disabled-bc" disabled value={formatPrice(discount)} />
+                                <input
+                                    className="imp desconto disabled-bc"
+                                    disabled
+                                    value={formatPrice(map[state.portion]?.valorDesconto || 0)}
+                                />
                             </label>
                             <div className="font-weight-bold">Total</div>
                             <label>
-                                <input className="imp disabled-bc" disabled value={formatPrice(debit - discount)} />
+                                <input
+                                    className="imp disabled-bc"
+                                    disabled
+                                    value={formatPrice(map[state.portion]?.valorTotal || 0)}
+                                />
                             </label>
                             <button
                                 style={{ border: "none" }}

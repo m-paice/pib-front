@@ -45,8 +45,8 @@ const Simulator: React.FC<Props> = ({ isOpen, onClose, monthForRule, idadeDivida
     }, [negociation]);
 
     useEffect(() => {
-        if (negociation) {
-            setPortionValue(valor - (valor * (negociation.desconto / 100)) / portion);
+        if (negociation && portion) {
+            setPortionValue(totalPrice / portion);
         }
     }, [portion]);
 

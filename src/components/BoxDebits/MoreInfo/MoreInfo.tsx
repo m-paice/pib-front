@@ -19,13 +19,13 @@ const MoreInfo: React.FC<Props> = (props) => {
                     <b>Banco:</b> {dadosBancarios.nomeInstituicao} <br />
                     <b>Motivo de devolução:</b> Descrição do motivo da devolução
                 </div>
-                <div className="col-md-2 text-left">
+                <div className="mt-3 col-md-2 text-left">
                     <b>Agencia:</b> {dadosBancarios.agencia}
                 </div>
-                <div className="col-md-2 text-left">
+                <div className="mt-3 col-md-2 text-left">
                     <b>Conta:</b> {dadosBancarios.conta.split("-")[0]}
                 </div>
-                <div className="col-md-2 text-left">
+                <div className="mt-3 col-md-2 text-left">
                     <b>Digito:</b> {dadosBancarios.conta.split("-")[1]}
                 </div>
             </div>
@@ -40,11 +40,11 @@ const MoreInfo: React.FC<Props> = (props) => {
                     <b>CNPJ:</b> {cnpj} <br />
                     <b>Endereço:</b> {endereco.rua} nº {endereco.numero} Bairro {endereco.bairro}
                 </div>
-                <div className="col-md-3 text-left">
+                <div className="mt-3 col-md-3 text-left">
                     <b>Email:</b> {email} <br />
                     <b>Cidade:</b> {endereco.cidade} <b>CEP</b>: {endereco.cep}
                 </div>
-                <div className="col-md-3 text-left">
+                <div className="mt-3 col-md-3 text-left">
                     <b>Telefone:</b> {celular} <br />
                     <b>UF:</b> {endereco.uf}
                 </div>

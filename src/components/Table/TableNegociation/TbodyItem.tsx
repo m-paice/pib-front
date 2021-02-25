@@ -72,12 +72,16 @@ const InputEdit: React.FC<PropsInputEdit> = (props) => {
                     onChange={handleChangeValue}
                     style={{ minWidth: 85, height: 26, textAlign: "center", color: "#000" }}
                 >
-                    <option selected>{initialValue}</option>
-                    {options.map((item, index) => (
-                        <option key={index} value={item.value} style={{ color: "#000" }}>
-                            {item.name}
-                        </option>
-                    ))}
+                    <option style={{ color: "red" }} selected>
+                        {initialValue}
+                    </option>
+                    {options
+                        .filter((_, index) => index < 12)
+                        .map((item, index) => (
+                            <option key={index} value={item.value} style={{ color: "#000" }}>
+                                {item.name}
+                            </option>
+                        ))}
                 </select>
                 {separator && <div className="traco-v-table align-right"></div>}
             </td>
