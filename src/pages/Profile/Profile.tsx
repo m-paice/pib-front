@@ -88,7 +88,6 @@ const Profile: React.FC<Props> = ({ payload }) => {
     const handleSubmit = useCallback((values: FormValues) => {
         // TODO: call action
 
-        console.log(values);
         setSubmitSuccess(true);
     }, []);
 

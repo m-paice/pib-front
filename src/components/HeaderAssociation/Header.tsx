@@ -67,20 +67,6 @@ const Header: React.FC = () => {
                                             Resumo
                                         </Link>
                                     </li>
-                                    {/* <li>
-                                        <Link to="/financialReport">
-                                            <img className="i1" src={I2} />
-                                            <img className="i2" src={I22} />
-                                            Extrato
-                                        </Link>
-                                    </li> */}
-                                    {/* <li>
-                                        <Link to="/ruleNegociation">
-                                            <img className="i1" src={RulerAndPencil} />
-                                            <img className="i2" src={RulerAndPencilBlue} />
-                                            Reguá de Dívidas
-                                        </Link>
-                                    </li> */}
                                     <li>
                                         <Link to="/shopkeepers">
                                             <img className="i1" src={User} />
@@ -88,6 +74,20 @@ const Header: React.FC = () => {
                                             Lojistas
                                         </Link>
                                     </li>
+                                    <li>
+                                        <Link to="/negociacao-balcao">
+                                            <img className="i1" src={I2} />
+                                            <img className="i2" src={I22} />
+                                            Negociação
+                                        </Link>
+                                    </li>
+                                    {/* <li>
+                                        <Link to="/ruleNegociation">
+                                            <img className="i1" src={RulerAndPencil} />
+                                            <img className="i2" src={RulerAndPencilBlue} />
+                                            Reguá de Dívidas
+                                        </Link>
+                                    </li> */}
 
                                     <li className="div menucel">
                                         <span className="detdiv"></span>

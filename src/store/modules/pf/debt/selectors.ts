@@ -36,11 +36,14 @@ export const allDebtsPaidOut = createSelector(stateDebts, (debts) => {
 // quantidade de debitos abertos (que não estão quitados)
 export const amountDebitsOpened = createSelector(
     stateDebts,
-    (debits) => debits.filter((item) => !item.negociacao).length,
+    (debits) =>
+        debits.filter((item) => !item.negociacao?.parcelas.some((parcela) => parcela.situacao === "pago")).length,
 );
 
-// debitos quitados
-export const debitsPaid = createSelector(stateDebts, (debits) => debits.every((item) => item.negociacao));
+// todos os debitos negociados e pelo menos uma parcela paga
+export const debitsPaid = createSelector(stateDebts, (debits) =>
+    debits.every((item) => item.negociacao && item.negociacao.parcelas.some((parcela) => parcela.situacao === "pago")),
+);
 
 // quantidade de debitos quitadas
 export const amountDebitsPaidOut = createSelector(
@@ -55,8 +58,14 @@ export const selectDebtsPending = createSelector(stateDebts, (debts) => {
 
 // valor total dos debitos
 export const valueTotalDebts = createSelector(stateDebts, (debts) =>
-    debts.filter((debit) => !debit.negociacao).reduce((acc, cur) => acc + Number(cur.valor), 0),
+    debts
+        .filter((debit) => !debit.negociacao?.parcelas.some((parcela) => parcela.situacao === "pago"))
+        .reduce((acc, cur) => acc + cur.valor, 0),
 );
 
 // quantidade total de debitos
-export const amountDebts = createSelector(stateDebts, (debts) => debts.filter((debit) => !debit.negociacao).length);
+export const amountDebts = createSelector(
+    stateDebts,
+    (debts) =>
+        debts.filter((debit) => !debit.negociacao?.parcelas.some((parcela) => parcela.situacao === "pago")).length,
+);

@@ -42,7 +42,6 @@ const RuleNegociation: React.FC<Props> = ({ payload }) => {
     const [lastColumn, setLastColum] = useState("");
 
     useEffect(() => {
-        console.log("passei aqui");
         loadRuleNegociations();
     }, []);
 

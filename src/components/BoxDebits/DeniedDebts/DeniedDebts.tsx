@@ -23,7 +23,9 @@ const tiposDocumentos = {
     XX: "Não definido",
 };
 
-type Props = Debt;
+interface Props extends Debt {
+    negociar(data): void;
+}
 
 interface State {
     info: boolean;
@@ -32,7 +34,7 @@ interface State {
 }
 
 const DeniedDebts: React.FC<Props> = (props) => {
-    const { id, lojista, inclusao, valor, status, vencimento, tipoDoc, reguaNegociacao } = props;
+    const { id, lojista, inclusao, valor, status, vencimento, tipoDoc, reguaNegociacao, negociar } = props;
 
     const [state, setState] = useState<State>({
         info: false,
@@ -155,6 +157,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                             lojistaId={lojista.id}
                             debitoId={id}
                             reguaNegociacao={reguaNegociacao}
+                            negociar={negociar}
                         />
                     )}
 
@@ -197,6 +200,7 @@ const DeniedDebts: React.FC<Props> = (props) => {
                             lojistaId={lojista.id}
                             debitoId={id}
                             reguaNegociacao={reguaNegociacao}
+                            negociar={negociar}
                         />
                     )}
 

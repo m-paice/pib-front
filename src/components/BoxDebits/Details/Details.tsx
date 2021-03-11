@@ -50,9 +50,9 @@ const Detaisl: React.FC<Props> = (props) => {
         setNextPayment("");
     };
 
-    const handleViewPayment = (payment: number) => {
-        if (payment === 1) return "Cartão de crédito";
-        if (payment === 2) return "Boleto";
+    const handleViewPayment = (payment: string) => {
+        if (payment === "cartao") return "Cartão de crédito";
+        if (payment === "boleto") return "Boleto";
 
         return "";
     };
@@ -89,7 +89,7 @@ const Detaisl: React.FC<Props> = (props) => {
                     <div className="col-md text-nowrap txt-lista-regras">
                         Forma de Pagamento
                         <div className="lab lab2">
-                            <strong>{negociacao.formaPagamento}</strong>
+                            <strong>{handleViewPayment(negociacao.formaPagamento)}</strong>
                         </div>
                     </div>
                     <div className="col-md text-nowrap txt-lista-regras">

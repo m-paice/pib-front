@@ -106,7 +106,7 @@ export interface Parcelas {
     negociacaoId: string;
     dataPagamento: Date;
     parcela: number;
-    situacao: string;
+    situacao: "pago" | "atrasado" | "aguardando" | "proxima";
     valorParcela: number;
     boletoUrl: string;
     vencimento: Date;
@@ -128,7 +128,7 @@ export interface Negociation {
     recebido: number;
     atrasado: number;
     formaPagamento: string;
-    situacao: string;
+    situacao: "quitado" | "em dia" | "atasado" | "recusado";
     parcelas: Parcelas[];
     createdAt: Date;
     updatedAt: Date;

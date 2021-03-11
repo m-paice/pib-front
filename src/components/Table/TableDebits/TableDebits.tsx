@@ -19,9 +19,10 @@ interface Props {
     tbody: Tbody[];
     generateBillet(data): void;
     renegotiateDebit(id): void;
+    negociar(data): void;
 }
 
-const TableDebits: React.FC<Props> = ({ tbody, generateBillet, renegotiateDebit }) => {
+const TableDebits: React.FC<Props> = ({ tbody, generateBillet, renegotiateDebit, negociar }) => {
     const [data, setData] = useState<Tbody[]>(tbody);
 
     const [pagination, setPagination] = useState<PaginationSate>({
@@ -73,7 +74,13 @@ const TableDebits: React.FC<Props> = ({ tbody, generateBillet, renegotiateDebit 
             <span id="top"></span>
 
             {data.map((item, index) => (
-                <TbodyItem key={index} generateBillet={generateBillet} renegotiateDebit={renegotiateDebit} {...item} />
+                <TbodyItem
+                    key={index}
+                    generateBillet={generateBillet}
+                    renegotiateDebit={renegotiateDebit}
+                    negociar={negociar}
+                    {...item}
+                />
             ))}
 
             {!data.length && <span className="text-center pt-3 pb-3">Nenhum registro encontrado.</span>}

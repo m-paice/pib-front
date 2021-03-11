@@ -25,9 +25,9 @@ const Panel: React.FC<Props> = ({ payload }) => {
         loadDebits();
     }, []);
 
-    if (amountDebits <= 0) return <NoDebits />;
+    if (!amountDebits) return <Debits />;
 
-    return <Debits />;
+    return <NoDebits />;
 };
 
 export default painelContainer(Panel);

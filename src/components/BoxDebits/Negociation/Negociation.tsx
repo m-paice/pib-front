@@ -36,6 +36,7 @@ interface Props {
     lojistaId: string;
     debitoId: string;
     reguaNegociacao: RuleNegociation;
+    negociar(data): void;
 }
 
 interface State {
@@ -69,7 +70,7 @@ interface StateMap {
 }
 
 const Negociation: React.FC<Props> = (props) => {
-    const { debito, lojistaId, debitoId, reguaNegociacao } = props;
+    const { debito, lojistaId, debitoId, reguaNegociacao, negociar } = props;
 
     const dispatch = useDispatch();
 
@@ -235,17 +236,15 @@ const Negociation: React.FC<Props> = (props) => {
                 card_number: values.numeroCartao,
             },
             (code) =>
-                dispatch(
-                    actionsDebits.addDebt({
-                        cardHash: code,
-                        debitoId,
-                        lojistaId,
-                        reguaNegociacaoId: negociation.id,
-                        formaPagamento: payment,
-                        parcelamento: portion,
-                        dataVencimento,
-                    }),
-                ),
+                negociar({
+                    cardHash: code,
+                    debitoId,
+                    lojistaId,
+                    reguaNegociacaoId: negociation.id,
+                    formaPagamento: payment,
+                    parcelamento: portion,
+                    dataVencimento,
+                }),
             (message) => handleSetNotificationErros(message),
         );
 
@@ -255,16 +254,15 @@ const Negociation: React.FC<Props> = (props) => {
     const handleConfirmWithBillet = () => {
         const { payment, portion, datePayment } = state;
         const dataVencimento = payment === "cartao" ? new Date() : new Date(generateDate(datePayment));
-        dispatch(
-            actionsDebits.addDebt({
-                debitoId,
-                lojistaId,
-                reguaNegociacaoId: negociation.id,
-                formaPagamento: payment,
-                parcelamento: portion,
-                dataVencimento,
-            }),
-        );
+
+        negociar({
+            debitoId,
+            lojistaId,
+            reguaNegociacaoId: negociation.id,
+            formaPagamento: payment,
+            parcelamento: portion,
+            dataVencimento,
+        });
     };
 
     const handleConfirm = () => {

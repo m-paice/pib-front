@@ -25,6 +25,7 @@ import RuleNegociation from "../pages/RuleNegociation";
 import FinancialReport from "../pages/FinancialReport";
 import Balance from "../pages/Balance";
 import Shopkeepers from "../pages/Shopkeepers";
+import NegociacaoBalcao from "../pages/NegociacaoBalcao";
 
 import RegisterClient from "../pages/RegisterClient";
 import Register from "../pages/Register";
@@ -67,6 +68,7 @@ const Routes: React.FC = () => {
                 {/* views associacao */}
                 <DashboardLayoutAssociation exact path="/associacao" component={Balance} />
                 <DashboardLayoutAssociation exact path="/shopkeepers" component={Shopkeepers} />
+                <DashboardLayoutAssociation exact path="/negociacao-balcao" component={NegociacaoBalcao} />
             </Switch>
         </Router>
     );

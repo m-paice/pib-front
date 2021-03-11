@@ -8,6 +8,7 @@ import ApprovedDebits from "../../BoxDebits/ApprovedDebits";
 interface Props extends Debt {
     generateBillet(data): void;
     renegotiateDebit(id): void;
+    negociar(data): void;
 }
 
 const TbodyItem: React.FC<Props> = (props) => {

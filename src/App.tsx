@@ -9,6 +9,7 @@ import Routes from "./routes";
 
 // context
 import { UserProvider } from "./context/usuario";
+import { AssociacaoProvider } from "./context/associacao";
 
 import "normalize.css";
 import "bootstrap";
@@ -25,7 +26,9 @@ const App: React.FC = () => {
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <UserProvider>
-                        <Routes />
+                        <AssociacaoProvider>
+                            <Routes />
+                        </AssociacaoProvider>
                     </UserProvider>
                 </PersistGate>
             </Provider>

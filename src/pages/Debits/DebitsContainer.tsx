@@ -12,6 +12,7 @@ import {
     amountDebts,
     debitsPaid,
     allDebtsPaidOut,
+    amountDebitsOpened,
 } from "../../store/modules/pf/debt/selectors";
 
 export const debtsContainer = (Component: React.ElementType) => {
@@ -22,7 +23,7 @@ export const debtsContainer = (Component: React.ElementType) => {
         const debts = useSelector(selectDebts);
         const value = useSelector(valueTotalDebts);
         const amount = useSelector(amountDebts);
-        const isDebitsPaid = useSelector(debitsPaid);
+        const isDebitsPaid = useSelector(amountDebitsOpened);
         const allPaidOut = useSelector(allDebtsPaidOut);
 
         // actions
@@ -32,6 +33,10 @@ export const debtsContainer = (Component: React.ElementType) => {
 
         const handleRenegotiateDebit = (id: string) => {
             dispatch(actionsDebits.renegotiateDebt(id));
+        };
+
+        const handleNegociation = (data) => {
+            dispatch(actionsDebits.addDebt(data));
         };
 
         return (
@@ -45,6 +50,7 @@ export const debtsContainer = (Component: React.ElementType) => {
                     actions: {
                         generateBillet: handleGenerateBillet,
                         renegotiateDebit: handleRenegotiateDebit,
+                        negociation: handleNegociation,
                     },
                     amount,
                     value,
