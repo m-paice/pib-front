@@ -8,6 +8,9 @@ import { mask, unMask } from "remask";
 import Carousel from "../../components/Carousel";
 import Footer from "../../components/Footer";
 
+// hooks
+import { maskTextDocument } from "../../hooks/maskText";
+
 import { useUser } from "../../context/usuario";
 
 // assets
@@ -206,6 +209,14 @@ const Login: React.FC<Props> = ({ payload }) => {
                                                             <input
                                                                 style={input}
                                                                 {...props.field}
+                                                                onChange={(event) => {
+                                                                    const value = event.target.value;
+
+                                                                    props.form.setFieldValue(
+                                                                        "login",
+                                                                        maskTextDocument(value),
+                                                                    );
+                                                                }}
                                                                 type="text"
                                                                 placeholder="Digite seu CPF ou CNPJ"
                                                             />

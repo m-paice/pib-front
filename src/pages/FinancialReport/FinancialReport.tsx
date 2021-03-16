@@ -119,7 +119,7 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
     return (
         <div className="page">
             <div className="container">
-                {!userEnable && <UnableUser />}
+                {!userEnable && <UnableUser type="lojista" />}
                 <div className="row">
                     <div className="col-xs-6 col-sm-6" style={{ fontSize: 35 }}>
                         <b>Seu Saldo: &nbsp;</b>

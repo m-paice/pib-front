@@ -108,7 +108,7 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
     return (
         <div className="page">
             <div className="container">
-                {!userEnable && <UnableUser />}
+                {!userEnable && <UnableUser type="lojista" />}
                 <div className="listaBaseDev">
                     <div className="descmod cadastro">
                         <div className="row">

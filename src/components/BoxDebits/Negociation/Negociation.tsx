@@ -129,7 +129,7 @@ const Negociation: React.FC<Props> = (props) => {
             const atenuador = index * 5;
 
             if (index === 0) {
-                const desconto = 35;
+                const desconto = negociation.desconto;
                 const valorPagar = debito - debito * (desconto / 100);
                 const valorDesconto = debito * (desconto / 100);
 

@@ -9,13 +9,26 @@ import api from "../service/api";
 import history from "../utils/history";
 import validators from "../utils/validators";
 
+// components
+import Alert from "../components/Alert";
+
 interface UserContextData {
-    check(document: string): void;
-    forgotPassword(document: string): void;
     messageErrorResponse: string;
     messageErrorForgotPasswordResponse: string;
     email: string;
+    check(document: string): void;
+    forgotPassword(document: string): void;
     handleClearMessagesErros(): void;
+    handleActiveAccount(token: string): void;
+    handleNewPassword(data): void;
+}
+
+interface AlertTypes {
+    show: boolean;
+    title: string;
+    message: string;
+    type: string;
+    handleConfirm: any;
 }
 
 const UserContext = createContext<UserContextData>({} as UserContextData);
@@ -23,11 +36,70 @@ const UserContext = createContext<UserContextData>({} as UserContextData);
 export const UserProvider: React.FC = ({ children }) => {
     const [messageError, setMessageError] = useState("");
     const [messageErrorForgotPassword, setMessageErrorForgotPassword] = useState("");
+
+    const [atrAlert, setAtrAlert] = useState<AlertTypes>({
+        show: false,
+        title: "",
+        message: "",
+        type: "success",
+        handleConfirm: null,
+    });
     const [email, setEmail] = useState("");
 
     const handleClearMessagesErros = () => {
         setMessageError("");
         setMessageErrorForgotPassword("");
+    };
+
+    const handleCloseAlertRedirectLogin = () => {
+        setAtrAlert({
+            show: false,
+            message: "",
+            type: "",
+            title: "",
+            handleConfirm: null,
+        });
+
+        history.push("/login");
+    };
+
+    const handleActiveAccount = async (hash: string) => {
+        const response = await api.post("/usuario/ativar-conta", {
+            token: hash,
+        });
+
+        if (response.data.error) {
+            return;
+        }
+
+        setAtrAlert((prevState) => ({
+            show: true,
+            title: "Usuário ativado",
+            message: "Parabéns, você ativou seu usuário",
+            type: "success",
+            handleConfirm: handleCloseAlertRedirectLogin,
+        }));
+    };
+
+    const handleNewPassword = async (data: { hash: string; password: string }) => {
+        const { hash, password } = data;
+
+        const response = await api.post("/usuario/nova-senha", {
+            token: hash,
+            password,
+        });
+
+        if (response.data.error) {
+            return;
+        }
+
+        setAtrAlert((prevState) => ({
+            show: true,
+            title: "Senha alterada",
+            message: "Parabéns, você alterou sua senha",
+            type: "success",
+            handleConfirm: handleCloseAlertRedirectLogin,
+        }));
     };
 
     const handleChangeEmail = (email: string) => {
@@ -94,12 +166,22 @@ export const UserProvider: React.FC = ({ children }) => {
                 check: handleCheck,
                 forgotPassword: handleForgotPassword,
                 handleClearMessagesErros,
+                handleActiveAccount,
+                handleNewPassword,
                 messageErrorResponse: messageError,
                 messageErrorForgotPasswordResponse: messageErrorForgotPassword,
                 email,
             }}
         >
             {children}
+
+            <Alert
+                show={atrAlert.show}
+                handleConfirm={atrAlert.handleConfirm}
+                title={atrAlert.title}
+                message={atrAlert.message}
+                type={atrAlert.type}
+            />
         </UserContext.Provider>
     );
 };

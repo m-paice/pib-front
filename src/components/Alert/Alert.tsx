@@ -18,7 +18,7 @@ interface Props {
         | "custom"
         | "controlled"
         | "default"
-        | undefined;
+        | any;
 }
 
 const Alert: React.FC<Props> = (props) => {

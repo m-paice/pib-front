@@ -80,7 +80,7 @@ const Balance: React.FC<Props> = ({ payload }) => {
     return (
         <div className="page">
             <div className="container">
-                {!userEnable && <UnableUser />}
+                {!userEnable && <UnableUser type="lojista" />}
                 <div className="descmod cadastro">
                     <div className="row">
                         <Available availableValue={availableValue} isValidValue={isValidValue} />

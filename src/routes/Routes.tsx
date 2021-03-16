@@ -31,6 +31,9 @@ import RegisterClient from "../pages/RegisterClient";
 import Register from "../pages/Register";
 import RegisterPj from "../pages/RegisterPj";
 
+import ActiveAccount from "../pages/ActiveAccount";
+import NewPassword from "../pages/NewPassword";
+
 import Login from "../pages/Login";
 import ForgotPassword from "../pages/ForgotPassword";
 
@@ -48,6 +51,8 @@ const Routes: React.FC = () => {
                 <PublicLayout exact path="/register" component={Register} />
                 <PublicLayout exact path="/registerpj" component={RegisterPj} />
                 <PublicLayout exact path="/forgotpassword" component={ForgotPassword} />
+                <PublicLayout exact path="/active-account/:token" component={ActiveAccount} />
+                <PublicLayout exact path="/new-password/:token" component={NewPassword} />
 
                 {/* views pf */}
                 <DashboardLayoutPf exact path="/pf" component={Panel} />

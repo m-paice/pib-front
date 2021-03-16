@@ -67,7 +67,7 @@ const RuleNegociation: React.FC<Props> = ({ payload }) => {
     return (
         <div className="page">
             <div className="container">
-                {!userEnable && <UnableUser />}
+                {!userEnable && <UnableUser type="lojista" />}
                 <div className="descmod cadastro d-flex justify-content-between">
                     <div className="col-xs-12">
                         <b>Fique por dentro das negociações</b>

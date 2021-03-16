@@ -8,6 +8,7 @@ import { actions as actionsNegociactions } from "../../store/modules/pj/negociat
 
 // selectors
 import { amountDebitsOpened, debitsPaid } from "../../store/modules/pf/debt/selectors";
+import { userEnabled } from "../../store/modules/auth/selectors";
 
 export const painelContainer = (Component: React.ElementType) => {
     const Container: React.FC = () => {
@@ -19,11 +20,13 @@ export const painelContainer = (Component: React.ElementType) => {
         };
 
         const amountDebitsPf = useSelector(debitsPaid);
+        const userEnable = useSelector(userEnabled);
 
         return (
             <Component
                 payload={{
                     data: {
+                        userEnable,
                         amountDebits: amountDebitsPf,
                     },
                     actions: {
