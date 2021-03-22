@@ -14,6 +14,7 @@ import {
     allDebtsPaidOut,
     amountDebitsOpened,
 } from "../../store/modules/pf/debt/selectors";
+import { userActiveNotifications } from "../../store/modules/auth/selectors";
 
 export const debtsContainer = (Component: React.ElementType) => {
     const Container: React.FC = () => {
@@ -25,6 +26,7 @@ export const debtsContainer = (Component: React.ElementType) => {
         const amount = useSelector(amountDebts);
         const isDebitsPaid = useSelector(amountDebitsOpened);
         const allPaidOut = useSelector(allDebtsPaidOut);
+        const activeNotifications = useSelector(userActiveNotifications);
 
         // actions
         const handleGenerateBillet = (data) => {
@@ -46,6 +48,7 @@ export const debtsContainer = (Component: React.ElementType) => {
                         debts,
                         isDebitsPaid,
                         allPaidOut,
+                        activeNotifications,
                     },
                     actions: {
                         generateBillet: handleGenerateBillet,

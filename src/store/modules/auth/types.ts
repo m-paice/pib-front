@@ -27,6 +27,7 @@ export interface User {
     token: null;
     document: string;
     ativo: boolean;
+    ativacao: string;
     habilitado: boolean;
     updatedAt: Date;
     createdAt: Date;

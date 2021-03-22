@@ -3290,6 +3290,11 @@ article a.sm span {
     color: #2f4a51;
 }
 
+.btpadrao2:checked {
+    background: #fff;
+    color: #2f4a51;
+}
+
 .faixamsg {
     color: #196b81;
     font-size: 20px;

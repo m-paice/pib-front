@@ -8,5 +8,6 @@ export const userAuthenticated = (state: ApplicationState) => state.auth.user;
 export const tokenAuthenticated = (state: ApplicationState) => state.auth.token;
 
 export const userEnabled = (state: ApplicationState) => state.auth.user.habilitado;
+export const userActiveNotifications = (state: ApplicationState) => state.auth.user.ativacao === "ambos";
 
 export const message = (state: ApplicationState) => state.auth.message;

@@ -10,6 +10,8 @@ import Caratriste from "../../assets/imagens/caratriste.png";
 import Fotoperfil from "../../assets/imagens/fotoperfil.png";
 import Carafeliz from "../../assets/imagens/carafeliz.png";
 
+// components
+import UnableUser from "../../components/UnableUser";
 import TableDebits from "../../components/Table/TableDebits";
 
 // utils
@@ -23,6 +25,7 @@ interface Props {
             debts: IDebt[];
             isDebitsPaid: boolean;
             allPaidOut: boolean;
+            activeNotifications: boolean;
         };
         actions: {
             generateBillet(data): void;
@@ -36,7 +39,7 @@ interface Props {
 
 const Debits: React.FC<Props> = ({ payload }) => {
     const { data, actions, amount, value } = payload;
-    const { debts, isDebitsPaid, allPaidOut } = data;
+    const { debts, isDebitsPaid, allPaidOut, activeNotifications } = data;
     const { generateBillet, renegotiateDebit, negociation } = actions;
 
     const [tbody, setTbody] = useState<Debt[]>(debts);
@@ -47,6 +50,8 @@ const Debits: React.FC<Props> = ({ payload }) => {
 
     return (
         <div className="page">
+            {!activeNotifications && <UnableUser type="ativarNotificacao" />}
+
             <div className="container">
                 {!!isDebitsPaid ? (
                     <div className="row">

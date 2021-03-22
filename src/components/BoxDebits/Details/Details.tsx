@@ -68,8 +68,11 @@ const Detaisl: React.FC<Props> = (props) => {
 
     if (negociacao.situacao === "recusado") {
         return (
-            <div className="p-3">
-                <button onClick={() => renegotiateDebit(negociacao.id)}> Negociar novamente </button>
+            <div className="p-3 d-flex align-items-center justify-content-center">
+                <button className="btpadrao" onClick={() => renegotiateDebit(negociacao.id)}>
+                    {" "}
+                    Negociar novamente{" "}
+                </button>
 
                 <Alert
                     show={showNotification}

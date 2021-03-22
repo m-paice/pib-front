@@ -22,6 +22,7 @@ function* create(action) {
             nascimento: payload.birthDate,
             email: payload.email,
             celular: payload.phone,
+            ativacao: payload.active,
         };
     }
 

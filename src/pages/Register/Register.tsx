@@ -17,10 +17,12 @@ interface FormValues {
     passwordConfirm: string;
     terms: boolean;
     receiveTips: boolean;
+    active: string;
 }
 
 // components
 import Input from "../../components/Fields/Input";
+import MessageRange from "../../components/MessageRange";
 
 // validations form
 const SignupSchema = Yup.object().shape({
@@ -39,6 +41,7 @@ const SignupSchema = Yup.object().shape({
         .required("obrigatório")
         .oneOf([Yup.ref("password")], "as senhas devem corresponder"),
     terms: Yup.bool().oneOf([true], "os termos e condições são obrigatórios"),
+    active: Yup.string().required("obrigatório"),
 });
 
 const initialValues: FormValues = {
@@ -52,6 +55,7 @@ const initialValues: FormValues = {
     passwordConfirm: "",
     terms: false,
     receiveTips: false,
+    active: "",
 };
 
 interface Props {
@@ -285,6 +289,27 @@ const Register: React.FC<Props> = ({ payload }) => {
                                 </div>
                             </div>
                         </div>
+
+                        <MessageRange>
+                            <div className="col-xs-12">
+                                Para finalizar, qual opção você prefere para validar seu cadastro?
+                            </div>
+                            <label>
+                                <Field type="radio" name="active" value="sms" />
+                                SMS
+                            </label>
+
+                            <label>
+                                <Field type="radio" name="active" value="email" />
+                                E-mail
+                            </label>
+
+                            <br />
+
+                            <span className="erro">
+                                {formikBag.touched.active && formikBag.errors.active && formikBag.errors.active}
+                            </span>
+                        </MessageRange>
 
                         <div className="row">
                             <div className="bbuttons col-md-6">

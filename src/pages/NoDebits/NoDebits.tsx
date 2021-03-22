@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 // components
 import Carousel from "../../components/Carousel";
 import BoxKnowMore from "../../components/BoxKnowMore";
+import UnableUser from "../../components/UnableUser";
 
 import { noDebitsContainer } from "./NoDebitsContainer";
 
@@ -15,6 +16,7 @@ interface Props {
     payload: {
         data: {
             debitsPaidOut: boolean;
+            activeNotifications: boolean;
         };
         actions: object;
     };
@@ -22,10 +24,16 @@ interface Props {
 
 const NoDebits: React.FC<Props> = ({ payload }) => {
     const { data, actions } = payload;
-    const { debitsPaidOut } = data;
+    const { debitsPaidOut, activeNotifications } = data;
 
     return (
         <div className="page">
+            {!activeNotifications && (
+                <UnableUser type="ativarNotificacao">
+                    {" "}
+                    <button className="btpadrao"> Ativar agora </button>{" "}
+                </UnableUser>
+            )}
             <div className="row container">
                 <div className="col-xs-12 col-sm-3 col-sm-offset-1">
                     <img className="pessoa" src={Fotoperfil} />
