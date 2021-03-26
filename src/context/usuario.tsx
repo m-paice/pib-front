@@ -194,11 +194,15 @@ export const UserProvider: React.FC = ({ children }) => {
         const { typeActiveAccount } = data;
 
         if (typeActiveAccount === "sms") {
-            const response = await api.post("/usuario/ativar/sms");
+            const response = await api.post("/usuario/ativar-dispositivo", {
+                tipo: "sms",
+            });
         }
 
         if (typeActiveAccount === "email") {
-            const response = await api.post("/usuario/ativar/email");
+            const response = await api.post("/usuario/ativar-dispositivo", {
+                tipo: "email",
+            });
         }
 
         setAtrAlert((prevState) => ({
