@@ -32,6 +32,7 @@ import Register from "../pages/Register";
 import RegisterPj from "../pages/RegisterPj";
 
 import ActiveAccount from "../pages/ActiveAccount";
+import ActiveAccountFromType from "../pages/ActiveAccountFromType";
 import NewPassword from "../pages/NewPassword";
 
 import Login from "../pages/Login";
@@ -51,8 +52,9 @@ const Routes: React.FC = () => {
                 <PublicLayout exact path="/register" component={Register} />
                 <PublicLayout exact path="/registerpj" component={RegisterPj} />
                 <PublicLayout exact path="/forgotpassword" component={ForgotPassword} />
-                <PublicLayout exact path="/active-account/:token" component={ActiveAccount} />
                 <PublicLayout exact path="/new-password/:token" component={NewPassword} />
+                <PublicLayout exact path="/active-account/:token" component={ActiveAccount} />
+                <PublicLayout exact path="/active-from-type/:token" component={ActiveAccountFromType} />
 
                 {/* views pf */}
                 <DashboardLayoutPf exact path="/pf" component={Panel} />

@@ -4,7 +4,7 @@ import { balanceContainer } from "./BalanceContainer";
 
 // components
 import { SeparatorHorizontal, SeparatorVertical } from "../../components/Separator";
-import UnableUser from "../../components/UnableUser";
+import WarningText from "../../components/WarningText";
 
 import Available from "./Available";
 import Received from "./Received";
@@ -80,7 +80,7 @@ const Balance: React.FC<Props> = ({ payload }) => {
     return (
         <div className="page">
             <div className="container">
-                {!userEnable && <UnableUser type="lojista" />}
+                {!userEnable && <WarningText>Usuário não habilitando pela associação comercial.</WarningText>}
                 <div className="descmod cadastro">
                     <div className="row">
                         <Available availableValue={availableValue} isValidValue={isValidValue} />

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import UnableUser from "../../components/UnableUser";
+import WarningText from "../../components/WarningText";
 
 import NoDebits from "../NoDebits";
 import Debits from "../Debits";
@@ -11,6 +11,7 @@ interface Props {
     payload: {
         data: {
             userEnable: boolean;
+            typeActiveAccount: string;
             amountDebits: number;
         };
         actions: {
@@ -22,7 +23,7 @@ interface Props {
 const Panel: React.FC<Props> = ({ payload }) => {
     const { data, actions } = payload;
     const { loadDebits } = actions;
-    const { userEnable, amountDebits } = data;
+    const { userEnable, typeActiveAccount, amountDebits } = data;
 
     useEffect(() => {
         loadDebits();
@@ -30,9 +31,7 @@ const Panel: React.FC<Props> = ({ payload }) => {
 
     if (!userEnable)
         return (
-            <div className="page">
-                <UnableUser type="consumidor" />
-            </div>
+            <WarningText>Usuário não habilitado, verifique seu {typeActiveAccount} para ativar sua conta.</WarningText>
         );
 
     if (!amountDebits) return <Debits />;

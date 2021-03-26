@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 // components
 import Carousel from "../../components/Carousel";
 import BoxKnowMore from "../../components/BoxKnowMore";
-import UnableUser from "../../components/UnableUser";
+import WarningText from "../../components/WarningText";
 
 import { noDebitsContainer } from "./NoDebitsContainer";
 
@@ -17,22 +17,34 @@ interface Props {
         data: {
             debitsPaidOut: boolean;
             activeNotifications: boolean;
+            typeActiveAccountContrary: string;
         };
-        actions: object;
+        actions: {
+            handleActiveNotification(data): void;
+        };
     };
 }
 
 const NoDebits: React.FC<Props> = ({ payload }) => {
     const { data, actions } = payload;
-    const { debitsPaidOut, activeNotifications } = data;
+    const { debitsPaidOut, activeNotifications, typeActiveAccountContrary } = data;
+    const { handleActiveNotification } = actions;
+
+    const handleClickActiveNotification = () => {
+        const notification = typeActiveAccountContrary === "Telefone" ? "sms" : "email";
+
+        handleActiveNotification({ typeActiveAccount: notification });
+    };
 
     return (
         <div className="page">
             {!activeNotifications && (
-                <UnableUser type="ativarNotificacao">
-                    {" "}
-                    <button className="btpadrao"> Ativar agora </button>{" "}
-                </UnableUser>
+                <WarningText>
+                    Você ainda não ativou {typeActiveAccountContrary}. &nbsp;
+                    <a href="#" onClick={handleClickActiveNotification}>
+                        Clique aqui para ativar agora
+                    </a>
+                </WarningText>
             )}
             <div className="row container">
                 <div className="col-xs-12 col-sm-3 col-sm-offset-1">

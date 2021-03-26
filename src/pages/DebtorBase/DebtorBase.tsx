@@ -7,7 +7,7 @@ import { Debtor } from "../../store/modules/pj/debtor/types";
 // components
 import Table from "../../components/Table/TableDebtor";
 import Select from "../../components/unconnected/Fields/Select";
-import UnableUser from "../../components/UnableUser";
+import WarningText from "../../components/WarningText";
 
 const header = [
     { text: "Data de \n Registro", title: "Data de Registro", reference: "register" },
@@ -108,7 +108,7 @@ const DebtorBase: React.FC<Props> = ({ payload }) => {
     return (
         <div className="page">
             <div className="container">
-                {!userEnable && <UnableUser type="lojista" />}
+                {!userEnable && <WarningText>Usuário não habilitando pela associação comercial.</WarningText>}
                 <div className="listaBaseDev">
                     <div className="descmod cadastro">
                         <div className="row">

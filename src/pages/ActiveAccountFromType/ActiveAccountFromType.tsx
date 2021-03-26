@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 
 import { useParams } from "react-router-dom";
 
-import { Container } from "./ActiveAccountContainer";
+import { Container } from "./ActiveAccountFromTypeContainer";
 
 interface Props {
     payload: {
         data: {};
         actions: {
-            handleActiveAccount(token: string): void;
+            handleConfirmActiveAccountType(token: string): void;
         };
     };
 }
@@ -17,15 +17,15 @@ const ActiveAccount: React.FC<Props> = ({ payload }) => {
     const { token } = useParams();
 
     const { actions } = payload;
-    const { handleActiveAccount } = actions;
+    const { handleConfirmActiveAccountType } = actions;
 
     useEffect(() => {
-        handleActiveAccount(token);
+        handleConfirmActiveAccountType(token);
     }, []);
 
     return (
         <div className="page container">
-            <strong> Ativando sua conta... </strong>
+            <strong> Ativando suas notificações... </strong>
         </div>
     );
 };

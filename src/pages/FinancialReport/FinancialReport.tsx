@@ -16,7 +16,7 @@ import { financialReportContainer } from "./FinancialReportContainer";
 import Table from "../../components/Table/TableFinancial";
 import Select from "../../components/unconnected/Fields/Select";
 import AlertWithdraw from "../../components/AlertWithdraw";
-import UnableUser from "../../components/UnableUser";
+import WarningText from "../../components/WarningText";
 
 // utils
 import monthNames from "../../utils/monthNames";
@@ -119,7 +119,7 @@ const FinancialReport: React.FC<Props> = ({ payload }) => {
     return (
         <div className="page">
             <div className="container">
-                {!userEnable && <UnableUser type="lojista" />}
+                {!userEnable && <WarningText>Usuário não habilitando pela associação comercial.</WarningText>}
                 <div className="row">
                     <div className="col-xs-6 col-sm-6" style={{ fontSize: 35 }}>
                         <b>Seu Saldo: &nbsp;</b>

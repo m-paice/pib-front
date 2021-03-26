@@ -6,7 +6,7 @@ import { Negociation } from "../../store/modules/pj/negociation/types";
 
 // components
 import Table from "../../components/Table/TableNegociation";
-import UnableUser from "../../components/UnableUser";
+import WarningText from "../../components/WarningText";
 
 interface Props {
     payload: {
@@ -67,7 +67,7 @@ const RuleNegociation: React.FC<Props> = ({ payload }) => {
     return (
         <div className="page">
             <div className="container">
-                {!userEnable && <UnableUser type="lojista" />}
+                {!userEnable && <WarningText>Usuário não habilitando pela associação comercial.</WarningText>}
                 <div className="descmod cadastro d-flex justify-content-between">
                     <div className="col-xs-12">
                         <b>Fique por dentro das negociações</b>

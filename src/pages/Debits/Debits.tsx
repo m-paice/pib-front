@@ -11,7 +11,7 @@ import Fotoperfil from "../../assets/imagens/fotoperfil.png";
 import Carafeliz from "../../assets/imagens/carafeliz.png";
 
 // components
-import UnableUser from "../../components/UnableUser";
+import WarningText from "../../components/WarningText";
 import TableDebits from "../../components/Table/TableDebits";
 
 // utils
@@ -26,11 +26,13 @@ interface Props {
             isDebitsPaid: boolean;
             allPaidOut: boolean;
             activeNotifications: boolean;
+            typeActiveAccountContrary: string;
         };
         actions: {
             generateBillet(data): void;
             renegotiateDebit(id): void;
             negociation(data): void;
+            handleActiveNotification(data): void;
         };
         amount: number;
         value: number;
@@ -39,8 +41,8 @@ interface Props {
 
 const Debits: React.FC<Props> = ({ payload }) => {
     const { data, actions, amount, value } = payload;
-    const { debts, isDebitsPaid, allPaidOut, activeNotifications } = data;
-    const { generateBillet, renegotiateDebit, negociation } = actions;
+    const { debts, isDebitsPaid, allPaidOut, activeNotifications, typeActiveAccountContrary } = data;
+    const { generateBillet, renegotiateDebit, negociation, handleActiveNotification } = actions;
 
     const [tbody, setTbody] = useState<Debt[]>(debts);
 
@@ -48,9 +50,22 @@ const Debits: React.FC<Props> = ({ payload }) => {
         setTbody(payload.data.debts);
     }, [payload.data]);
 
+    const handleClickActiveNotification = () => {
+        const notification = typeActiveAccountContrary === "Telefone" ? "sms" : "email";
+
+        handleActiveNotification({ typeActiveAccount: notification });
+    };
+
     return (
         <div className="page">
-            {!activeNotifications && <UnableUser type="ativarNotificacao" />}
+            {!activeNotifications && (
+                <WarningText>
+                    Você ainda não ativou {typeActiveAccountContrary}. &nbsp;
+                    <a href="#" onClick={handleClickActiveNotification}>
+                        Clique aqui para ativar agora
+                    </a>
+                </WarningText>
+            )}
 
             <div className="container">
                 {!!isDebitsPaid ? (

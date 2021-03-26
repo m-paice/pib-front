@@ -19,7 +19,7 @@ const DetailsItem: React.FC<Props> = (props) => {
 
     const handleViewSituation = (situation: string) => {
         if (situation === "proxima") return "PRÓXIMA";
-        if (situation === "atrasado") return "EM ATRASO";
+        if (situation === "atraso") return "EM ATRASO";
         if (situation === "pago") return "PAGA";
         if (situation === "aguardando") return "AGUARDANDO PAGAMENTO";
 

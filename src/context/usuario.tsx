@@ -21,6 +21,8 @@ interface UserContextData {
     handleClearMessagesErros(): void;
     handleActiveAccount(token: string): void;
     handleNewPassword(data): void;
+    handleActiveNotification(data): void;
+    handleConfirmActiveAccountType(data): void;
 }
 
 interface AlertTypes {
@@ -63,6 +65,16 @@ export const UserProvider: React.FC = ({ children }) => {
         history.push("/login");
     };
 
+    const handleCloseAlert = () => {
+        setAtrAlert({
+            show: false,
+            message: "",
+            type: "",
+            title: "",
+            handleConfirm: null,
+        });
+    };
+
     const handleActiveAccount = async (hash: string) => {
         const response = await api.post("/usuario/ativar-conta", {
             token: hash,
@@ -76,6 +88,24 @@ export const UserProvider: React.FC = ({ children }) => {
             show: true,
             title: "Usuário ativado",
             message: "Parabéns, você ativou seu usuário",
+            type: "success",
+            handleConfirm: handleCloseAlertRedirectLogin,
+        }));
+    };
+
+    const handleConfirmActiveAccountType = async (hash: string) => {
+        const response = await api.post("/usuario/confirmar-ativacao", {
+            token: hash,
+        });
+
+        if (response.data.error) {
+            return;
+        }
+
+        setAtrAlert((prevState) => ({
+            show: true,
+            title: "Notificações ativadas com sucesso",
+            message: "Parabéns, você ativou suas notificações",
             type: "success",
             handleConfirm: handleCloseAlertRedirectLogin,
         }));
@@ -129,7 +159,7 @@ export const UserProvider: React.FC = ({ children }) => {
         const checkCPF = cpf.isValid(document);
         const checkCNPJ = cnpj.isValid(document);
 
-        if (!checkCPF && !checkCNPJ) return setMessageError("Documento inválido #2");
+        if (!checkCPF && !checkCNPJ) return setMessageError("Documento inválido");
 
         const response = await api.post("/usuario/check", {
             document,
@@ -160,6 +190,26 @@ export const UserProvider: React.FC = ({ children }) => {
         }
     };
 
+    const handleActiveNotification = async (data: { typeActiveAccount: string }) => {
+        const { typeActiveAccount } = data;
+
+        if (typeActiveAccount === "sms") {
+            const response = await api.post("/usuario/ativar/sms");
+        }
+
+        if (typeActiveAccount === "email") {
+            const response = await api.post("/usuario/ativar/email");
+        }
+
+        setAtrAlert((prevState) => ({
+            show: true,
+            title: "Enviamos um link de ativação pra você",
+            message: "Agora é com você, ative sua conta e tenha acesso a todos os recursos da plataforma",
+            type: "success",
+            handleConfirm: handleCloseAlert,
+        }));
+    };
+
     return (
         <UserContext.Provider
             value={{
@@ -168,6 +218,8 @@ export const UserProvider: React.FC = ({ children }) => {
                 handleClearMessagesErros,
                 handleActiveAccount,
                 handleNewPassword,
+                handleActiveNotification,
+                handleConfirmActiveAccountType,
                 messageErrorResponse: messageError,
                 messageErrorForgotPasswordResponse: messageErrorForgotPassword,
                 email,

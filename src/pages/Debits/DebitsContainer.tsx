@@ -14,11 +14,16 @@ import {
     allDebtsPaidOut,
     amountDebitsOpened,
 } from "../../store/modules/pf/debt/selectors";
-import { userActiveNotifications } from "../../store/modules/auth/selectors";
+import { userActiveNotifications, userTypeActiveAccountContrary } from "../../store/modules/auth/selectors";
+
+// context
+import { useUser } from "../../context/usuario";
 
 export const debtsContainer = (Component: React.ElementType) => {
     const Container: React.FC = () => {
         const dispatch = useDispatch();
+
+        const { handleActiveNotification } = useUser();
 
         // selectors
         const debts = useSelector(selectDebts);
@@ -27,6 +32,7 @@ export const debtsContainer = (Component: React.ElementType) => {
         const isDebitsPaid = useSelector(amountDebitsOpened);
         const allPaidOut = useSelector(allDebtsPaidOut);
         const activeNotifications = useSelector(userActiveNotifications);
+        const typeActiveAccountContrary = useSelector(userTypeActiveAccountContrary);
 
         // actions
         const handleGenerateBillet = (data) => {
@@ -49,11 +55,13 @@ export const debtsContainer = (Component: React.ElementType) => {
                         isDebitsPaid,
                         allPaidOut,
                         activeNotifications,
+                        typeActiveAccountContrary,
                     },
                     actions: {
                         generateBillet: handleGenerateBillet,
                         renegotiateDebit: handleRenegotiateDebit,
                         negociation: handleNegociation,
+                        handleActiveNotification,
                     },
                     amount,
                     value,

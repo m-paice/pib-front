@@ -6,14 +6,20 @@ import { useSelector, useDispatch } from "react-redux";
 
 // selectors
 import { amountDebitsPaidOut, debitsPaid } from "../../store/modules/pf/debt/selectors";
-import { userActiveNotifications } from "../../store/modules/auth/selectors";
+import { userActiveNotifications, userTypeActiveAccountContrary } from "../../store/modules/auth/selectors";
+
+// context
+import { useUser } from "../../context/usuario";
 
 export const noDebitsContainer = (Component: React.ElementType) => {
     const Container: React.FC = () => {
         const dispatch = useDispatch();
 
+        const { handleActiveNotification } = useUser();
+
         const isDebitsPaid = useSelector(debitsPaid);
         const activeNotifications = useSelector(userActiveNotifications);
+        const typeActiveAccountContrary = useSelector(userTypeActiveAccountContrary);
 
         return (
             <Component
@@ -21,8 +27,11 @@ export const noDebitsContainer = (Component: React.ElementType) => {
                     data: {
                         debitsPaidOut: isDebitsPaid,
                         activeNotifications,
+                        typeActiveAccountContrary,
                     },
-                    actions: {},
+                    actions: {
+                        handleActiveNotification,
+                    },
                 }}
             />
         );

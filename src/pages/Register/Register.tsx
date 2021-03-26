@@ -1,10 +1,23 @@
-import React, { useCallback } from "react";
+import React, { useCallback, CSSProperties } from "react";
 
 import InputMask from "react-input-mask";
 import { Formik, Form, Field, FieldProps } from "formik";
 import * as Yup from "yup";
 
 import { registerContainer } from "./RegisterContainer";
+
+const radioStyles: CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+
+    width: 70,
+    height: 25,
+
+    borderRadius: 15,
+
+    fontWeight: "bold",
+};
 
 interface FormValues {
     cpf: string;
@@ -30,8 +43,12 @@ const SignupSchema = Yup.object().shape({
         .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, "CPF inválido")
         .required("obrigatório"),
     name: Yup.string().required("obrigatório"),
-    birthDate: Yup.string().matches(/^\d{2}\/\d{2}\/\d{4}$/, "data de nascimento inválido"),
-    phone: Yup.string().matches(/^\(\d{2}\)\ \d{5}-\d{4}$/, "celular inválido"),
+    birthDate: Yup.string()
+        .required("obrigatório")
+        .matches(/^\d{2}\/\d{2}\/\d{4}$/, "data de nascimento inválido"),
+    phone: Yup.string()
+        .required("obrigatório")
+        .matches(/^\(\d{2}\)\ \d{5}-\d{4}$/, "celular inválido"),
     email: Yup.string().required("obrigatório"),
     emailConfirm: Yup.string()
         .required("obrigatório")
@@ -72,22 +89,22 @@ const Register: React.FC<Props> = ({ payload }) => {
 
     const { create } = actions;
 
-    const handleSubmit = useCallback((values: FormValues) => {
+    const handleSubmit = (values: FormValues) => {
         create(values);
-    }, []);
+    };
 
     return (
-        <div className="container meu-cadastro">
+        <div className="meu-cadastro">
             <Formik initialValues={initialValues} validationSchema={SignupSchema} onSubmit={handleSubmit}>
                 {(formikBag) => (
                     <Form>
-                        <div className="descmod cadastro">
-                            <div className="titulo-mob noneBr">
+                        <div className="descmod">
+                            <div className="container titulo-mob noneBr">
                                 Faça seu cadastro para podermos te ajudar <br />a manter suas contas em dia.
                             </div>
                         </div>
-                        <div className="row mb-4">
-                            <div className="form-group col-md-6">
+                        <div className="container row mb-4">
+                            <div className="pl-0 form-group col-md-6">
                                 <Field name="cpf">
                                     {(props: FieldProps) => (
                                         <div>
@@ -108,7 +125,7 @@ const Register: React.FC<Props> = ({ payload }) => {
                                     )}
                                 </Field>
                             </div>
-                            <div className="form-group col-md-6">
+                            <div className="pl-0 form-group col-md-6">
                                 <Field name="name">
                                     {(props: FieldProps) => (
                                         <div>
@@ -126,8 +143,8 @@ const Register: React.FC<Props> = ({ payload }) => {
                             </div>
                         </div>
 
-                        <div className="row mb-4">
-                            <div className="form-group col-md-6">
+                        <div className="container row mb-4">
+                            <div className="pl-0 form-group col-md-6">
                                 <Field name="birthDate">
                                     {(props: FieldProps) => (
                                         <div>
@@ -148,7 +165,7 @@ const Register: React.FC<Props> = ({ payload }) => {
                                     )}
                                 </Field>
                             </div>
-                            <div className="form-group col-md-6">
+                            <div className="pl-0 form-group col-md-6">
                                 <Field name="phone">
                                     {(props: FieldProps) => (
                                         <div>
@@ -171,8 +188,8 @@ const Register: React.FC<Props> = ({ payload }) => {
                             </div>
                         </div>
 
-                        <div className="row mb-4">
-                            <div className="form-group col-md-6">
+                        <div className="container row mb-4">
+                            <div className="pl-0 form-group col-md-6">
                                 <Field name="email">
                                     {(props: FieldProps) => (
                                         <div>
@@ -184,7 +201,7 @@ const Register: React.FC<Props> = ({ payload }) => {
                                     )}
                                 </Field>
                             </div>
-                            <div className="form-group col-md-6">
+                            <div className="pl-0 form-group col-md-6">
                                 <Field name="emailConfirm">
                                     {(props: FieldProps) => (
                                         <div>
@@ -202,8 +219,8 @@ const Register: React.FC<Props> = ({ payload }) => {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <div className="form-group col-md-6">
+                        <div className="container row">
+                            <div className="pl-0 form-group col-md-6">
                                 <Field name="password">
                                     {(props: FieldProps) => (
                                         <div>
@@ -220,7 +237,7 @@ const Register: React.FC<Props> = ({ payload }) => {
                                     )}
                                 </Field>
                             </div>
-                            <div className="form-group col-md-6">
+                            <div className="pl-0 form-group col-md-6">
                                 <Field name="passwordConfirm">
                                     {(props: FieldProps) => (
                                         <div>
@@ -239,8 +256,8 @@ const Register: React.FC<Props> = ({ payload }) => {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <div className="form-group col-md-6 d-flex mt-4 mb-4">
+                        <div className="container row">
+                            <div className="pl-0 form-group col-md-6 d-flex mt-4 mb-4">
                                 <div>
                                     <Field name="terms">
                                         {(props: FieldProps) => (
@@ -265,8 +282,8 @@ const Register: React.FC<Props> = ({ payload }) => {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <div className="form-group col-md-6 d-flex mb-4">
+                        <div className="container row">
+                            <div className="pl-0 form-group col-md-6 d-flex mb-4">
                                 <div>
                                     <Field name="receiveTips">
                                         {(props: FieldProps) => (
@@ -291,27 +308,62 @@ const Register: React.FC<Props> = ({ payload }) => {
                         </div>
 
                         <MessageRange>
-                            <div className="col-xs-12">
+                            <div className="container col-xs-12 p-0">
                                 Para finalizar, qual opção você prefere para validar seu cadastro?
                             </div>
-                            <label>
-                                <Field type="radio" name="active" value="sms" />
-                                SMS
-                            </label>
+                            <Field name="active">
+                                {(props: FieldProps) => (
+                                    <div className="container d-flex p-0">
+                                        <label
+                                            htmlFor="active"
+                                            style={{
+                                                ...radioStyles,
+                                                backgroundColor:
+                                                    props.form.values.active === "sms" ? "#fff" : "#2e6d9d",
+                                                color: props.form.values.active === "sms" ? "#2e6d9d" : "#fff",
+                                            }}
+                                        >
+                                            SMS
+                                        </label>
+                                        <input
+                                            type="radio"
+                                            name="active"
+                                            id="active"
+                                            value="sms"
+                                            onChange={props.field.onChange}
+                                            style={{ display: "none" }}
+                                        />
 
-                            <label>
-                                <Field type="radio" name="active" value="email" />
-                                E-mail
-                            </label>
-
-                            <br />
-
-                            <span className="erro">
+                                        <label
+                                            htmlFor="active2"
+                                            style={{
+                                                ...radioStyles,
+                                                marginLeft: 7,
+                                                backgroundColor:
+                                                    props.form.values.active === "email" ? "#fff" : "#2e6d9d",
+                                                color: props.form.values.active === "email" ? "#2e6d9d" : "#fff",
+                                            }}
+                                        >
+                                            E-mail
+                                        </label>
+                                        <input
+                                            type="radio"
+                                            name="active"
+                                            id="active2"
+                                            value="email"
+                                            onChange={props.field.onChange}
+                                            style={{ display: "none" }}
+                                        />
+                                    </div>
+                                )}
+                            </Field>
+                            <span className="erro" style={{ color: "red" }}>
                                 {formikBag.touched.active && formikBag.errors.active && formikBag.errors.active}
                             </span>
+                            <br />
                         </MessageRange>
 
-                        <div className="row">
+                        <div className="p-0 container row">
                             <div className="bbuttons col-md-6">
                                 <button className="btpadrao" type="submit">
                                     Salvar Alterações
