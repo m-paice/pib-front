@@ -7,6 +7,7 @@ import { mask, unMask } from "remask";
 // components
 import Carousel from "../../components/Carousel";
 import Footer from "../../components/Footer";
+import Certificate from "../../components/Certificate";
 
 // hooks
 import { maskTextDocument } from "../../hooks/maskText";
@@ -104,17 +105,20 @@ interface Props {
     payload: {
         data: {
             messageError: string;
+            isOpenCertificate: boolean;
         };
         actions: {
             login(data): void;
+            handleOpenCertificate(): void;
+            handleCloseCertificate(): void;
         };
     };
 }
 
 const Login: React.FC<Props> = ({ payload }) => {
     const { actions, data } = payload;
-    const { messageError } = data;
-    const { login } = actions;
+    const { messageError, isOpenCertificate } = data;
+    const { login, handleCloseCertificate, handleOpenCertificate } = actions;
 
     const {
         check,
@@ -189,6 +193,7 @@ const Login: React.FC<Props> = ({ payload }) => {
                                     style={{ margin: "0 7px", cursor: "pointer", marginTop: "-5px" }}
                                     src={IconKey}
                                     alt="icone-chave"
+                                    onClick={handleOpenCertificate}
                                 />
                             </div>
                             <div>
@@ -320,6 +325,12 @@ const Login: React.FC<Props> = ({ payload }) => {
             </div>
 
             <Footer />
+
+            <Certificate
+                isOpen={isOpenCertificate}
+                handleCancel={handleCloseCertificate}
+                handleConfirm={handleCloseCertificate}
+            />
         </div>
     );
 };

@@ -5762,3 +5762,7 @@ html {
     color: #fff;
     font-size: 14px;
 }
+
+.full-width {
+    width: 100%;
+}

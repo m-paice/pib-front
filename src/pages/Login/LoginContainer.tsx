@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -12,6 +12,16 @@ export const loginContainer = (Component: React.ElementType) => {
     const Container: React.FC = () => {
         const dispatch = useDispatch();
 
+        const [isOpenCertificate, setIsOpenCertificate] = useState(false);
+
+        const handleOpenCertificate = () => {
+            setIsOpenCertificate(true);
+        };
+
+        const handleCloseCertificate = () => {
+            setIsOpenCertificate(false);
+        };
+
         const handleLogin = (data: { login: string; senha: string }) => {
             dispatch(actions.login(data));
         };
@@ -23,9 +33,12 @@ export const loginContainer = (Component: React.ElementType) => {
                 payload={{
                     data: {
                         messageError,
+                        isOpenCertificate,
                     },
                     actions: {
                         login: handleLogin,
+                        handleOpenCertificate,
+                        handleCloseCertificate,
                     },
                 }}
             />
