@@ -1,10 +1,14 @@
 import React, { useEffect, useState, CSSProperties } from "react";
 
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
+import { useHistory } from "react-router-dom";
 
 // hooks
 import { useListCertificates, useReadCert, useSignData, useSignHash } from "../../hooks/lacuna";
 import { useAsync } from "../../hooks/useAsync";
+
+// context
+import { useUser } from '../../context/usuario'
 
 import api from "../../service/api";
 
@@ -18,6 +22,10 @@ interface Props {
 }
 
 const Certificate: React.FC<Props> = ({ children, isOpen, handleConfirm, handleCancel }) => {
+    const history = useHistory();
+
+    const { handleSetDataCertificate } = useUser()
+
     const [certificateData, setCertificateData] = useState("");
 
     const { execute: listKeysCertificate, value: valueListKeysCertificate } = useAsync(api.get, false);
@@ -32,6 +40,18 @@ const Certificate: React.FC<Props> = ({ children, isOpen, handleConfirm, handleC
 
         listKeysCertificate("/certificados");
     }, []);
+
+    useEffect(() => {
+        if (valueValidateCertificate?.data?.document) {
+            handleSetDataCertificate(valueValidateCertificate.data)
+
+            if (valueValidateCertificate.data.document === 'pf') {
+                history.push('/register')
+            } else {
+                history.push('/registerpj')
+            }
+        }
+    }, [valueValidateCertificate]);
 
     const handleChangeCertificate = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setCertificateData(event.target.value);
@@ -51,7 +71,7 @@ const Certificate: React.FC<Props> = ({ children, isOpen, handleConfirm, handleC
             signature,
         };
 
-        vaidateCertificate("/certificados", data);
+        await vaidateCertificate("/certificados", data);
     };
 
     return (

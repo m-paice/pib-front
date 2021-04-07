@@ -1,10 +1,12 @@
-import React, { useCallback, CSSProperties } from "react";
+import React, { useCallback, CSSProperties, useEffect, useState } from "react";
 
 import InputMask from "react-input-mask";
-import { Formik, Form, Field, FieldProps } from "formik";
+import { Formik, Form, Field, FieldProps, useFormikContext } from "formik";
 import * as Yup from "yup";
 
 import { registerContainer } from "./RegisterContainer";
+
+import { CertificateData } from "../../context/usuario";
 
 const radioStyles: CSSProperties = {
     display: "flex",
@@ -39,9 +41,8 @@ import MessageRange from "../../components/MessageRange";
 
 // validations form
 const SignupSchema = Yup.object().shape({
-    cpf: Yup.string()
-        .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, "CPF inválido")
-        .required("obrigatório"),
+    cpf: Yup.string().required("obrigatório"),
+    // .matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/, "CPF inválido")
     name: Yup.string().required("obrigatório"),
     birthDate: Yup.string()
         .required("obrigatório")
@@ -77,9 +78,12 @@ const initialValues: FormValues = {
 
 interface Props {
     payload: {
-        data: {};
+        data: {
+            dataCertificate: CertificateData;
+        };
         actions: {
             create(data): void;
+            handleClearDataCertificate(): void;
         };
     };
 }
@@ -87,15 +91,36 @@ interface Props {
 const Register: React.FC<Props> = ({ payload }) => {
     const { data, actions } = payload;
 
-    const { create } = actions;
+    const { create, handleClearDataCertificate } = actions;
+    const { dataCertificate } = data;
+
+    const [values, setValues] = useState<FormValues>(initialValues);
 
     const handleSubmit = (values: FormValues) => {
         create(values);
     };
 
+    useEffect(() => {
+        if (dataCertificate) {
+            setValues({
+                ...values,
+                email: dataCertificate.email,
+                emailConfirm: dataCertificate.email,
+                name: dataCertificate.name,
+                cpf: dataCertificate.cpf,
+            });
+        }
+
+        return () => {
+            handleClearDataCertificate();
+        };
+    }, [dataCertificate]);
+
+    const isDataCertificate = !!dataCertificate;
+
     return (
         <div className="meu-cadastro">
-            <Formik initialValues={initialValues} validationSchema={SignupSchema} onSubmit={handleSubmit}>
+            <Formik initialValues={values} validationSchema={SignupSchema} onSubmit={handleSubmit} enableReinitialize>
                 {(formikBag) => (
                     <Form>
                         <div className="descmod">
@@ -108,12 +133,17 @@ const Register: React.FC<Props> = ({ payload }) => {
                                 <Field name="cpf">
                                     {(props: FieldProps) => (
                                         <div>
-                                            <InputMask mask="999.999.999-99" {...props.field}>
+                                            <InputMask
+                                                mask="999.999.999-99"
+                                                {...props.field}
+                                                disabled={isDataCertificate}
+                                            >
                                                 {() => (
                                                     <Input
                                                         placeholder="CPF"
                                                         className="telefone form-control"
                                                         {...props.field}
+                                                        disabled={isDataCertificate}
                                                     />
                                                 )}
                                             </InputMask>
@@ -133,6 +163,7 @@ const Register: React.FC<Props> = ({ payload }) => {
                                                 placeholder="Nome completo"
                                                 className="form-control"
                                                 {...props.field}
+                                                disabled={isDataCertificate}
                                             />
                                             <span className="erro">
                                                 {props.meta.touched && props.meta.error && props.meta.error}
@@ -193,7 +224,12 @@ const Register: React.FC<Props> = ({ payload }) => {
                                 <Field name="email">
                                     {(props: FieldProps) => (
                                         <div>
-                                            <Input placeholder="Email" className="form-control" {...props.field} />
+                                            <Input
+                                                placeholder="Email"
+                                                className="form-control"
+                                                {...props.field}
+                                                disabled={isDataCertificate}
+                                            />
                                             <span className="erro">
                                                 {props.meta.touched && props.meta.error && props.meta.error}
                                             </span>
@@ -208,6 +244,7 @@ const Register: React.FC<Props> = ({ payload }) => {
                                             <Input
                                                 placeholder="Confirme seu email"
                                                 className="form-control"
+                                                disabled={isDataCertificate}
                                                 {...props.field}
                                             />
                                             <span className="erro">

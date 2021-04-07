@@ -12,10 +12,18 @@ import validators from "../utils/validators";
 // components
 import Alert from "../components/Alert";
 
+export interface CertificateData {
+    cpf: string;
+    cnpj: string; 
+    email: string;
+    name: string;
+}
+
 interface UserContextData {
     messageErrorResponse: string;
     messageErrorForgotPasswordResponse: string;
     email: string;
+    dataCertificate: CertificateData | null;
     check(document: string): void;
     forgotPassword(document: string): void;
     handleClearMessagesErros(): void;
@@ -23,6 +31,8 @@ interface UserContextData {
     handleNewPassword(data): void;
     handleActiveNotification(data): void;
     handleConfirmActiveAccountType(data): void;
+    handleSetDataCertificate(data): void;
+    handleClearDataCertificate(): void;
 }
 
 interface AlertTypes {
@@ -38,6 +48,16 @@ const UserContext = createContext<UserContextData>({} as UserContextData);
 export const UserProvider: React.FC = ({ children }) => {
     const [messageError, setMessageError] = useState("");
     const [messageErrorForgotPassword, setMessageErrorForgotPassword] = useState("");
+
+    const [dataCertificate, setDataCertificate] = useState<CertificateData | null>(null)
+
+    const handleSetDataCertificate = (data) => {
+        setDataCertificate(data)
+    }
+
+    const handleClearDataCertificate = () => {
+        setDataCertificate(null)
+    }
 
     const [atrAlert, setAtrAlert] = useState<AlertTypes>({
         show: false,
@@ -224,9 +244,12 @@ export const UserProvider: React.FC = ({ children }) => {
                 handleNewPassword,
                 handleActiveNotification,
                 handleConfirmActiveAccountType,
+                handleSetDataCertificate,
+                handleClearDataCertificate,
                 messageErrorResponse: messageError,
                 messageErrorForgotPasswordResponse: messageErrorForgotPassword,
                 email,
+                dataCertificate,
             }}
         >
             {children}
