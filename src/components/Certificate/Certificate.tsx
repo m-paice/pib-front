@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect, useState, CSSProperties } from "react";
 
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 
+// hooks
+import { useListCertificates, useReadCert, useSignData, useSignHash } from "../../hooks/lacuna";
+import { useAsync } from "../../hooks/useAsync";
+
+import api from "../../service/api";
+
+const defaultOptionStyles: CSSProperties = {
+    color: "#000",
+};
 interface Props {
     isOpen: boolean;
     handleConfirm?(): void;
@@ -9,31 +18,72 @@ interface Props {
 }
 
 const Certificate: React.FC<Props> = ({ children, isOpen, handleConfirm, handleCancel }) => {
+    const [certificateData, setCertificateData] = useState("");
+
+    const { execute: listKeysCertificate, value: valueListKeysCertificate } = useAsync(api.get, false);
+    const { execute: vaidateCertificate, value: valueValidateCertificate } = useAsync(api.post, false);
+
+    const [certificates, handleStart] = useListCertificates();
+    const [handleReadCertificate] = useReadCert();
+    const [handleSignData] = useSignData();
+
+    useEffect(() => {
+        handleStart();
+
+        listKeysCertificate("/certificados");
+    }, []);
+
+    const handleChangeCertificate = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setCertificateData(event.target.value);
+    };
+
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        const certEncoded = await handleReadCertificate(certificateData);
+
+        const signature = await handleSignData(certificateData, valueListKeysCertificate.data.nonce);
+
+        const data = {
+            digestAlgorithm: valueListKeysCertificate.data.digestAlgorithm,
+            nonce: valueListKeysCertificate.data.nonce,
+            certEncoded,
+            signature,
+        };
+
+        vaidateCertificate("/certificados", data);
+    };
+
     return (
         <Modal isOpen={isOpen}>
             <ModalHeader>Selecione seu certificado</ModalHeader>
 
             <ModalBody>
-                <select name="" id="" style={{ width: "100%", color: "#000" }}>
-                    <option style={{ color: "#000" }} value="1">
-                        Alan
-                    </option>
-                    <option style={{ color: "#000" }} value="1">
-                        William
-                    </option>
-                    <option style={{ color: "#000" }} value="1">
-                        Robert
-                    </option>
-                </select>
+                <form onSubmit={handleSubmit}>
+                    <select
+                        name=""
+                        id=""
+                        onChange={handleChangeCertificate}
+                        style={{ width: "100%", ...defaultOptionStyles }}
+                    >
+                        <option style={defaultOptionStyles} value="">
+                            Selecione
+                        </option>
+                        {certificates.map((item, index) => (
+                            <option key={index} style={defaultOptionStyles} value={item.thumbprint}>
+                                {item.subjectName + " (expira em " + item.validityEnd.toLocaleDateString() + ")"}
+                            </option>
+                        ))}
+                    </select>
+
+                    <Button type="submit">Validar</Button>
+                </form>
             </ModalBody>
 
             <ModalFooter>
                 <div className="d-flex full-width">
                     <Button type="button" onClick={handleConfirm}>
-                        Cancelar
-                    </Button>
-                    <Button type="button" onClick={handleCancel}>
-                        Continuar
+                        Fechar
                     </Button>
                 </div>
             </ModalFooter>
