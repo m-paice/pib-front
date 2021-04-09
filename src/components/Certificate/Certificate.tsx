@@ -2,13 +2,16 @@ import React, { useEffect, useState, CSSProperties } from "react";
 
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 // hooks
 import { useListCertificates, useReadCert, useSignData, useSignHash } from "../../hooks/lacuna";
 import { useAsync } from "../../hooks/useAsync";
 
 // context
-import { useUser } from '../../context/usuario'
+import { useUser } from "../../context/usuario";
+// actions
+import { actions as actionsLogin } from "../../store/modules/auth/actions";
 
 import api from "../../service/api";
 
@@ -23,8 +26,9 @@ interface Props {
 
 const Certificate: React.FC<Props> = ({ children, isOpen, handleConfirm, handleCancel }) => {
     const history = useHistory();
+    const dispatch = useDispatch();
 
-    const { handleSetDataCertificate } = useUser()
+    const { handleSetDataCertificate } = useUser();
 
     const [certificateData, setCertificateData] = useState("");
 
@@ -43,12 +47,18 @@ const Certificate: React.FC<Props> = ({ children, isOpen, handleConfirm, handleC
 
     useEffect(() => {
         if (valueValidateCertificate?.data?.document) {
-            handleSetDataCertificate(valueValidateCertificate.data)
+            if (valueValidateCertificate.data.isLogin) {
+                dispatch(actionsLogin.loginWithCertificate(valueValidateCertificate.data));
 
-            if (valueValidateCertificate.data.document === 'pf') {
-                history.push('/register')
+                return;
+            }
+
+            handleSetDataCertificate(valueValidateCertificate.data);
+
+            if (valueValidateCertificate.data.document === "pf") {
+                history.push("/register");
             } else {
-                history.push('/registerpj')
+                history.push("/registerpj");
             }
         }
     }, [valueValidateCertificate]);

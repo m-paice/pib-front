@@ -14,7 +14,7 @@ import Alert from "../components/Alert";
 
 export interface CertificateData {
     cpf: string;
-    cnpj: string; 
+    cnpj: string;
     email: string;
     name: string;
 }
@@ -49,15 +49,15 @@ export const UserProvider: React.FC = ({ children }) => {
     const [messageError, setMessageError] = useState("");
     const [messageErrorForgotPassword, setMessageErrorForgotPassword] = useState("");
 
-    const [dataCertificate, setDataCertificate] = useState<CertificateData | null>(null)
+    const [dataCertificate, setDataCertificate] = useState<CertificateData | null>(null);
 
     const handleSetDataCertificate = (data) => {
-        setDataCertificate(data)
-    }
+        setDataCertificate(data);
+    };
 
     const handleClearDataCertificate = () => {
-        setDataCertificate(null)
-    }
+        setDataCertificate(null);
+    };
 
     const [atrAlert, setAtrAlert] = useState<AlertTypes>({
         show: false,

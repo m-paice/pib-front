@@ -10,6 +10,38 @@ import { tokenAuthenticated } from "./selectors";
 
 import api from "../../../service/api";
 
+function* loginWithCertificate(action) {
+    const { payload } = action;
+
+    try {
+        yield put({
+            type: types.AUTH_LOGIN_SUCCESS,
+            payload: {
+                token: payload.token,
+                user: payload.user,
+            },
+        });
+
+        yield (api.defaults.headers["Authorization"] = `Bearer ${payload.token}`);
+
+        const typeUserAuthenticated = yield payload.document;
+
+        if (typeUserAuthenticated === "pj") {
+            yield put({
+                type: typesNegociation.LOAD_NEGOCIATION,
+            });
+
+            yield put({
+                type: typesWallet.LOAD_WALLET,
+            });
+        }
+
+        yield history.push("/" + typeUserAuthenticated);
+    } catch (error) {
+        yield put({ type: types.AUTH_LOGIN_FAILURE });
+    }
+}
+
 function* login(action) {
     const { payload } = action;
 
@@ -70,4 +102,5 @@ export default {
     login,
     logout,
     reLogin,
+    loginWithCertificate,
 };

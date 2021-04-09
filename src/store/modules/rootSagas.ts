@@ -32,6 +32,7 @@ export default function* () {
     return yield all([
         // auth
         takeLatest(typesAuth.AUTH_LOGIN, authSagas.login),
+        takeLatest(typesAuth.AUTH_LOGIN_CERTIFICATE, authSagas.loginWithCertificate),
         takeLatest(typesAuth.AUTH_LOGOUT, authSagas.logout),
 
         // users
