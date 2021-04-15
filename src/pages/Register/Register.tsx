@@ -224,12 +224,7 @@ const Register: React.FC<Props> = ({ payload }) => {
                                 <Field name="email">
                                     {(props: FieldProps) => (
                                         <div>
-                                            <Input
-                                                placeholder="Email"
-                                                className="form-control"
-                                                {...props.field}
-                                                disabled={isDataCertificate}
-                                            />
+                                            <Input placeholder="Email" className="form-control" {...props.field} />
                                             <span className="erro">
                                                 {props.meta.touched && props.meta.error && props.meta.error}
                                             </span>
@@ -244,7 +239,6 @@ const Register: React.FC<Props> = ({ payload }) => {
                                             <Input
                                                 placeholder="Confirme seu email"
                                                 className="form-control"
-                                                disabled={isDataCertificate}
                                                 {...props.field}
                                             />
                                             <span className="erro">

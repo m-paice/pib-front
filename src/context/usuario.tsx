@@ -13,10 +13,14 @@ import validators from "../utils/validators";
 import Alert from "../components/Alert";
 
 export interface CertificateData {
-    cpf: string;
     cnpj: string;
+    cpf: string;
+    document: string;
     email: string;
+    isLogin: boolean;
     name: string;
+    organization: string;
+    responsavel: string;
 }
 
 interface UserContextData {

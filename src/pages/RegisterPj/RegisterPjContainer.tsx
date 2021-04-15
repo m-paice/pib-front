@@ -7,9 +7,14 @@ import { actions } from "../../store/modules/users/actions";
 
 // selectors
 
+// context
+import { useUser } from "../../context/usuario";
+
 export const Container = (Component: React.ElementType) => {
     const Container: React.FC = () => {
         const dispatch = useDispatch();
+
+        const { dataCertificate, handleClearDataCertificate } = useUser();
 
         const handleCreate = (data) => {
             dispatch(actions.create({ ...data, document: "lojista" }));
@@ -18,9 +23,12 @@ export const Container = (Component: React.ElementType) => {
         return (
             <Component
                 payload={{
-                    data: {},
+                    data: {
+                        dataCertificate,
+                    },
                     actions: {
                         create: handleCreate,
+                        handleClearDataCertificate,
                     },
                 }}
             />

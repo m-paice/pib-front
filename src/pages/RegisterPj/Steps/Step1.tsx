@@ -7,9 +7,11 @@ import Input from "../../../components/Fields/Input";
 
 import { FormValues } from "../RegisterPj";
 
-interface Props {}
+interface Props {
+    disabled: boolean;
+}
 
-const Step1: React.FC<Props> = () => {
+const Step1: React.FC<Props> = ({ disabled }) => {
     return (
         <div>
             <div className="row">
@@ -17,8 +19,15 @@ const Step1: React.FC<Props> = () => {
                     <Field name="cnpj">
                         {(props: FieldProps) => (
                             <div>
-                                <InputMask mask="99.999.999/9999-99" {...props.field}>
-                                    {() => <Input placeholder="CNPJ:" className="cnpj form-control" {...props.field} />}
+                                <InputMask mask="99.999.999/9999-99" {...props.field} disabled={disabled}>
+                                    {() => (
+                                        <Input
+                                            placeholder="CNPJ:"
+                                            className="cnpj form-control"
+                                            {...props.field}
+                                            disabled={disabled}
+                                        />
+                                    )}
                                 </InputMask>
 
                                 <span className="erro">
@@ -33,7 +42,12 @@ const Step1: React.FC<Props> = () => {
                     <Field name="socialReason">
                         {(props: FieldProps) => (
                             <div>
-                                <Input placeholder="Razão Social:" className="form-control" {...props.field} />
+                                <Input
+                                    placeholder="Razão Social:"
+                                    className="form-control"
+                                    {...props.field}
+                                    disabled={disabled}
+                                />
                                 <span className="erro">
                                     {props.meta.touched && props.meta.error && props.meta.error}
                                 </span>
@@ -88,6 +102,7 @@ const Step1: React.FC<Props> = () => {
                                     placeholder="Nome do Sócio Principal:"
                                     className="form-control"
                                     {...props.field}
+                                    disabled={disabled}
                                 />
                                 <span className="erro">
                                     {props.meta.touched && props.meta.error && props.meta.error}

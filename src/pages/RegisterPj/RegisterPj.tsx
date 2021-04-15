@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 
 import { Formik, Form, FormikProps } from "formik";
 import * as Yup from "yup";
@@ -6,6 +6,8 @@ import * as Yup from "yup";
 import { FormStepper, FormStep } from "../../components/FormStepper";
 
 import { Container } from "./RegisterPjContainer";
+
+import { CertificateData } from "../../context/usuario";
 
 export interface FormValues {
     cnpj: string;
@@ -50,9 +52,7 @@ import NavSteps from "./NavSteps";
 
 // validation form step 1
 const Step1Schema = Yup.object().shape({
-    cnpj: Yup.string()
-        .matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/, "CNPJ inválido")
-        .required("obrigatório"),
+    cnpj: Yup.string().required("obrigatório"),
     socialReason: Yup.string().required("obrigatório"),
     fantasyName: Yup.string().required("obrigatório"),
     foundationDate: Yup.string()
@@ -136,20 +136,46 @@ const initialValues: FormValues = {
 
 interface Props {
     payload: {
-        data: {};
+        data: {
+            dataCertificate: CertificateData;
+        };
         actions: {
             create(data): void;
+            handleClearDataCertificate(): void;
         };
     };
 }
 
 const RegisterPj: React.FC<Props> = ({ payload }) => {
     const { data, actions } = payload;
-    const { create } = actions;
+
+    const { dataCertificate } = data;
+    const { create, handleClearDataCertificate } = actions;
+
+    const [values, setValues] = useState<FormValues>(initialValues);
+
+    useEffect(() => {
+        if (dataCertificate) {
+            setValues({
+                ...values,
+                cnpj: dataCertificate.cnpj,
+                socialReason: dataCertificate.name,
+                namePartnerMain: dataCertificate.responsavel,
+                email: dataCertificate.email,
+                emailConfirm: dataCertificate.email,
+            });
+        }
+
+        return () => {
+            handleClearDataCertificate();
+        };
+    }, [dataCertificate]);
 
     const handleSubmit = useCallback((values: FormValues) => {
         create(values);
     }, []);
+
+    const isDataCertificate = !!dataCertificate;
 
     return (
         <div className="page">
@@ -161,9 +187,9 @@ const RegisterPj: React.FC<Props> = ({ payload }) => {
                         </div>
                     </div>
                 </div>
-                <FormStepper initialValues={initialValues} onSubmit={handleSubmit}>
+                <FormStepper initialValues={values} onSubmit={handleSubmit}>
                     <FormStep validationSchema={Step1Schema}>
-                        <Step1 />
+                        <Step1 disabled={isDataCertificate} />
                     </FormStep>
 
                     <FormStep validationSchema={Step2Schema}>

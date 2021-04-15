@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useHistory } from "react-router-dom";
 import { FormikConfig, FormikValues, Formik, Form } from "formik";
@@ -22,16 +22,25 @@ const FormStepper: React.FC<Props> = (props) => {
         return step === childrenArray.length - 1;
     };
 
+    const handleBackStep = () => {
+        setStep((prevState) => prevState - 1);
+    };
+
+    const handleNextStep = () => {
+        setStep((prevState) => prevState + 1);
+    };
+
     return (
         <Formik
             {...props}
             validationSchema={currentChild.props.validationSchema}
+            enableReinitialize
             onSubmit={async (values, helpers) => {
                 if (isLastStep()) {
                     // last step
                     await props.onSubmit(values, helpers);
                 } else {
-                    setStep((prevState) => prevState + 1);
+                    handleNextStep();
                 }
             }}
         >
@@ -40,11 +49,11 @@ const FormStepper: React.FC<Props> = (props) => {
                 <div className="row">
                     <div className="col-6" style={{ display: "flex", justifyContent: "flex-end" }}>
                         {step > 0 ? (
-                            <button className="btpadrao" onClick={() => setStep((prevState) => prevState - 1)}>
+                            <button className="btpadrao" type="button" onClick={handleBackStep}>
                                 ANTERIOR
                             </button>
                         ) : (
-                            <button className="btpadrao" onClick={() => history.push("/")}>
+                            <button className="btpadrao" type="button" onClick={() => history.push("/")}>
                                 Login
                             </button>
                         )}
