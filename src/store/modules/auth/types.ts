@@ -16,8 +16,23 @@ export interface Auth {
     message: "";
 }
 
+export interface Endereco {
+    id: string;
+    bairro: string;
+    usuarioId: string;
+    cep: string;
+    cidade: string;
+    complemento: string;
+    numero: string;
+    rua: string;
+    uf: string;
+    updatedAt: Date;
+    createdAt: Date;
+}
+
 export interface User {
     id: string;
+    endereco: Endereco;
     senha: string;
     nome: string;
     nascimento: string;

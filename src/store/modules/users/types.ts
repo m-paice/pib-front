@@ -8,6 +8,11 @@ export enum types {
     CREATE_USER_INIT = "@pj/users/CREATE_USER_INIT",
     CREATE_USER_SUCCESS = "@pj/users/CREATE_USER_SUCCESS",
     CREATE_USER_FAILURE = "@pj/users/CREATE_USER_FAILURE",
+
+    UPDATE_USER = "@pj/users/UPDATE_USER",
+    UPDATE_USER_INIT = "@pj/users/UPDATE_USER_INIT",
+    UPDATE_USER_SUCCESS = "@pj/users/UPDATE_USER_SUCCESS",
+    UPDATE_USER_FAILURE = "@pj/users/UPDATE_USER_FAILURE",
 }
 
 export interface Users {

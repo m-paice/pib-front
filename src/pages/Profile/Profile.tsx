@@ -8,7 +8,11 @@ import { profileContainer } from "./ProfileContainer";
 
 import IconeError from "../../assets/imagens/icone-erro.png";
 
+import { User } from "../../store/modules/auth/types";
+
 interface FormValues {
+    id: string;
+    cpf: string;
     firstName: string;
     lastName: string;
     birthDate: string;
@@ -43,6 +47,8 @@ const SignupSchema = Yup.object().shape({
 });
 
 const initialValues: FormValues = {
+    id: "",
+    cpf: "",
     firstName: "",
     lastName: "",
     birthDate: "",
@@ -65,14 +71,18 @@ const initialValues: FormValues = {
 interface Props {
     payload: {
         data: {
-            user: any;
+            user: User;
+        };
+        actions: {
+            update(data): void;
         };
     };
 }
 
 const Profile: React.FC<Props> = ({ payload }) => {
-    const { data } = payload;
+    const { data, actions } = payload;
     const { user } = data;
+    const { update } = actions;
 
     const [submitSuccess, setSubmitSuccess] = useState(false);
 
@@ -86,7 +96,7 @@ const Profile: React.FC<Props> = ({ payload }) => {
     }, [submitSuccess]);
 
     const handleSubmit = useCallback((values: FormValues) => {
-        // TODO: call action
+        update(values);
 
         setSubmitSuccess(true);
     }, []);
@@ -99,11 +109,22 @@ const Profile: React.FC<Props> = ({ payload }) => {
             <Formik
                 initialValues={{
                     ...initialValues,
+                    id: user.id,
                     firstName,
                     lastName,
+                    cpf: user.login,
                     birthDate: user.nascimento,
                     email: user.email,
                     phone: user.celular,
+                    // endereco
+                    zipcode: user.endereco?.cep,
+                    type: user.endereco?.rua.split(" ")[0],
+                    address: user.endereco?.rua,
+                    number: user.endereco?.numero,
+                    complement: user.endereco?.complemento,
+                    neighborhood: user.endereco?.bairro,
+                    city: user.endereco?.cidade,
+                    uf: user.endereco?.uf,
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={handleSubmit}
@@ -118,6 +139,38 @@ const Profile: React.FC<Props> = ({ payload }) => {
                         <div className="row mb-4">
                             <div className="descmod">
                                 <div className="col-md-12 sub-titulo-mob">Confira aqui suas informações.</div>
+                            </div>
+                        </div>
+                        <div className="row mb-4">
+                            <div className="form-group col-md-6">
+                                <Field name="cpf">
+                                    {(props: FieldProps) => (
+                                        <div>
+                                            <Input
+                                                placeholder="CPF"
+                                                className="form-control"
+                                                disabled
+                                                {...props.field}
+                                            />
+                                            <span className="erro">
+                                                {props.meta.touched && props.meta.error && props.meta.error}
+                                            </span>
+                                        </div>
+                                    )}
+                                </Field>
+                            </div>
+
+                            <div className="form-group col-md-6">
+                                <Field name="email">
+                                    {(props: FieldProps) => (
+                                        <div>
+                                            <Input placeholder="Email" className="form-control" {...props.field} />
+                                            <span className="erro">
+                                                {props.meta.touched && props.meta.error && props.meta.error}
+                                            </span>
+                                        </div>
+                                    )}
+                                </Field>
                             </div>
                         </div>
                         <div className="row mb-4">
@@ -159,15 +212,14 @@ const Profile: React.FC<Props> = ({ payload }) => {
 
                         <div className="row mb-4">
                             <div className="form-group col-md-6">
-                                <Field name="birthDate">
+                                <Field name="phone">
                                     {(props: FieldProps) => (
                                         <div>
-                                            <InputMask mask="99/99/9999" disabled {...props.field}>
+                                            <InputMask mask="(99) 99999-9999" {...props.field}>
                                                 {() => (
                                                     <Input
-                                                        placeholder="Data de Nascimento"
-                                                        className="data-nascimento form-control"
-                                                        disabled
+                                                        placeholder="Celular"
+                                                        className="telefone form-control"
                                                         {...props.field}
                                                     />
                                                 )}
@@ -180,31 +232,16 @@ const Profile: React.FC<Props> = ({ payload }) => {
                                     )}
                                 </Field>
                             </div>
-
                             <div className="form-group col-md-6">
-                                <Field name="email">
+                                <Field name="birthDate">
                                     {(props: FieldProps) => (
                                         <div>
-                                            <Input placeholder="Email" className="form-control" {...props.field} />
-                                            <span className="erro">
-                                                {props.meta.touched && props.meta.error && props.meta.error}
-                                            </span>
-                                        </div>
-                                    )}
-                                </Field>
-                            </div>
-                        </div>
-
-                        <div className="row mb-4">
-                            <div className="form-group col-md-6">
-                                <Field name="phone">
-                                    {(props: FieldProps) => (
-                                        <div>
-                                            <InputMask mask="(99) 99999-9999" {...props.field}>
+                                            <InputMask mask="99/99/9999" disabled {...props.field}>
                                                 {() => (
                                                     <Input
-                                                        placeholder="Celular"
-                                                        className="telefone form-control"
+                                                        placeholder="Data de Nascimento"
+                                                        className="data-nascimento form-control"
+                                                        disabled
                                                         {...props.field}
                                                     />
                                                 )}

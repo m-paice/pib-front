@@ -163,7 +163,7 @@ export interface Debt {
     status: string;
     tipoDoc: string;
     valor: number;
-    vencimento: string;
+    vencimento: Date;
     createdAt: Date;
     updatedAt: Date;
 }

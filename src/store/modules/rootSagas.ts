@@ -37,6 +37,7 @@ export default function* () {
 
         // users
         takeLatest(typesUsers.CREATE_USER, usersSagas.create),
+        takeLatest(typesUsers.UPDATE_USER, usersSagas.update),
 
         /** PF */
         // debt

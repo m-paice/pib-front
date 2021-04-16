@@ -93,6 +93,37 @@ function* create(action) {
     }
 }
 
+function* update(action) {
+    const { type, payload } = action;
+
+    const payloadData = {
+        // step 1 - dados iniciais
+        email: payload.email,
+        celular: payload.phone,
+        // step 2 - endereco
+        cep: payload.zipcode,
+        rua: payload.type + " " + payload.address,
+        numero: payload.number,
+        complemento: payload.complement,
+        bairro: payload.neighborhood,
+        cidade: payload.city,
+        uf: payload.uf,
+        // step 3 - senha
+    };
+
+    try {
+        const response = yield call(api.put, `/usuario/${payload.id}`, payloadData);
+
+        yield put({
+            type: types.UPDATE_USER_SUCCESS,
+            payload: response.data,
+        });
+    } catch (error) {
+        yield put({ type: types.UPDATE_USER_FAILURE });
+    }
+}
+
 export default {
     create,
+    update,
 };
