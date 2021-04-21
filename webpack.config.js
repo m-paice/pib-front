@@ -55,8 +55,13 @@ module.exports = () => {
                     ],
                 },
                 {
-                    test: /\.(png|jpg|svg|gif)?$/,
-                    use: "file-loader",
+                    test: /\.(mp4|svg|png|jpe?g|gif)$/,
+                    use: {
+                        loader: "file-loader",
+                        options: {
+                            name: "[name].[hash].[ext]",
+                        },
+                    },
                 },
             ],
         },
