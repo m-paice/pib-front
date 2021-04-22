@@ -9,10 +9,16 @@
         "dev": "webpack-dev-server --config=webpack.dev.js"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.35",
+        "@fortawesome/free-brands-svg-icons": "^5.15.3",
+        "@fortawesome/free-regular-svg-icons": "^5.15.3",
+        "@fortawesome/free-solid-svg-icons": "^5.15.3",
+        "@fortawesome/react-fontawesome": "^0.1.14",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
+        "react-responsive-carousel": "^3.2.18",
         "react-router-dom": "^5.2.0",
         "styled-components": "^5.2.3"
     },

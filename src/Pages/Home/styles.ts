@@ -67,6 +67,8 @@ export const WrapperHeader = styled.header`
         background: transparent;
         border: 2px solid #fff;
         color: #fff;
+
+        cursor: pointer;
     }
 
     @media (max-width: 700px) {
@@ -85,4 +87,19 @@ export const WrapperHeader = styled.header`
             width: 100%;
         }
     }
+`;
+
+export const WrapperContent = styled.div``;
+
+export const WrapperCard = styled.div`
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 40px;
+
+    margin: 0 auto;
 `;
