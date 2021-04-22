@@ -29,5 +29,14 @@ export const WrapperNav = styled.nav`
         color: #fff;
         font-weight: 500;
         cursor: pointer;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        border: 1px solid #fff;
+        border-radius: 4px;
+    }
+
+    > ul > li > a {
+        color: #fff;
+        text-decoration: none;
     }
 `;

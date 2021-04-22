@@ -5,6 +5,8 @@ export default createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
+    scroll-behavior: smooth;
   }
 
   body {
@@ -13,5 +15,7 @@ export default createGlobalStyle`
     color: ${(props) => props.theme.colors.text};
     font-family: 'Roboto', sans-serif;
     transition: all 0.50s linear;
+
+    
   }
 `;

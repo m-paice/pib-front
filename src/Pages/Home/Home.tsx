@@ -13,6 +13,7 @@ import ImageContext from "../../Components/ImageContent";
 import Carousel from "../../Components/Carousel";
 import CardImage from "../../Components/CardImage";
 import Footer from "../../Components/Footer";
+import Nav from "../../Components/Nav";
 
 interface Props {}
 
@@ -20,14 +21,13 @@ const Home: React.FC<Props> = ({ children }) => {
     return (
         <>
             <WrapperHeader>
+                <Nav />
                 <div className="fullscreen">
                     <video playsInline autoPlay muted loop>
                         <source src={video} type="video/mp4" />
                     </video>
                 </div>
-
                 <div className="overlay"></div>
-
                 <div className="content">
                     <img src={logo} alt="logo" />
 
@@ -53,7 +53,7 @@ const Home: React.FC<Props> = ({ children }) => {
                         voluptatem explicabo.
                     </SubTitle>
                 </Parallax>
-                <ImageContext image={logo}>
+                <ImageContext id="conhecer" image={logo}>
                     <Title> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, est ea. </Title>
 
                     <Text>

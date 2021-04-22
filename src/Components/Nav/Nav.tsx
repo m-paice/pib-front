@@ -8,10 +8,13 @@ const Nav: React.FC<Props> = ({ children }) => {
     return (
         <WrapperNav>
             <ul>
-                <li> Conhecer </li>
-                <li> Eventos </li>
-                <li> Pastores </li>
-                <li> Contato </li>
+                <li>
+                    {" "}
+                    <a href="#conhecer"> item </a>{" "}
+                </li>
+                <li> item </li>
+                <li> item </li>
+                <li> item </li>
             </ul>
         </WrapperNav>
     );
