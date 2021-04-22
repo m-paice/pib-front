@@ -6,13 +6,6 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = () => {
-    const env = dotenv.config().parsed;
-
-    const envKeys = Object.keys(env).reduce((prev, next) => {
-        prev[`process.env.${next}`] = JSON.stringify(env[next]);
-        return prev;
-    }, {});
-
     return {
         entry: {
             app: path.join(__dirname, "src", "index.tsx"),
@@ -82,7 +75,6 @@ module.exports = () => {
             new HtmlWebpackPlugin({
                 template: path.join(__dirname, "public", "index.html"),
             }),
-            new webpack.DefinePlugin(envKeys),
             new CleanWebpackPlugin(),
             new MiniCssExtractPlugin({
                 filename: "[name].css",
