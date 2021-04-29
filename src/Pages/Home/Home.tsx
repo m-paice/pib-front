@@ -67,22 +67,19 @@ const Home: React.FC<Props> = ({ children }) => {
                     <CardImage
                         title=" Lorem ipsum dolor sit amet"
                         body=" Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla, fuga. Nobis earum inventore
-                        maxime vel nemo mollitia, magni odit iusto illum explicabo repellendus sit quis, accusantium
-                        voluptate? Error, reprehenderit possimus!"
+                        maxime vel nemo mollitia."
                     />
 
                     <CardImage
                         title=" Lorem ipsum dolor sit amet"
                         body=" Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla, fuga. Nobis earum inventore
-                        maxime vel nemo mollitia, magni odit iusto illum explicabo repellendus sit quis, accusantium
-                        voluptate? Error, reprehenderit possimus!"
+                        maxime vel nemo mollitia."
                     />
 
                     <CardImage
                         title=" Lorem ipsum dolor sit amet"
                         body=" Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla, fuga. Nobis earum inventore
-                        maxime vel nemo mollitia, magni odit iusto illum explicabo repellendus sit quis, accusantium
-                        voluptate? Error, reprehenderit possimus!"
+                        maxime vel nemo mollitia."
                     />
                 </WrapperCard>
 

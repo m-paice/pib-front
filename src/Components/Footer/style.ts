@@ -10,6 +10,9 @@ export const Container = styled.footer`
     justify-content: space-between;
     flex-wrap: wrap;
 
+    color: ${(props) => props.theme.colors.text};
+    background: ${(props) => props.theme.colors.primary};
+
     @media (max-width: 700px) {
         padding: 20px;
 
@@ -31,7 +34,7 @@ export const Container = styled.footer`
 
     div.container .sec h2 {
         position: relative;
-        color: #fff;
+
         font-weight: 500;
         margin-bottom: 15px;
     }
@@ -43,11 +46,10 @@ export const Container = styled.footer`
         left: 0;
         width: 50px;
         height: 2px;
-        background: #f00;
+        background: ${(props) => props.theme.colors.backgroud};
     }
 
     div.container .sec.aboutus p {
-        color: #999;
     }
 
     div.container .sec.aboutus ul {
@@ -72,7 +74,8 @@ export const Container = styled.footer`
     }
 
     div.container .sec.aboutus ul li a:hover {
-        background: #f00;
+        background: ${(props) => props.theme.colors.primary};
+        border: ${(props) => `1px solid ${props.theme.colors.backgroud}`};
     }
 
     div.container .sec.aboutus ul li a .fa {
@@ -90,16 +93,15 @@ export const Container = styled.footer`
     }
 
     div.container .sec.contact ul li span .fa {
-        color: #fff;
+        color: ${(props) => props.theme.colors.backgroud};
     }
 
     div.container .sec.contact ul li p {
-        color: #999;
     }
 
     div.container .sec.contact ul li p a {
         text-decoration: none;
-        color: #999;
+        color: ${(props) => props.theme.colors.text};
     }
 `;
 
@@ -109,6 +111,5 @@ export const CopyrightText = styled.div`
         background: #181818;
         padding: 8px 100px;
         text-align: center;
-        color: #999;
     }
 `;

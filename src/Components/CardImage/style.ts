@@ -42,7 +42,7 @@ export const Container = styled.div`
         margin-top: -140px;
         padding: 10px 15px;
         text-align: center;
-        color: #111;
+        color: #0b0b0b;
         visibility: hidden;
         opacity: 0;
         transition: 0.3s ease-in-out;

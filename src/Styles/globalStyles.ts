@@ -7,13 +7,15 @@ export default createGlobalStyle`
     box-sizing: border-box;
 
     scroll-behavior: smooth;
+
+    font-family: 'Montserrat';
   }
 
   body {
     background: ${(props) => props.theme.colors.backgroud};
     font-size: 14px;
     color: ${(props) => props.theme.colors.text};
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Montserrat';
     transition: all 0.50s linear;
 
     

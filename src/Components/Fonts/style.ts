@@ -11,7 +11,7 @@ export const Title = styled.h1<Props>`
 
     text-align: ${(props) => (props.center ? "center" : "unset")};
 
-    color: #fff;
+    color: ${(props) => props.theme.colors.text};
 `;
 export const SubTitle = styled.h3<Props>`
     font-size: 25px;
@@ -29,5 +29,5 @@ export const Text = styled.p<Props>`
 
     text-align: ${(props) => (props.center ? "center" : "unset")};
 
-    color: #fff;
+    color: ${(props) => props.theme.colors.text};
 `;

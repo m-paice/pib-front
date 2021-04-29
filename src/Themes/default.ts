@@ -2,11 +2,11 @@ export const lightTheme = {
     title: "light",
 
     colors: {
-        primary: "#3a7d44",
-        secondary: "#254d32",
+        primary: "#1EA486",
+        secondary: "#FFF1DF",
 
-        backgroud: "#d0db97",
-        text: "#181d27",
+        backgroud: "#FFF1DF",
+        text: "#0B0B0B",
     },
 };
 
@@ -14,10 +14,10 @@ export const darkTheme = {
     title: "dark",
 
     colors: {
-        primary: "#3a7d44",
-        secondary: "#254d32",
+        primary: "#1EA486",
+        secondary: "#FFF1DF",
 
-        backgroud: "#181d27",
-        text: "#69b578",
+        backgroud: "#0B0B0B",
+        text: "#FFF1DF",
     },
 };
