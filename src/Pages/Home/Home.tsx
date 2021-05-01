@@ -21,7 +21,6 @@ const Home: React.FC<Props> = ({ children }) => {
     return (
         <>
             <WrapperHeader>
-                <Nav />
                 <div className="fullscreen">
                     <video playsInline autoPlay muted loop>
                         <source src={video} type="video/mp4" />
