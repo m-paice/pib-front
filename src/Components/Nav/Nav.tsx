@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router-dom";
 
 import { WrapperNav, NavWeb, NavMobile } from "./styles";
 
@@ -9,6 +10,7 @@ interface Props {}
 
 const NavComponent: React.FC<Props> = ({ children }) => {
     const divRef = useRef<HTMLDivElement>(null);
+    const history = useHistory();
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);
 
@@ -16,37 +18,22 @@ const NavComponent: React.FC<Props> = ({ children }) => {
         setIsActiveMenu(!isActiveMenu);
     };
 
-    const handleClickLink = (event) => {
-        console.log(event);
-
+    const handleClickLink = (event, path) => {
         if (divRef.current) {
             divRef.current.style.left = event.target.offsetLeft + "px";
             divRef.current.style.width = event.target.offsetWidth + "px";
         }
+
+        history.push(path);
     };
 
     return (
         <WrapperNav>
             <NavWeb>
                 <div className="marker" ref={divRef}></div>
-                <a onClick={handleClickLink} href="#home">
-                    Home
-                </a>
-                <a onClick={handleClickLink} href="#about">
-                    About
-                </a>
-                <a onClick={handleClickLink} href="#services">
-                    Services
-                </a>
-                <a onClick={handleClickLink} href="#portifolio">
-                    Portifolio
-                </a>
-                <a onClick={handleClickLink} href="#team">
-                    Team
-                </a>
-                <a onClick={handleClickLink} href="#contact">
-                    Contact
-                </a>
+                <a onClick={(event) => handleClickLink(event, "/")}>Home</a>
+                <a onClick={(event) => handleClickLink(event, "/celulas")}>Células</a>
+                <a onClick={(event) => handleClickLink(event, "/ministerios")}>Ministérios</a>
             </NavWeb>
 
             <NavMobile>
@@ -61,24 +48,9 @@ const NavComponent: React.FC<Props> = ({ children }) => {
                             <FontAwesomeIcon icon={faTimes} />{" "}
                         </button>
                         <section>
-                            <a onClick={handleToggleActiveMenu} href="#home">
-                                Home
-                            </a>
-                            <a onClick={handleToggleActiveMenu} href="#about">
-                                About
-                            </a>
-                            <a onClick={handleToggleActiveMenu} href="#services">
-                                Services
-                            </a>
-                            <a onClick={handleToggleActiveMenu} href="#portifolio">
-                                Portifolio
-                            </a>
-                            <a onClick={handleToggleActiveMenu} href="#team">
-                                Team
-                            </a>
-                            <a onClick={handleToggleActiveMenu} href="#contact">
-                                Contact
-                            </a>
+                            <a onClick={(event) => handleClickLink(event, "/")}>Home</a>
+                            <a onClick={(event) => handleClickLink(event, "/celulas")}>Células</a>
+                            <a onClick={(event) => handleClickLink(event, "/ministerios")}>Ministérios</a>
                         </section>
                     </div>
                 )}

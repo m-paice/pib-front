@@ -6,7 +6,11 @@ import { ThemeProvider } from "styled-components";
 
 import history from "../Utils/history";
 
+import PublicLayout from "./PublicLayout";
+
 import Home from "../Pages/Home";
+import Celulas from "../Pages/Celulas";
+import Ministerios from "../Pages/Ministerios";
 
 import GlobalStyles from "../Styles/globalStyles";
 import { darkTheme, lightTheme } from "../Themes/default";
@@ -22,7 +26,9 @@ const PublicRoute: React.FC<Props> = ({ children }) => {
         <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
             <Router history={history}>
                 <Switch>
-                    <Route path="/" exact component={Home} />
+                    <PublicLayout path="/" exact component={Home} />
+                    <PublicLayout path="/celulas" exact component={Celulas} />
+                    <PublicLayout path="/ministerios" exact component={Ministerios} />
                 </Switch>
             </Router>
 

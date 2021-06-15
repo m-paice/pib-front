@@ -12,8 +12,6 @@ import Parallax from "../../Components/Parallax";
 import ImageContext from "../../Components/ImageContent";
 import Carousel from "../../Components/Carousel";
 import CardImage from "../../Components/CardImage";
-import Footer from "../../Components/Footer";
-import Nav from "../../Components/Nav";
 
 interface Props {}
 
@@ -21,7 +19,6 @@ const Home: React.FC<Props> = ({ children }) => {
     return (
         <>
             <WrapperHeader>
-                <Nav />
                 <div className="fullscreen">
                     <video playsInline autoPlay muted loop>
                         <source src={video} type="video/mp4" />
@@ -139,8 +136,6 @@ const Home: React.FC<Props> = ({ children }) => {
                         voluptate? Error, reprehenderit possimus!
                     </Text>
                 </ImageContext>
-
-                <Footer />
             </WrapperContent>
         </>
     );
