@@ -81,6 +81,7 @@ export const NavMobile = styled.nav`
         padding: 20px;
 
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: space-between;
 

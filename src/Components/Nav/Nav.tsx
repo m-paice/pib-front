@@ -25,6 +25,7 @@ const NavComponent: React.FC<Props> = ({ children }) => {
         }
 
         history.push(path);
+        handleToggleActiveMenu();
     };
 
     return (
